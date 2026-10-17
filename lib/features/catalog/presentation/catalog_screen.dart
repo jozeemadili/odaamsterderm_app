@@ -152,7 +152,8 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                               [
                                 p.animalTypeName,
                                 p.categoryName,
-                                p.brand,
+                                if (p.makerName != null)
+                                  l10n.producerBy(p.makerName!),
                               ].whereType<String>().join(' · '),
                             ),
                             trailing: Text(
@@ -188,6 +189,7 @@ class _ProposeSheetState extends ConsumerState<_ProposeSheet> {
   String _unit = 'bag';
   int? _animalTypeId;
   int? _categoryId;
+  int? _producerId;
   bool _saving = false;
 
   @override
@@ -215,7 +217,8 @@ class _ProposeSheetState extends ConsumerState<_ProposeSheet> {
             name: _name.text.trim(),
             packSize: _text(_pack),
             unit: _unit,
-            brand: _text(_brand),
+            brand: _producerId == null ? _text(_brand) : null,
+            producerId: _producerId,
             animalTypeId: _animalTypeId!,
             categoryId: _categoryId!,
             description: _text(_description),
@@ -327,10 +330,33 @@ class _ProposeSheetState extends ConsumerState<_ProposeSheet> {
                 ),
               ),
             const SizedBox(height: 12),
-            TextField(
-              controller: _brand,
-              decoration: InputDecoration(labelText: l10n.catalogBrandLabel),
-            ),
+            ref
+                .watch(producersProvider)
+                .maybeWhen(
+                  data: (producers) => DropdownButtonFormField<int?>(
+                    initialValue: _producerId,
+                    decoration: InputDecoration(
+                      labelText: l10n.catalogProducerLabel,
+                    ),
+                    items: [
+                      DropdownMenuItem(
+                        value: null,
+                        child: Text(l10n.catalogProducerNotListed),
+                      ),
+                      for (final p in producers)
+                        DropdownMenuItem(value: p.id, child: Text(p.name)),
+                    ],
+                    onChanged: (v) => setState(() => _producerId = v),
+                  ),
+                  orElse: () => const SizedBox.shrink(),
+                ),
+            if (_producerId == null) ...[
+              const SizedBox(height: 12),
+              TextField(
+                controller: _brand,
+                decoration: InputDecoration(labelText: l10n.catalogBrandLabel),
+              ),
+            ],
             const SizedBox(height: 12),
             TextField(
               controller: _description,

@@ -1,3 +1,24 @@
+/// Who makes a product ("by Silverlands"). [id] is null when only a
+/// free-text brand is known.
+class ProducerInfo {
+  const ProducerInfo({this.id, required this.name, this.logoUrl, this.country});
+
+  static ProducerInfo? fromJson(Object? json) {
+    if (json is! Map<String, dynamic>) return null;
+    return ProducerInfo(
+      id: json['id'] as int?,
+      name: json['name'] as String,
+      logoUrl: json['logo_url'] as String?,
+      country: json['country'] as String?,
+    );
+  }
+
+  final int? id;
+  final String name;
+  final String? logoUrl;
+  final String? country;
+}
+
 /// A product in the shared, admin-curated catalog. Inventory items link to
 /// one so customers can compare the same product across sellers.
 class CatalogProduct {
@@ -9,6 +30,7 @@ class CatalogProduct {
     required this.status,
     this.packSize,
     this.brand,
+    this.producer,
     this.description,
     this.imageUrl,
     this.animalTypeName,
@@ -24,6 +46,7 @@ class CatalogProduct {
     status: json['status'] as String,
     packSize: json['pack_size'] as String?,
     brand: json['brand'] as String?,
+    producer: ProducerInfo.fromJson(json['producer']),
     description: json['description'] as String?,
     imageUrl: json['image_url'] as String?,
     animalTypeName:
@@ -42,9 +65,13 @@ class CatalogProduct {
   final String status;
   final String? packSize;
   final String? brand;
+  final ProducerInfo? producer;
   final String? description;
   final String? imageUrl;
   final String? animalTypeName;
+
+  /// Producer name, or the free-text brand.
+  String? get makerName => producer?.name ?? brand;
   final String? categoryName;
   final String? reviewNotes;
 

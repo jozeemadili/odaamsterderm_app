@@ -16,6 +16,10 @@ final catalogProposalsProvider = FutureProvider.autoDispose(
   (ref) => ref.watch(catalogRepositoryProvider).proposals(),
 );
 
+final producersProvider = FutureProvider.autoDispose(
+  (ref) => ref.watch(catalogRepositoryProvider).producers(),
+);
+
 final animalTypesProvider = FutureProvider.autoDispose(
   (ref) => ref.watch(catalogRepositoryProvider).animalTypes(),
 );

@@ -977,7 +977,7 @@ abstract class AppLocalizations {
   /// No description provided for @catalogBrandLabel.
   ///
   /// In en, this message translates to:
-  /// **'Brand (optional)'**
+  /// **'Brand (if the producer is not listed)'**
   String get catalogBrandLabel;
 
   /// No description provided for @catalogAnimalLabel.
@@ -1837,6 +1837,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Some items could not be added: {details}'**
   String aiOrderSomeFailed(String details);
+
+  /// No description provided for @producerBy.
+  ///
+  /// In en, this message translates to:
+  /// **'by {name}'**
+  String producerBy(String name);
+
+  /// No description provided for @catalogProducerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Producer / factory'**
+  String get catalogProducerLabel;
+
+  /// No description provided for @catalogProducerNotListed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed / unknown'**
+  String get catalogProducerNotListed;
 }
 
 class _AppLocalizationsDelegate

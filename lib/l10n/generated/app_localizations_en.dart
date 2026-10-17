@@ -467,7 +467,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogUnitLabel => 'Selling unit';
 
   @override
-  String get catalogBrandLabel => 'Brand (optional)';
+  String get catalogBrandLabel => 'Brand (if the producer is not listed)';
 
   @override
   String get catalogAnimalLabel => 'Animal type';
@@ -958,4 +958,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String aiOrderSomeFailed(String details) {
     return 'Some items could not be added: $details';
   }
+
+  @override
+  String producerBy(String name) {
+    return 'by $name';
+  }
+
+  @override
+  String get catalogProducerLabel => 'Producer / factory';
+
+  @override
+  String get catalogProducerNotListed => 'Not listed / unknown';
 }

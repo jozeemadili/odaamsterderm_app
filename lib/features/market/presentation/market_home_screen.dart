@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
+import '../../../core/widgets/producer_line.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../ai/data/ai_models.dart';
 import '../../ai/presentation/ai_providers.dart';
@@ -577,6 +578,11 @@ class _ProductCard extends StatelessWidget {
                       product.displayName,
                       style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
+                    if (product.producer != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: ProducerLine(producer: product.producer),
+                      ),
                     const SizedBox(height: 4),
                     Text(
                       [

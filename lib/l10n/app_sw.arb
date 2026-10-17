@@ -146,7 +146,7 @@
   "catalogNameLabel": "Jina la bidhaa",
   "catalogPackSizeLabel": "Ukubwa wa kifurushi (mf. 25KG)",
   "catalogUnitLabel": "Kipimo cha kuuzia",
-  "catalogBrandLabel": "Chapa (hiari)",
+  "catalogBrandLabel": "Chapa (kama mzalishaji hayupo)",
   "catalogAnimalLabel": "Aina ya mnyama",
   "catalogCategoryLabel": "Kundi",
   "catalogDescriptionLabel": "Maelezo (hiari)",
@@ -289,5 +289,8 @@
   "aiOrderUnavailable": "Msaidizi hapatikani sasa. Bado unaweza kutafuta na kuweka bidhaa kwenye kikapu mwenyewe.",
   "aiOrderRefused": "Msaidizi hawezi kusaidia hilo. Mweleze bidhaa za mifugo unazohitaji.",
   "aiOrderAdded": "Kikapu cha AI kiko kwenye kikapu chako. Kihakiki na uthibitishe ili kuweka oda.",
-  "aiOrderSomeFailed": "Baadhi ya bidhaa hazikuweza kuongezwa: {details}"
+  "aiOrderSomeFailed": "Baadhi ya bidhaa hazikuweza kuongezwa: {details}",
+  "producerBy": "na {name}",
+  "catalogProducerLabel": "Mzalishaji / kiwanda",
+  "catalogProducerNotListed": "Hayupo kwenye orodha / haijulikani"
 }

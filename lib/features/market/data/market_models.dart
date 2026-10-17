@@ -9,6 +9,7 @@ class MarketProduct {
     required this.displayName,
     required this.unit,
     this.brand,
+    this.producer,
     this.imageUrl,
     this.animalType,
     this.category,
@@ -23,6 +24,7 @@ class MarketProduct {
     displayName: json['display_name'] as String,
     unit: json['unit'] as String,
     brand: json['brand'] as String?,
+    producer: ProducerInfo.fromJson(json['producer']),
     imageUrl: json['image_url'] as String?,
     animalType:
         (json['animal_type'] as Map<String, dynamic>?)?['name'] as String?,
@@ -37,6 +39,7 @@ class MarketProduct {
   final String displayName;
   final String unit;
   final String? brand;
+  final ProducerInfo? producer;
   final String? imageUrl;
   final String? animalType;
   final String? category;
@@ -150,6 +153,8 @@ class MarketProductDetail {
     required this.displayName,
     required this.unit,
     this.brand,
+    this.producer,
+    this.producerDescription,
     this.description,
     this.imageUrl,
     this.animalType,
@@ -164,6 +169,8 @@ class MarketProductDetail {
       displayName: p['display_name'] as String,
       unit: p['unit'] as String,
       brand: p['brand'] as String?,
+      producer: ProducerInfo.fromJson(p['producer']),
+      producerDescription: p['producer_description'] as String?,
       description: p['description'] as String?,
       imageUrl: p['image_url'] as String?,
       animalType: p['animal_type'] as String?,
@@ -178,6 +185,8 @@ class MarketProductDetail {
   final String displayName;
   final String unit;
   final String? brand;
+  final ProducerInfo? producer;
+  final String? producerDescription;
   final String? description;
   final String? imageUrl;
   final String? animalType;

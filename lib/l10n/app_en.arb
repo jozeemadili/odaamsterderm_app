@@ -170,7 +170,7 @@
   "catalogNameLabel": "Product name",
   "catalogPackSizeLabel": "Pack size (e.g. 25KG)",
   "catalogUnitLabel": "Selling unit",
-  "catalogBrandLabel": "Brand (optional)",
+  "catalogBrandLabel": "Brand (if the producer is not listed)",
   "catalogAnimalLabel": "Animal type",
   "catalogCategoryLabel": "Category",
   "catalogDescriptionLabel": "Description (optional)",
@@ -390,6 +390,16 @@
   "@aiOrderSomeFailed": {
     "placeholders": {
       "details": {
+        "type": "String"
+      }
+    }
+  },
+  "producerBy": "by {name}",
+  "catalogProducerLabel": "Producer / factory",
+  "catalogProducerNotListed": "Not listed / unknown",
+  "@producerBy": {
+    "placeholders": {
+      "name": {
         "type": "String"
       }
     }

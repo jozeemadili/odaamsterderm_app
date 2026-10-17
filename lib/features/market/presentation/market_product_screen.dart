@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/store_map.dart';
+import '../../../core/widgets/producer_line.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../orders/presentation/add_to_cart.dart';
 import '../data/market_models.dart';
@@ -61,8 +62,21 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
               p.displayName,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            if (p.brand != null)
-              Text(p.brand!, style: const TextStyle(color: DukaColors.muted)),
+            if (p.producer != null) ...[
+              const SizedBox(height: 6),
+              ProducerLine(producer: p.producer, large: true),
+              if (p.producerDescription != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    p.producerDescription!,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: DukaColors.muted,
+                    ),
+                  ),
+                ),
+            ],
             if (p.description != null) ...[
               const SizedBox(height: 8),
               Text(p.description!),

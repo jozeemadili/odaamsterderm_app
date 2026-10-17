@@ -105,7 +105,8 @@ class _CatalogPickerSheetState extends ConsumerState<_CatalogPickerSheet> {
                         subtitle: Text(
                           [
                             product.animalTypeName,
-                            product.brand,
+                            if (product.makerName != null)
+                              l10n.producerBy(product.makerName!),
                             product.unit,
                             if (product.isPending) l10n.catalogPending,
                           ].whereType<String>().join(' · '),

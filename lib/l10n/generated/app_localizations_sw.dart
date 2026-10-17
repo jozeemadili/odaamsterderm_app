@@ -469,7 +469,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get catalogUnitLabel => 'Kipimo cha kuuzia';
 
   @override
-  String get catalogBrandLabel => 'Chapa (hiari)';
+  String get catalogBrandLabel => 'Chapa (kama mzalishaji hayupo)';
 
   @override
   String get catalogAnimalLabel => 'Aina ya mnyama';
@@ -955,4 +955,15 @@ class AppLocalizationsSw extends AppLocalizations {
   String aiOrderSomeFailed(String details) {
     return 'Baadhi ya bidhaa hazikuweza kuongezwa: $details';
   }
+
+  @override
+  String producerBy(String name) {
+    return 'na $name';
+  }
+
+  @override
+  String get catalogProducerLabel => 'Mzalishaji / kiwanda';
+
+  @override
+  String get catalogProducerNotListed => 'Hayupo kwenye orodha / haijulikani';
 }
