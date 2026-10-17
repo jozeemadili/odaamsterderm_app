@@ -11,8 +11,9 @@ import 'inventory_controller.dart';
 /// Products with a barcode, fetched in one page — a typical shop's catalog
 /// is small enough that this is simpler than teaching this one screen to
 /// paginate just for a label sheet.
-final _barcodeItemsProvider =
-    FutureProvider.autoDispose<List<InventoryItem>>((ref) async {
+final _barcodeItemsProvider = FutureProvider.autoDispose<List<InventoryItem>>((
+  ref,
+) async {
   final page = await ref.watch(inventoryRepositoryProvider).list(perPage: 500);
   return page.items.where((item) => item.barcode != null).toList();
 });
@@ -41,18 +42,25 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
     if (_selected.isEmpty) return;
     setState(() => _busy = true);
     try {
-      final path =
-          await ref.read(inventoryRepositoryProvider).downloadBarcodeLabelsPdf(
-                itemIds: _selected.toList(),
-                showProductName: _showProductName,
-                showPrice: _showPrice,
-                copies: _copies,
-              );
-      await SharePlus.instance.share(ShareParams(
-          files: [XFile(path)], fileNameOverrides: ['barcode-labels.pdf']));
+      final path = await ref
+          .read(inventoryRepositoryProvider)
+          .downloadBarcodeLabelsPdf(
+            itemIds: _selected.toList(),
+            showProductName: _showProductName,
+            showPrice: _showPrice,
+            copies: _copies,
+          );
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(path)],
+          fileNameOverrides: ['barcode-labels.pdf'],
+        ),
+      );
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -70,8 +78,10 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
         error: (e, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('Could not load products.\n$e',
-                textAlign: TextAlign.center),
+            child: Text(
+              'Could not load products.\n$e',
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         data: (items) {
@@ -98,8 +108,10 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
                 child: Card(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 4,
+                    ),
                     child: Column(
                       children: [
                         SwitchListTile(
@@ -127,9 +139,10 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
                                     ? () => setState(() => _copies--)
                                     : null,
                               ),
-                              Text('$_copies',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
+                              Text(
+                                '$_copies',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
                               IconButton(
                                 icon: const Icon(Icons.add_circle_outline),
                                 onPressed: _copies < 20
@@ -149,16 +162,20 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${_selected.length} of ${items.length} selected',
-                        style: Theme.of(context).textTheme.bodySmall),
+                    Text(
+                      '${_selected.length} of ${items.length} selected',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                     Row(
                       children: [
                         TextButton(
-                            onPressed: () => _selectAll(items),
-                            child: const Text('Select all')),
+                          onPressed: () => _selectAll(items),
+                          child: const Text('Select all'),
+                        ),
                         TextButton(
-                            onPressed: _selectNone,
-                            child: const Text('Select none')),
+                          onPressed: _selectNone,
+                          child: const Text('Select none'),
+                        ),
                       ],
                     ),
                   ],
@@ -180,12 +197,16 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
                           _selected.remove(item.id);
                         }
                       }),
-                      title: Text(item.name,
-                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                      title: Text(
+                        item.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       subtitle: Text(
                         [
                           item.barcode!,
-                          if (item.unitPrice != null) formatTzs(item.unitPrice!)
+                          if (item.unitPrice != null)
+                            formatTzs(item.unitPrice!),
                         ].join(' · '),
                       ),
                     );
@@ -201,11 +222,16 @@ class _BarcodeLabelsScreenState extends ConsumerState<BarcodeLabelsScreen> {
                           height: 18,
                           width: 18,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2, color: Colors.white))
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
                       : const Icon(Icons.ios_share),
-                  label: Text(_busy
-                      ? 'Preparing PDF…'
-                      : 'Share ${_selected.length} label${_selected.length == 1 ? '' : 's'}'),
+                  label: Text(
+                    _busy
+                        ? 'Preparing PDF…'
+                        : 'Share ${_selected.length} label${_selected.length == 1 ? '' : 's'}',
+                  ),
                 ),
               ),
             ],

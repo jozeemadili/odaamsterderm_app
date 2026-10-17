@@ -18,21 +18,24 @@ class StoreListScreen extends ConsumerWidget {
     final addressController = TextEditingController();
     final phoneController = TextEditingController();
 
-    final created = await showModalBottomSheet<bool>(
+    final created = await showModalBottomSheet<Store>(
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) => Padding(
         padding: EdgeInsets.only(
-            bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
-            left: 16,
-            right: 16,
-            top: 16),
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+          left: 16,
+          right: 16,
+          top: 16,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.addStore,
-                style: Theme.of(sheetContext).textTheme.titleMedium),
+            Text(
+              l10n.addStore,
+              style: Theme.of(sheetContext).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: nameController,
@@ -56,7 +59,9 @@ class StoreListScreen extends ConsumerWidget {
                 final name = nameController.text.trim();
                 if (name.isEmpty) return;
                 try {
-                  await ref.read(storeRepositoryProvider).create(
+                  final store = await ref
+                      .read(storeRepositoryProvider)
+                      .create(
                         name: name,
                         address: addressController.text.trim().isEmpty
                             ? null
@@ -65,11 +70,12 @@ class StoreListScreen extends ConsumerWidget {
                             ? null
                             : phoneController.text.trim(),
                       );
-                  if (sheetContext.mounted) Navigator.pop(sheetContext, true);
+                  if (sheetContext.mounted) Navigator.pop(sheetContext, store);
                 } on ApiException catch (e) {
                   if (sheetContext.mounted) {
-                    ScaffoldMessenger.of(sheetContext)
-                        .showSnackBar(SnackBar(content: Text(e.message)));
+                    ScaffoldMessenger.of(
+                      sheetContext,
+                    ).showSnackBar(SnackBar(content: Text(e.message)));
                   }
                 }
               },
@@ -81,8 +87,13 @@ class StoreListScreen extends ConsumerWidget {
       ),
     );
 
-    if (created == true) {
+    if (created != null) {
       ref.invalidate(storesProvider);
+      // Straight on to pinning the location — without it customers can't
+      // find the store on the marketplace.
+      if (context.mounted) {
+        context.push('/stores/${created.id}/edit', extra: created);
+      }
     }
   }
 
@@ -100,8 +111,11 @@ class StoreListScreen extends ConsumerWidget {
       body: storesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text(l10n.dashboardLoadError('$e'),
-                textAlign: TextAlign.center)),
+          child: Text(
+            l10n.dashboardLoadError('$e'),
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (stores) => stores.isEmpty
             ? Center(child: Text(l10n.noStoresYet))
             : RefreshIndicator(
@@ -138,44 +152,82 @@ class _StoreCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text(store.name,
-                        style: Theme.of(context).textTheme.titleMedium),
+                    child: Text(
+                      store.name,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                   if (store.isPrimary)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
-                          color: DukaColors.indigo.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(999)),
-                      child: const Text('primary',
-                          style: TextStyle(
-                              fontSize: 10.5,
-                              color: DukaColors.indigo,
-                              fontWeight: FontWeight.w700)),
+                        color: DukaColors.indigo.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: const Text(
+                        'primary',
+                        style: TextStyle(
+                          fontSize: 10.5,
+                          color: DukaColors.indigo,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                 ],
               ),
               if (store.address != null) ...[
                 const SizedBox(height: 4),
-                Text(store.address!,
-                    style: const TextStyle(
-                        fontSize: 12.5, color: DukaColors.muted)),
+                Text(
+                  store.address!,
+                  style: const TextStyle(
+                    fontSize: 12.5,
+                    color: DukaColors.muted,
+                  ),
+                ),
+              ],
+              if (!store.hasLocation) ...[
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_off_outlined,
+                      size: 14,
+                      color: Colors.orange,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      context.l10n.storeSetLocationBadge,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ],
+                ),
               ],
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${store.productCount} products',
-                      style: const TextStyle(
-                          fontSize: 12.5,
-                          color: DukaColors.indigo,
-                          fontWeight: FontWeight.w700)),
-                  Text(formatTzs(store.stockValue),
-                      style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: DukaColors.ink)),
+                  Text(
+                    '${store.productCount} products',
+                    style: const TextStyle(
+                      fontSize: 12.5,
+                      color: DukaColors.indigo,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    formatTzs(store.stockValue),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: DukaColors.ink,
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -15,8 +15,11 @@ import 'inventory_controller.dart';
 /// popped straight back to the caller, for filling in a form field (the
 /// backend's uniqueness check catches an accidental duplicate on submit).
 class BarcodeScannerScreen extends ConsumerStatefulWidget {
-  const BarcodeScannerScreen(
-      {super.key, this.forCart = false, this.returnCode = false});
+  const BarcodeScannerScreen({
+    super.key,
+    this.forCart = false,
+    this.returnCode = false,
+  });
 
   final bool forCart;
   final bool returnCode;
@@ -54,8 +57,9 @@ class _BarcodeScannerScreenState extends ConsumerState<BarcodeScannerScreen> {
     }
 
     try {
-      final item =
-          await ref.read(inventoryRepositoryProvider).lookupBarcode(code);
+      final item = await ref
+          .read(inventoryRepositoryProvider)
+          .lookupBarcode(code);
 
       if (!mounted) return;
 
@@ -105,8 +109,9 @@ class _BarcodeScannerScreenState extends ConsumerState<BarcodeScannerScreen> {
               bottom: 40,
               left: 0,
               right: 0,
-              child:
-                  Center(child: CircularProgressIndicator(color: Colors.white)),
+              child: Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
             ),
           if (_error != null)
             Positioned(
@@ -118,9 +123,11 @@ class _BarcodeScannerScreenState extends ConsumerState<BarcodeScannerScreen> {
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: Text(_error!,
-                      style: const TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center),
+                  child: Text(
+                    _error!,
+                    style: const TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

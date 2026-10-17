@@ -328,4 +328,183 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayCardTitle => 'Today';
+
+  @override
+  String get storeEditTitle => 'Edit store';
+
+  @override
+  String get storeEmailLabel => 'Email (optional)';
+
+  @override
+  String get storeCityLabel => 'City / district';
+
+  @override
+  String get storeLocationTitle => 'Store location';
+
+  @override
+  String get storeLocationHint =>
+      'Tap the map or use your current location to pin the store entrance.';
+
+  @override
+  String get storeUseMyLocation => 'Use my current location';
+
+  @override
+  String get storeLocationDenied =>
+      'Location is off or permission was denied. Tap the map to place the pin.';
+
+  @override
+  String get storeNoLocation =>
+      'No map location yet — customers can\'t find this store.';
+
+  @override
+  String get storeOpenInMaps => 'Open in Google Maps';
+
+  @override
+  String get storeOpeningHoursTitle => 'Opening hours';
+
+  @override
+  String get storeClosed => 'Closed';
+
+  @override
+  String get storePickupLabel => 'Pickup instructions for customers';
+
+  @override
+  String get storeMarketplaceSwitch => 'List this store on the marketplace';
+
+  @override
+  String get storeMarketplaceSwitchHint =>
+      'Turn off to use this store for offline sales only.';
+
+  @override
+  String get storeOnMarketplace => 'On marketplace';
+
+  @override
+  String get storeMarketplaceOff => 'Marketplace off';
+
+  @override
+  String get storeSuspended => 'Suspended by the platform';
+
+  @override
+  String get storeSetLocationBadge => 'Set map location';
+
+  @override
+  String get storeSaved => 'Store details saved.';
+
+  @override
+  String get notSet => 'Not set';
+
+  @override
+  String get marketplaceTitle => 'Marketplace';
+
+  @override
+  String get marketplaceSubtitle => 'What customers can see and order online';
+
+  @override
+  String get marketplaceFilterAll => 'All';
+
+  @override
+  String get marketplaceFilterListed => 'Listed';
+
+  @override
+  String get marketplaceFilterHidden => 'Hidden';
+
+  @override
+  String get marketplaceFilterOutOfStock => 'Out of stock';
+
+  @override
+  String get marketplaceEmpty => 'No items here.';
+
+  @override
+  String get marketplaceListedProducts => 'Listed products';
+
+  @override
+  String get marketplaceUnitsExposed => 'Units online';
+
+  @override
+  String get marketplaceOutOfStockOnline => 'Out of stock online';
+
+  @override
+  String get marketplaceApprovalPending =>
+      'Your business is awaiting marketplace approval — listings go live once approved.';
+
+  @override
+  String get catalogTitle => 'Product catalog';
+
+  @override
+  String get catalogSubtitle =>
+      'Shared products customers compare across sellers';
+
+  @override
+  String get catalogSearchHint => 'Search the catalog';
+
+  @override
+  String get catalogPropose => 'Propose a product';
+
+  @override
+  String get catalogProposals => 'Your proposals';
+
+  @override
+  String get catalogPending => 'Waiting for review';
+
+  @override
+  String get catalogRejected => 'Rejected';
+
+  @override
+  String get catalogNotFound => 'Not in the catalog? Propose it for review.';
+
+  @override
+  String get catalogProposed =>
+      'Product proposed. It goes live on the marketplace once approved.';
+
+  @override
+  String get catalogNameLabel => 'Product name';
+
+  @override
+  String get catalogPackSizeLabel => 'Pack size (e.g. 25KG)';
+
+  @override
+  String get catalogUnitLabel => 'Selling unit';
+
+  @override
+  String get catalogBrandLabel => 'Brand (optional)';
+
+  @override
+  String get catalogAnimalLabel => 'Animal type';
+
+  @override
+  String get catalogCategoryLabel => 'Category';
+
+  @override
+  String get catalogDescriptionLabel => 'Description (optional)';
+
+  @override
+  String get catalogSubmit => 'Submit for review';
+
+  @override
+  String get catalogPickTitle => 'Link to catalog product';
+
+  @override
+  String get catalogNoMatches => 'No catalog products match.';
+
+  @override
+  String get moreMarketplaceTitle => 'Marketplace';
+
+  @override
+  String get moreMarketplaceSubtitle =>
+      'Visibility and quantities customers see';
+
+  @override
+  String get moreCatalogTitle => 'Product catalog';
+
+  @override
+  String get moreCatalogSubtitle =>
+      'Browse shared products or propose new ones';
+
+  @override
+  String marketplaceStockLine(String online, String stock) {
+    return '$online online · $stock in stock';
+  }
+
+  @override
+  String get stockQuantityLabel => 'Stock quantity (units)';
 }

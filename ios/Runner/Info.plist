@@ -30,6 +30,8 @@
 	<string>Odaamsterderm Hub uses the camera to photograph products and scan barcodes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Odaamsterderm Hub needs access to your photos to pick a product image.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Odaamsterderm Hub uses your location to pin your store on the map and to show the nearest stores.</string>
 	<key>GIDClientID</key>
 	<string>201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>

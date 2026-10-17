@@ -7,15 +7,13 @@ class DashboardTrend {
   });
 
   factory DashboardTrend.fromJson(Map<String, dynamic> json) => DashboardTrend(
-        labels: (json['labels'] as List).map((e) => e as String).toList(),
-        sales:
-            (json['sales'] as List).map((e) => (e as num).toDouble()).toList(),
-        expenses: (json['expenses'] as List)
-            .map((e) => (e as num).toDouble())
-            .toList(),
-        profit:
-            (json['profit'] as List).map((e) => (e as num).toDouble()).toList(),
-      );
+    labels: (json['labels'] as List).map((e) => e as String).toList(),
+    sales: (json['sales'] as List).map((e) => (e as num).toDouble()).toList(),
+    expenses: (json['expenses'] as List)
+        .map((e) => (e as num).toDouble())
+        .toList(),
+    profit: (json['profit'] as List).map((e) => (e as num).toDouble()).toList(),
+  );
 
   final List<String> labels;
   final List<double> sales;
@@ -30,6 +28,7 @@ class DashboardStockSummary {
     required this.buyingValue,
     required this.sellingValue,
     required this.expectedProfit,
+    this.totalQuantity = 0,
   });
 
   factory DashboardStockSummary.fromJson(Map<String, dynamic> json) =>
@@ -37,11 +36,39 @@ class DashboardStockSummary {
         buyingValue: (json['buying_value'] as num).toDouble(),
         sellingValue: (json['selling_value'] as num).toDouble(),
         expectedProfit: (json['expected_profit'] as num).toDouble(),
+        totalQuantity: (json['total_quantity'] as num?)?.toDouble() ?? 0,
       );
 
   final double buyingValue;
   final double sellingValue;
   final double expectedProfit;
+
+  /// Units on hand across all products.
+  final double totalQuantity;
+}
+
+/// What customers can currently see from this seller.
+class DashboardMarketplace {
+  DashboardMarketplace({
+    required this.approved,
+    required this.listedCount,
+    required this.unitsExposed,
+    required this.outOfStockCount,
+  });
+
+  factory DashboardMarketplace.fromJson(Map<String, dynamic> json) =>
+      DashboardMarketplace(
+        approved: json['approved'] as bool,
+        listedCount: json['listed_count'] as int,
+        unitsExposed: (json['units_exposed'] as num).toDouble(),
+        outOfStockCount: json['out_of_stock_count'] as int,
+      );
+
+  /// Whether the business is approved to sell on the marketplace.
+  final bool approved;
+  final int listedCount;
+  final double unitsExposed;
+  final int outOfStockCount;
 }
 
 /// Matches the API's `period` query param — controls both the headline
@@ -75,6 +102,8 @@ class DashboardSummary {
     required this.stockSummary,
     required this.totalStores,
     required this.trend,
+    this.todaySalesCount = 0,
+    this.marketplace,
   });
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>
@@ -93,9 +122,16 @@ class DashboardSummary {
         unpaidToday: (json['unpaid_today'] as num).toDouble(),
         unpaidTotal: (json['unpaid_total'] as num).toDouble(),
         stockSummary: DashboardStockSummary.fromJson(
-            json['stock_summary'] as Map<String, dynamic>),
+          json['stock_summary'] as Map<String, dynamic>,
+        ),
         totalStores: json['total_stores'] as int,
         trend: DashboardTrend.fromJson(json['trend'] as Map<String, dynamic>),
+        todaySalesCount: json['today_sales_count'] as int? ?? 0,
+        marketplace: json['marketplace'] != null
+            ? DashboardMarketplace.fromJson(
+                json['marketplace'] as Map<String, dynamic>,
+              )
+            : null,
       );
 
   final String period;
@@ -114,4 +150,6 @@ class DashboardSummary {
   final DashboardStockSummary stockSummary;
   final int totalStores;
   final DashboardTrend trend;
+  final int todaySalesCount;
+  final DashboardMarketplace? marketplace;
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/auth_controller.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
+import '../features/catalog/presentation/catalog_screen.dart';
 import '../features/customers/data/customer_models.dart';
 import '../features/customers/presentation/customer_detail_screen.dart';
 import '../features/customers/presentation/customer_form_screen.dart';
@@ -20,6 +21,7 @@ import '../features/inventory/presentation/product_form_screen.dart';
 import '../features/invoices/presentation/invoice_detail_screen.dart';
 import '../features/invoices/presentation/invoice_form_screen.dart';
 import '../features/invoices/presentation/invoice_list_screen.dart';
+import '../features/marketplace/presentation/marketplace_screen.dart';
 import '../features/notifications/presentation/notifications_screen.dart';
 import '../features/notifications/presentation/report_damage_screen.dart';
 import '../features/payments/presentation/payment_form_screen.dart';
@@ -35,7 +37,9 @@ import '../features/settings/presentation/staff_list_screen.dart';
 import '../features/stock_receipts/presentation/stock_receipt_detail_screen.dart';
 import '../features/stock_receipts/presentation/stock_receipt_form_screen.dart';
 import '../features/stock_receipts/presentation/stock_receipt_list_screen.dart';
+import '../features/stores/data/store_models.dart';
 import '../features/stores/presentation/store_detail_screen.dart';
+import '../features/stores/presentation/store_form_screen.dart';
 import '../features/stores/presentation/store_list_screen.dart';
 import '../features/suppliers/data/supplier_models.dart';
 import '../features/suppliers/presentation/supplier_detail_screen.dart';
@@ -86,30 +90,38 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
-          path: '/register',
-          builder: (context, state) => const RegisterScreen()),
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
       GoRoute(
-          path: '/dashboard', builder: (context, state) => const HomeShell()),
+        path: '/dashboard',
+        builder: (context, state) => const HomeShell(),
+      ),
       GoRoute(
-          path: '/inventory',
-          builder: (context, state) => const InventoryListScreen()),
+        path: '/inventory',
+        builder: (context, state) => const InventoryListScreen(),
+      ),
       GoRoute(
-          path: '/inventory/scan',
-          builder: (context, state) => const BarcodeScannerScreen()),
+        path: '/inventory/scan',
+        builder: (context, state) => const BarcodeScannerScreen(),
+      ),
       GoRoute(
-          path: '/inventory/scan-for-form',
-          builder: (context, state) =>
-              const BarcodeScannerScreen(returnCode: true)),
+        path: '/inventory/scan-for-form',
+        builder: (context, state) =>
+            const BarcodeScannerScreen(returnCode: true),
+      ),
       GoRoute(
-          path: '/inventory/barcode-labels',
-          builder: (context, state) => const BarcodeLabelsScreen()),
+        path: '/inventory/barcode-labels',
+        builder: (context, state) => const BarcodeLabelsScreen(),
+      ),
       GoRoute(
         path: '/inventory/new',
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           return ProductFormScreen(
-              prefillBarcode: extra?['barcode'] as String?,
-              duplicateFrom: extra?['duplicateFrom'] as InventoryItem?);
+            prefillBarcode: extra?['barcode'] as String?,
+            duplicateFrom: extra?['duplicateFrom'] as InventoryItem?,
+          );
         },
       ),
       GoRoute(
@@ -127,25 +139,30 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const BarcodeScannerScreen(forCart: true),
       ),
       GoRoute(
-          path: '/pos/checkout',
-          builder: (context, state) => const CheckoutScreen()),
+        path: '/pos/checkout',
+        builder: (context, state) => const CheckoutScreen(),
+      ),
       GoRoute(
-          path: '/invoices',
-          builder: (context, state) => const InvoiceListScreen()),
+        path: '/invoices',
+        builder: (context, state) => const InvoiceListScreen(),
+      ),
       GoRoute(
-          path: '/invoices/new',
-          builder: (context, state) => const InvoiceFormScreen()),
+        path: '/invoices/new',
+        builder: (context, state) => const InvoiceFormScreen(),
+      ),
       GoRoute(
         path: '/invoices/:id',
         builder: (context, state) =>
             InvoiceDetailScreen(id: int.parse(state.pathParameters['id']!)),
       ),
       GoRoute(
-          path: '/customers',
-          builder: (context, state) => const CustomerListScreen()),
+        path: '/customers',
+        builder: (context, state) => const CustomerListScreen(),
+      ),
       GoRoute(
-          path: '/customers/new',
-          builder: (context, state) => const CustomerFormScreen()),
+        path: '/customers/new',
+        builder: (context, state) => const CustomerFormScreen(),
+      ),
       GoRoute(
         path: '/customers/:id',
         builder: (context, state) =>
@@ -157,11 +174,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             CustomerFormScreen(existing: state.extra as Customer?),
       ),
       GoRoute(
-          path: '/suppliers',
-          builder: (context, state) => const SupplierListScreen()),
+        path: '/suppliers',
+        builder: (context, state) => const SupplierListScreen(),
+      ),
       GoRoute(
-          path: '/suppliers/new',
-          builder: (context, state) => const SupplierFormScreen()),
+        path: '/suppliers/new',
+        builder: (context, state) => const SupplierFormScreen(),
+      ),
       GoRoute(
         path: '/suppliers/:id',
         builder: (context, state) =>
@@ -173,63 +192,96 @@ final routerProvider = Provider<GoRouter>((ref) {
             SupplierFormScreen(existing: state.extra as Supplier?),
       ),
       GoRoute(
-          path: '/stock-receipts',
-          builder: (context, state) => const StockReceiptListScreen()),
+        path: '/stock-receipts',
+        builder: (context, state) => const StockReceiptListScreen(),
+      ),
       GoRoute(
-          path: '/stock-receipts/new',
-          builder: (context, state) => const StockReceiptFormScreen()),
+        path: '/stock-receipts/new',
+        builder: (context, state) => const StockReceiptFormScreen(),
+      ),
       GoRoute(
         path: '/stock-receipts/:id',
         builder: (context, state) => StockReceiptDetailScreen(
-            id: int.parse(state.pathParameters['id']!)),
+          id: int.parse(state.pathParameters['id']!),
+        ),
       ),
       GoRoute(
-          path: '/expenses',
-          builder: (context, state) => const ExpenseListScreen()),
+        path: '/expenses',
+        builder: (context, state) => const ExpenseListScreen(),
+      ),
       GoRoute(
-          path: '/expenses/new',
-          builder: (context, state) => const ExpenseFormScreen()),
+        path: '/expenses/new',
+        builder: (context, state) => const ExpenseFormScreen(),
+      ),
       GoRoute(
-          path: '/payments',
-          builder: (context, state) => const PaymentListScreen()),
+        path: '/payments',
+        builder: (context, state) => const PaymentListScreen(),
+      ),
       GoRoute(
-          path: '/payments/new',
-          builder: (context, state) => const PaymentFormScreen()),
+        path: '/payments/new',
+        builder: (context, state) => const PaymentFormScreen(),
+      ),
       GoRoute(
-          path: '/settings',
-          builder: (context, state) => const ShopSettingsScreen()),
+        path: '/settings',
+        builder: (context, state) => const ShopSettingsScreen(),
+      ),
       GoRoute(
-          path: '/settings/profile',
-          builder: (context, state) => const MerchantProfileScreen()),
+        path: '/settings/profile',
+        builder: (context, state) => const MerchantProfileScreen(),
+      ),
       GoRoute(
-          path: '/settings/staff',
-          builder: (context, state) => const StaffListScreen()),
+        path: '/settings/staff',
+        builder: (context, state) => const StaffListScreen(),
+      ),
       GoRoute(
-          path: '/settings/staff/new',
-          builder: (context, state) => const StaffFormScreen()),
+        path: '/settings/staff/new',
+        builder: (context, state) => const StaffFormScreen(),
+      ),
       GoRoute(
-          path: '/settings/kyc',
-          builder: (context, state) => const KycDocumentsScreen()),
+        path: '/settings/kyc',
+        builder: (context, state) => const KycDocumentsScreen(),
+      ),
       GoRoute(
-          path: '/stores',
-          builder: (context, state) => const StoreListScreen()),
+        path: '/stores',
+        builder: (context, state) => const StoreListScreen(),
+      ),
       GoRoute(
         path: '/stores/:id',
         builder: (context, state) =>
             StoreDetailScreen(id: int.parse(state.pathParameters['id']!)),
       ),
       GoRoute(
-          path: '/notifications',
-          builder: (context, state) => const NotificationsScreen()),
+        path: '/stores/:id/edit',
+        builder: (context, state) =>
+            StoreFormScreen(store: state.extra! as Store),
+      ),
       GoRoute(
-          path: '/notifications/report-damage',
-          builder: (context, state) => const ReportDamageScreen()),
+        path: '/marketplace',
+        builder: (context, state) => const MarketplaceScreen(),
+      ),
       GoRoute(
-          path: '/reports/sales/today',
-          builder: (context, state) => const TodaySalesScreen()),
+        path: '/catalog',
+        builder: (context, state) => CatalogScreen(
+          openProposeForm:
+              (state.extra as Map<String, dynamic>?)?['propose'] == true,
+        ),
+      ),
       GoRoute(
-          path: '/reports/product-performance',
-          builder: (context, state) => const ProductPerformanceScreen()),
+        path: '/notifications',
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/notifications/report-damage',
+        builder: (context, state) => const ReportDamageScreen(),
+      ),
+      GoRoute(
+        path: '/reports/sales/today',
+        builder: (context, state) => const TodaySalesScreen(),
+      ),
+      GoRoute(
+        path: '/reports/product-performance',
+        builder: (context, state) => const ProductPerformanceScreen(),
+      ),
     ],
   );
 });

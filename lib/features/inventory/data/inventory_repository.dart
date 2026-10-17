@@ -20,20 +20,27 @@ class InventoryRepository {
 
   final ApiClient _client;
 
-  Future<InventoryPage> list(
-      {String? search,
-      int? categoryId,
-      int? branchId,
-      int page = 1,
-      int perPage = 20}) async {
+  Future<InventoryPage> list({
+    String? search,
+    int? categoryId,
+    int? branchId,
+    String? marketplace,
+    int page = 1,
+    int perPage = 20,
+  }) async {
     final response = await _client.guard(
-      () => _client.dio.get('/inventory', queryParameters: {
-        if (search != null && search.isNotEmpty) 'search': search,
-        if (categoryId != null) 'category_id': categoryId,
-        if (branchId != null) 'branch_id': branchId,
-        'page': page,
-        'per_page': perPage,
-      }),
+      () => _client.dio.get(
+        '/inventory',
+        queryParameters: {
+          if (search != null && search.isNotEmpty) 'search': search,
+          if (categoryId != null) 'category_id': categoryId,
+          if (branchId != null) 'branch_id': branchId,
+          // listed, hidden or out_of_stock
+          if (marketplace != null) 'marketplace': marketplace,
+          'page': page,
+          'per_page': perPage,
+        },
+      ),
     );
 
     final data = response.data as Map<String, dynamic>;
@@ -41,23 +48,26 @@ class InventoryRepository {
         .map((e) => InventoryItem.fromJson(e as Map<String, dynamic>))
         .toList();
     final meta = data['meta'] as Map<String, dynamic>?;
-    final hasMore = meta != null &&
+    final hasMore =
+        meta != null &&
         (meta['current_page'] as int) < (meta['last_page'] as int);
 
     return InventoryPage(items: items, hasMore: hasMore);
   }
 
   Future<List<InventoryCategory>> categories() async {
-    final response =
-        await _client.guard(() => _client.dio.get('/inventory/categories'));
+    final response = await _client.guard(
+      () => _client.dio.get('/inventory/categories'),
+    );
     return (response.data as List)
         .map((e) => InventoryCategory.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
   Future<InventoryCategory> createCategory({required String name}) async {
-    final response = await _client.guard(() => _client.dio
-        .post('/inventory/categories', data: {'name': name}));
+    final response = await _client.guard(
+      () => _client.dio.post('/inventory/categories', data: {'name': name}),
+    );
     return InventoryCategory.fromJson(response.data as Map<String, dynamic>);
   }
 
@@ -68,29 +78,41 @@ class InventoryRepository {
         .toList();
   }
 
-  Future<Branch> createBranch(
-      {required String name, String? address, String? phone}) async {
-    final response = await _client.guard(() => _client.dio.post('/branches',
-        data: {'name': name, 'address': address, 'phone': phone}));
-    return Branch.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+  Future<Branch> createBranch({
+    required String name,
+    String? address,
+    String? phone,
+  }) async {
+    final response = await _client.guard(
+      () => _client.dio.post(
+        '/branches',
+        data: {'name': name, 'address': address, 'phone': phone},
+      ),
+    );
+    return Branch.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<InventoryItem> get(int id) async {
-    final response =
-        await _client.guard(() => _client.dio.get('/inventory/$id'));
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.get('/inventory/$id'),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   /// Returns null (not an error) when no product matches — the caller
   /// offers "add new product" pre-filled with the scanned code.
   Future<InventoryItem?> lookupBarcode(String code) async {
     try {
-      final response = await _client
-          .guard(() => _client.dio.get('/inventory/lookup-barcode/$code'));
-      return InventoryItem.fromJson((response.data
-          as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+      final response = await _client.guard(
+        () => _client.dio.get('/inventory/lookup-barcode/$code'),
+      );
+      return InventoryItem.fromJson(
+        (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+      );
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) return null;
       rethrow;
@@ -109,24 +131,30 @@ class InventoryRepository {
     double? unitPrice,
     double? quantityOnHand,
     String? expiryDate,
+    int? productId,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/inventory', data: {
-        'name': name,
-        'sku': sku,
-        'barcode': barcode,
-        'category_id': categoryId,
-        'branch_id': branchId,
-        'unit': unit,
-        'reorder_level': reorderLevel,
-        'unit_cost': unitCost,
-        'unit_price': unitPrice,
-        'quantity_on_hand': quantityOnHand,
-        'expiry_date': expiryDate,
-      }),
+      () => _client.dio.post(
+        '/inventory',
+        data: {
+          'name': name,
+          'product_id': productId,
+          'sku': sku,
+          'barcode': barcode,
+          'category_id': categoryId,
+          'branch_id': branchId,
+          'unit': unit,
+          'reorder_level': reorderLevel,
+          'unit_cost': unitCost,
+          'unit_price': unitPrice,
+          'quantity_on_hand': quantityOnHand,
+          'expiry_date': expiryDate,
+        },
+      ),
     );
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<InventoryItem> update(
@@ -143,50 +171,104 @@ class InventoryRepository {
     String? expiryDate,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.patch('/inventory/$id', data: {
-        if (name != null) 'name': name,
-        'sku': sku,
-        'barcode': barcode,
-        'category_id': categoryId,
-        'branch_id': branchId,
-        'unit': unit,
-        'reorder_level': reorderLevel,
-        'unit_cost': unitCost,
-        'unit_price': unitPrice,
-        'expiry_date': expiryDate,
-      }),
+      () => _client.dio.patch(
+        '/inventory/$id',
+        data: {
+          if (name != null) 'name': name,
+          'sku': sku,
+          'barcode': barcode,
+          'category_id': categoryId,
+          'branch_id': branchId,
+          'unit': unit,
+          'reorder_level': reorderLevel,
+          'unit_cost': unitCost,
+          'unit_price': unitPrice,
+          'expiry_date': expiryDate,
+        },
+      ),
     );
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<void> delete(int id) =>
       _client.guard(() => _client.dio.delete('/inventory/$id'));
 
   Future<InventoryItem> uploadImage(int id, File imageFile) async {
-    final formData = FormData.fromMap(
-        {'image': await MultipartFile.fromFile(imageFile.path)});
-    final response = await _client
-        .guard(() => _client.dio.post('/inventory/$id/image', data: formData));
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    final formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(imageFile.path),
+    });
+    final response = await _client.guard(
+      () => _client.dio.post('/inventory/$id/image', data: formData),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<InventoryItem> generateBarcode(int id) async {
-    final response =
-        await _client.guard(() => _client.dio.post('/inventory/$id/barcode'));
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.post('/inventory/$id/barcode'),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
-  Future<InventoryItem> stockMovement(int id,
-      {required String type, required double quantity}) async {
+  /// For type "adjustment", [quantity] is the counted stock level and a
+  /// [reason] is required.
+  Future<InventoryItem> stockMovement(
+    int id, {
+    required String type,
+    required double quantity,
+    String? reason,
+  }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/inventory/$id/stock-movement',
-          data: {'type': type, 'quantity': quantity}),
+      () => _client.dio.post(
+        '/inventory/$id/stock-movement',
+        data: {
+          'type': type,
+          'quantity': quantity,
+          if (reason != null && reason.isNotEmpty) 'reason': reason,
+        },
+      ),
     );
-    return InventoryItem.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
+  }
+
+  /// Links (or with null, unlinks) the item to a catalog product.
+  Future<InventoryItem> linkCatalogProduct(int id, int? productId) async {
+    final response = await _client.guard(
+      () =>
+          _client.dio.patch('/inventory/$id', data: {'product_id': productId}),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
+  }
+
+  Future<InventoryItem> updateMarketplace(
+    int id, {
+    required bool visible,
+    required double quantity,
+    bool active = true,
+  }) async {
+    final response = await _client.guard(
+      () => _client.dio.patch(
+        '/inventory/$id/marketplace',
+        data: {
+          'is_marketplace_visible': visible,
+          'marketplace_quantity': quantity,
+          'active': active,
+        },
+      ),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   /// Downloads a printable barcode-label sheet (3-up, name/price optional)

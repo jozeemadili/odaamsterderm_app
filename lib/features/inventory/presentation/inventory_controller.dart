@@ -4,14 +4,17 @@ import '../../auth/presentation/auth_controller.dart';
 import '../data/inventory_models.dart';
 import '../data/inventory_repository.dart';
 
-final inventoryRepositoryProvider =
-    Provider((ref) => InventoryRepository(ref.watch(apiClientProvider)));
+final inventoryRepositoryProvider = Provider(
+  (ref) => InventoryRepository(ref.watch(apiClientProvider)),
+);
 
 final inventoryCategoriesProvider = FutureProvider.autoDispose(
-    (ref) => ref.watch(inventoryRepositoryProvider).categories());
+  (ref) => ref.watch(inventoryRepositoryProvider).categories(),
+);
 
 final inventoryBranchesProvider = FutureProvider.autoDispose(
-    (ref) => ref.watch(inventoryRepositoryProvider).branches());
+  (ref) => ref.watch(inventoryRepositoryProvider).branches(),
+);
 
 class InventoryListState {
   const InventoryListState({
@@ -47,8 +50,9 @@ class InventoryListState {
     return InventoryListState(
       items: items ?? this.items,
       search: search ?? this.search,
-      categoryId:
-          identical(categoryId, _unset) ? this.categoryId : categoryId as int?,
+      categoryId: identical(categoryId, _unset)
+          ? this.categoryId
+          : categoryId as int?,
       page: page ?? this.page,
       hasMore: hasMore ?? this.hasMore,
       isLoading: isLoading ?? this.isLoading,
@@ -62,7 +66,7 @@ const _unset = Object();
 
 class InventoryListController extends StateNotifier<InventoryListState> {
   InventoryListController(this._repository)
-      : super(const InventoryListState()) {
+    : super(const InventoryListState()) {
     load();
   }
 
@@ -72,12 +76,16 @@ class InventoryListController extends StateNotifier<InventoryListState> {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final result = await _repository.list(
-          search: state.search, categoryId: state.categoryId, page: 1);
+        search: state.search,
+        categoryId: state.categoryId,
+        page: 1,
+      );
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -89,12 +97,16 @@ class InventoryListController extends StateNotifier<InventoryListState> {
     try {
       final nextPage = state.page + 1;
       final result = await _repository.list(
-          search: state.search, categoryId: state.categoryId, page: nextPage);
+        search: state.search,
+        categoryId: state.categoryId,
+        page: nextPage,
+      );
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -124,12 +136,14 @@ class InventoryListController extends StateNotifier<InventoryListState> {
   }
 
   void remove(int id) {
-    state =
-        state.copyWith(items: state.items.where((i) => i.id != id).toList());
+    state = state.copyWith(
+      items: state.items.where((i) => i.id != id).toList(),
+    );
   }
 }
 
-final inventoryListControllerProvider = StateNotifierProvider.autoDispose<
-    InventoryListController, InventoryListState>(
-  (ref) => InventoryListController(ref.watch(inventoryRepositoryProvider)),
-);
+final inventoryListControllerProvider =
+    StateNotifierProvider.autoDispose<
+      InventoryListController,
+      InventoryListState
+    >((ref) => InventoryListController(ref.watch(inventoryRepositoryProvider)));

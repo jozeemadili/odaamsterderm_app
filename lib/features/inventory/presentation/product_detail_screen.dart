@@ -10,13 +10,14 @@ import 'package:intl/intl.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
+import '../../catalog/presentation/catalog_picker_sheet.dart';
 import '../data/inventory_models.dart';
 import 'inventory_controller.dart';
 
-final inventoryItemProvider =
-    FutureProvider.autoDispose.family<InventoryItem, int>(
-  (ref, id) => ref.watch(inventoryRepositoryProvider).get(id),
-);
+final inventoryItemProvider = FutureProvider.autoDispose
+    .family<InventoryItem, int>(
+      (ref, id) => ref.watch(inventoryRepositoryProvider).get(id),
+    );
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   const ProductDetailScreen({super.key, required this.id});
@@ -59,8 +60,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     );
     if (source == null) return;
 
-    final picked = await ImagePicker()
-        .pickImage(source: source, maxWidth: 1600, imageQuality: 85);
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 1600,
+      imageQuality: 85,
+    );
     if (picked == null) return;
 
     setState(() => _busy = true);
@@ -71,8 +75,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       _refresh(updated);
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -88,8 +93,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       _refresh(updated);
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -97,7 +103,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   }
 
   Future<void> _adjustStock() async {
-    final result = await showDialog<(String, double)>(
+    final result = await showDialog<(String, double, String)>(
       context: context,
       builder: (context) => const _StockMovementDialog(),
     );
@@ -107,16 +113,69 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     try {
       final updated = await ref
           .read(inventoryRepositoryProvider)
-          .stockMovement(widget.id, type: result.$1, quantity: result.$2);
+          .stockMovement(
+            widget.id,
+            type: result.$1,
+            quantity: result.$2,
+            reason: result.$3,
+          );
       _refresh(updated);
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
+  }
+
+  Future<void> _run(Future<InventoryItem> Function() action) async {
+    setState(() => _busy = true);
+    try {
+      _refresh(await action());
+    } on ApiException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _linkCatalogProduct(InventoryItem item) async {
+    final product = await showCatalogPicker(
+      context,
+      initialSearch: item.product == null ? item.name : '',
+    );
+    if (product == null) return;
+    await _run(
+      () => ref
+          .read(inventoryRepositoryProvider)
+          .linkCatalogProduct(widget.id, product.id),
+    );
+  }
+
+  Future<void> _editMarketplace(InventoryItem item) async {
+    final result = await showModalBottomSheet<(bool, double, bool)>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => _MarketplaceSheet(item: item),
+    );
+    if (result == null) return;
+    await _run(
+      () => ref
+          .read(inventoryRepositoryProvider)
+          .updateMarketplace(
+            widget.id,
+            visible: result.$1,
+            quantity: result.$2,
+            active: result.$3,
+          ),
+    );
   }
 
   @override
@@ -132,8 +191,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               icon: const Icon(Icons.edit),
               onPressed: () async {
                 final updated = await context.push<InventoryItem>(
-                    '/inventory/${item.id}/edit',
-                    extra: item);
+                  '/inventory/${item.id}/edit',
+                  extra: item,
+                );
                 if (updated != null) _refresh(updated);
               },
             ),
@@ -144,8 +204,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       body: itemAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text('Could not load this product.\n$e',
-                textAlign: TextAlign.center)),
+          child: Text(
+            'Could not load this product.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (item) => AbsorbPointer(
           absorbing: _busy,
           child: Opacity(
@@ -167,20 +230,25 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   height: 160,
                                   fit: BoxFit.cover,
                                   errorWidget: (_, _, _) => Container(
-                                        width: 160,
-                                        height: 160,
-                                        color: DukaColors.bg,
-                                        child: const Icon(
-                                            Icons.inventory_2_outlined,
-                                            size: 48,
-                                            color: DukaColors.muted),
-                                      ))
+                                    width: 160,
+                                    height: 160,
+                                    color: DukaColors.bg,
+                                    child: const Icon(
+                                      Icons.inventory_2_outlined,
+                                      size: 48,
+                                      color: DukaColors.muted,
+                                    ),
+                                  ),
+                                )
                               : Container(
                                   width: 160,
                                   height: 160,
                                   color: DukaColors.bg,
-                                  child: const Icon(Icons.inventory_2_outlined,
-                                      size: 48, color: DukaColors.muted),
+                                  child: const Icon(
+                                    Icons.inventory_2_outlined,
+                                    size: 48,
+                                    color: DukaColors.muted,
+                                  ),
                                 ),
                         ),
                         Positioned(
@@ -196,9 +264,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(item.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    textAlign: TextAlign.center),
+                Text(
+                  item.name,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 8),
                 Wrap(
                   alignment: WrapAlignment.center,
@@ -225,24 +295,36 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         _Row('Category', item.category?.name ?? '—'),
                         _Row('Store', item.branch?.name ?? 'Not assigned'),
                         _Row('Unit', item.unit ?? '—'),
-                        _Row('On hand',
-                            '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''}'),
-                        _Row('Reorder level',
-                            item.reorderLevel.toStringAsFixed(0)),
                         _Row(
-                            'Unit cost',
-                            item.unitCost != null
-                                ? formatTzs(item.unitCost!)
-                                : '—'),
+                          'On hand',
+                          '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''}',
+                        ),
                         _Row(
-                            'Selling price',
-                            item.unitPrice != null
-                                ? formatTzs(item.unitPrice!)
-                                : '—'),
+                          'Reorder level',
+                          item.reorderLevel.toStringAsFixed(0),
+                        ),
+                        _Row(
+                          'Unit cost',
+                          item.unitCost != null
+                              ? formatTzs(item.unitCost!)
+                              : '—',
+                        ),
+                        _Row(
+                          'Selling price',
+                          item.unitPrice != null
+                              ? formatTzs(item.unitPrice!)
+                              : '—',
+                        ),
                         _Row('Expiry date', _formatExpiry(item.expiryDate)),
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(height: 12),
+                _MarketplaceCard(
+                  item: item,
+                  onLink: () => _linkCatalogProduct(item),
+                  onEdit: () => _editMarketplace(item),
                 ),
                 const SizedBox(height: 20),
                 if (item.barcode == null)
@@ -259,8 +341,10 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
-                  onPressed: () => context
-                      .push('/inventory/new', extra: {'duplicateFrom': item}),
+                  onPressed: () => context.push(
+                    '/inventory/new',
+                    extra: {'duplicateFrom': item},
+                  ),
                   icon: const Icon(Icons.storefront_outlined),
                   label: const Text('Stock at another store'),
                 ),
@@ -312,9 +396,12 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
           Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
@@ -333,11 +420,223 @@ class _Chip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(999)),
-      child: Text(label,
-          style: TextStyle(
-              fontSize: 12, color: color, fontWeight: FontWeight.w600)),
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 12,
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class _MarketplaceCard extends StatelessWidget {
+  const _MarketplaceCard({
+    required this.item,
+    required this.onLink,
+    required this.onEdit,
+  });
+
+  final InventoryItem item;
+  final VoidCallback onLink;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final m = item.marketplace;
+    final blockers = m.blockers ?? const <String>[];
+    final statusColor = !m.isVisible
+        ? DukaColors.muted
+        : m.status == 'active'
+        ? Colors.green
+        : m.status == 'out_of_stock'
+        ? DukaColors.rose
+        : DukaColors.muted;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Marketplace',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+                _Chip(
+                  label: m.isVisible ? m.statusLabel : 'Hidden',
+                  color: statusColor,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              leading: const Icon(Icons.link),
+              title: Text(
+                item.product?.displayName ?? 'Not linked to the catalog',
+              ),
+              subtitle: item.product != null
+                  ? Text(
+                      [
+                        item.product!.animalTypeName,
+                        item.product!.categoryName,
+                        if (item.product!.isPending) 'pending approval',
+                      ].whereType<String>().join(' · '),
+                    )
+                  : const Text('Needed to sell on the marketplace'),
+              trailing: TextButton(
+                onPressed: onLink,
+                child: Text(item.product == null ? 'Link' : 'Change'),
+              ),
+            ),
+            _Row(
+              'Actual stock',
+              '${_fmt(item.quantityOnHand)} ${item.unit ?? ''}',
+            ),
+            _Row('Reserved for orders', _fmt(m.reservedQuantity)),
+            _Row('Marketplace quantity', _fmt(m.quantity)),
+            for (final b in blockers)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: Colors.orange,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        b,
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onEdit,
+                icon: const Icon(Icons.storefront),
+                label: const Text('Marketplace settings'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+String _fmt(double v) =>
+    v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
+
+/// Visible / quantity / active editor. Pops (visible, quantity, active).
+class _MarketplaceSheet extends StatefulWidget {
+  const _MarketplaceSheet({required this.item});
+
+  final InventoryItem item;
+
+  @override
+  State<_MarketplaceSheet> createState() => _MarketplaceSheetState();
+}
+
+class _MarketplaceSheetState extends State<_MarketplaceSheet> {
+  late bool _visible =
+      widget.item.marketplace.isVisible ||
+      (widget.item.marketplace.blockers?.isEmpty ?? false);
+  late bool _active = widget.item.marketplace.status != 'inactive';
+  late final _quantity = TextEditingController(
+    text: _fmt(widget.item.marketplace.quantity),
+  );
+
+  @override
+  void dispose() {
+    _quantity.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final available = widget.item.marketplace.availableQuantity;
+
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Marketplace settings',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Customers see the marketplace quantity. You can expose up to ${_fmt(available)} ${widget.item.unit ?? ''}.',
+            style: const TextStyle(fontSize: 12.5, color: DukaColors.muted),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _quantity,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: 'Marketplace quantity',
+              suffixIcon: TextButton(
+                onPressed: () => _quantity.text = _fmt(available),
+                child: const Text('All'),
+              ),
+            ),
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: _visible,
+            onChanged: (v) => setState(() => _visible = v),
+            title: const Text('Visible on marketplace'),
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: _active,
+            onChanged: (v) => setState(() => _active = v),
+            title: const Text('Active'),
+            subtitle: const Text(
+              'Inactive keeps the listing hidden until you reactivate it.',
+            ),
+          ),
+          const SizedBox(height: 12),
+          FilledButton(
+            onPressed: () {
+              final qty = double.tryParse(_quantity.text.trim());
+              if (qty == null || qty < 0) return;
+              Navigator.pop(context, (_visible, qty, _active));
+            },
+            child: const Text('Save'),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
     );
   }
 }
@@ -352,10 +651,12 @@ class _StockMovementDialog extends StatefulWidget {
 class _StockMovementDialogState extends State<_StockMovementDialog> {
   String _type = 'in';
   final _quantityController = TextEditingController();
+  final _reasonController = TextEditingController();
 
   @override
   void dispose() {
     _quantityController.dispose();
+    _reasonController.dispose();
     super.dispose();
   }
 
@@ -379,20 +680,38 @@ class _StockMovementDialogState extends State<_StockMovementDialog> {
           TextField(
             controller: _quantityController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(labelText: 'Quantity'),
+            decoration: InputDecoration(
+              labelText: _type == 'adjustment'
+                  ? 'Counted quantity'
+                  : 'Quantity',
+            ),
             autofocus: true,
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _reasonController,
+            decoration: InputDecoration(
+              labelText: _type == 'adjustment'
+                  ? 'Reason (required)'
+                  : 'Note (optional)',
+            ),
           ),
         ],
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel')),
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
         FilledButton(
           onPressed: () {
             final qty = double.tryParse(_quantityController.text);
-            if (qty == null || qty <= 0) return;
-            Navigator.pop(context, (_type, qty));
+            final reason = _reasonController.text.trim();
+            final isAdjustment = _type == 'adjustment';
+            // An adjustment sets the counted level (may be 0) and needs a reason.
+            if (qty == null || qty < 0 || (!isAdjustment && qty == 0)) return;
+            if (isAdjustment && reason.isEmpty) return;
+            Navigator.pop(context, (_type, qty, reason));
           },
           child: const Text('Save'),
         ),

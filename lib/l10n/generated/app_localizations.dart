@@ -715,6 +715,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get todayCardTitle;
+
+  /// No description provided for @storeEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit store'**
+  String get storeEditTitle;
+
+  /// No description provided for @storeEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email (optional)'**
+  String get storeEmailLabel;
+
+  /// No description provided for @storeCityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City / district'**
+  String get storeCityLabel;
+
+  /// No description provided for @storeLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store location'**
+  String get storeLocationTitle;
+
+  /// No description provided for @storeLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map or use your current location to pin the store entrance.'**
+  String get storeLocationHint;
+
+  /// No description provided for @storeUseMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get storeUseMyLocation;
+
+  /// No description provided for @storeLocationDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is off or permission was denied. Tap the map to place the pin.'**
+  String get storeLocationDenied;
+
+  /// No description provided for @storeNoLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'No map location yet — customers can\'t find this store.'**
+  String get storeNoLocation;
+
+  /// No description provided for @storeOpenInMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Google Maps'**
+  String get storeOpenInMaps;
+
+  /// No description provided for @storeOpeningHoursTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening hours'**
+  String get storeOpeningHoursTitle;
+
+  /// No description provided for @storeClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get storeClosed;
+
+  /// No description provided for @storePickupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup instructions for customers'**
+  String get storePickupLabel;
+
+  /// No description provided for @storeMarketplaceSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'List this store on the marketplace'**
+  String get storeMarketplaceSwitch;
+
+  /// No description provided for @storeMarketplaceSwitchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off to use this store for offline sales only.'**
+  String get storeMarketplaceSwitchHint;
+
+  /// No description provided for @storeOnMarketplace.
+  ///
+  /// In en, this message translates to:
+  /// **'On marketplace'**
+  String get storeOnMarketplace;
+
+  /// No description provided for @storeMarketplaceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace off'**
+  String get storeMarketplaceOff;
+
+  /// No description provided for @storeSuspended.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended by the platform'**
+  String get storeSuspended;
+
+  /// No description provided for @storeSetLocationBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Set map location'**
+  String get storeSetLocationBadge;
+
+  /// No description provided for @storeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Store details saved.'**
+  String get storeSaved;
+
+  /// No description provided for @notSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSet;
+
+  /// No description provided for @marketplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace'**
+  String get marketplaceTitle;
+
+  /// No description provided for @marketplaceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What customers can see and order online'**
+  String get marketplaceSubtitle;
+
+  /// No description provided for @marketplaceFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get marketplaceFilterAll;
+
+  /// No description provided for @marketplaceFilterListed.
+  ///
+  /// In en, this message translates to:
+  /// **'Listed'**
+  String get marketplaceFilterListed;
+
+  /// No description provided for @marketplaceFilterHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get marketplaceFilterHidden;
+
+  /// No description provided for @marketplaceFilterOutOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get marketplaceFilterOutOfStock;
+
+  /// No description provided for @marketplaceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items here.'**
+  String get marketplaceEmpty;
+
+  /// No description provided for @marketplaceListedProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Listed products'**
+  String get marketplaceListedProducts;
+
+  /// No description provided for @marketplaceUnitsExposed.
+  ///
+  /// In en, this message translates to:
+  /// **'Units online'**
+  String get marketplaceUnitsExposed;
+
+  /// No description provided for @marketplaceOutOfStockOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock online'**
+  String get marketplaceOutOfStockOnline;
+
+  /// No description provided for @marketplaceApprovalPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Your business is awaiting marketplace approval — listings go live once approved.'**
+  String get marketplaceApprovalPending;
+
+  /// No description provided for @catalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product catalog'**
+  String get catalogTitle;
+
+  /// No description provided for @catalogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared products customers compare across sellers'**
+  String get catalogSubtitle;
+
+  /// No description provided for @catalogSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the catalog'**
+  String get catalogSearchHint;
+
+  /// No description provided for @catalogPropose.
+  ///
+  /// In en, this message translates to:
+  /// **'Propose a product'**
+  String get catalogPropose;
+
+  /// No description provided for @catalogProposals.
+  ///
+  /// In en, this message translates to:
+  /// **'Your proposals'**
+  String get catalogProposals;
+
+  /// No description provided for @catalogPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for review'**
+  String get catalogPending;
+
+  /// No description provided for @catalogRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get catalogRejected;
+
+  /// No description provided for @catalogNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in the catalog? Propose it for review.'**
+  String get catalogNotFound;
+
+  /// No description provided for @catalogProposed.
+  ///
+  /// In en, this message translates to:
+  /// **'Product proposed. It goes live on the marketplace once approved.'**
+  String get catalogProposed;
+
+  /// No description provided for @catalogNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name'**
+  String get catalogNameLabel;
+
+  /// No description provided for @catalogPackSizeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack size (e.g. 25KG)'**
+  String get catalogPackSizeLabel;
+
+  /// No description provided for @catalogUnitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling unit'**
+  String get catalogUnitLabel;
+
+  /// No description provided for @catalogBrandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand (optional)'**
+  String get catalogBrandLabel;
+
+  /// No description provided for @catalogAnimalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Animal type'**
+  String get catalogAnimalLabel;
+
+  /// No description provided for @catalogCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get catalogCategoryLabel;
+
+  /// No description provided for @catalogDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get catalogDescriptionLabel;
+
+  /// No description provided for @catalogSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit for review'**
+  String get catalogSubmit;
+
+  /// No description provided for @catalogPickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link to catalog product'**
+  String get catalogPickTitle;
+
+  /// No description provided for @catalogNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No catalog products match.'**
+  String get catalogNoMatches;
+
+  /// No description provided for @moreMarketplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace'**
+  String get moreMarketplaceTitle;
+
+  /// No description provided for @moreMarketplaceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility and quantities customers see'**
+  String get moreMarketplaceSubtitle;
+
+  /// No description provided for @moreCatalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product catalog'**
+  String get moreCatalogTitle;
+
+  /// No description provided for @moreCatalogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse shared products or propose new ones'**
+  String get moreCatalogSubtitle;
+
+  /// No description provided for @marketplaceStockLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{online} online · {stock} in stock'**
+  String marketplaceStockLine(String online, String stock);
+
+  /// No description provided for @stockQuantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock quantity (units)'**
+  String get stockQuantityLabel;
 }
 
 class _AppLocalizationsDelegate

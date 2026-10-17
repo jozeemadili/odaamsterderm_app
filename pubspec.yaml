@@ -74,6 +74,10 @@ dependencies:
 
   # Google "G" mark on the auth buttons, and the vector app logo
   flutter_svg: ^2.2.1
+  flutter_map: ^8.3.2
+  latlong2: ^0.10.1
+  geolocator: ^14.0.2
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

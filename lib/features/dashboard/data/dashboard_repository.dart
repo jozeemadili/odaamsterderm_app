@@ -6,11 +6,14 @@ class DashboardRepository {
 
   final ApiClient _client;
 
-  Future<DashboardSummary> fetch(
-      {DashboardPeriod period = DashboardPeriod.month}) async {
+  Future<DashboardSummary> fetch({
+    DashboardPeriod period = DashboardPeriod.month,
+  }) async {
     final response = await _client.guard(
-      () => _client.dio
-          .get('/dashboard', queryParameters: {'period': period.apiValue}),
+      () => _client.dio.get(
+        '/dashboard',
+        queryParameters: {'period': period.apiValue},
+      ),
     );
     return DashboardSummary.fromJson(response.data as Map<String, dynamic>);
   }

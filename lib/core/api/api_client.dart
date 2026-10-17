@@ -4,13 +4,13 @@ import '../storage/token_storage.dart';
 import 'api_exception.dart';
 
 /// Base URL for the Odaamsterderm Hub v1 API. Override per build with:
-///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8001/api/v1
+///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8010/api/v1
 /// (10.0.2.2 is how the Android emulator reaches the host machine's
 /// localhost; use your Mac's LAN IP for a physical device against a local
 /// `php artisan serve`.)
 const String apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://127.0.0.1:8000/api/v1',
+  defaultValue: 'http://127.0.0.1:8010/api/v1',
 );
 
 /// Thin wrapper around Dio: attaches the bearer token to every request,

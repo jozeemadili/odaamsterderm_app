@@ -135,8 +135,11 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load inventory.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load inventory.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -167,8 +170,11 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
 }
 
 class _CategoryChip extends StatelessWidget {
-  const _CategoryChip(
-      {required this.label, required this.selected, required this.onTap});
+  const _CategoryChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String label;
   final bool selected;
@@ -177,7 +183,10 @@ class _CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
-        label: Text(label), selected: selected, onSelected: (_) => onTap());
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) => onTap(),
+    );
   }
 }
 
@@ -242,8 +251,11 @@ class _ImagePlaceholder extends StatelessWidget {
       width: 44,
       height: 44,
       color: DukaColors.bg,
-      child: const Icon(Icons.inventory_2_outlined,
-          size: 20, color: DukaColors.muted),
+      child: const Icon(
+        Icons.inventory_2_outlined,
+        size: 20,
+        color: DukaColors.muted,
+      ),
     );
   }
 }
@@ -259,11 +271,17 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(4)),
-      child: Text(label,
-          style: TextStyle(
-              fontSize: 10, color: color, fontWeight: FontWeight.w600)),
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 10,
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

@@ -18,6 +18,18 @@ class MoreScreen extends StatelessWidget {
       body: ListView(
         children: [
           _MoreTile(
+            icon: Icons.storefront,
+            title: l10n.moreMarketplaceTitle,
+            subtitle: l10n.moreMarketplaceSubtitle,
+            onTap: () => context.push('/marketplace'),
+          ),
+          _MoreTile(
+            icon: Icons.menu_book_outlined,
+            title: l10n.moreCatalogTitle,
+            subtitle: l10n.moreCatalogSubtitle,
+            onTap: () => context.push('/catalog'),
+          ),
+          _MoreTile(
             icon: Icons.local_shipping_outlined,
             title: l10n.moreStockReceiptsTitle,
             subtitle: l10n.moreStockReceiptsSubtitle,
@@ -66,11 +78,12 @@ class MoreScreen extends StatelessWidget {
 }
 
 class _MoreTile extends StatelessWidget {
-  const _MoreTile(
-      {required this.icon,
-      required this.title,
-      required this.subtitle,
-      required this.onTap});
+  const _MoreTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String title;

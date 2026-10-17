@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
@@ -12,11 +13,13 @@ import '../../notifications/presentation/notification_controller.dart';
 import '../data/dashboard_models.dart';
 import '../data/dashboard_repository.dart';
 
-final dashboardRepositoryProvider =
-    Provider((ref) => DashboardRepository(ref.watch(apiClientProvider)));
+final dashboardRepositoryProvider = Provider(
+  (ref) => DashboardRepository(ref.watch(apiClientProvider)),
+);
 
-final dashboardPeriodProvider =
-    StateProvider.autoDispose<DashboardPeriod>((ref) => DashboardPeriod.month);
+final dashboardPeriodProvider = StateProvider.autoDispose<DashboardPeriod>(
+  (ref) => DashboardPeriod.month,
+);
 
 final dashboardSummaryProvider = FutureProvider.autoDispose((ref) {
   final period = ref.watch(dashboardPeriodProvider);
@@ -29,7 +32,7 @@ Set<int> _bottomLabelIndexes(int length) {
   if (length <= 4) return {for (var i = 0; i < length; i++) i};
   const count = 4;
   return {
-    for (var i = 0; i < count; i++) (i * (length - 1) / (count - 1)).round()
+    for (var i = 0; i < count; i++) (i * (length - 1) / (count - 1)).round(),
   };
 }
 
@@ -44,10 +47,10 @@ String _timeGreeting(AppLocalizations l10n) {
 /// ('week'/'month'/'year') rather than the backend's English `period_label`
 /// string, so it reads correctly regardless of the app's chosen language.
 String _periodLabel(AppLocalizations l10n, String period) => switch (period) {
-      'week' => l10n.periodLabelWeek,
-      'year' => l10n.periodLabelYear,
-      _ => l10n.periodLabelMonth,
-    };
+  'week' => l10n.periodLabelWeek,
+  'year' => l10n.periodLabelYear,
+  _ => l10n.periodLabelMonth,
+};
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -81,11 +84,12 @@ class DashboardScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
               children: [
                 _TopBar(
-                    auth: auth,
-                    notificationsCount: notificationsCount,
-                    onNotifications: () => context.push('/notifications'),
-                    onLogout: () =>
-                        ref.read(authControllerProvider.notifier).logout()),
+                  auth: auth,
+                  notificationsCount: notificationsCount,
+                  onNotifications: () => context.push('/notifications'),
+                  onLogout: () =>
+                      ref.read(authControllerProvider.notifier).logout(),
+                ),
                 const SizedBox(height: 18),
                 _TrendCard(summary: summary),
                 const SizedBox(height: 16),
@@ -95,6 +99,10 @@ class DashboardScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
                 _StockSummaryCard(summary: summary),
                 const SizedBox(height: 16),
+                if (summary.marketplace != null) ...[
+                  _MarketplaceCard(marketplace: summary.marketplace!),
+                  const SizedBox(height: 16),
+                ],
                 _StatCard(summary: summary),
               ],
             ),
@@ -114,10 +122,10 @@ class _PeriodSelector extends ConsumerWidget {
   const _PeriodSelector();
 
   static Map<DashboardPeriod, String> _labels(AppLocalizations l10n) => {
-        DashboardPeriod.week: l10n.periodWeek,
-        DashboardPeriod.month: l10n.periodMonth,
-        DashboardPeriod.year: l10n.periodYear,
-      };
+    DashboardPeriod.week: l10n.periodWeek,
+    DashboardPeriod.month: l10n.periodMonth,
+    DashboardPeriod.year: l10n.periodYear,
+  };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -141,8 +149,10 @@ class _PeriodSelector extends ConsumerWidget {
           selectedBackgroundColor: DukaColors.indigo,
           selectedForegroundColor: Colors.white,
           side: const BorderSide(color: DukaColors.line),
-          textStyle:
-              const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w700,
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           minimumSize: const Size(0, 26),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -178,9 +188,14 @@ class _TopBar extends StatelessWidget {
           width: 38,
           height: 38,
           decoration: BoxDecoration(
-              color: DukaColors.ink, borderRadius: BorderRadius.circular(11)),
-          child: const Icon(Icons.storefront_outlined,
-              color: Colors.white, size: 17),
+            color: DukaColors.ink,
+            borderRadius: BorderRadius.circular(11),
+          ),
+          child: const Icon(
+            Icons.storefront_outlined,
+            color: Colors.white,
+            size: 17,
+          ),
         ),
         const SizedBox(width: 10),
         Expanded(
@@ -189,13 +204,14 @@ class _TopBar extends StatelessWidget {
             children: [
               Text(
                 l10n.greetingMessage(
-                    _timeGreeting(l10n),
-                    auth.user?.name.split(' ').first ??
-                        l10n.greetingFallbackName),
+                  _timeGreeting(l10n),
+                  auth.user?.name.split(' ').first ?? l10n.greetingFallbackName,
+                ),
                 style: const TextStyle(
-                    fontSize: 11.5,
-                    color: DukaColors.muted,
-                    fontWeight: FontWeight.w600),
+                  fontSize: 11.5,
+                  color: DukaColors.muted,
+                  fontWeight: FontWeight.w600,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -223,7 +239,11 @@ class _TopBar extends StatelessWidget {
 }
 
 class _IconButton extends StatelessWidget {
-  const _IconButton({required this.icon, required this.onTap, this.badgeCount = 0});
+  const _IconButton({
+    required this.icon,
+    required this.onTap,
+    this.badgeCount = 0,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
@@ -237,15 +257,17 @@ class _IconButton extends StatelessWidget {
         Material(
           color: Colors.white,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: const BorderSide(color: DukaColors.line)),
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: DukaColors.line),
+          ),
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: onTap,
             child: SizedBox(
-                width: 34,
-                height: 34,
-                child: Icon(icon, size: 15, color: DukaColors.ink)),
+              width: 34,
+              height: 34,
+              child: Icon(icon, size: 15, color: DukaColors.ink),
+            ),
           ),
         ),
         if (badgeCount > 0)
@@ -256,17 +278,19 @@ class _IconButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               constraints: const BoxConstraints(minWidth: 15),
               decoration: BoxDecoration(
-                  color: DukaColors.rose,
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white, width: 1.5)),
+                color: DukaColors.rose,
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: Colors.white, width: 1.5),
+              ),
               child: Text(
                 badgeCount > 9 ? '9+' : '$badgeCount',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                    fontSize: 8.5,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    height: 1.3),
+                  fontSize: 8.5,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  height: 1.3,
+                ),
               ),
             ),
           ),
@@ -287,8 +311,11 @@ class _TrendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final trend = summary.trend;
-    final maxValue = [...trend.sales, ...trend.expenses, ...trend.profit]
-        .fold<double>(0, (m, v) => v > m ? v : m);
+    final maxValue = [
+      ...trend.sales,
+      ...trend.expenses,
+      ...trend.profit,
+    ].fold<double>(0, (m, v) => v > m ? v : m);
     final maxY = maxValue <= 0 ? 100.0 : maxValue * 1.2;
     final labelIndexes = _bottomLabelIndexes(trend.labels.length);
 
@@ -306,18 +333,23 @@ class _TrendCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          l10n
-                              .salesLabelPrefix(
-                                  _periodLabel(l10n, summary.period))
-                              .toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 10.5,
-                              color: DukaColors.muted,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: .5)),
+                        l10n
+                            .salesLabelPrefix(
+                              _periodLabel(l10n, summary.period),
+                            )
+                            .toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 10.5,
+                          color: DukaColors.muted,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: .5,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(formatTzs(summary.salesTotal),
-                          style: Theme.of(context).textTheme.headlineSmall),
+                      Text(
+                        formatTzs(summary.salesTotal),
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ],
                   ),
                 ),
@@ -327,14 +359,19 @@ class _TrendCard extends StatelessWidget {
                     Text(
                       '↓ ${formatTzs(summary.expensesTotal)}',
                       style: const TextStyle(
-                          fontSize: 11.5,
-                          color: DukaColors.rose,
-                          fontWeight: FontWeight.w700),
+                        fontSize: 11.5,
+                        color: DukaColors.rose,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 2),
-                    Text(l10n.expensesLabel,
-                        style: const TextStyle(
-                            fontSize: 10, color: DukaColors.muted)),
+                    Text(
+                      l10n.expensesLabel,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: DukaColors.muted,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -346,14 +383,19 @@ class _TrendCard extends StatelessWidget {
                 Row(
                   children: [
                     _LegendDot(
-                        color: DukaColors.indigo, label: l10n.legendSales),
+                      color: DukaColors.indigo,
+                      label: l10n.legendSales,
+                    ),
                     const SizedBox(width: 10),
                     _LegendDot(
-                        color: DukaColors.rose, label: l10n.legendExpenses),
+                      color: DukaColors.rose,
+                      label: l10n.legendExpenses,
+                    ),
                     const SizedBox(width: 10),
                     _LegendDot(
-                        color: const Color(0xFF1B9E5A),
-                        label: l10n.profitLabel),
+                      color: const Color(0xFF1B9E5A),
+                      label: l10n.profitLabel,
+                    ),
                   ],
                 ),
                 const _PeriodSelector(),
@@ -364,9 +406,14 @@ class _TrendCard extends StatelessWidget {
               height: 120,
               child: trend.labels.isEmpty
                   ? Center(
-                      child: Text(l10n.noActivityYet,
-                          style: const TextStyle(
-                              color: DukaColors.muted, fontSize: 12)))
+                      child: Text(
+                        l10n.noActivityYet,
+                        style: const TextStyle(
+                          color: DukaColors.muted,
+                          fontSize: 12,
+                        ),
+                      ),
+                    )
                   : LineChart(
                       LineChartData(
                         minX: 0,
@@ -378,29 +425,39 @@ class _TrendCard extends StatelessWidget {
                           drawVerticalLine: false,
                           horizontalInterval: maxY / 3,
                           getDrawingHorizontalLine: (_) => const FlLine(
-                              color: DukaColors.line, strokeWidth: 1),
+                            color: DukaColors.line,
+                            strokeWidth: 1,
+                          ),
                         ),
                         borderData: FlBorderData(show: false),
                         titlesData: const FlTitlesData(
                           topTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
                           rightTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
                           leftTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
                           bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
                         ),
                         lineTouchData: LineTouchData(
                           touchTooltipData: LineTouchTooltipData(
                             getTooltipColor: (_) => DukaColors.ink,
                             getTooltipItems: (spots) => spots
-                                .map((s) => LineTooltipItem(
+                                .map(
+                                  (s) => LineTooltipItem(
                                     formatTzs(s.y),
                                     const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600)))
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ),
@@ -408,7 +465,7 @@ class _TrendCard extends StatelessWidget {
                           LineChartBarData(
                             spots: [
                               for (var i = 0; i < trend.expenses.length; i++)
-                                FlSpot(i.toDouble(), trend.expenses[i])
+                                FlSpot(i.toDouble(), trend.expenses[i]),
                             ],
                             isCurved: false,
                             color: DukaColors.rose,
@@ -418,7 +475,7 @@ class _TrendCard extends StatelessWidget {
                           LineChartBarData(
                             spots: [
                               for (var i = 0; i < trend.profit.length; i++)
-                                FlSpot(i.toDouble(), trend.profit[i])
+                                FlSpot(i.toDouble(), trend.profit[i]),
                             ],
                             isCurved: false,
                             color: const Color(0xFF1B9E5A),
@@ -428,7 +485,7 @@ class _TrendCard extends StatelessWidget {
                           LineChartBarData(
                             spots: [
                               for (var i = 0; i < trend.sales.length; i++)
-                                FlSpot(i.toDouble(), trend.sales[i])
+                                FlSpot(i.toDouble(), trend.sales[i]),
                             ],
                             isCurved: false,
                             color: DukaColors.indigo,
@@ -437,9 +494,10 @@ class _TrendCard extends StatelessWidget {
                               show: true,
                               getDotPainter: (spot, percent, bar, index) =>
                                   FlDotCirclePainter(
-                                      radius: 2.6,
-                                      color: DukaColors.indigo,
-                                      strokeWidth: 0),
+                                    radius: 2.6,
+                                    color: DukaColors.indigo,
+                                    strokeWidth: 0,
+                                  ),
                             ),
                           ),
                         ],
@@ -453,11 +511,14 @@ class _TrendCard extends StatelessWidget {
                 children: [
                   for (var i = 0; i < trend.labels.length; i++)
                     if (labelIndexes.contains(i))
-                      Text(trend.labels[i].toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 9,
-                              color: DukaColors.muted,
-                              fontWeight: FontWeight.w600)),
+                      Text(
+                        trend.labels[i].toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 9,
+                          color: DukaColors.muted,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                 ],
               ),
             ],
@@ -480,15 +541,19 @@ class _LegendDot extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-            width: 7,
-            height: 7,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+          width: 7,
+          height: 7,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
         const SizedBox(width: 5),
-        Text(label,
-            style: const TextStyle(
-                fontSize: 10.5,
-                color: DukaColors.muted,
-                fontWeight: FontWeight.w600)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 10.5,
+            color: DukaColors.muted,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }
@@ -565,8 +630,9 @@ class _FinancialSummaryCard extends StatelessWidget {
         children: [
           _StatRow(
             icon: Icons.trending_up,
-            iconColor:
-                summary.profitTotal >= 0 ? DukaColors.indigo : DukaColors.rose,
+            iconColor: summary.profitTotal >= 0
+                ? DukaColors.indigo
+                : DukaColors.rose,
             label: l10n.profitLabel,
             value: formatTzs(summary.profitTotal),
             onTap: () {},
@@ -605,13 +671,15 @@ class _TodayCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(18, 14, 18, 4),
-            child: Text(l10n.todayCardTitle,
-                style: Theme.of(context).textTheme.titleSmall),
+            child: Text(
+              l10n.todayCardTitle,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ),
           _StatRow(
             icon: Icons.point_of_sale_outlined,
             iconColor: DukaColors.indigo,
-            label: l10n.legendSales,
+            label: '${l10n.legendSales} (${summary.todaySalesCount})',
             value: formatTzs(summary.todaySalesTotal),
             onTap: () => context.push('/reports/sales/today'),
           ),
@@ -681,9 +749,18 @@ class _StockSummaryCard extends StatelessWidget {
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),
           _StatRow(
+            icon: Icons.stacked_bar_chart,
+            iconColor: DukaColors.muted,
+            label: l10n.stockQuantityLabel,
+            value: _qty(stock.totalQuantity),
+            onTap: () => context.push('/inventory'),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _StatRow(
             icon: Icons.trending_up,
-            iconColor:
-                stock.expectedProfit >= 0 ? DukaColors.indigo : DukaColors.rose,
+            iconColor: stock.expectedProfit >= 0
+                ? DukaColors.indigo
+                : DukaColors.rose,
             label: l10n.expectedProfitLabel,
             value: formatTzs(stock.expectedProfit),
             onTap: () {},
@@ -694,13 +771,78 @@ class _StockSummaryCard extends StatelessWidget {
   }
 }
 
+String _qty(double v) => NumberFormat.decimalPattern().format(
+  v == v.roundToDouble() ? v.round() : v,
+);
+
+class _MarketplaceCard extends StatelessWidget {
+  const _MarketplaceCard({required this.marketplace});
+
+  final DashboardMarketplace marketplace;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    void open() => context.push('/marketplace');
+
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 14, 18, 4),
+            child: Text(
+              l10n.marketplaceTitle,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+          if (!marketplace.approved)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 6),
+              child: Text(
+                l10n.marketplaceApprovalPending,
+                style: const TextStyle(fontSize: 12, color: Colors.orange),
+              ),
+            ),
+          _StatRow(
+            icon: Icons.storefront,
+            iconColor: DukaColors.indigo,
+            label: l10n.marketplaceListedProducts,
+            value: '${marketplace.listedCount}',
+            onTap: open,
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _StatRow(
+            icon: Icons.public,
+            iconColor: DukaColors.muted,
+            label: l10n.marketplaceUnitsExposed,
+            value: _qty(marketplace.unitsExposed),
+            onTap: open,
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _StatRow(
+            icon: Icons.remove_shopping_cart_outlined,
+            iconColor: marketplace.outOfStockCount > 0
+                ? DukaColors.rose
+                : DukaColors.muted,
+            label: l10n.marketplaceOutOfStockOnline,
+            value: '${marketplace.outOfStockCount}',
+            onTap: open,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _StatRow extends StatelessWidget {
-  const _StatRow(
-      {required this.icon,
-      required this.iconColor,
-      required this.label,
-      required this.value,
-      required this.onTap});
+  const _StatRow({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.value,
+    required this.onTap,
+  });
 
   final IconData icon;
   final Color iconColor;
@@ -719,11 +861,15 @@ class _StatRow extends StatelessWidget {
             Icon(icon, size: 18, color: iconColor),
             const SizedBox(width: 10),
             Expanded(
-                child: Text(label,
-                    style: const TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: DukaColors.ink))),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: DukaColors.ink,
+                ),
+              ),
+            ),
             Text(value, style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
@@ -731,4 +877,3 @@ class _StatRow extends StatelessWidget {
     );
   }
 }
-

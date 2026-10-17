@@ -329,4 +329,182 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get todayCardTitle => 'Leo';
+
+  @override
+  String get storeEditTitle => 'Hariri duka';
+
+  @override
+  String get storeEmailLabel => 'Barua pepe (hiari)';
+
+  @override
+  String get storeCityLabel => 'Mji / wilaya';
+
+  @override
+  String get storeLocationTitle => 'Mahali duka lilipo';
+
+  @override
+  String get storeLocationHint =>
+      'Gusa ramani au tumia mahali ulipo sasa kuweka alama kwenye mlango wa duka.';
+
+  @override
+  String get storeUseMyLocation => 'Tumia mahali nilipo sasa';
+
+  @override
+  String get storeLocationDenied =>
+      'Mahali pamezimwa au ruhusa imekataliwa. Gusa ramani kuweka alama.';
+
+  @override
+  String get storeNoLocation =>
+      'Hakuna mahali kwenye ramani bado — wateja hawawezi kupata duka hili.';
+
+  @override
+  String get storeOpenInMaps => 'Fungua kwenye Google Maps';
+
+  @override
+  String get storeOpeningHoursTitle => 'Saa za kufungua';
+
+  @override
+  String get storeClosed => 'Imefungwa';
+
+  @override
+  String get storePickupLabel => 'Maelekezo ya kuchukua mzigo kwa wateja';
+
+  @override
+  String get storeMarketplaceSwitch => 'Onyesha duka hili sokoni';
+
+  @override
+  String get storeMarketplaceSwitchHint =>
+      'Zima ili kutumia duka hili kwa mauzo ya dukani pekee.';
+
+  @override
+  String get storeOnMarketplace => 'Liko sokoni';
+
+  @override
+  String get storeMarketplaceOff => 'Soko limezimwa';
+
+  @override
+  String get storeSuspended => 'Limesimamishwa na jukwaa';
+
+  @override
+  String get storeSetLocationBadge => 'Weka mahali kwenye ramani';
+
+  @override
+  String get storeSaved => 'Taarifa za duka zimehifadhiwa.';
+
+  @override
+  String get notSet => 'Haijawekwa';
+
+  @override
+  String get marketplaceTitle => 'Soko';
+
+  @override
+  String get marketplaceSubtitle =>
+      'Wateja wanachoweza kuona na kuagiza mtandaoni';
+
+  @override
+  String get marketplaceFilterAll => 'Zote';
+
+  @override
+  String get marketplaceFilterListed => 'Zinaonekana';
+
+  @override
+  String get marketplaceFilterHidden => 'Zimefichwa';
+
+  @override
+  String get marketplaceFilterOutOfStock => 'Zimeisha';
+
+  @override
+  String get marketplaceEmpty => 'Hakuna bidhaa hapa.';
+
+  @override
+  String get marketplaceListedProducts => 'Bidhaa zilizo sokoni';
+
+  @override
+  String get marketplaceUnitsExposed => 'Idadi mtandaoni';
+
+  @override
+  String get marketplaceOutOfStockOnline => 'Zimeisha mtandaoni';
+
+  @override
+  String get marketplaceApprovalPending =>
+      'Biashara yako inasubiri kuidhinishwa sokoni — bidhaa zitaonekana baada ya kuidhinishwa.';
+
+  @override
+  String get catalogTitle => 'Orodha ya bidhaa';
+
+  @override
+  String get catalogSubtitle =>
+      'Bidhaa ambazo wateja hulinganisha kati ya wauzaji';
+
+  @override
+  String get catalogSearchHint => 'Tafuta kwenye orodha';
+
+  @override
+  String get catalogPropose => 'Pendekeza bidhaa';
+
+  @override
+  String get catalogProposals => 'Mapendekezo yako';
+
+  @override
+  String get catalogPending => 'Inasubiri kukaguliwa';
+
+  @override
+  String get catalogRejected => 'Imekataliwa';
+
+  @override
+  String get catalogNotFound => 'Haipo kwenye orodha? Ipendekeze ikaguliwe.';
+
+  @override
+  String get catalogProposed =>
+      'Bidhaa imependekezwa. Itaonekana sokoni baada ya kuidhinishwa.';
+
+  @override
+  String get catalogNameLabel => 'Jina la bidhaa';
+
+  @override
+  String get catalogPackSizeLabel => 'Ukubwa wa kifurushi (mf. 25KG)';
+
+  @override
+  String get catalogUnitLabel => 'Kipimo cha kuuzia';
+
+  @override
+  String get catalogBrandLabel => 'Chapa (hiari)';
+
+  @override
+  String get catalogAnimalLabel => 'Aina ya mnyama';
+
+  @override
+  String get catalogCategoryLabel => 'Kundi';
+
+  @override
+  String get catalogDescriptionLabel => 'Maelezo (hiari)';
+
+  @override
+  String get catalogSubmit => 'Tuma ikaguliwe';
+
+  @override
+  String get catalogPickTitle => 'Unganisha na bidhaa ya orodha';
+
+  @override
+  String get catalogNoMatches => 'Hakuna bidhaa inayolingana.';
+
+  @override
+  String get moreMarketplaceTitle => 'Soko';
+
+  @override
+  String get moreMarketplaceSubtitle => 'Bidhaa na idadi wanazoona wateja';
+
+  @override
+  String get moreCatalogTitle => 'Orodha ya bidhaa';
+
+  @override
+  String get moreCatalogSubtitle => 'Angalia bidhaa au pendekeza mpya';
+
+  @override
+  String marketplaceStockLine(String online, String stock) {
+    return '$online mtandaoni · $stock stoo';
+  }
+
+  @override
+  String get stockQuantityLabel => 'Idadi ya mzigo stoo';
 }

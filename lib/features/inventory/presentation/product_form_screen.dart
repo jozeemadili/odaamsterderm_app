@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_exception.dart';
+import '../../catalog/data/catalog_models.dart';
+import '../../catalog/presentation/catalog_picker_sheet.dart';
 import '../data/inventory_models.dart';
 import 'inventory_controller.dart';
 
@@ -12,8 +14,12 @@ import 'inventory_controller.dart';
 /// prefills name/category/unit/pricing but leaves barcode, quantity and the
 /// store blank so the two stores stay independent stock rows.
 class ProductFormScreen extends ConsumerStatefulWidget {
-  const ProductFormScreen(
-      {super.key, this.existing, this.prefillBarcode, this.duplicateFrom});
+  const ProductFormScreen({
+    super.key,
+    this.existing,
+    this.prefillBarcode,
+    this.duplicateFrom,
+  });
 
   final InventoryItem? existing;
   final String? prefillBarcode;
@@ -26,28 +32,42 @@ class ProductFormScreen extends ConsumerStatefulWidget {
 class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late final _nameController = TextEditingController(
-      text: widget.existing?.name ?? widget.duplicateFrom?.name ?? '');
+    text: widget.existing?.name ?? widget.duplicateFrom?.name ?? '',
+  );
   late final _skuController = TextEditingController(
-      text: widget.existing?.sku ?? widget.duplicateFrom?.sku ?? '');
+    text: widget.existing?.sku ?? widget.duplicateFrom?.sku ?? '',
+  );
   late final _barcodeController = TextEditingController(
-      text: widget.existing?.barcode ?? widget.prefillBarcode ?? '');
+    text: widget.existing?.barcode ?? widget.prefillBarcode ?? '',
+  );
   late final _unitController = TextEditingController(
-      text: widget.existing?.unit ?? widget.duplicateFrom?.unit ?? '');
+    text: widget.existing?.unit ?? widget.duplicateFrom?.unit ?? '',
+  );
   late final _reorderController = TextEditingController(
-      text: widget.existing?.reorderLevel.toStringAsFixed(0) ??
-          widget.duplicateFrom?.reorderLevel.toStringAsFixed(0) ??
-          '0');
+    text:
+        widget.existing?.reorderLevel.toStringAsFixed(0) ??
+        widget.duplicateFrom?.reorderLevel.toStringAsFixed(0) ??
+        '0',
+  );
   late final _costController = TextEditingController(
-      text: widget.existing?.unitCost?.toStringAsFixed(0) ??
-          widget.duplicateFrom?.unitCost?.toStringAsFixed(0) ??
-          '');
+    text:
+        widget.existing?.unitCost?.toStringAsFixed(0) ??
+        widget.duplicateFrom?.unitCost?.toStringAsFixed(0) ??
+        '',
+  );
   late final _priceController = TextEditingController(
-      text: widget.existing?.unitPrice?.toStringAsFixed(0) ??
-          widget.duplicateFrom?.unitPrice?.toStringAsFixed(0) ??
-          '');
+    text:
+        widget.existing?.unitPrice?.toStringAsFixed(0) ??
+        widget.duplicateFrom?.unitPrice?.toStringAsFixed(0) ??
+        '',
+  );
   late final _quantityController = TextEditingController();
   int? _categoryId;
   int? _branchId;
+
+  /// Catalog product to link on create (needed to sell on the marketplace);
+  /// a duplicate for another store keeps the same catalog product.
+  late CatalogProduct? _catalogProduct = widget.duplicateFrom?.product;
   String? _error;
   bool _submitting = false;
 
@@ -116,6 +136,7 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
               unitCost: double.tryParse(_costController.text),
               unitPrice: double.tryParse(_priceController.text),
               quantityOnHand: double.tryParse(_quantityController.text) ?? 0,
+              productId: _catalogProduct?.id,
             );
 
       ref.read(inventoryListControllerProvider.notifier).upsert(item);
@@ -128,8 +149,10 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
         }
       }
     } on ApiException catch (e) {
-      setState(() => _error =
-          e.fieldError('name') ?? e.fieldError('barcode') ?? e.message);
+      setState(
+        () => _error =
+            e.fieldError('name') ?? e.fieldError('barcode') ?? e.message,
+      );
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
@@ -151,8 +174,9 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final name = nameController.text.trim();
@@ -164,8 +188,9 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                 if (context.mounted) Navigator.pop(context, category);
               } on ApiException catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(e.message)));
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(e.message)));
                 }
               }
             },
@@ -199,15 +224,17 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
             const SizedBox(height: 12),
             TextField(
               controller: addressController,
-              decoration:
-                  const InputDecoration(labelText: 'Address (optional)'),
+              decoration: const InputDecoration(
+                labelText: 'Address (optional)',
+              ),
             ),
           ],
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final name = nameController.text.trim();
@@ -216,13 +243,15 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                 final branch = await ref
                     .read(inventoryRepositoryProvider)
                     .createBranch(
-                        name: name,
-                        address: _emptyToNull(addressController.text));
+                      name: name,
+                      address: _emptyToNull(addressController.text),
+                    );
                 if (context.mounted) Navigator.pop(context, branch);
               } on ApiException catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(e.message)));
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(e.message)));
                 }
               }
             },
@@ -245,11 +274,14 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(_isEdit
+        title: Text(
+          _isEdit
               ? 'Edit product'
               : widget.duplicateFrom != null
-                  ? 'Stock at another store'
-                  : 'New product')),
+              ? 'Stock at another store'
+              : 'New product',
+        ),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -258,6 +290,50 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
             children: [
               if (_error != null) ...[
                 Text(_error!, style: const TextStyle(color: Colors.red)),
+                const SizedBox(height: 12),
+              ],
+              if (!_isEdit) ...[
+                Card(
+                  margin: EdgeInsets.zero,
+                  child: ListTile(
+                    leading: const Icon(Icons.menu_book_outlined),
+                    title: Text(
+                      _catalogProduct?.displayName ??
+                          'Catalog product (optional)',
+                    ),
+                    subtitle: Text(
+                      _catalogProduct == null
+                          ? 'Link it to sell on the marketplace'
+                          : [
+                              _catalogProduct!.animalTypeName,
+                              _catalogProduct!.unit,
+                            ].whereType<String>().join(' · '),
+                    ),
+                    trailing: _catalogProduct == null
+                        ? const Icon(Icons.search)
+                        : IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () =>
+                                setState(() => _catalogProduct = null),
+                          ),
+                    onTap: () async {
+                      final picked = await showCatalogPicker(
+                        context,
+                        initialSearch: _nameController.text.trim(),
+                      );
+                      if (picked == null) return;
+                      setState(() {
+                        _catalogProduct = picked;
+                        if (_nameController.text.trim().isEmpty) {
+                          _nameController.text = picked.displayName;
+                        }
+                        if (_unitController.text.trim().isEmpty) {
+                          _unitController.text = picked.unit;
+                        }
+                      });
+                    },
+                  ),
+                ),
                 const SizedBox(height: 12),
               ],
               TextFormField(
@@ -310,11 +386,14 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                         initialValue: _categoryId,
                         isExpanded: true,
                         decoration: InputDecoration(
-                            labelText: _isEdit ? 'Category' : 'Category *'),
+                          labelText: _isEdit ? 'Category' : 'Category *',
+                        ),
                         items: [
                           if (_isEdit)
                             const DropdownMenuItem(
-                                value: null, child: Text('Uncategorized')),
+                              value: null,
+                              child: Text('Uncategorized'),
+                            ),
                           for (final c in categories)
                             DropdownMenuItem(value: c.id, child: Text(c.name)),
                         ],
@@ -345,11 +424,14 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                         initialValue: _branchId,
                         isExpanded: true,
                         decoration: InputDecoration(
-                            labelText: _isEdit ? 'Store' : 'Store *'),
+                          labelText: _isEdit ? 'Store' : 'Store *',
+                        ),
                         items: [
                           if (_isEdit)
                             const DropdownMenuItem(
-                                value: null, child: Text('Not assigned')),
+                              value: null,
+                              child: Text('Not assigned'),
+                            ),
                           for (final b in branches)
                             DropdownMenuItem(value: b.id, child: Text(b.name)),
                         ],
@@ -379,7 +461,9 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
               TextFormField(
                 controller: _unitController,
                 decoration: const InputDecoration(
-                    labelText: 'Unit', hintText: 'pcs, kg, ltr...'),
+                  labelText: 'Unit',
+                  hintText: 'pcs, kg, ltr...',
+                ),
               ),
               const SizedBox(height: 12),
               Row(
@@ -388,8 +472,9 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                     child: TextFormField(
                       controller: _reorderController,
                       keyboardType: TextInputType.number,
-                      decoration:
-                          const InputDecoration(labelText: 'Reorder level'),
+                      decoration: const InputDecoration(
+                        labelText: 'Reorder level',
+                      ),
                     ),
                   ),
                   if (!_isEdit) ...[
@@ -399,7 +484,8 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                         controller: _quantityController,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                            labelText: 'Starting quantity'),
+                          labelText: 'Starting quantity',
+                        ),
                       ),
                     ),
                   ],
@@ -420,8 +506,9 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                     child: TextFormField(
                       controller: _priceController,
                       keyboardType: TextInputType.number,
-                      decoration:
-                          const InputDecoration(labelText: 'Selling price'),
+                      decoration: const InputDecoration(
+                        labelText: 'Selling price',
+                      ),
                     ),
                   ),
                 ],
@@ -433,7 +520,8 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
                     ? const SizedBox(
                         height: 18,
                         width: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2))
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
                     : Text(_isEdit ? 'Save changes' : 'Add product'),
               ),
             ],
