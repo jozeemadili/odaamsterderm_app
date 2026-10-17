@@ -665,4 +665,155 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get accountOrders => 'Oda';
+
+  @override
+  String get navCart => 'Kikapu';
+
+  @override
+  String get navOrders => 'Oda';
+
+  @override
+  String get cartTitle => 'Kikapu';
+
+  @override
+  String get cartEmpty => 'Kikapu chako ni tupu.';
+
+  @override
+  String get cartAdd => 'Weka kikapuni';
+
+  @override
+  String get cartAdded => 'Imewekwa kikapuni.';
+
+  @override
+  String get cartView => 'Ona kikapu';
+
+  @override
+  String get cartQuantity => 'Idadi';
+
+  @override
+  String get cartTotalAtPickup => 'Jumla ya kulipa unapochukua';
+
+  @override
+  String get cartPhone => 'Simu ya duka kukupigia';
+
+  @override
+  String get cartNote => 'Ujumbe kwa duka (hiari)';
+
+  @override
+  String get cartPlaceOrder => 'Weka oda ya kuchukua';
+
+  @override
+  String get cartFixProblems => 'Rekebisha bidhaa zilizowekwa alama kwanza.';
+
+  @override
+  String get cartSignInToOrder => 'Ingia kwa akaunti ya mteja ili kuagiza.';
+
+  @override
+  String get orderPlaced => 'Oda imewekwa. Tutakujulisha duka likiikubali.';
+
+  @override
+  String get ordersTitle => 'Oda zangu';
+
+  @override
+  String get ordersEmpty => 'Bado hakuna oda.';
+
+  @override
+  String get orderReference => 'Namba ya oda';
+
+  @override
+  String get orderCancel => 'Ghairi oda';
+
+  @override
+  String get orderCancelHint => 'Unaweza kughairi hadi duka lianze kuiandaa.';
+
+  @override
+  String get orderCancelReason => 'Sababu (hiari)';
+
+  @override
+  String get orderTotalPickup => 'Jumla (lipa unapochukua)';
+
+  @override
+  String get orderTimeline => 'Hatua';
+
+  @override
+  String get orderItems => 'Bidhaa';
+
+  @override
+  String get orderUpdates => 'Taarifa';
+
+  @override
+  String get sellerOrdersTitle => 'Oda za sokoni';
+
+  @override
+  String get sellerOrdersSubtitle => 'Kubali, andaa na kabidhi oda za wateja';
+
+  @override
+  String get sellerOrdersEmpty => 'Hakuna oda hapa.';
+
+  @override
+  String get ordersTabOpen => 'Zinazoendelea';
+
+  @override
+  String get ordersTabNew => 'Mpya';
+
+  @override
+  String get ordersTabReady => 'Tayari';
+
+  @override
+  String get ordersTabCompleted => 'Zimekamilika';
+
+  @override
+  String get ordersTabClosed => 'Zimefungwa';
+
+  @override
+  String get orderCustomer => 'Mteja';
+
+  @override
+  String get orderActionAccept => 'Kubali oda';
+
+  @override
+  String get orderActionPrepare => 'Anza kuandaa';
+
+  @override
+  String get orderActionReady => 'Weka tayari kuchukuliwa';
+
+  @override
+  String get orderActionComplete => 'Imechukuliwa — kamilisha';
+
+  @override
+  String get orderActionReject => 'Kataa';
+
+  @override
+  String get orderRejectReason => 'Sababu (itatumwa kwa mteja)';
+
+  @override
+  String get orderCompleteConfirm =>
+      'Thibitisha mteja amechukua na kulipa? Mzigo utapunguzwa na mauzo yatarekodiwa.';
+
+  @override
+  String get dashboardNewOrders => 'Oda mpya';
+
+  @override
+  String get dashboardReadyOrders => 'Tayari kuchukuliwa';
+
+  @override
+  String get confirm => 'Thibitisha';
+
+  @override
+  String get cancel => 'Ghairi';
+
+  @override
+  String cartPickupAt(String store) {
+    return 'Chukua $store';
+  }
+
+  @override
+  String cartManyStores(int count) {
+    return 'Bidhaa kutoka maduka $count zitakuwa oda $count — chukua kila moja dukani kwake.';
+  }
+
+  @override
+  String orderReadyBanner(String reference) {
+    return 'Iko tayari! Onyesha namba $reference kaunta na ulipe hapo.';
+  }
 }

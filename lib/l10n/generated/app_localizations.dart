@@ -1327,6 +1327,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Orders'**
   String get accountOrders;
+
+  /// No description provided for @navCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get navCart;
+
+  /// No description provided for @navOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get navOrders;
+
+  /// No description provided for @cartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cartTitle;
+
+  /// No description provided for @cartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty.'**
+  String get cartEmpty;
+
+  /// No description provided for @cartAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get cartAdd;
+
+  /// No description provided for @cartAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your cart.'**
+  String get cartAdded;
+
+  /// No description provided for @cartView.
+  ///
+  /// In en, this message translates to:
+  /// **'View cart'**
+  String get cartView;
+
+  /// No description provided for @cartQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get cartQuantity;
+
+  /// No description provided for @cartTotalAtPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Total to pay at pickup'**
+  String get cartTotalAtPickup;
+
+  /// No description provided for @cartPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone for the store to reach you'**
+  String get cartPhone;
+
+  /// No description provided for @cartNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note to the store (optional)'**
+  String get cartNote;
+
+  /// No description provided for @cartPlaceOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Place order for pickup'**
+  String get cartPlaceOrder;
+
+  /// No description provided for @cartFixProblems.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix the highlighted items first.'**
+  String get cartFixProblems;
+
+  /// No description provided for @cartSignInToOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with a customer account to order.'**
+  String get cartSignInToOrder;
+
+  /// No description provided for @orderPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Order placed. We\'ll notify you when the store accepts it.'**
+  String get orderPlaced;
+
+  /// No description provided for @ordersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My orders'**
+  String get ordersTitle;
+
+  /// No description provided for @ordersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet.'**
+  String get ordersEmpty;
+
+  /// No description provided for @orderReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Order reference'**
+  String get orderReference;
+
+  /// No description provided for @orderCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel order'**
+  String get orderCancel;
+
+  /// No description provided for @orderCancelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can cancel until the store starts preparing it.'**
+  String get orderCancelHint;
+
+  /// No description provided for @orderCancelReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (optional)'**
+  String get orderCancelReason;
+
+  /// No description provided for @orderTotalPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Total (pay at pickup)'**
+  String get orderTotalPickup;
+
+  /// No description provided for @orderTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get orderTimeline;
+
+  /// No description provided for @orderItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get orderItems;
+
+  /// No description provided for @orderUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get orderUpdates;
+
+  /// No description provided for @sellerOrdersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace orders'**
+  String get sellerOrdersTitle;
+
+  /// No description provided for @sellerOrdersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept, prepare and hand over customer orders'**
+  String get sellerOrdersSubtitle;
+
+  /// No description provided for @sellerOrdersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders here.'**
+  String get sellerOrdersEmpty;
+
+  /// No description provided for @ordersTabOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get ordersTabOpen;
+
+  /// No description provided for @ordersTabNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get ordersTabNew;
+
+  /// No description provided for @ordersTabReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get ordersTabReady;
+
+  /// No description provided for @ordersTabCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get ordersTabCompleted;
+
+  /// No description provided for @ordersTabClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get ordersTabClosed;
+
+  /// No description provided for @orderCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get orderCustomer;
+
+  /// No description provided for @orderActionAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept order'**
+  String get orderActionAccept;
+
+  /// No description provided for @orderActionPrepare.
+  ///
+  /// In en, this message translates to:
+  /// **'Start preparing'**
+  String get orderActionPrepare;
+
+  /// No description provided for @orderActionReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark ready for pickup'**
+  String get orderActionReady;
+
+  /// No description provided for @orderActionComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected — complete'**
+  String get orderActionComplete;
+
+  /// No description provided for @orderActionReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get orderActionReject;
+
+  /// No description provided for @orderRejectReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (sent to the customer)'**
+  String get orderRejectReason;
+
+  /// No description provided for @orderCompleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm the customer collected and paid? Stock will be deducted and the sale recorded.'**
+  String get orderCompleteConfirm;
+
+  /// No description provided for @dashboardNewOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'New orders'**
+  String get dashboardNewOrders;
+
+  /// No description provided for @dashboardReadyOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for pickup'**
+  String get dashboardReadyOrders;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @cartPickupAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup at {store}'**
+  String cartPickupAt(String store);
+
+  /// No description provided for @cartManyStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Items from {count} stores become {count} orders — collect each at its store.'**
+  String cartManyStores(int count);
+
+  /// No description provided for @orderReadyBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for pickup! Show reference {reference} at the counter and pay there.'**
+  String orderReadyBanner(String reference);
 }
 
 class _AppLocalizationsDelegate

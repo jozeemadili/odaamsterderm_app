@@ -805,6 +805,24 @@ class _MarketplaceCard extends StatelessWidget {
               ),
             ),
           _StatRow(
+            icon: Icons.notifications_active_outlined,
+            iconColor: marketplace.pendingOrders > 0
+                ? Colors.orange
+                : DukaColors.muted,
+            label: l10n.dashboardNewOrders,
+            value: '${marketplace.pendingOrders}',
+            onTap: () => context.push('/seller-orders?status=pending'),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _StatRow(
+            icon: Icons.inventory_outlined,
+            iconColor: Colors.green,
+            label: l10n.dashboardReadyOrders,
+            value: '${marketplace.readyOrders}',
+            onTap: () => context.push('/seller-orders?status=ready_for_pickup'),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _StatRow(
             icon: Icons.storefront,
             iconColor: DukaColors.indigo,
             label: l10n.marketplaceListedProducts,

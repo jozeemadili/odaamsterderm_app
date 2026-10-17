@@ -7,6 +7,7 @@ import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/store_map.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../orders/presentation/add_to_cart.dart';
 import '../data/market_models.dart';
 import 'location_sheet.dart';
 import 'market_controller.dart';
@@ -116,7 +117,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
             ],
             const SizedBox(height: 12),
             Text(
-              l10n.marketOrderingSoon,
+              l10n.cartTotalAtPickup,
               style: const TextStyle(fontSize: 12, color: DukaColors.muted),
             ),
           ],
@@ -126,58 +127,74 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
   }
 }
 
-class _OfferTile extends StatelessWidget {
+class _OfferTile extends ConsumerWidget {
   const _OfferTile({required this.offer});
 
   final Offer offer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final muted = !offer.isAvailable;
 
     return Card(
-      child: ListTile(
-        onTap: () => context.push('/market/stores/${offer.store.id}'),
-        title: Text(
-          offer.sellerName,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            color: muted ? DukaColors.muted : DukaColors.ink,
-          ),
-        ),
-        subtitle: Text(
-          [
-            offer.store.name,
-            if (offer.distanceLabel != null) offer.distanceLabel!,
-          ].join(' · '),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              offer.price != null ? formatTzs(offer.price!) : '—',
+      child: Column(
+        children: [
+          ListTile(
+            onTap: () => context.push('/market/stores/${offer.store.id}'),
+            title: Text(
+              offer.sellerName,
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: muted ? DukaColors.muted : DukaColors.ink,
               ),
             ),
-            const SizedBox(height: 2),
-            Text(
-              offer.isAvailable
-                  ? l10n.marketAvailableQty(
-                      '${_qty(offer.availableQuantity)} ${offer.unit}',
-                    )
-                  : l10n.marketOutOfStock,
-              style: TextStyle(
-                fontSize: 12,
-                color: offer.isAvailable ? Colors.green : DukaColors.rose,
-                fontWeight: FontWeight.w600,
+            subtitle: Text(
+              [
+                offer.store.name,
+                if (offer.distanceLabel != null) offer.distanceLabel!,
+              ].join(' · '),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  offer.price != null ? formatTzs(offer.price!) : '—',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: muted ? DukaColors.muted : DukaColors.ink,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  offer.isAvailable
+                      ? l10n.marketAvailableQty(
+                          '${_qty(offer.availableQuantity)} ${offer.unit}',
+                        )
+                      : l10n.marketOutOfStock,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: offer.isAvailable ? Colors.green : DukaColors.rose,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (offer.isAvailable)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => addOfferToCart(context, ref, offer),
+                  icon: const Icon(Icons.add_shopping_cart, size: 18),
+                  label: Text(l10n.cartAdd),
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

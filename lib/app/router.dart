@@ -28,6 +28,10 @@ import '../features/market/presentation/market_product_screen.dart';
 import '../features/market/presentation/market_store_screen.dart';
 import '../features/marketplace/presentation/marketplace_screen.dart';
 import '../features/notifications/presentation/notifications_screen.dart';
+import '../features/orders/presentation/cart_screen.dart';
+import '../features/orders/presentation/my_orders_screen.dart';
+import '../features/orders/presentation/order_detail_screen.dart';
+import '../features/orders/presentation/seller_orders_screen.dart';
 import '../features/notifications/presentation/report_damage_screen.dart';
 import '../features/payments/presentation/payment_form_screen.dart';
 import '../features/payments/presentation/payment_list_screen.dart';
@@ -94,7 +98,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         case AuthStatus.authenticated:
           // Customers only get the marketplace side of the app.
           if (auth.user?.isCustomer ?? false) {
-            return (loc == '/home' || onMarket) ? null : '/home';
+            final customerArea =
+                loc == '/home' ||
+                loc == '/cart' ||
+                loc == '/my-orders' ||
+                loc.startsWith('/my-orders/');
+            return (customerArea || onMarket) ? null : '/home';
           }
           return (loc == '/' || onAuthScreens || loc == '/home')
               ? '/dashboard'
@@ -115,6 +124,29 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/home',
         builder: (context, state) => const CustomerShell(),
+      ),
+      GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
+      GoRoute(
+        path: '/my-orders',
+        builder: (context, state) => const MyOrdersScreen(),
+      ),
+      GoRoute(
+        path: '/my-orders/:id',
+        builder: (context, state) =>
+            OrderDetailScreen(id: int.parse(state.pathParameters['id']!)),
+      ),
+      GoRoute(
+        path: '/seller-orders',
+        builder: (context, state) => SellerOrdersScreen(
+          initialStatus: state.uri.queryParameters['status'] ?? 'open',
+        ),
+      ),
+      GoRoute(
+        path: '/seller-orders/:id',
+        builder: (context, state) => OrderDetailScreen(
+          id: int.parse(state.pathParameters['id']!),
+          seller: true,
+        ),
       ),
       GoRoute(
         path: '/market',

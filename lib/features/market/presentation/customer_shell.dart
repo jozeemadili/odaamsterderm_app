@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../orders/presentation/cart_screen.dart';
+import '../../orders/presentation/my_orders_screen.dart';
 import 'customer_account_screen.dart';
 import 'market_home_screen.dart';
 
@@ -23,7 +25,12 @@ class _CustomerShellState extends State<CustomerShell> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: const [MarketHomeScreen(), CustomerAccountScreen()],
+        children: const [
+          MarketHomeScreen(),
+          CartScreen(embedded: true),
+          MyOrdersScreen(embedded: true),
+          CustomerAccountScreen(),
+        ],
       ),
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
@@ -37,6 +44,16 @@ class _CustomerShellState extends State<CustomerShell> {
               icon: const Icon(Icons.storefront_outlined),
               selectedIcon: const Icon(Icons.storefront),
               label: l10n.navMarket,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.shopping_cart_outlined),
+              selectedIcon: const Icon(Icons.shopping_cart),
+              label: l10n.navCart,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.receipt_long_outlined),
+              selectedIcon: const Icon(Icons.receipt_long),
+              label: l10n.navOrders,
             ),
             NavigationDestination(
               icon: const Icon(Icons.person_outline),

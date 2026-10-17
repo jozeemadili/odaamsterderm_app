@@ -21,6 +21,22 @@ const _prefsKey = 'odaamsterderm.market_location';
 class MarketLocationController extends StateNotifier<MarketLocation?> {
   MarketLocationController(this._ref) : super(null) {
     _restore();
+    // The session is restored asynchronously; when a customer with a saved
+    // location signs in (or finishes restoring), use it if none is set yet.
+    _ref.listen(authControllerProvider, (previous, next) {
+      final user = next.user;
+      if (state == null &&
+          user != null &&
+          user.isCustomer &&
+          user.latitude != null &&
+          user.longitude != null) {
+        state = MarketLocation(
+          latitude: user.latitude!,
+          longitude: user.longitude!,
+          label: user.locationLabel,
+        );
+      }
+    });
   }
 
   final Ref _ref;

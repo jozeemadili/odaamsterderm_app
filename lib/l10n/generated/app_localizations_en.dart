@@ -666,4 +666,158 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountOrders => 'Orders';
+
+  @override
+  String get navCart => 'Cart';
+
+  @override
+  String get navOrders => 'Orders';
+
+  @override
+  String get cartTitle => 'Cart';
+
+  @override
+  String get cartEmpty => 'Your cart is empty.';
+
+  @override
+  String get cartAdd => 'Add to cart';
+
+  @override
+  String get cartAdded => 'Added to your cart.';
+
+  @override
+  String get cartView => 'View cart';
+
+  @override
+  String get cartQuantity => 'Quantity';
+
+  @override
+  String get cartTotalAtPickup => 'Total to pay at pickup';
+
+  @override
+  String get cartPhone => 'Phone for the store to reach you';
+
+  @override
+  String get cartNote => 'Note to the store (optional)';
+
+  @override
+  String get cartPlaceOrder => 'Place order for pickup';
+
+  @override
+  String get cartFixProblems => 'Fix the highlighted items first.';
+
+  @override
+  String get cartSignInToOrder => 'Sign in with a customer account to order.';
+
+  @override
+  String get orderPlaced =>
+      'Order placed. We\'ll notify you when the store accepts it.';
+
+  @override
+  String get ordersTitle => 'My orders';
+
+  @override
+  String get ordersEmpty => 'No orders yet.';
+
+  @override
+  String get orderReference => 'Order reference';
+
+  @override
+  String get orderCancel => 'Cancel order';
+
+  @override
+  String get orderCancelHint =>
+      'You can cancel until the store starts preparing it.';
+
+  @override
+  String get orderCancelReason => 'Reason (optional)';
+
+  @override
+  String get orderTotalPickup => 'Total (pay at pickup)';
+
+  @override
+  String get orderTimeline => 'Timeline';
+
+  @override
+  String get orderItems => 'Items';
+
+  @override
+  String get orderUpdates => 'Updates';
+
+  @override
+  String get sellerOrdersTitle => 'Marketplace orders';
+
+  @override
+  String get sellerOrdersSubtitle =>
+      'Accept, prepare and hand over customer orders';
+
+  @override
+  String get sellerOrdersEmpty => 'No orders here.';
+
+  @override
+  String get ordersTabOpen => 'Open';
+
+  @override
+  String get ordersTabNew => 'New';
+
+  @override
+  String get ordersTabReady => 'Ready';
+
+  @override
+  String get ordersTabCompleted => 'Completed';
+
+  @override
+  String get ordersTabClosed => 'Closed';
+
+  @override
+  String get orderCustomer => 'Customer';
+
+  @override
+  String get orderActionAccept => 'Accept order';
+
+  @override
+  String get orderActionPrepare => 'Start preparing';
+
+  @override
+  String get orderActionReady => 'Mark ready for pickup';
+
+  @override
+  String get orderActionComplete => 'Collected — complete';
+
+  @override
+  String get orderActionReject => 'Reject';
+
+  @override
+  String get orderRejectReason => 'Reason (sent to the customer)';
+
+  @override
+  String get orderCompleteConfirm =>
+      'Confirm the customer collected and paid? Stock will be deducted and the sale recorded.';
+
+  @override
+  String get dashboardNewOrders => 'New orders';
+
+  @override
+  String get dashboardReadyOrders => 'Ready for pickup';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String cartPickupAt(String store) {
+    return 'Pickup at $store';
+  }
+
+  @override
+  String cartManyStores(int count) {
+    return 'Items from $count stores become $count orders — collect each at its store.';
+  }
+
+  @override
+  String orderReadyBanner(String reference) {
+    return 'Ready for pickup! Show reference $reference at the counter and pay there.';
+  }
 }

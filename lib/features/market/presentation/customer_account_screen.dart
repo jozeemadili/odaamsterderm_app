@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
@@ -49,9 +50,11 @@ class CustomerAccountScreen extends ConsumerWidget {
               leading: const Icon(Icons.receipt_long_outlined),
               title: Text(l10n.accountOrders),
               subtitle: Text(
-                l10n.accountOrdersSoon,
+                l10n.ordersTitle,
                 style: const TextStyle(color: DukaColors.muted),
               ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/my-orders'),
             ),
           ),
           const SizedBox(height: 16),

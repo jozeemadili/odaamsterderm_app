@@ -18,6 +18,12 @@ class MoreScreen extends StatelessWidget {
       body: ListView(
         children: [
           _MoreTile(
+            icon: Icons.receipt_long,
+            title: l10n.sellerOrdersTitle,
+            subtitle: l10n.sellerOrdersSubtitle,
+            onTap: () => context.push('/seller-orders'),
+          ),
+          _MoreTile(
             icon: Icons.travel_explore,
             title: l10n.marketBrowse,
             subtitle: l10n.marketCompareSellers,

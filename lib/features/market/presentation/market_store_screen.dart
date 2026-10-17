@@ -8,6 +8,7 @@ import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/store_map.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../orders/presentation/add_to_cart.dart';
 import '../data/market_models.dart';
 import 'market_controller.dart';
 
@@ -147,9 +148,20 @@ class MarketStoreScreen extends ConsumerWidget {
                         color: o.isAvailable ? Colors.green : DukaColors.rose,
                       ),
                     ),
-                    trailing: Text(
-                      o.price != null ? formatTzs(o.price!) : '—',
-                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          o.price != null ? formatTzs(o.price!) : '—',
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        if (o.isAvailable)
+                          IconButton(
+                            tooltip: l10n.cartAdd,
+                            icon: const Icon(Icons.add_shopping_cart),
+                            onPressed: () => addOfferToCart(context, ref, o),
+                          ),
+                      ],
                     ),
                   ),
                 ),

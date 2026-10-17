@@ -241,5 +241,62 @@
   "@marketSellersCount": {
     "placeholders": { "count": { "type": "int" } }
   },
-  "accountOrders": "Orders"
+  "accountOrders": "Orders",
+  "navCart": "Cart",
+  "navOrders": "Orders",
+  "cartTitle": "Cart",
+  "cartEmpty": "Your cart is empty.",
+  "cartAdd": "Add to cart",
+  "cartAdded": "Added to your cart.",
+  "cartView": "View cart",
+  "cartQuantity": "Quantity",
+  "cartTotalAtPickup": "Total to pay at pickup",
+  "cartPhone": "Phone for the store to reach you",
+  "cartNote": "Note to the store (optional)",
+  "cartPlaceOrder": "Place order for pickup",
+  "cartFixProblems": "Fix the highlighted items first.",
+  "cartSignInToOrder": "Sign in with a customer account to order.",
+  "orderPlaced": "Order placed. We'll notify you when the store accepts it.",
+  "ordersTitle": "My orders",
+  "ordersEmpty": "No orders yet.",
+  "orderReference": "Order reference",
+  "orderCancel": "Cancel order",
+  "orderCancelHint": "You can cancel until the store starts preparing it.",
+  "orderCancelReason": "Reason (optional)",
+  "orderTotalPickup": "Total (pay at pickup)",
+  "orderTimeline": "Timeline",
+  "orderItems": "Items",
+  "orderUpdates": "Updates",
+  "sellerOrdersTitle": "Marketplace orders",
+  "sellerOrdersSubtitle": "Accept, prepare and hand over customer orders",
+  "sellerOrdersEmpty": "No orders here.",
+  "ordersTabOpen": "Open",
+  "ordersTabNew": "New",
+  "ordersTabReady": "Ready",
+  "ordersTabCompleted": "Completed",
+  "ordersTabClosed": "Closed",
+  "orderCustomer": "Customer",
+  "orderActionAccept": "Accept order",
+  "orderActionPrepare": "Start preparing",
+  "orderActionReady": "Mark ready for pickup",
+  "orderActionComplete": "Collected — complete",
+  "orderActionReject": "Reject",
+  "orderRejectReason": "Reason (sent to the customer)",
+  "orderCompleteConfirm": "Confirm the customer collected and paid? Stock will be deducted and the sale recorded.",
+  "dashboardNewOrders": "New orders",
+  "dashboardReadyOrders": "Ready for pickup",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "cartPickupAt": "Pickup at {store}",
+  "@cartPickupAt": {
+    "placeholders": { "store": { "type": "String" } }
+  },
+  "cartManyStores": "Items from {count} stores become {count} orders — collect each at its store.",
+  "@cartManyStores": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "orderReadyBanner": "Ready for pickup! Show reference {reference} at the counter and pay there.",
+  "@orderReadyBanner": {
+    "placeholders": { "reference": { "type": "String" } }
+  }
 }

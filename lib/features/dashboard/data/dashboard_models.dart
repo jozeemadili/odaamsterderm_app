@@ -54,6 +54,10 @@ class DashboardMarketplace {
     required this.listedCount,
     required this.unitsExposed,
     required this.outOfStockCount,
+    this.pendingOrders = 0,
+    this.acceptedOrders = 0,
+    this.readyOrders = 0,
+    this.completedOrders = 0,
   });
 
   factory DashboardMarketplace.fromJson(Map<String, dynamic> json) =>
@@ -62,6 +66,10 @@ class DashboardMarketplace {
         listedCount: json['listed_count'] as int,
         unitsExposed: (json['units_exposed'] as num).toDouble(),
         outOfStockCount: json['out_of_stock_count'] as int,
+        pendingOrders: (json['orders'] as Map?)?['pending'] as int? ?? 0,
+        acceptedOrders: (json['orders'] as Map?)?['accepted'] as int? ?? 0,
+        readyOrders: (json['orders'] as Map?)?['ready'] as int? ?? 0,
+        completedOrders: (json['orders'] as Map?)?['completed'] as int? ?? 0,
       );
 
   /// Whether the business is approved to sell on the marketplace.
@@ -69,6 +77,12 @@ class DashboardMarketplace {
   final int listedCount;
   final double unitsExposed;
   final int outOfStockCount;
+
+  /// Marketplace orders by stage.
+  final int pendingOrders;
+  final int acceptedOrders;
+  final int readyOrders;
+  final int completedOrders;
 }
 
 /// Matches the API's `period` query param — controls both the headline
