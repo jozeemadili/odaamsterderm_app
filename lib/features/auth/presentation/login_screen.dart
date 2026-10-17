@@ -43,7 +43,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     try {
-      await ref.read(authControllerProvider.notifier).login(
+      await ref
+          .read(authControllerProvider.notifier)
+          .login(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
@@ -84,8 +86,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (pending != null && mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (_) =>
-                  CompleteGoogleRegistrationScreen(pending: pending)),
+            builder: (_) => CompleteGoogleRegistrationScreen(pending: pending),
+          ),
         );
       }
     } on ApiException catch (e) {
@@ -129,8 +131,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration:
-                          InputDecoration(labelText: l10n.loginEmailLabel),
+                      decoration: InputDecoration(
+                        labelText: l10n.loginEmailLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.loginEmailValidator
                           : null,
@@ -139,8 +142,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration:
-                          InputDecoration(labelText: l10n.loginPasswordLabel),
+                      decoration: InputDecoration(
+                        labelText: l10n.loginPasswordLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.loginPasswordValidator
                           : null,
@@ -152,7 +156,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ? const SizedBox(
                               height: 18,
                               width: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2))
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
                           : Text(l10n.loginButton),
                     ),
                     const SizedBox(height: 12),
@@ -164,8 +169,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 24),
                     TextButton(
+                      onPressed: () => context.push('/signup'),
+                      child: Text(l10n.customerCreateAccount),
+                    ),
+                    TextButton(
                       onPressed: () => context.push('/register'),
                       child: Text(l10n.loginRegisterPrompt),
+                    ),
+                    TextButton.icon(
+                      onPressed: () => context.go('/market'),
+                      icon: const Icon(Icons.storefront_outlined),
+                      label: Text(l10n.marketBrowse),
                     ),
                   ],
                 ),

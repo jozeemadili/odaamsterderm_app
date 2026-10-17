@@ -7,19 +7,23 @@ import '../data/auth_repository.dart';
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
-final apiClientProvider =
-    Provider<ApiClient>((ref) => ApiClient(ref.watch(tokenStorageProvider)));
+final apiClientProvider = Provider<ApiClient>(
+  (ref) => ApiClient(ref.watch(tokenStorageProvider)),
+);
 
 final authRepositoryProvider = Provider<AuthRepository>(
-    (ref) => AuthRepository(ref.watch(apiClientProvider)));
+  (ref) => AuthRepository(ref.watch(apiClientProvider)),
+);
 
 /// Reference data for the registration screen's dropdowns — public
 /// endpoints, so these resolve even before the user has a session.
 final businessTypesProvider = FutureProvider.autoDispose(
-    (ref) => ref.watch(authRepositoryProvider).businessTypes());
+  (ref) => ref.watch(authRepositoryProvider).businessTypes(),
+);
 
 final regionsProvider = FutureProvider.autoDispose(
-    (ref) => ref.watch(authRepositoryProvider).regions());
+  (ref) => ref.watch(authRepositoryProvider).regions(),
+);
 
 enum AuthStatus { unknown, authenticating, authenticated, unauthenticated }
 
@@ -30,7 +34,7 @@ class AuthState {
   const AuthState.authenticating() : this(status: AuthStatus.authenticating);
   const AuthState.unauthenticated() : this(status: AuthStatus.unauthenticated);
   const AuthState.authenticated(DukaUser user, DukaMerchant? merchant)
-      : this(status: AuthStatus.authenticated, user: user, merchant: merchant);
+    : this(status: AuthStatus.authenticated, user: user, merchant: merchant);
 
   final AuthStatus status;
   final DukaUser? user;
@@ -41,7 +45,7 @@ class AuthState {
 /// and drives login/register/Google-sign-in/logout.
 class AuthController extends StateNotifier<AuthState> {
   AuthController(this._repository, this._tokenStorage)
-      : super(const AuthState.unknown()) {
+    : super(const AuthState.unknown()) {
     _restore();
   }
 
@@ -108,12 +112,47 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
-  /// Returns null on success (state updated), or a [GoogleRegistrationRequired]
-  /// the caller should hand to a "complete your business details" screen.
-  Future<GoogleRegistrationRequired?> loginWithGoogle(String idToken) async {
+  Future<void> registerCustomer({
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+  }) async {
     state = const AuthState.authenticating();
     try {
-      final result = await _repository.loginWithGoogle(idToken);
+      final session = await _repository.registerCustomer(
+        name: name,
+        phone: phone,
+        email: email,
+        password: password,
+      );
+      await _tokenStorage.save(session.token);
+      state = AuthState.authenticated(session.user, session.merchant);
+    } catch (_) {
+      state = const AuthState.unauthenticated();
+      rethrow;
+    }
+  }
+
+  /// Replaces the signed-in user after a profile change.
+  void updateUser(DukaUser user) {
+    if (state.status == AuthStatus.authenticated) {
+      state = AuthState.authenticated(user, state.merchant);
+    }
+  }
+
+  /// Returns null on success (state updated), or a [GoogleRegistrationRequired]
+  /// the caller should hand to a "complete your business details" screen.
+  Future<GoogleRegistrationRequired?> loginWithGoogle(
+    String idToken, {
+    bool asCustomer = false,
+  }) async {
+    state = const AuthState.authenticating();
+    try {
+      final result = await _repository.loginWithGoogle(
+        idToken,
+        asCustomer: asCustomer,
+      );
 
       if (result is GoogleRegistrationRequired) {
         state = const AuthState.unauthenticated();
@@ -143,5 +182,7 @@ class AuthController extends StateNotifier<AuthState> {
 
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) => AuthController(
-      ref.watch(authRepositoryProvider), ref.watch(tokenStorageProvider)),
+    ref.watch(authRepositoryProvider),
+    ref.watch(tokenStorageProvider),
+  ),
 );

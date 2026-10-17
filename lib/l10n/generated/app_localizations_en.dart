@@ -507,4 +507,162 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stockQuantityLabel => 'Stock quantity (units)';
+
+  @override
+  String get marketSearchHint => 'Search feeds, vaccines, medicines…';
+
+  @override
+  String get marketSetLocation => 'Set your location';
+
+  @override
+  String get marketSetLocationHint =>
+      'Set your location to see the nearest stores and distances.';
+
+  @override
+  String get marketMyLocation => 'My location';
+
+  @override
+  String get marketAllAnimals => 'All animals';
+
+  @override
+  String get marketSortNearest => 'Nearest';
+
+  @override
+  String get marketSortPrice => 'Lowest price';
+
+  @override
+  String get marketSortAvailability => 'Most available';
+
+  @override
+  String get marketInStockOnly => 'Available now only';
+
+  @override
+  String get marketFrom => 'from';
+
+  @override
+  String get marketOutOfStock => 'Out of stock';
+
+  @override
+  String get marketAvailable => 'Available';
+
+  @override
+  String get marketNoProducts => 'No products match. Try another search.';
+
+  @override
+  String get marketStoresNearYou => 'Stores near you';
+
+  @override
+  String get marketStores => 'Stores';
+
+  @override
+  String get marketCompareSellers => 'Compare sellers';
+
+  @override
+  String get marketDirections => 'Directions';
+
+  @override
+  String get marketCall => 'Call';
+
+  @override
+  String get marketPickupPoint => 'Pickup point';
+
+  @override
+  String get marketProductsInStore => 'Products from this store';
+
+  @override
+  String get marketOrderingSoon =>
+      'Ordering and pickup are coming soon — for now, call or visit the store.';
+
+  @override
+  String get marketWhereAreYou => 'Where are you?';
+
+  @override
+  String get marketPickOnMap => 'Or tap the map to choose a location';
+
+  @override
+  String get marketUseThisPoint => 'Use this point';
+
+  @override
+  String get marketSignIn => 'Sign in';
+
+  @override
+  String get marketBrowse => 'Browse the marketplace';
+
+  @override
+  String get marketNoSellers =>
+      'No sellers are offering this product right now.';
+
+  @override
+  String get customerSignupTitle => 'Create your account';
+
+  @override
+  String get customerSignupSubtitle =>
+      'Compare prices and find the nearest store for animal feeds, medicines and equipment.';
+
+  @override
+  String get customerNameLabel => 'Full name';
+
+  @override
+  String get customerPhoneLabel => 'Phone';
+
+  @override
+  String get customerEmailLabel => 'Email';
+
+  @override
+  String get customerPasswordLabel => 'Password (at least 8 characters)';
+
+  @override
+  String get customerCreateAccount => 'Create customer account';
+
+  @override
+  String get customerSellInstead =>
+      'Selling animal products? Register your business';
+
+  @override
+  String get accountTitle => 'My account';
+
+  @override
+  String get accountOrdersSoon =>
+      'Your orders will appear here once ordering launches.';
+
+  @override
+  String get accountDefaultLocation => 'Default location';
+
+  @override
+  String get accountLogout => 'Log out';
+
+  @override
+  String get navMarket => 'Market';
+
+  @override
+  String get navAccount => 'Account';
+
+  @override
+  String marketNear(String place) {
+    return 'Near: $place';
+  }
+
+  @override
+  String marketNearestDistance(String distance) {
+    return 'Nearest $distance';
+  }
+
+  @override
+  String marketAvailableQty(String qty) {
+    return '$qty available';
+  }
+
+  @override
+  String marketSellersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sellers',
+      one: '1 seller',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get accountOrders => 'Orders';
 }

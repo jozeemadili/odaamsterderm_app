@@ -1051,6 +1051,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stock quantity (units)'**
   String get stockQuantityLabel;
+
+  /// No description provided for @marketSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search feeds, vaccines, medicines…'**
+  String get marketSearchHint;
+
+  /// No description provided for @marketSetLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your location'**
+  String get marketSetLocation;
+
+  /// No description provided for @marketSetLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your location to see the nearest stores and distances.'**
+  String get marketSetLocationHint;
+
+  /// No description provided for @marketMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get marketMyLocation;
+
+  /// No description provided for @marketAllAnimals.
+  ///
+  /// In en, this message translates to:
+  /// **'All animals'**
+  String get marketAllAnimals;
+
+  /// No description provided for @marketSortNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest'**
+  String get marketSortNearest;
+
+  /// No description provided for @marketSortPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest price'**
+  String get marketSortPrice;
+
+  /// No description provided for @marketSortAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Most available'**
+  String get marketSortAvailability;
+
+  /// No description provided for @marketInStockOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Available now only'**
+  String get marketInStockOnly;
+
+  /// No description provided for @marketFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'from'**
+  String get marketFrom;
+
+  /// No description provided for @marketOutOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get marketOutOfStock;
+
+  /// No description provided for @marketAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get marketAvailable;
+
+  /// No description provided for @marketNoProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'No products match. Try another search.'**
+  String get marketNoProducts;
+
+  /// No description provided for @marketStoresNearYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores near you'**
+  String get marketStoresNearYou;
+
+  /// No description provided for @marketStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get marketStores;
+
+  /// No description provided for @marketCompareSellers.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare sellers'**
+  String get marketCompareSellers;
+
+  /// No description provided for @marketDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Directions'**
+  String get marketDirections;
+
+  /// No description provided for @marketCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get marketCall;
+
+  /// No description provided for @marketPickupPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup point'**
+  String get marketPickupPoint;
+
+  /// No description provided for @marketProductsInStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Products from this store'**
+  String get marketProductsInStore;
+
+  /// No description provided for @marketOrderingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordering and pickup are coming soon — for now, call or visit the store.'**
+  String get marketOrderingSoon;
+
+  /// No description provided for @marketWhereAreYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are you?'**
+  String get marketWhereAreYou;
+
+  /// No description provided for @marketPickOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Or tap the map to choose a location'**
+  String get marketPickOnMap;
+
+  /// No description provided for @marketUseThisPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this point'**
+  String get marketUseThisPoint;
+
+  /// No description provided for @marketSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get marketSignIn;
+
+  /// No description provided for @marketBrowse.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse the marketplace'**
+  String get marketBrowse;
+
+  /// No description provided for @marketNoSellers.
+  ///
+  /// In en, this message translates to:
+  /// **'No sellers are offering this product right now.'**
+  String get marketNoSellers;
+
+  /// No description provided for @customerSignupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get customerSignupTitle;
+
+  /// No description provided for @customerSignupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare prices and find the nearest store for animal feeds, medicines and equipment.'**
+  String get customerSignupSubtitle;
+
+  /// No description provided for @customerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get customerNameLabel;
+
+  /// No description provided for @customerPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get customerPhoneLabel;
+
+  /// No description provided for @customerEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get customerEmailLabel;
+
+  /// No description provided for @customerPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (at least 8 characters)'**
+  String get customerPasswordLabel;
+
+  /// No description provided for @customerCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create customer account'**
+  String get customerCreateAccount;
+
+  /// No description provided for @customerSellInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling animal products? Register your business'**
+  String get customerSellInstead;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get accountTitle;
+
+  /// No description provided for @accountOrdersSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Your orders will appear here once ordering launches.'**
+  String get accountOrdersSoon;
+
+  /// No description provided for @accountDefaultLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Default location'**
+  String get accountDefaultLocation;
+
+  /// No description provided for @accountLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get accountLogout;
+
+  /// No description provided for @navMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get navMarket;
+
+  /// No description provided for @navAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get navAccount;
+
+  /// No description provided for @marketNear.
+  ///
+  /// In en, this message translates to:
+  /// **'Near: {place}'**
+  String marketNear(String place);
+
+  /// No description provided for @marketNearestDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest {distance}'**
+  String marketNearestDistance(String distance);
+
+  /// No description provided for @marketAvailableQty.
+  ///
+  /// In en, this message translates to:
+  /// **'{qty} available'**
+  String marketAvailableQty(String qty);
+
+  /// No description provided for @marketSellersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 seller} other{{count} sellers}}'**
+  String marketSellersCount(int count);
+
+  /// No description provided for @accountOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get accountOrders;
 }
 
 class _AppLocalizationsDelegate

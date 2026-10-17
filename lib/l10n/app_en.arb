@@ -183,5 +183,63 @@
   "@marketplaceStockLine": {
     "placeholders": { "online": { "type": "String" }, "stock": { "type": "String" } }
   },
-  "stockQuantityLabel": "Stock quantity (units)"
+  "stockQuantityLabel": "Stock quantity (units)",
+  "marketSearchHint": "Search feeds, vaccines, medicines…",
+  "marketSetLocation": "Set your location",
+  "marketSetLocationHint": "Set your location to see the nearest stores and distances.",
+  "marketMyLocation": "My location",
+  "marketAllAnimals": "All animals",
+  "marketSortNearest": "Nearest",
+  "marketSortPrice": "Lowest price",
+  "marketSortAvailability": "Most available",
+  "marketInStockOnly": "Available now only",
+  "marketFrom": "from",
+  "marketOutOfStock": "Out of stock",
+  "marketAvailable": "Available",
+  "marketNoProducts": "No products match. Try another search.",
+  "marketStoresNearYou": "Stores near you",
+  "marketStores": "Stores",
+  "marketCompareSellers": "Compare sellers",
+  "marketDirections": "Directions",
+  "marketCall": "Call",
+  "marketPickupPoint": "Pickup point",
+  "marketProductsInStore": "Products from this store",
+  "marketOrderingSoon": "Ordering and pickup are coming soon — for now, call or visit the store.",
+  "marketWhereAreYou": "Where are you?",
+  "marketPickOnMap": "Or tap the map to choose a location",
+  "marketUseThisPoint": "Use this point",
+  "marketSignIn": "Sign in",
+  "marketBrowse": "Browse the marketplace",
+  "marketNoSellers": "No sellers are offering this product right now.",
+  "customerSignupTitle": "Create your account",
+  "customerSignupSubtitle": "Compare prices and find the nearest store for animal feeds, medicines and equipment.",
+  "customerNameLabel": "Full name",
+  "customerPhoneLabel": "Phone",
+  "customerEmailLabel": "Email",
+  "customerPasswordLabel": "Password (at least 8 characters)",
+  "customerCreateAccount": "Create customer account",
+  "customerSellInstead": "Selling animal products? Register your business",
+  "accountTitle": "My account",
+  "accountOrdersSoon": "Your orders will appear here once ordering launches.",
+  "accountDefaultLocation": "Default location",
+  "accountLogout": "Log out",
+  "navMarket": "Market",
+  "navAccount": "Account",
+  "marketNear": "Near: {place}",
+  "@marketNear": {
+    "placeholders": { "place": { "type": "String" } }
+  },
+  "marketNearestDistance": "Nearest {distance}",
+  "@marketNearestDistance": {
+    "placeholders": { "distance": { "type": "String" } }
+  },
+  "marketAvailableQty": "{qty} available",
+  "@marketAvailableQty": {
+    "placeholders": { "qty": { "type": "String" } }
+  },
+  "marketSellersCount": "{count, plural, =1{1 seller} other{{count} sellers}}",
+  "@marketSellersCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "accountOrders": "Orders"
 }

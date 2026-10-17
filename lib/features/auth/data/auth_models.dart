@@ -16,10 +16,10 @@ class RegionOption {
   RegionOption({required this.id, required this.name, this.code});
 
   factory RegionOption.fromJson(Map<String, dynamic> json) => RegionOption(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        code: json['code'] as String?,
-      );
+    id: json['id'] as int,
+    name: json['name'] as String,
+    code: json['code'] as String?,
+  );
 
   final int id;
   final String name;
@@ -36,18 +36,28 @@ class DukaUser {
     this.role,
     this.roleLabel,
     this.merchantId,
+    this.latitude,
+    this.longitude,
+    this.locationLabel,
   });
 
   factory DukaUser.fromJson(Map<String, dynamic> json) => DukaUser(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        email: json['email'] as String,
-        phone: json['phone'] as String?,
-        userType: json['user_type'] as String,
-        role: json['role'] as String?,
-        roleLabel: json['role_label'] as String?,
-        merchantId: json['merchant_id'] as int?,
-      );
+    id: json['id'] as int,
+    name: json['name'] as String,
+    email: json['email'] as String,
+    phone: json['phone'] as String?,
+    userType: json['user_type'] as String,
+    role: json['role'] as String?,
+    roleLabel: json['role_label'] as String?,
+    merchantId: json['merchant_id'] as int?,
+    latitude: ((json['location'] as Map<String, dynamic>?)?['latitude'] as num?)
+        ?.toDouble(),
+    longitude:
+        ((json['location'] as Map<String, dynamic>?)?['longitude'] as num?)
+            ?.toDouble(),
+    locationLabel:
+        (json['location'] as Map<String, dynamic>?)?['label'] as String?,
+  );
 
   final int id;
   final String name;
@@ -57,6 +67,14 @@ class DukaUser {
   final String? role;
   final String? roleLabel;
   final int? merchantId;
+
+  /// A marketplace customer's saved location (customers only).
+  final double? latitude;
+  final double? longitude;
+  final String? locationLabel;
+
+  /// Marketplace buyer (farmer, livestock keeper, retailer) — not a seller.
+  bool get isCustomer => userType == 'customer';
 }
 
 class DukaMerchant {
@@ -79,22 +97,22 @@ class DukaMerchant {
   });
 
   factory DukaMerchant.fromJson(Map<String, dynamic> json) => DukaMerchant(
-        id: json['id'] as int,
-        businessName: json['business_name'] as String,
-        ownerName: json['owner_name'] as String?,
-        phone: json['phone'] as String?,
-        email: json['email'] as String?,
-        businessType: json['business_type'] as String?,
-        businessTypeId: json['business_type_id'] as int?,
-        physicalAddress: json['physical_address'] as String?,
-        region: json['region'] as String?,
-        regionId: json['region_id'] as int?,
-        city: json['city'] as String?,
-        kycStatus: json['kyc_status'] as String,
-        status: json['status'] as String,
-        brandColor: json['brand_color'] as String,
-        logoUrl: json['logo_url'] as String?,
-      );
+    id: json['id'] as int,
+    businessName: json['business_name'] as String,
+    ownerName: json['owner_name'] as String?,
+    phone: json['phone'] as String?,
+    email: json['email'] as String?,
+    businessType: json['business_type'] as String?,
+    businessTypeId: json['business_type_id'] as int?,
+    physicalAddress: json['physical_address'] as String?,
+    region: json['region'] as String?,
+    regionId: json['region_id'] as int?,
+    city: json['city'] as String?,
+    kycStatus: json['kyc_status'] as String,
+    status: json['status'] as String,
+    brandColor: json['brand_color'] as String,
+    logoUrl: json['logo_url'] as String?,
+  );
 
   final int id;
   final String businessName;
@@ -118,12 +136,12 @@ class AuthSession {
   AuthSession({required this.token, required this.user, this.merchant});
 
   factory AuthSession.fromJson(Map<String, dynamic> json) => AuthSession(
-        token: json['token'] as String,
-        user: DukaUser.fromJson(json['user'] as Map<String, dynamic>),
-        merchant: json['merchant'] != null
-            ? DukaMerchant.fromJson(json['merchant'] as Map<String, dynamic>)
-            : null,
-      );
+    token: json['token'] as String,
+    user: DukaUser.fromJson(json['user'] as Map<String, dynamic>),
+    merchant: json['merchant'] != null
+        ? DukaMerchant.fromJson(json['merchant'] as Map<String, dynamic>)
+        : null,
+  );
 
   final String token;
   final DukaUser user;

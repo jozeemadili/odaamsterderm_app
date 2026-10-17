@@ -32,11 +32,13 @@ class RegisterScreen extends ConsumerStatefulWidget {
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   late final _businessNameController = TextEditingController();
-  late final _ownerNameController =
-      TextEditingController(text: widget.prefillOwnerName ?? '');
+  late final _ownerNameController = TextEditingController(
+    text: widget.prefillOwnerName ?? '',
+  );
   late final _phoneController = TextEditingController();
-  late final _emailController =
-      TextEditingController(text: widget.prefillEmail ?? '');
+  late final _emailController = TextEditingController(
+    text: widget.prefillEmail ?? '',
+  );
   final _passwordController = TextEditingController();
 
   int? _businessTypeId;
@@ -66,7 +68,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
 
     try {
-      await ref.read(authControllerProvider.notifier).register(
+      await ref
+          .read(authControllerProvider.notifier)
+          .register(
             businessName: _businessNameController.text.trim(),
             ownerName: _ownerNameController.text.trim(),
             phone: _phoneController.text.trim(),
@@ -118,8 +122,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (pending != null && mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (_) =>
-                  CompleteGoogleRegistrationScreen(pending: pending)),
+            builder: (_) => CompleteGoogleRegistrationScreen(pending: pending),
+          ),
         );
       }
     } on ApiException catch (e) {
@@ -156,8 +160,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ],
                     if (!_isGoogleFlow) ...[
                       GoogleAuthButton(
-                        onPressed:
-                            _googleSubmitting ? null : _continueWithGoogle,
+                        onPressed: _googleSubmitting
+                            ? null
+                            : _continueWithGoogle,
                         label: _googleSubmitting
                             ? l10n.loginSigningIn
                             : l10n.registerWithGoogle,
@@ -168,9 +173,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           const Expanded(child: Divider()),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(l10n.registerOrDivider,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.grey)),
+                            child: Text(
+                              l10n.registerOrDivider,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                           const Expanded(child: Divider()),
                         ],
@@ -180,7 +189,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     TextFormField(
                       controller: _businessNameController,
                       decoration: InputDecoration(
-                          labelText: l10n.registerBusinessNameLabel),
+                        labelText: l10n.registerBusinessNameLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.registerRequiredValidator
                           : null,
@@ -189,7 +199,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     TextFormField(
                       controller: _ownerNameController,
                       decoration: InputDecoration(
-                          labelText: l10n.registerOwnerNameLabel),
+                        labelText: l10n.registerOwnerNameLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.registerRequiredValidator
                           : null,
@@ -198,8 +209,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
-                      decoration:
-                          InputDecoration(labelText: l10n.registerPhoneLabel),
+                      decoration: InputDecoration(
+                        labelText: l10n.registerPhoneLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.registerRequiredValidator
                           : null,
@@ -211,10 +223,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       data: (regions) => DropdownButtonFormField<int?>(
                         initialValue: _regionId,
                         decoration: InputDecoration(
-                            labelText: l10n.registerRegionLabel),
+                          labelText: l10n.registerRegionLabel,
+                        ),
                         items: [
                           DropdownMenuItem(
-                              value: null, child: Text(l10n.selectRegion)),
+                            value: null,
+                            child: Text(l10n.selectRegion),
+                          ),
                           for (final r in regions)
                             DropdownMenuItem(value: r.id, child: Text(r.name)),
                         ],
@@ -228,11 +243,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       data: (types) => DropdownButtonFormField<int?>(
                         initialValue: _businessTypeId,
                         decoration: InputDecoration(
-                            labelText: l10n.registerBusinessTypeLabel),
+                          labelText: l10n.registerBusinessTypeLabel,
+                        ),
                         items: [
                           DropdownMenuItem(
-                              value: null,
-                              child: Text(l10n.selectBusinessType)),
+                            value: null,
+                            child: Text(l10n.selectBusinessType),
+                          ),
                           for (final t in types)
                             DropdownMenuItem(value: t.id, child: Text(t.name)),
                         ],
@@ -244,8 +261,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       controller: _emailController,
                       enabled: !_isGoogleFlow,
                       keyboardType: TextInputType.emailAddress,
-                      decoration:
-                          InputDecoration(labelText: l10n.registerEmailLabel),
+                      decoration: InputDecoration(
+                        labelText: l10n.registerEmailLabel,
+                      ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.registerRequiredValidator
                           : null,
@@ -256,7 +274,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                            labelText: l10n.registerPasswordLabel),
+                          labelText: l10n.registerPasswordLabel,
+                        ),
                         validator: (v) => (v == null || v.length < 8)
                             ? l10n.registerPasswordLengthValidator
                             : null,
@@ -269,7 +288,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ? const SizedBox(
                               height: 18,
                               width: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2))
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
                           : Text(l10n.registerButton),
                     ),
                   ],

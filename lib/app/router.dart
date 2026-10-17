@@ -21,6 +21,11 @@ import '../features/inventory/presentation/product_form_screen.dart';
 import '../features/invoices/presentation/invoice_detail_screen.dart';
 import '../features/invoices/presentation/invoice_form_screen.dart';
 import '../features/invoices/presentation/invoice_list_screen.dart';
+import '../features/market/presentation/customer_shell.dart';
+import '../features/market/presentation/customer_signup_screen.dart';
+import '../features/market/presentation/market_home_screen.dart';
+import '../features/market/presentation/market_product_screen.dart';
+import '../features/market/presentation/market_store_screen.dart';
 import '../features/marketplace/presentation/marketplace_screen.dart';
 import '../features/notifications/presentation/notifications_screen.dart';
 import '../features/notifications/presentation/report_damage_screen.dart';
@@ -73,7 +78,10 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final auth = ref.read(authControllerProvider);
       final loc = state.matchedLocation;
-      final onAuthScreens = loc == '/login' || loc == '/register';
+      final onAuthScreens =
+          loc == '/login' || loc == '/register' || loc == '/signup';
+      // The marketplace is public: anyone can browse and compare sellers.
+      final onMarket = loc == '/market' || loc.startsWith('/market/');
 
       switch (auth.status) {
         case AuthStatus.unknown:
@@ -81,9 +89,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         case AuthStatus.authenticating:
           return null;
         case AuthStatus.unauthenticated:
-          return onAuthScreens ? null : '/login';
+          if (loc == '/') return '/market';
+          return (onAuthScreens || onMarket) ? null : '/login';
         case AuthStatus.authenticated:
-          return (loc == '/' || onAuthScreens) ? '/dashboard' : null;
+          // Customers only get the marketplace side of the app.
+          if (auth.user?.isCustomer ?? false) {
+            return (loc == '/home' || onMarket) ? null : '/home';
+          }
+          return (loc == '/' || onAuthScreens || loc == '/home')
+              ? '/dashboard'
+              : null;
       }
     },
     routes: [
@@ -92,6 +107,28 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/signup',
+        builder: (context, state) => const CustomerSignupScreen(),
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const CustomerShell(),
+      ),
+      GoRoute(
+        path: '/market',
+        builder: (context, state) => const MarketHomeScreen(),
+      ),
+      GoRoute(
+        path: '/market/products/:id',
+        builder: (context, state) =>
+            MarketProductScreen(id: int.parse(state.pathParameters['id']!)),
+      ),
+      GoRoute(
+        path: '/market/stores/:id',
+        builder: (context, state) =>
+            MarketStoreScreen(id: int.parse(state.pathParameters['id']!)),
       ),
       GoRoute(
         path: '/dashboard',

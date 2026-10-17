@@ -507,4 +507,161 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get stockQuantityLabel => 'Idadi ya mzigo stoo';
+
+  @override
+  String get marketSearchHint => 'Tafuta chakula, chanjo, dawa…';
+
+  @override
+  String get marketSetLocation => 'Weka mahali ulipo';
+
+  @override
+  String get marketSetLocationHint =>
+      'Weka mahali ulipo kuona maduka yaliyo karibu na umbali wake.';
+
+  @override
+  String get marketMyLocation => 'Mahali nilipo';
+
+  @override
+  String get marketAllAnimals => 'Wanyama wote';
+
+  @override
+  String get marketSortNearest => 'Karibu zaidi';
+
+  @override
+  String get marketSortPrice => 'Bei ya chini';
+
+  @override
+  String get marketSortAvailability => 'Zinazopatikana zaidi';
+
+  @override
+  String get marketInStockOnly => 'Zinazopatikana sasa tu';
+
+  @override
+  String get marketFrom => 'kuanzia';
+
+  @override
+  String get marketOutOfStock => 'Imeisha';
+
+  @override
+  String get marketAvailable => 'Inapatikana';
+
+  @override
+  String get marketNoProducts =>
+      'Hakuna bidhaa zinazolingana. Jaribu kutafuta tena.';
+
+  @override
+  String get marketStoresNearYou => 'Maduka karibu nawe';
+
+  @override
+  String get marketStores => 'Maduka';
+
+  @override
+  String get marketCompareSellers => 'Linganisha wauzaji';
+
+  @override
+  String get marketDirections => 'Njia';
+
+  @override
+  String get marketCall => 'Piga simu';
+
+  @override
+  String get marketPickupPoint => 'Mahali pa kuchukua';
+
+  @override
+  String get marketProductsInStore => 'Bidhaa za duka hili';
+
+  @override
+  String get marketOrderingSoon =>
+      'Kuagiza na kuchukua kunakuja hivi karibuni — kwa sasa piga simu au tembelea duka.';
+
+  @override
+  String get marketWhereAreYou => 'Uko wapi?';
+
+  @override
+  String get marketPickOnMap => 'Au gusa ramani kuchagua mahali';
+
+  @override
+  String get marketUseThisPoint => 'Tumia mahali hapa';
+
+  @override
+  String get marketSignIn => 'Ingia';
+
+  @override
+  String get marketBrowse => 'Tazama soko';
+
+  @override
+  String get marketNoSellers => 'Hakuna muuzaji anayeuza bidhaa hii kwa sasa.';
+
+  @override
+  String get customerSignupTitle => 'Fungua akaunti yako';
+
+  @override
+  String get customerSignupSubtitle =>
+      'Linganisha bei na upate duka lililo karibu kwa chakula cha mifugo, dawa na vifaa.';
+
+  @override
+  String get customerNameLabel => 'Jina kamili';
+
+  @override
+  String get customerPhoneLabel => 'Simu';
+
+  @override
+  String get customerEmailLabel => 'Barua pepe';
+
+  @override
+  String get customerPasswordLabel => 'Nenosiri (angalau herufi 8)';
+
+  @override
+  String get customerCreateAccount => 'Fungua akaunti ya mteja';
+
+  @override
+  String get customerSellInstead =>
+      'Unauza bidhaa za mifugo? Sajili biashara yako';
+
+  @override
+  String get accountTitle => 'Akaunti yangu';
+
+  @override
+  String get accountOrdersSoon => 'Oda zako zitaonekana hapa kuagiza kukianza.';
+
+  @override
+  String get accountDefaultLocation => 'Mahali pa kawaida';
+
+  @override
+  String get accountLogout => 'Toka';
+
+  @override
+  String get navMarket => 'Soko';
+
+  @override
+  String get navAccount => 'Akaunti';
+
+  @override
+  String marketNear(String place) {
+    return 'Karibu na: $place';
+  }
+
+  @override
+  String marketNearestDistance(String distance) {
+    return 'Karibu $distance';
+  }
+
+  @override
+  String marketAvailableQty(String qty) {
+    return '$qty zinapatikana';
+  }
+
+  @override
+  String marketSellersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'wauzaji $count',
+      one: 'muuzaji 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get accountOrders => 'Oda';
 }

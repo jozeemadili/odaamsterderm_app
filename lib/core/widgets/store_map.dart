@@ -188,3 +188,87 @@ class _LocationPickerMapState extends State<LocationPickerMap> {
     );
   }
 }
+
+/// A pin to show on [MultiStoreMap].
+class MapPin {
+  const MapPin({required this.latitude, required this.longitude, this.onTap});
+
+  final double latitude;
+  final double longitude;
+  final VoidCallback? onTap;
+}
+
+/// Read-only map fitted around several store pins and, optionally, the
+/// customer's own position.
+class MultiStoreMap extends StatelessWidget {
+  const MultiStoreMap({
+    super.key,
+    required this.pins,
+    this.me,
+    this.height = 220,
+  });
+
+  final List<MapPin> pins;
+  final LatLng? me;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final points = [for (final p in pins) LatLng(p.latitude, p.longitude), ?me];
+    if (points.isEmpty) return const SizedBox.shrink();
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: SizedBox(
+        height: height,
+        child: FlutterMap(
+          options: points.length > 1
+              ? MapOptions(
+                  initialCameraFit: CameraFit.coordinates(
+                    coordinates: points,
+                    padding: const EdgeInsets.all(40),
+                    maxZoom: 15,
+                  ),
+                )
+              : MapOptions(initialCenter: points.first, initialZoom: 15),
+          children: [
+            _tiles(),
+            MarkerLayer(
+              markers: [
+                for (final p in pins)
+                  Marker(
+                    point: LatLng(p.latitude, p.longitude),
+                    width: 40,
+                    height: 40,
+                    alignment: Alignment.topCenter,
+                    child: GestureDetector(
+                      onTap: p.onTap,
+                      child: const Icon(
+                        Icons.location_on,
+                        size: 40,
+                        color: DukaColors.rose,
+                      ),
+                    ),
+                  ),
+                if (me != null)
+                  Marker(
+                    point: me!,
+                    width: 20,
+                    height: 20,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: DukaColors.gold,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: DukaColors.ink, width: 3),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            _attribution(),
+          ],
+        ),
+      ),
+    );
+  }
+}
