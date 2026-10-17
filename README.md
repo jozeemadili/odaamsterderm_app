@@ -31,13 +31,13 @@ Google sign-in works out of the box — the Android and iOS OAuth clients are al
 
 ## Google Sign-In setup
 
-All three OAuth clients live in the same Google Cloud project as the web portal (`loginwithgmail-507208`):
+All three OAuth clients live in the Google Cloud project `odaamsterderm-hub` (Odaamsterderm Hub), together with the web portal client:
 
 | Platform | Identifier registered | Client ID |
 |---|---|---|
-| Web (backend) | — | `201989877749-s6kaif6n2vlfps0gnhkqkpd0ru7ju3ed.apps.googleusercontent.com` |
-| Android | package `com.odaamsterderm.app`, debug SHA-1 `8C:7F:5A:4C:6E:B8:0A:03:75:03:06:D4:9B:82:5A:43:D7:5E:44:C0` | `201989877749-t6129vpat283n4clrteach2s6avga22m.apps.googleusercontent.com` |
-| iOS | bundle ID `com.odaamsterderm.app` | `201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com` (wired into `ios/Runner/Info.plist` as `GIDClientID` + URL scheme) |
+| Web (backend) | — | `380293121851-sbt8d8k41j45dmkgt12vdcd91tjsg9u5.apps.googleusercontent.com` |
+| Android | package `com.odaamsterderm.app`, debug SHA-1 `8C:7F:5A:4C:6E:B8:0A:03:75:03:06:D4:9B:82:5A:43:D7:5E:44:C0` | `380293121851-3raai9av5qa7k0hi8dlpoclnvf0t7hgb.apps.googleusercontent.com` |
+| iOS | bundle ID `com.odaamsterderm.app` | `380293121851-4c5mtver3vvchdorr0fe9rhnu19qotp8.apps.googleusercontent.com` (wired into `ios/Runner/Info.plist` as `GIDClientID` + URL scheme) |
 
 The app itself only ever references the **web** client ID (as `serverClientId`) — that's what makes the ID token's audience match what the Laravel backend expects. The Android/iOS client IDs aren't referenced in code; Google matches sign-in requests to them automatically via package name/SHA-1 (Android) or bundle ID (iOS).
 

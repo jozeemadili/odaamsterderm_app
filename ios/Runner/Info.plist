@@ -33,7 +33,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Odaamsterderm Hub uses your location to pin your store on the map and to show the nearest stores.</string>
 	<key>GIDClientID</key>
-	<string>201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com</string>
+	<string>380293121851-4c5mtver3vvchdorr0fe9rhnu19qotp8.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -41,7 +41,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2</string>
+				<string>com.googleusercontent.apps.380293121851-4c5mtver3vvchdorr0fe9rhnu19qotp8</string>
 			</array>
 		</dict>
 	</array>
