@@ -1,12 +1,10 @@
 {
   "@@locale": "en",
-
   "navDashboard": "Dashboard",
   "navInventory": "Inventory",
   "navSell": "Sell",
   "navInvoices": "Invoices",
   "navMore": "More",
-
   "moreTitle": "More",
   "moreStockReceiptsTitle": "Stock receipts",
   "moreStockReceiptsSubtitle": "Record deliveries and post them to stock",
@@ -20,7 +18,6 @@
   "morePaymentsSubtitle": "Record cash received, with proof of payment",
   "moreSettingsTitle": "Shop settings",
   "moreSettingsSubtitle": "Business profile, staff and KYC documents",
-
   "shopSettingsTitle": "Shop settings",
   "shopSettingsProfileTitle": "Business profile",
   "shopSettingsProfileSubtitle": "Name, contact details, branding",
@@ -33,7 +30,6 @@
   "languagePickerTitle": "Choose language",
   "languageEnglish": "English",
   "languageKiswahili": "Kiswahili",
-
   "loginSubtitle": "Sign in to your account",
   "loginGoogleNotConfigured": "Google sign-in is not configured for this build yet.",
   "loginGoogleNoIdToken": "Google did not return an ID token.",
@@ -45,7 +41,6 @@
   "loginSigningIn": "Signing in…",
   "loginContinueWithGoogle": "Continue with Google",
   "loginRegisterPrompt": "Selling animal products? Register your business",
-
   "registerTitle": "Register your business",
   "registerBusinessNameLabel": "Business name",
   "registerOwnerNameLabel": "Owner name",
@@ -61,11 +56,12 @@
   "registerOrDivider": "or register with email",
   "selectBusinessType": "Select business type",
   "selectRegion": "Select region",
-
   "dashboardLoadError": "Could not load the dashboard.\n{error}",
   "@dashboardLoadError": {
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
   "greetingMorning": "Good morning",
@@ -75,8 +71,12 @@
   "greetingMessage": "{timeGreeting}, {name}",
   "@greetingMessage": {
     "placeholders": {
-      "timeGreeting": { "type": "String" },
-      "name": { "type": "String" }
+      "timeGreeting": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
     }
   },
   "periodWeek": "Week",
@@ -88,7 +88,9 @@
   "salesLabelPrefix": "SALES · {period}",
   "@salesLabelPrefix": {
     "placeholders": {
-      "period": { "type": "String" }
+      "period": {
+        "type": "String"
+      }
     }
   },
   "expensesLabel": "expenses",
@@ -181,7 +183,14 @@
   "moreCatalogSubtitle": "Browse shared products or propose new ones",
   "marketplaceStockLine": "{online} online · {stock} in stock",
   "@marketplaceStockLine": {
-    "placeholders": { "online": { "type": "String" }, "stock": { "type": "String" } }
+    "placeholders": {
+      "online": {
+        "type": "String"
+      },
+      "stock": {
+        "type": "String"
+      }
+    }
   },
   "stockQuantityLabel": "Stock quantity (units)",
   "marketSearchHint": "Search feeds, vaccines, medicines…",
@@ -227,19 +236,35 @@
   "navAccount": "Account",
   "marketNear": "Near: {place}",
   "@marketNear": {
-    "placeholders": { "place": { "type": "String" } }
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
   },
   "marketNearestDistance": "Nearest {distance}",
   "@marketNearestDistance": {
-    "placeholders": { "distance": { "type": "String" } }
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
   },
   "marketAvailableQty": "{qty} available",
   "@marketAvailableQty": {
-    "placeholders": { "qty": { "type": "String" } }
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
   },
   "marketSellersCount": "{count, plural, =1{1 seller} other{{count} sellers}}",
   "@marketSellersCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "accountOrders": "Orders",
   "navCart": "Cart",
@@ -289,14 +314,84 @@
   "cancel": "Cancel",
   "cartPickupAt": "Pickup at {store}",
   "@cartPickupAt": {
-    "placeholders": { "store": { "type": "String" } }
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
   },
   "cartManyStores": "Items from {count} stores become {count} orders — collect each at its store.",
   "@cartManyStores": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "orderReadyBanner": "Ready for pickup! Show reference {reference} at the counter and pay there.",
   "@orderReadyBanner": {
-    "placeholders": { "reference": { "type": "String" } }
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAskAi": "Ask AI",
+  "aiSearchHint": "Describe what you need, e.g. feed for 200 broiler chicks",
+  "aiPicksTitle": "AI picks for you",
+  "aiThinking": "Finding the right products in live stock…",
+  "aiDisclaimer": "AI suggestions can be wrong — check each product before you buy. Prices, stock and distances are live from the stores.",
+  "aiSearchUnavailable": "Ask AI is not available right now. Showing normal search results instead.",
+  "aiSearchLimited": "Ask AI is busy right now. Showing normal search results — please try again in a minute.",
+  "aiSearchRefused": "Ask AI can't help with that request. Try describing the animal product you need.",
+  "aiSignInToAsk": "Sign in to use Ask AI.",
+  "aiClear": "Clear",
+  "aiOrderButton": "Use AI to place order",
+  "aiOrderBannerTitle": "Not sure what to buy?",
+  "aiOrderBannerBody": "Tell our AI what your animals need and it builds the order from stores near you.",
+  "aiOrderTitle": "AI order assistant",
+  "aiOrderSubtitle": "Tell it what you need — English or Kiswahili.",
+  "aiOrderIntro": "Describe what you need and I'll put together a basket from stores near you. You check it, then confirm the order in your cart.",
+  "aiOrderExample1": "Feed for 200 broiler chicks for the first 2 weeks",
+  "aiOrderExample2": "Layers mash for 500 hens, the cheapest",
+  "aiOrderExample3": "Nahitaji chakula cha samaki tilapia",
+  "aiOrderHint": "e.g. I have 200 broiler chicks, 1 week old…",
+  "aiOrderSend": "Send",
+  "aiOrderStartOver": "Start over",
+  "aiOrderChecking": "Checking live stock…",
+  "aiOrderBasketTitle": "Proposed basket",
+  "aiOrderPickupStores": "{count, plural, =1{1 pickup store} other{{count} pickup stores}}",
+  "@aiOrderPickupStores": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiOrderTotal": "Total",
+  "aiOrderAvailable": "{quantity} available",
+  "@aiOrderAvailable": {
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
+  "aiOrderRemove": "Remove",
+  "aiOrderAddToCart": "Add to cart & review order",
+  "aiOrderNothingOrdered": "Nothing is ordered until you confirm in your cart. AI suggestions can be wrong — check quantities first.",
+  "aiOrderSignIn": "Sign in with your customer account to order with the AI assistant.",
+  "aiOrderNotCustomer": "Only customer accounts can place marketplace orders. Seller and staff accounts cannot.",
+  "aiOrderBusy": "The assistant is busy right now. Please try again in a minute.",
+  "aiOrderUnavailable": "The assistant is not available right now. You can still search and add products to your cart yourself.",
+  "aiOrderRefused": "The assistant can't help with that. Tell it which animal products you need.",
+  "aiOrderAdded": "The AI basket is in your cart. Check it and confirm to place your order.",
+  "aiOrderSomeFailed": "Some items could not be added: {details}",
+  "@aiOrderSomeFailed": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   }
 }

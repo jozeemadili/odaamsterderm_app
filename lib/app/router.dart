@@ -21,6 +21,7 @@ import '../features/inventory/presentation/product_form_screen.dart';
 import '../features/invoices/presentation/invoice_detail_screen.dart';
 import '../features/invoices/presentation/invoice_form_screen.dart';
 import '../features/invoices/presentation/invoice_list_screen.dart';
+import '../features/ai/presentation/ai_order_screen.dart';
 import '../features/market/presentation/customer_shell.dart';
 import '../features/market/presentation/customer_signup_screen.dart';
 import '../features/market/presentation/market_home_screen.dart';
@@ -151,6 +152,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/market',
         builder: (context, state) => const MarketHomeScreen(),
+      ),
+      GoRoute(
+        path: '/market/ai-order',
+        builder: (context, state) => const AiOrderScreen(),
       ),
       GoRoute(
         path: '/market/products/:id',

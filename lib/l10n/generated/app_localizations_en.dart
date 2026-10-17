@@ -820,4 +820,142 @@ class AppLocalizationsEn extends AppLocalizations {
   String orderReadyBanner(String reference) {
     return 'Ready for pickup! Show reference $reference at the counter and pay there.';
   }
+
+  @override
+  String get aiAskAi => 'Ask AI';
+
+  @override
+  String get aiSearchHint =>
+      'Describe what you need, e.g. feed for 200 broiler chicks';
+
+  @override
+  String get aiPicksTitle => 'AI picks for you';
+
+  @override
+  String get aiThinking => 'Finding the right products in live stock…';
+
+  @override
+  String get aiDisclaimer =>
+      'AI suggestions can be wrong — check each product before you buy. Prices, stock and distances are live from the stores.';
+
+  @override
+  String get aiSearchUnavailable =>
+      'Ask AI is not available right now. Showing normal search results instead.';
+
+  @override
+  String get aiSearchLimited =>
+      'Ask AI is busy right now. Showing normal search results — please try again in a minute.';
+
+  @override
+  String get aiSearchRefused =>
+      'Ask AI can\'t help with that request. Try describing the animal product you need.';
+
+  @override
+  String get aiSignInToAsk => 'Sign in to use Ask AI.';
+
+  @override
+  String get aiClear => 'Clear';
+
+  @override
+  String get aiOrderButton => 'Use AI to place order';
+
+  @override
+  String get aiOrderBannerTitle => 'Not sure what to buy?';
+
+  @override
+  String get aiOrderBannerBody =>
+      'Tell our AI what your animals need and it builds the order from stores near you.';
+
+  @override
+  String get aiOrderTitle => 'AI order assistant';
+
+  @override
+  String get aiOrderSubtitle => 'Tell it what you need — English or Kiswahili.';
+
+  @override
+  String get aiOrderIntro =>
+      'Describe what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.';
+
+  @override
+  String get aiOrderExample1 =>
+      'Feed for 200 broiler chicks for the first 2 weeks';
+
+  @override
+  String get aiOrderExample2 => 'Layers mash for 500 hens, the cheapest';
+
+  @override
+  String get aiOrderExample3 => 'Nahitaji chakula cha samaki tilapia';
+
+  @override
+  String get aiOrderHint => 'e.g. I have 200 broiler chicks, 1 week old…';
+
+  @override
+  String get aiOrderSend => 'Send';
+
+  @override
+  String get aiOrderStartOver => 'Start over';
+
+  @override
+  String get aiOrderChecking => 'Checking live stock…';
+
+  @override
+  String get aiOrderBasketTitle => 'Proposed basket';
+
+  @override
+  String aiOrderPickupStores(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pickup stores',
+      one: '1 pickup store',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiOrderTotal => 'Total';
+
+  @override
+  String aiOrderAvailable(String quantity) {
+    return '$quantity available';
+  }
+
+  @override
+  String get aiOrderRemove => 'Remove';
+
+  @override
+  String get aiOrderAddToCart => 'Add to cart & review order';
+
+  @override
+  String get aiOrderNothingOrdered =>
+      'Nothing is ordered until you confirm in your cart. AI suggestions can be wrong — check quantities first.';
+
+  @override
+  String get aiOrderSignIn =>
+      'Sign in with your customer account to order with the AI assistant.';
+
+  @override
+  String get aiOrderNotCustomer =>
+      'Only customer accounts can place marketplace orders. Seller and staff accounts cannot.';
+
+  @override
+  String get aiOrderBusy =>
+      'The assistant is busy right now. Please try again in a minute.';
+
+  @override
+  String get aiOrderUnavailable =>
+      'The assistant is not available right now. You can still search and add products to your cart yourself.';
+
+  @override
+  String get aiOrderRefused =>
+      'The assistant can\'t help with that. Tell it which animal products you need.';
+
+  @override
+  String get aiOrderAdded =>
+      'The AI basket is in your cart. Check it and confirm to place your order.';
+
+  @override
+  String aiOrderSomeFailed(String details) {
+    return 'Some items could not be added: $details';
+  }
 }

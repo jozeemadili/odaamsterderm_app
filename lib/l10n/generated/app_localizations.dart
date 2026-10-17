@@ -1615,6 +1615,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ready for pickup! Show reference {reference} at the counter and pay there.'**
   String orderReadyBanner(String reference);
+
+  /// No description provided for @aiAskAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI'**
+  String get aiAskAi;
+
+  /// No description provided for @aiSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe what you need, e.g. feed for 200 broiler chicks'**
+  String get aiSearchHint;
+
+  /// No description provided for @aiPicksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI picks for you'**
+  String get aiPicksTitle;
+
+  /// No description provided for @aiThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding the right products in live stock…'**
+  String get aiThinking;
+
+  /// No description provided for @aiDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestions can be wrong — check each product before you buy. Prices, stock and distances are live from the stores.'**
+  String get aiDisclaimer;
+
+  /// No description provided for @aiSearchUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI is not available right now. Showing normal search results instead.'**
+  String get aiSearchUnavailable;
+
+  /// No description provided for @aiSearchLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI is busy right now. Showing normal search results — please try again in a minute.'**
+  String get aiSearchLimited;
+
+  /// No description provided for @aiSearchRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI can\'t help with that request. Try describing the animal product you need.'**
+  String get aiSearchRefused;
+
+  /// No description provided for @aiSignInToAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use Ask AI.'**
+  String get aiSignInToAsk;
+
+  /// No description provided for @aiClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get aiClear;
+
+  /// No description provided for @aiOrderButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use AI to place order'**
+  String get aiOrderButton;
+
+  /// No description provided for @aiOrderBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure what to buy?'**
+  String get aiOrderBannerTitle;
+
+  /// No description provided for @aiOrderBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell our AI what your animals need and it builds the order from stores near you.'**
+  String get aiOrderBannerBody;
+
+  /// No description provided for @aiOrderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI order assistant'**
+  String get aiOrderTitle;
+
+  /// No description provided for @aiOrderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell it what you need — English or Kiswahili.'**
+  String get aiOrderSubtitle;
+
+  /// No description provided for @aiOrderIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.'**
+  String get aiOrderIntro;
+
+  /// No description provided for @aiOrderExample1.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed for 200 broiler chicks for the first 2 weeks'**
+  String get aiOrderExample1;
+
+  /// No description provided for @aiOrderExample2.
+  ///
+  /// In en, this message translates to:
+  /// **'Layers mash for 500 hens, the cheapest'**
+  String get aiOrderExample2;
+
+  /// No description provided for @aiOrderExample3.
+  ///
+  /// In en, this message translates to:
+  /// **'Nahitaji chakula cha samaki tilapia'**
+  String get aiOrderExample3;
+
+  /// No description provided for @aiOrderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. I have 200 broiler chicks, 1 week old…'**
+  String get aiOrderHint;
+
+  /// No description provided for @aiOrderSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get aiOrderSend;
+
+  /// No description provided for @aiOrderStartOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Start over'**
+  String get aiOrderStartOver;
+
+  /// No description provided for @aiOrderChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking live stock…'**
+  String get aiOrderChecking;
+
+  /// No description provided for @aiOrderBasketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Proposed basket'**
+  String get aiOrderBasketTitle;
+
+  /// No description provided for @aiOrderPickupStores.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 pickup store} other{{count} pickup stores}}'**
+  String aiOrderPickupStores(int count);
+
+  /// No description provided for @aiOrderTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get aiOrderTotal;
+
+  /// No description provided for @aiOrderAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'{quantity} available'**
+  String aiOrderAvailable(String quantity);
+
+  /// No description provided for @aiOrderRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get aiOrderRemove;
+
+  /// No description provided for @aiOrderAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart & review order'**
+  String get aiOrderAddToCart;
+
+  /// No description provided for @aiOrderNothingOrdered.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is ordered until you confirm in your cart. AI suggestions can be wrong — check quantities first.'**
+  String get aiOrderNothingOrdered;
+
+  /// No description provided for @aiOrderSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your customer account to order with the AI assistant.'**
+  String get aiOrderSignIn;
+
+  /// No description provided for @aiOrderNotCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Only customer accounts can place marketplace orders. Seller and staff accounts cannot.'**
+  String get aiOrderNotCustomer;
+
+  /// No description provided for @aiOrderBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant is busy right now. Please try again in a minute.'**
+  String get aiOrderBusy;
+
+  /// No description provided for @aiOrderUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant is not available right now. You can still search and add products to your cart yourself.'**
+  String get aiOrderUnavailable;
+
+  /// No description provided for @aiOrderRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant can\'t help with that. Tell it which animal products you need.'**
+  String get aiOrderRefused;
+
+  /// No description provided for @aiOrderAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI basket is in your cart. Check it and confirm to place your order.'**
+  String get aiOrderAdded;
+
+  /// No description provided for @aiOrderSomeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Some items could not be added: {details}'**
+  String aiOrderSomeFailed(String details);
 }
 
 class _AppLocalizationsDelegate

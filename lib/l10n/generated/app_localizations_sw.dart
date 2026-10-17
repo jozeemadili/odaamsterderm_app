@@ -816,4 +816,143 @@ class AppLocalizationsSw extends AppLocalizations {
   String orderReadyBanner(String reference) {
     return 'Iko tayari! Onyesha namba $reference kaunta na ulipe hapo.';
   }
+
+  @override
+  String get aiAskAi => 'Uliza AI';
+
+  @override
+  String get aiSearchHint =>
+      'Eleza unachohitaji, mfano chakula cha vifaranga 200';
+
+  @override
+  String get aiPicksTitle => 'Mapendekezo ya AI';
+
+  @override
+  String get aiThinking => 'Inatafuta bidhaa zinazofaa kwenye stoo…';
+
+  @override
+  String get aiDisclaimer =>
+      'Mapendekezo ya AI yanaweza kukosea — hakiki kila bidhaa kabla ya kununua. Bei, stoo na umbali ni vya sasa kutoka madukani.';
+
+  @override
+  String get aiSearchUnavailable =>
+      'Uliza AI haipatikani sasa. Tunaonyesha matokeo ya kawaida.';
+
+  @override
+  String get aiSearchLimited =>
+      'Uliza AI ina shughuli nyingi sasa. Tunaonyesha matokeo ya kawaida — jaribu tena baada ya dakika moja.';
+
+  @override
+  String get aiSearchRefused =>
+      'Uliza AI haiwezi kusaidia ombi hilo. Eleza bidhaa ya mifugo unayohitaji.';
+
+  @override
+  String get aiSignInToAsk => 'Ingia ili kutumia Uliza AI.';
+
+  @override
+  String get aiClear => 'Futa';
+
+  @override
+  String get aiOrderButton => 'Tumia AI kuagiza';
+
+  @override
+  String get aiOrderBannerTitle => 'Hujui ununue nini?';
+
+  @override
+  String get aiOrderBannerBody =>
+      'Iambie AI mifugo yako inahitaji nini, nayo itaandaa oda kutoka maduka yaliyo karibu nawe.';
+
+  @override
+  String get aiOrderTitle => 'Msaidizi wa oda wa AI';
+
+  @override
+  String get aiOrderSubtitle =>
+      'Ieleze unachohitaji — Kiingereza au Kiswahili.';
+
+  @override
+  String get aiOrderIntro =>
+      'Eleza unachohitaji nami nitaandaa kikapu kutoka maduka yaliyo karibu nawe. Utakihakiki, kisha uthibitishe oda kwenye kikapu chako.';
+
+  @override
+  String get aiOrderExample1 =>
+      'Chakula cha vifaranga 200 vya nyama kwa wiki 2 za kwanza';
+
+  @override
+  String get aiOrderExample2 => 'Layers mash kwa kuku 500, bei nafuu zaidi';
+
+  @override
+  String get aiOrderExample3 => 'Nahitaji chakula cha samaki tilapia';
+
+  @override
+  String get aiOrderHint => 'mfano Nina vifaranga 200 vya wiki moja…';
+
+  @override
+  String get aiOrderSend => 'Tuma';
+
+  @override
+  String get aiOrderStartOver => 'Anza upya';
+
+  @override
+  String get aiOrderChecking => 'Inaangalia stoo…';
+
+  @override
+  String get aiOrderBasketTitle => 'Kikapu kilichopendekezwa';
+
+  @override
+  String aiOrderPickupStores(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Maduka $count ya kuchukulia',
+      one: 'Duka 1 la kuchukulia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiOrderTotal => 'Jumla';
+
+  @override
+  String aiOrderAvailable(String quantity) {
+    return '$quantity zinapatikana';
+  }
+
+  @override
+  String get aiOrderRemove => 'Ondoa';
+
+  @override
+  String get aiOrderAddToCart => 'Weka kwenye kikapu na hakiki oda';
+
+  @override
+  String get aiOrderNothingOrdered =>
+      'Hakuna kinachoagizwa hadi uthibitishe kwenye kikapu. Mapendekezo ya AI yanaweza kukosea — hakiki idadi kwanza.';
+
+  @override
+  String get aiOrderSignIn =>
+      'Ingia kwa akaunti yako ya mteja ili kuagiza kwa msaidizi wa AI.';
+
+  @override
+  String get aiOrderNotCustomer =>
+      'Ni akaunti za wateja pekee zinazoweza kuagiza sokoni. Akaunti za wauzaji na wafanyakazi haziwezi.';
+
+  @override
+  String get aiOrderBusy =>
+      'Msaidizi ana shughuli nyingi sasa. Tafadhali jaribu tena baada ya dakika moja.';
+
+  @override
+  String get aiOrderUnavailable =>
+      'Msaidizi hapatikani sasa. Bado unaweza kutafuta na kuweka bidhaa kwenye kikapu mwenyewe.';
+
+  @override
+  String get aiOrderRefused =>
+      'Msaidizi hawezi kusaidia hilo. Mweleze bidhaa za mifugo unazohitaji.';
+
+  @override
+  String get aiOrderAdded =>
+      'Kikapu cha AI kiko kwenye kikapu chako. Kihakiki na uthibitishe ili kuweka oda.';
+
+  @override
+  String aiOrderSomeFailed(String details) {
+    return 'Baadhi ya bidhaa hazikuweza kuongezwa: $details';
+  }
 }
