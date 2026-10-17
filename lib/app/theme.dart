@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 /// One confident brand accent, thin dividers instead of heavy card
 /// chrome, generous whitespace.
 ///
-/// The accent pair (navy + gold) is the DukaFlow logo's own palette —
+/// The accent pair (navy + gold) is the Odaamsterderm Hub logo's own palette —
 /// `ink`/`indigo` are the logo's navy (same value as the backend's
 /// `Merchant::DEFAULT_BRAND_COLOR`, so mobile and the merchant's own
 /// portal branding start from the same navy), and `gold` is the logo's

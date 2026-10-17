@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _prefsKey = 'dukaflow.locale';
+const _prefsKey = 'odaamsterderm.locale';
 
 /// Owns the app's chosen UI language: restores it from shared_preferences
 /// on boot (defaulting to the device locale, falling back to English), and

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme.dart';
 
-/// The "dukaflow" wordmark, two-tone like the logo: navy "duka" + gold
-/// "flow".
+/// The "odaamsterderm hub" wordmark, two-tone like the logo: navy
+/// "odaamsterderm" + gold "hub".
 class DukaWordmark extends StatelessWidget {
   const DukaWordmark({super.key, this.fontSize = 32});
 
@@ -14,8 +14,8 @@ class DukaWordmark extends StatelessWidget {
     final style = TextStyle(fontSize: fontSize, fontWeight: FontWeight.w700);
     return Text.rich(
       TextSpan(children: [
-        TextSpan(text: 'duka', style: style.copyWith(color: DukaColors.ink)),
-        TextSpan(text: 'flow', style: style.copyWith(color: DukaColors.gold)),
+        TextSpan(text: 'odaamsterderm', style: style.copyWith(color: DukaColors.ink)),
+        TextSpan(text: 'hub', style: style.copyWith(color: DukaColors.gold)),
       ]),
     );
   }

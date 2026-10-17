@@ -1,4 +1,4 @@
-/// A DukaFlow API error, normalized from Laravel's validation/error JSON
+/// A Odaamsterderm Hub API error, normalized from Laravel's validation/error JSON
 /// shape: `{"message": "...", "errors": {"field": ["msg", ...]}}`.
 class ApiException implements Exception {
   ApiException({required this.message, this.errors, this.statusCode});

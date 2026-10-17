@@ -6,8 +6,8 @@ import 'locale_controller.dart';
 import 'router.dart';
 import 'theme.dart';
 
-class DukaFlowApp extends ConsumerWidget {
-  const DukaFlowApp({super.key});
+class OdaamsterdermApp extends ConsumerWidget {
+  const OdaamsterdermApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +15,7 @@ class DukaFlowApp extends ConsumerWidget {
     final locale = ref.watch(localeControllerProvider);
 
     return MaterialApp.router(
-      title: 'DukaFlow',
+      title: 'Odaamsterderm Hub',
       debugShowCheckedModeBanner: false,
       theme: buildDukaTheme(),
       routerConfig: router,

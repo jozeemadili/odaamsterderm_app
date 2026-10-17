@@ -130,7 +130,7 @@ class AuthSession {
   final DukaMerchant? merchant;
 }
 
-/// Returned by POST /auth/google when the Google account has no DukaFlow
+/// Returned by POST /auth/google when the Google account has no Odaamsterderm Hub
 /// user yet — the app should show the registration form pre-filled with
 /// these, then submit them via AuthRepository.register(googleId: ...).
 class GoogleRegistrationRequired {

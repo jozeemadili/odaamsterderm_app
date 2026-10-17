@@ -5,7 +5,7 @@ class TokenStorage {
   TokenStorage() : _storage = const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
-  static const _tokenKey = 'dukaflow_token';
+  static const _tokenKey = 'odaamsterderm_token';
 
   Future<String?> read() => _storage.read(key: _tokenKey);
 

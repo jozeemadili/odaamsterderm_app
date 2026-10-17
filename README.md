@@ -1,6 +1,6 @@
-# DukaFlow (Flutter)
+# Odaamsterderm Hub (Flutter)
 
-Mobile app for DukaFlow Tanzania, talking to the [dukaflow](https://github.com/jozeemadili/dukaflow) Laravel backend's v1 REST API (see that repo's `api-collection/` for the full endpoint reference — Postman and Bruno collections, generated from the same source as this app should stay aligned against).
+Mobile app for Odaamsterderm Hub Tanzania, talking to the [odaamsterderm](https://github.com/jozeemadili/odaamsterderm) Laravel backend's v1 REST API (see that repo's `api-collection/` for the full endpoint reference — Postman and Bruno collections, generated from the same source as this app should stay aligned against).
 
 ## Stack
 
@@ -14,7 +14,7 @@ Mobile app for DukaFlow Tanzania, talking to the [dukaflow](https://github.com/j
 
 ```bash
 flutter pub get
-flutter run --dart-define=API_BASE_URL=https://dukaflow-production-lfgbd3.laravel.cloud/api/v1
+flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000/api/v1
 ```
 
 Against a local Laravel instance instead:
@@ -36,8 +36,8 @@ All three OAuth clients live in the same Google Cloud project as the web portal 
 | Platform | Identifier registered | Client ID |
 |---|---|---|
 | Web (backend) | — | `201989877749-s6kaif6n2vlfps0gnhkqkpd0ru7ju3ed.apps.googleusercontent.com` |
-| Android | package `com.dukaflow.dukaflow_app`, debug SHA-1 `8C:7F:5A:4C:6E:B8:0A:03:75:03:06:D4:9B:82:5A:43:D7:5E:44:C0` | `201989877749-t6129vpat283n4clrteach2s6avga22m.apps.googleusercontent.com` |
-| iOS | bundle ID `com.dukaflow.dukaflowApp` | `201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com` (wired into `ios/Runner/Info.plist` as `GIDClientID` + URL scheme) |
+| Android | package `com.odaamsterderm.app`, debug SHA-1 `8C:7F:5A:4C:6E:B8:0A:03:75:03:06:D4:9B:82:5A:43:D7:5E:44:C0` | `201989877749-t6129vpat283n4clrteach2s6avga22m.apps.googleusercontent.com` |
+| iOS | bundle ID `com.odaamsterderm.app` | `201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com` (wired into `ios/Runner/Info.plist` as `GIDClientID` + URL scheme) |
 
 The app itself only ever references the **web** client ID (as `serverClientId`) — that's what makes the ID token's audience match what the Laravel backend expects. The Android/iOS client IDs aren't referenced in code; Google matches sign-in requests to them automatically via package name/SHA-1 (Android) or bundle ID (iOS).
 

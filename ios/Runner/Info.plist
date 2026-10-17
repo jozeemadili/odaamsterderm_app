@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Dukaflow App</string>
+	<string>Odaamsterderm Hub</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>dukaflow_app</string>
+	<string>odaamsterderm_app</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>DukaFlow uses the camera to photograph products and scan barcodes.</string>
+	<string>Odaamsterderm Hub uses the camera to photograph products and scan barcodes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>DukaFlow needs access to your photos to pick a product image.</string>
+	<string>Odaamsterderm Hub needs access to your photos to pick a product image.</string>
 	<key>GIDClientID</key>
 	<string>201989877749-rlcpkkmlv0mr5pu9mk70d2tutf5cl9c2.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>

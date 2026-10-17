@@ -1,4 +1,4 @@
-package com.dukaflow.dukaflow_app
+package com.odaamsterderm.app
 
 import io.flutter.embedding.android.FlutterActivity
 

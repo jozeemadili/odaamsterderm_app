@@ -1,4 +1,4 @@
-name: dukaflow_app
+name: odaamsterderm_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -45,7 +45,7 @@ dependencies:
   # Navigation
   go_router: ^14.6.2
 
-  # Networking (DukaFlow v1 API — see api-collection/ in the Laravel repo)
+  # Networking (Odaamsterderm Hub v1 API — see api-collection/ in the Laravel repo)
   dio: ^5.7.0
 
   # Auth token storage (Sanctum bearer token)

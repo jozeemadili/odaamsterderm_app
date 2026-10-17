@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:dukaflow_app/app/app.dart';
+import 'package:odaamsterderm_app/app/app.dart';
 
 void main() {
   // flutter_secure_storage talks to the platform over a MethodChannel that
@@ -19,10 +19,10 @@ void main() {
   );
 
   testWidgets('App boots to the login screen when signed out', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: DukaFlowApp()));
+    await tester.pumpWidget(const ProviderScope(child: OdaamsterdermApp()));
     await tester.pumpAndSettle();
 
-    expect(find.text('DukaFlow'), findsOneWidget);
+    expect(find.text('odaamsterderm' 'hub', findRichText: true), findsOneWidget);
     expect(find.text('Sign in to your shop'), findsOneWidget);
   });
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme.dart';
 
-/// The DukaFlow monogram: a gold-outlined rounded square with a bold navy
-/// "D", matching the logo. Drawn in code (no bitmap asset) so it renders
+/// The Odaamsterderm Hub monogram: a gold-outlined rounded square with a bold navy
+/// "O", matching the logo. Drawn in code (no bitmap asset) so it renders
 /// crisply at any size.
 class DukaLogoMark extends StatelessWidget {
   const DukaLogoMark({super.key, this.size = 44});
@@ -22,7 +22,7 @@ class DukaLogoMark extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        'D',
+        'O',
         style: TextStyle(
           fontSize: size * 0.56,
           fontWeight: FontWeight.w800,
