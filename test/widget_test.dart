@@ -41,6 +41,6 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.text('Sign in to your shop'), findsOneWidget);
+    expect(find.text('Sign in to your account'), findsOneWidget);
   });
 }

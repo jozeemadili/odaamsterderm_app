@@ -281,7 +281,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to your shop'**
+  /// **'Sign in to your account'**
   String get loginSubtitle;
 
   /// No description provided for @loginGoogleNotConfigured.
@@ -341,7 +341,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginRegisterPrompt.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t have a shop yet? Register'**
+  /// **'Selling animal products? Register your business'**
   String get loginRegisterPrompt;
 
   /// No description provided for @registerTitle.

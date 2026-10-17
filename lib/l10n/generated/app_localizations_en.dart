@@ -103,7 +103,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageKiswahili => 'Kiswahili';
 
   @override
-  String get loginSubtitle => 'Sign in to your shop';
+  String get loginSubtitle => 'Sign in to your account';
 
   @override
   String get loginGoogleNotConfigured =>
@@ -134,7 +134,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginContinueWithGoogle => 'Continue with Google';
 
   @override
-  String get loginRegisterPrompt => 'Don\'t have a shop yet? Register';
+  String get loginRegisterPrompt =>
+      'Selling animal products? Register your business';
 
   @override
   String get registerTitle => 'Register your business';

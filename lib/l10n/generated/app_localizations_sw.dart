@@ -104,7 +104,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get languageKiswahili => 'Kiswahili';
 
   @override
-  String get loginSubtitle => 'Ingia kwenye duka lako';
+  String get loginSubtitle => 'Ingia kwenye akaunti yako';
 
   @override
   String get loginGoogleNotConfigured =>
@@ -135,7 +135,8 @@ class AppLocalizationsSw extends AppLocalizations {
   String get loginContinueWithGoogle => 'Endelea na Google';
 
   @override
-  String get loginRegisterPrompt => 'Huna duka bado? Jisajili';
+  String get loginRegisterPrompt =>
+      'Unauza bidhaa za mifugo? Sajili biashara yako';
 
   @override
   String get registerTitle => 'Sajili biashara yako';

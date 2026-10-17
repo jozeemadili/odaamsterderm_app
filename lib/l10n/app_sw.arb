@@ -34,7 +34,7 @@
   "languageEnglish": "Kiingereza",
   "languageKiswahili": "Kiswahili",
 
-  "loginSubtitle": "Ingia kwenye duka lako",
+  "loginSubtitle": "Ingia kwenye akaunti yako",
   "loginGoogleNotConfigured": "Kuingia kwa Google hakujawekwa kwa toleo hili bado.",
   "loginGoogleNoIdToken": "Google haikutoa ID token.",
   "loginEmailLabel": "Barua pepe",
@@ -44,7 +44,7 @@
   "loginButton": "Ingia",
   "loginSigningIn": "Inaingia…",
   "loginContinueWithGoogle": "Endelea na Google",
-  "loginRegisterPrompt": "Huna duka bado? Jisajili",
+  "loginRegisterPrompt": "Unauza bidhaa za mifugo? Sajili biashara yako",
 
   "registerTitle": "Sajili biashara yako",
   "registerBusinessNameLabel": "Jina la biashara",

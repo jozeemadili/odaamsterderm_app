@@ -34,7 +34,7 @@
   "languageEnglish": "English",
   "languageKiswahili": "Kiswahili",
 
-  "loginSubtitle": "Sign in to your shop",
+  "loginSubtitle": "Sign in to your account",
   "loginGoogleNotConfigured": "Google sign-in is not configured for this build yet.",
   "loginGoogleNoIdToken": "Google did not return an ID token.",
   "loginEmailLabel": "Email",
@@ -44,7 +44,7 @@
   "loginButton": "Log in",
   "loginSigningIn": "Signing in…",
   "loginContinueWithGoogle": "Continue with Google",
-  "loginRegisterPrompt": "Don't have a shop yet? Register",
+  "loginRegisterPrompt": "Selling animal products? Register your business",
 
   "registerTitle": "Register your business",
   "registerBusinessNameLabel": "Business name",
