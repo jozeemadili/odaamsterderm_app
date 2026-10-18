@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
+import '../../../core/widgets/distance_pill.dart';
 import '../../../core/widgets/producer_line.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../ai/data/ai_models.dart';
@@ -584,16 +585,24 @@ class _ProductCard extends StatelessWidget {
                         child: ProducerLine(producer: product.producer),
                       ),
                     const SizedBox(height: 4),
-                    Text(
-                      [
-                        l10n.marketSellersCount(product.sellersCount),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          l10n.marketSellersCount(product.sellersCount),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: DukaColors.muted,
+                          ),
+                        ),
                         if (product.nearestLabel != null)
-                          l10n.marketNearestDistance(product.nearestLabel!),
-                      ].join(' · '),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: DukaColors.muted,
-                      ),
+                          DistancePill(
+                            label: product.nearestLabel!,
+                            prefix: l10n.marketNearestShort,
+                          ),
+                      ],
                     ),
                   ],
                 ),

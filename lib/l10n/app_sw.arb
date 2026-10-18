@@ -310,5 +310,7 @@
   "orderDistanceNeedsPermission": "Ruhusu mahali kuona umbali wa duka.",
   "orderDistanceFailed": "Imeshindikana kupata mahali ulipo sasa.",
   "orderDistanceRetry": "Washa mahali",
-  "orderDirections": "Maelekezo"
+  "orderDirections": "Maelekezo",
+  "marketNearestShort": "Karibu zaidi",
+  "marketSetLocationForDistance": "Weka mahali ulipo kuona umbali"
 }

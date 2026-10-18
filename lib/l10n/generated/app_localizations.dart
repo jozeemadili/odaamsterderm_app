@@ -1963,6 +1963,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Directions'**
   String get orderDirections;
+
+  /// No description provided for @marketNearestShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest'**
+  String get marketNearestShort;
+
+  /// No description provided for @marketSetLocationForDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your location to see the distance'**
+  String get marketSetLocationForDistance;
 }
 
 class _AppLocalizationsDelegate

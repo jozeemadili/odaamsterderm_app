@@ -7,6 +7,7 @@ import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/store_map.dart';
 import '../../../core/widgets/producer_line.dart';
+import '../../../core/widgets/distance_pill.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../orders/presentation/add_to_cart.dart';
 import '../data/market_models.dart';
@@ -163,11 +164,22 @@ class _OfferTile extends ConsumerWidget {
                 color: muted ? DukaColors.muted : DukaColors.ink,
               ),
             ),
-            subtitle: Text(
-              [
-                offer.store.name,
-                if (offer.distanceLabel != null) offer.distanceLabel!,
-              ].join(' · '),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(offer.store.name),
+                const SizedBox(height: 4),
+                if (offer.distanceLabel != null)
+                  DistancePill(label: offer.distanceLabel!)
+                else
+                  Text(
+                    l10n.marketSetLocationForDistance,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: DukaColors.muted,
+                    ),
+                  ),
+              ],
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,

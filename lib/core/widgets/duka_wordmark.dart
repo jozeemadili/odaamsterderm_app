@@ -13,10 +13,18 @@ class DukaWordmark extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TextStyle(fontSize: fontSize, fontWeight: FontWeight.w700);
     return Text.rich(
-      TextSpan(children: [
-        TextSpan(text: 'odaamsterderm', style: style.copyWith(color: DukaColors.ink)),
-        TextSpan(text: 'hub', style: style.copyWith(color: DukaColors.gold)),
-      ]),
+      TextSpan(
+        children: [
+          TextSpan(
+            text: 'odaamsterderm',
+            style: style.copyWith(color: DukaColors.ink),
+          ),
+          TextSpan(
+            text: 'hub',
+            style: style.copyWith(color: DukaColors.gold),
+          ),
+        ],
+      ),
     );
   }
 }

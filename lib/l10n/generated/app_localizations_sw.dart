@@ -1031,4 +1031,10 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get orderDirections => 'Maelekezo';
+
+  @override
+  String get marketNearestShort => 'Karibu zaidi';
+
+  @override
+  String get marketSetLocationForDistance => 'Weka mahali ulipo kuona umbali';
 }

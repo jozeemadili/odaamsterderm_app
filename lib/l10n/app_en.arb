@@ -449,5 +449,7 @@
         "type": "int"
       }
     }
-  }
+  },
+  "marketNearestShort": "Nearest",
+  "marketSetLocationForDistance": "Set your location to see the distance"
 }

@@ -1035,4 +1035,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderDirections => 'Directions';
+
+  @override
+  String get marketNearestShort => 'Nearest';
+
+  @override
+  String get marketSetLocationForDistance =>
+      'Set your location to see the distance';
 }

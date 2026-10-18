@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/presentation/auth_controller.dart';
@@ -14,6 +15,7 @@ final marketFiltersProvider = FutureProvider.autoDispose(
 );
 
 const _prefsKey = 'odaamsterderm.market_location';
+const _askedKey = 'odaamsterderm.asked_device_location';
 
 /// The location the marketplace ranks stores from. Restored from the device
 /// (or the signed-in customer's saved location) and persisted on change;
@@ -64,6 +66,43 @@ class MarketLocationController extends StateNotifier<MarketLocation?> {
         longitude: user.longitude!,
         label: user.locationLabel,
       );
+      return;
+    }
+
+    await _useDeviceLocation(prefs);
+  }
+
+  /// No location chosen yet: use the phone's GPS so distances show straight
+  /// away. Asks for permission once; never nags after a refusal.
+  Future<void> _useDeviceLocation(SharedPreferences prefs) async {
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) return;
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied &&
+          !(prefs.getBool(_askedKey) ?? false)) {
+        await prefs.setBool(_askedKey, true);
+        permission = await Geolocator.requestPermission();
+      }
+      if (permission != LocationPermission.always &&
+          permission != LocationPermission.whileInUse) {
+        return;
+      }
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.medium,
+          timeLimit: Duration(seconds: 15),
+        ),
+      );
+      // Only if the customer hasn't picked one in the meantime.
+      // Session only: not saved, so it's fresh wherever the phone is next time.
+      if (state == null) {
+        state = MarketLocation(
+          latitude: position.latitude,
+          longitude: position.longitude,
+        );
+      }
+    } catch (_) {
+      // GPS unavailable or slow — the "Set your location" chip still works.
     }
   }
 
