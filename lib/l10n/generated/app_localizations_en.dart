@@ -998,4 +998,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoHintChange => 'Tap to change or remove the photo';
+
+  @override
+  String get orderDistanceTitle => 'DISTANCE TO THE STORE';
+
+  @override
+  String get orderDistanceFinding => 'Finding your location…';
+
+  @override
+  String orderDistanceFromYou(String distance) {
+    return '$distance from you right now';
+  }
+
+  @override
+  String orderDistanceEta(int minutes) {
+    return 'About $minutes min by car or boda boda';
+  }
+
+  @override
+  String get orderDistanceAtStore =>
+      'You\'re at the store — show your order reference at the counter.';
+
+  @override
+  String get orderDistanceServiceOff =>
+      'Turn on location (GPS) to see how far the store is.';
+
+  @override
+  String get orderDistanceNeedsPermission =>
+      'Allow location access to see how far the store is.';
+
+  @override
+  String get orderDistanceFailed => 'Couldn\'t get your location right now.';
+
+  @override
+  String get orderDistanceRetry => 'Turn on location';
+
+  @override
+  String get orderDirections => 'Directions';
 }

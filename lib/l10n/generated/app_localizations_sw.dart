@@ -994,4 +994,41 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get photoHintChange => 'Gusa kubadilisha au kuondoa picha';
+
+  @override
+  String get orderDistanceTitle => 'UMBALI HADI DUKANI';
+
+  @override
+  String get orderDistanceFinding => 'Inatafuta mahali ulipo…';
+
+  @override
+  String orderDistanceFromYou(String distance) {
+    return '$distance kutoka ulipo sasa';
+  }
+
+  @override
+  String orderDistanceEta(int minutes) {
+    return 'Takriban dakika $minutes kwa gari au bodaboda';
+  }
+
+  @override
+  String get orderDistanceAtStore =>
+      'Umefika dukani — onyesha namba ya oda yako kaunta.';
+
+  @override
+  String get orderDistanceServiceOff =>
+      'Washa GPS (mahali) kuona umbali wa duka.';
+
+  @override
+  String get orderDistanceNeedsPermission =>
+      'Ruhusu mahali kuona umbali wa duka.';
+
+  @override
+  String get orderDistanceFailed => 'Imeshindikana kupata mahali ulipo sasa.';
+
+  @override
+  String get orderDistanceRetry => 'Washa mahali';
+
+  @override
+  String get orderDirections => 'Maelekezo';
 }

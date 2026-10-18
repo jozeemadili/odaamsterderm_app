@@ -425,5 +425,29 @@
         "type": "String"
       }
     }
+  },
+  "orderDistanceTitle": "DISTANCE TO THE STORE",
+  "orderDistanceFinding": "Finding your location…",
+  "orderDistanceFromYou": "{distance} from you right now",
+  "orderDistanceEta": "About {minutes} min by car or boda boda",
+  "orderDistanceAtStore": "You're at the store — show your order reference at the counter.",
+  "orderDistanceServiceOff": "Turn on location (GPS) to see how far the store is.",
+  "orderDistanceNeedsPermission": "Allow location access to see how far the store is.",
+  "orderDistanceFailed": "Couldn't get your location right now.",
+  "orderDistanceRetry": "Turn on location",
+  "orderDirections": "Directions",
+  "@orderDistanceFromYou": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "@orderDistanceEta": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
   }
 }

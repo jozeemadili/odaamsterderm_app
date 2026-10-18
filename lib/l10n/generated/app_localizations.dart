@@ -1903,6 +1903,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap to change or remove the photo'**
   String get photoHintChange;
+
+  /// No description provided for @orderDistanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DISTANCE TO THE STORE'**
+  String get orderDistanceTitle;
+
+  /// No description provided for @orderDistanceFinding.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location…'**
+  String get orderDistanceFinding;
+
+  /// No description provided for @orderDistanceFromYou.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} from you right now'**
+  String orderDistanceFromYou(String distance);
+
+  /// No description provided for @orderDistanceEta.
+  ///
+  /// In en, this message translates to:
+  /// **'About {minutes} min by car or boda boda'**
+  String orderDistanceEta(int minutes);
+
+  /// No description provided for @orderDistanceAtStore.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re at the store — show your order reference at the counter.'**
+  String get orderDistanceAtStore;
+
+  /// No description provided for @orderDistanceServiceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location (GPS) to see how far the store is.'**
+  String get orderDistanceServiceOff;
+
+  /// No description provided for @orderDistanceNeedsPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow location access to see how far the store is.'**
+  String get orderDistanceNeedsPermission;
+
+  /// No description provided for @orderDistanceFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location right now.'**
+  String get orderDistanceFailed;
+
+  /// No description provided for @orderDistanceRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location'**
+  String get orderDistanceRetry;
+
+  /// No description provided for @orderDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Directions'**
+  String get orderDirections;
 }
 
 class _AppLocalizationsDelegate

@@ -300,5 +300,15 @@
   "photoSaved": "Picha imehifadhiwa. Wateja wanaiona sokoni.",
   "photoFailed": "Imeshindikana kutumia picha: {details}",
   "photoHintAdd": "Gusa kuongeza picha — wateja wanaiona sokoni",
-  "photoHintChange": "Gusa kubadilisha au kuondoa picha"
+  "photoHintChange": "Gusa kubadilisha au kuondoa picha",
+  "orderDistanceTitle": "UMBALI HADI DUKANI",
+  "orderDistanceFinding": "Inatafuta mahali ulipo…",
+  "orderDistanceFromYou": "{distance} kutoka ulipo sasa",
+  "orderDistanceEta": "Takriban dakika {minutes} kwa gari au bodaboda",
+  "orderDistanceAtStore": "Umefika dukani — onyesha namba ya oda yako kaunta.",
+  "orderDistanceServiceOff": "Washa GPS (mahali) kuona umbali wa duka.",
+  "orderDistanceNeedsPermission": "Ruhusu mahali kuona umbali wa duka.",
+  "orderDistanceFailed": "Imeshindikana kupata mahali ulipo sasa.",
+  "orderDistanceRetry": "Washa mahali",
+  "orderDirections": "Maelekezo"
 }

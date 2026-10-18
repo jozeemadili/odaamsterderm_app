@@ -9,6 +9,7 @@ import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../data/order_models.dart';
 import 'order_controller.dart';
+import 'live_store_distance.dart';
 import 'order_status_chip.dart';
 
 String _qty(double v) =>
@@ -211,6 +212,18 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                 launchUrl(Uri.parse('tel:${o.customerPhone}')),
                           ),
                   ),
+                ),
+              // Once the seller has accepted: how far the store is right now.
+              if (!widget.seller &&
+                  o.store != null &&
+                  const [
+                    'accepted',
+                    'preparing',
+                    'ready_for_pickup',
+                  ].contains(o.status))
+                LiveStoreDistance(
+                  storeLatitude: o.store!.latitude,
+                  storeLongitude: o.store!.longitude,
                 ),
               if (o.store != null)
                 Card(
