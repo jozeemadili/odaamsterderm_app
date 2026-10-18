@@ -969,4 +969,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catalogProducerNotListed => 'Not listed / unknown';
+
+  @override
+  String signInFailed(String details) {
+    return 'Something went wrong on this phone: $details. Check your internet connection and try again.';
+  }
+
+  @override
+  String get photoTake => 'Take a photo';
+
+  @override
+  String get photoChoose => 'Choose from gallery';
+
+  @override
+  String get photoRemove => 'Remove photo';
+
+  @override
+  String get photoSaved => 'Photo saved. Customers see it on the marketplace.';
+
+  @override
+  String photoFailed(String details) {
+    return 'Could not use the photo: $details';
+  }
+
+  @override
+  String get photoHintAdd =>
+      'Tap to add a photo — customers see it on the marketplace';
+
+  @override
+  String get photoHintChange => 'Tap to change or remove the photo';
 }

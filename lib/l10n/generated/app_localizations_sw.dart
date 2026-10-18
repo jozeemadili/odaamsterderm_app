@@ -966,4 +966,32 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get catalogProducerNotListed => 'Hayupo kwenye orodha / haijulikani';
+
+  @override
+  String signInFailed(String details) {
+    return 'Hitilafu imetokea kwenye simu hii: $details. Hakikisha una intaneti kisha jaribu tena.';
+  }
+
+  @override
+  String get photoTake => 'Piga picha';
+
+  @override
+  String get photoChoose => 'Chagua kutoka kwenye picha';
+
+  @override
+  String get photoRemove => 'Ondoa picha';
+
+  @override
+  String get photoSaved => 'Picha imehifadhiwa. Wateja wanaiona sokoni.';
+
+  @override
+  String photoFailed(String details) {
+    return 'Imeshindikana kutumia picha: $details';
+  }
+
+  @override
+  String get photoHintAdd => 'Gusa kuongeza picha — wateja wanaiona sokoni';
+
+  @override
+  String get photoHintChange => 'Gusa kubadilisha au kuondoa picha';
 }

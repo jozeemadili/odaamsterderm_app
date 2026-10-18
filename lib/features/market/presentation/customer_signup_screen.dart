@@ -53,6 +53,9 @@ class _CustomerSignupScreenState extends ConsumerState<CustomerSignupScreen> {
           );
     } on ApiException catch (e) {
       setState(() => _error = e.fieldError('email') ?? e.message);
+    } catch (e) {
+      // Not a server error (storage, network, parsing): still tell the person.
+      if (mounted) setState(() => _error = context.l10n.signInFailed('$e'));
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
@@ -72,6 +75,9 @@ class _CustomerSignupScreenState extends ConsumerState<CustomerSignupScreen> {
           .loginWithGoogle(idToken, asCustomer: true);
     } on ApiException catch (e) {
       setState(() => _error = e.message);
+    } catch (e) {
+      // Not a server error (storage, network, parsing): still tell the person.
+      if (mounted) setState(() => _error = context.l10n.signInFailed('$e'));
     }
   }
 

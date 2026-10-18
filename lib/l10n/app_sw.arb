@@ -292,5 +292,13 @@
   "aiOrderSomeFailed": "Baadhi ya bidhaa hazikuweza kuongezwa: {details}",
   "producerBy": "na {name}",
   "catalogProducerLabel": "Mzalishaji / kiwanda",
-  "catalogProducerNotListed": "Hayupo kwenye orodha / haijulikani"
+  "catalogProducerNotListed": "Hayupo kwenye orodha / haijulikani",
+  "signInFailed": "Hitilafu imetokea kwenye simu hii: {details}. Hakikisha una intaneti kisha jaribu tena.",
+  "photoTake": "Piga picha",
+  "photoChoose": "Chagua kutoka kwenye picha",
+  "photoRemove": "Ondoa picha",
+  "photoSaved": "Picha imehifadhiwa. Wateja wanaiona sokoni.",
+  "photoFailed": "Imeshindikana kutumia picha: {details}",
+  "photoHintAdd": "Gusa kuongeza picha — wateja wanaiona sokoni",
+  "photoHintChange": "Gusa kubadilisha au kuondoa picha"
 }

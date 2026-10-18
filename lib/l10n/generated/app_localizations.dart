@@ -1855,6 +1855,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not listed / unknown'**
   String get catalogProducerNotListed;
+
+  /// No description provided for @signInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong on this phone: {details}. Check your internet connection and try again.'**
+  String signInFailed(String details);
+
+  /// No description provided for @photoTake.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get photoTake;
+
+  /// No description provided for @photoChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get photoChoose;
+
+  /// No description provided for @photoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get photoRemove;
+
+  /// No description provided for @photoSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo saved. Customers see it on the marketplace.'**
+  String get photoSaved;
+
+  /// No description provided for @photoFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not use the photo: {details}'**
+  String photoFailed(String details);
+
+  /// No description provided for @photoHintAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to add a photo — customers see it on the marketplace'**
+  String get photoHintAdd;
+
+  /// No description provided for @photoHintChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change or remove the photo'**
+  String get photoHintChange;
 }
 
 class _AppLocalizationsDelegate

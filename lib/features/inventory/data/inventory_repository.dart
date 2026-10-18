@@ -195,6 +195,15 @@ class InventoryRepository {
   Future<void> delete(int id) =>
       _client.guard(() => _client.dio.delete('/inventory/$id'));
 
+  Future<InventoryItem> removeImage(int id) async {
+    final response = await _client.guard(
+      () => _client.dio.delete('/inventory/$id/image'),
+    );
+    return InventoryItem.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
+  }
+
   Future<InventoryItem> uploadImage(int id, File imageFile) async {
     final formData = FormData.fromMap({
       'image': await MultipartFile.fromFile(imageFile.path),

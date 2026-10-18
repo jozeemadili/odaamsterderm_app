@@ -36,11 +36,12 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
 
-            // Shrinks/obfuscates unused code and drops unused resources — the
-            // debug APK skips both, which is the main reason it's ~200MB vs.
-            // a release build's ~20-30MB per ABI.
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // R8 shrinking is off: it can strip classes that plugins load by
+            // reflection (secure token storage / Tink), which broke sign-in on
+            // phones in release builds only. Size impact is a few MB; Flutter's
+            // own code is compiled AOT and unaffected.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

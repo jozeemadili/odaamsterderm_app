@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
+import '../../../l10n/l10n_extension.dart';
 import '../../catalog/presentation/catalog_picker_sheet.dart';
 import '../data/inventory_models.dart';
 import 'inventory_controller.dart';
@@ -37,8 +38,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     ref.read(inventoryListControllerProvider.notifier).upsert(item);
   }
 
-  Future<void> _pickPhoto() async {
-    final source = await showModalBottomSheet<ImageSource>(
+  /// Camera or gallery photo of this stock item; customers see it on the
+  /// marketplace. [hasPhoto] adds a "Remove photo" choice.
+  Future<void> _pickPhoto({required bool hasPhoto}) async {
+    final l10n = context.l10n;
+    final choice = await showModalBottomSheet<String>(
       context: context,
       builder: (context) => SafeArea(
         child: Column(
@@ -46,38 +50,63 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera),
-              title: const Text('Take a photo'),
-              onTap: () => Navigator.pop(context, ImageSource.camera),
+              title: Text(l10n.photoTake),
+              onTap: () => Navigator.pop(context, 'camera'),
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Choose from gallery'),
-              onTap: () => Navigator.pop(context, ImageSource.gallery),
+              title: Text(l10n.photoChoose),
+              onTap: () => Navigator.pop(context, 'gallery'),
             ),
+            if (hasPhoto)
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: DukaColors.rose,
+                ),
+                title: Text(l10n.photoRemove),
+                onTap: () => Navigator.pop(context, 'remove'),
+              ),
           ],
         ),
       ),
     );
-    if (source == null) return;
+    if (choice == null || !mounted) return;
 
-    final picked = await ImagePicker().pickImage(
-      source: source,
-      maxWidth: 1600,
-      imageQuality: 85,
-    );
-    if (picked == null) return;
-
-    setState(() => _busy = true);
+    final repo = ref.read(inventoryRepositoryProvider);
     try {
-      final updated = await ref
-          .read(inventoryRepositoryProvider)
-          .uploadImage(widget.id, File(picked.path));
-      _refresh(updated);
+      if (choice == 'remove') {
+        setState(() => _busy = true);
+        _refresh(await repo.removeImage(widget.id));
+        return;
+      }
+
+      final picked = await ImagePicker().pickImage(
+        source: choice == 'camera' ? ImageSource.camera : ImageSource.gallery,
+        maxWidth: 1600,
+        imageQuality: 85,
+      );
+      if (picked == null) return;
+
+      setState(() => _busy = true);
+      _refresh(await repo.uploadImage(widget.id, File(picked.path)));
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.photoSaved)));
+      }
     } on ApiException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    } catch (e) {
+      // Camera permission refused, no camera, file problems…
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.photoFailed('$e'))));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -218,7 +247,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               children: [
                 Center(
                   child: GestureDetector(
-                    onTap: _pickPhoto,
+                    onTap: () => _pickPhoto(hasPhoto: item.imageUrl != null),
                     child: Stack(
                       children: [
                         ClipRRect(
@@ -263,7 +292,15 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 6),
+                Text(
+                  item.imageUrl != null
+                      ? context.l10n.photoHintChange
+                      : context.l10n.photoHintAdd,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                ),
+                const SizedBox(height: 14),
                 Text(
                   item.name,
                   style: Theme.of(context).textTheme.headlineSmall,

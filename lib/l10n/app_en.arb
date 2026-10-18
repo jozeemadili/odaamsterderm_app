@@ -403,5 +403,27 @@
         "type": "String"
       }
     }
+  },
+  "signInFailed": "Something went wrong on this phone: {details}. Check your internet connection and try again.",
+  "@signInFailed": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "photoTake": "Take a photo",
+  "photoChoose": "Choose from gallery",
+  "photoRemove": "Remove photo",
+  "photoSaved": "Photo saved. Customers see it on the marketplace.",
+  "photoFailed": "Could not use the photo: {details}",
+  "photoHintAdd": "Tap to add a photo — customers see it on the marketplace",
+  "photoHintChange": "Tap to change or remove the photo",
+  "@photoFailed": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   }
 }
