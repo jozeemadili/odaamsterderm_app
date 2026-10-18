@@ -43,7 +43,8 @@ class StaffListScreen extends ConsumerWidget {
                 children: const [
                   SizedBox(height: 80),
                   Center(
-                      child: Text('No staff added yet. Tap + to invite one.')),
+                    child: Text('No staff added yet. Tap + to invite one.'),
+                  ),
                 ],
               );
             }
@@ -55,12 +56,15 @@ class StaffListScreen extends ConsumerWidget {
                 return ListTile(
                   leading: const CircleIcon(),
                   title: Text(user.name),
-                  subtitle: Text([
-                    user.email,
-                    if (user.phone != null) user.phone!
-                  ].join(' · ')),
-                  trailing:
-                      Chip(label: Text(user.roleLabel ?? user.role ?? '—')),
+                  subtitle: Text(
+                    [
+                      user.email,
+                      if (user.phone != null) user.phone!,
+                    ].join(' · '),
+                  ),
+                  trailing: Chip(
+                    label: Text(user.roleLabel ?? user.role ?? '—'),
+                  ),
                 );
               },
             );

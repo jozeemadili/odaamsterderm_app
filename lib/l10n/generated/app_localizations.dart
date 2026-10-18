@@ -1975,6 +1975,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set your location to see the distance'**
   String get marketSetLocationForDistance;
+
+  /// No description provided for @receiptOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt'**
+  String get receiptOpen;
 }
 
 class _AppLocalizationsDelegate

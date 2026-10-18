@@ -1042,4 +1042,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get marketSetLocationForDistance =>
       'Set your location to see the distance';
+
+  @override
+  String get receiptOpen => 'Receipt';
 }

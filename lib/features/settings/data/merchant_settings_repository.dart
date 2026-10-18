@@ -12,8 +12,9 @@ class MerchantSettingsRepository {
 
   Future<DukaMerchant> get() async {
     final response = await _client.guard(() => _client.dio.get('/merchant'));
-    return DukaMerchant.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return DukaMerchant.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<DukaMerchant> update({
@@ -25,29 +26,38 @@ class MerchantSettingsRepository {
     int? regionId,
     String? city,
     String? brandColor,
+    String? brandAccentColor,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.patch('/merchant', data: {
-        if (businessName != null) 'business_name': businessName,
-        if (ownerName != null) 'owner_name': ownerName,
-        if (phone != null) 'phone': phone,
-        'business_type_id': businessTypeId,
-        'physical_address': physicalAddress,
-        'region_id': regionId,
-        'city': city,
-        'brand_color': brandColor,
-      }),
+      () => _client.dio.patch(
+        '/merchant',
+        data: {
+          if (businessName != null) 'business_name': businessName,
+          if (ownerName != null) 'owner_name': ownerName,
+          if (phone != null) 'phone': phone,
+          'business_type_id': businessTypeId,
+          'physical_address': physicalAddress,
+          'region_id': regionId,
+          'city': city,
+          'brand_color': brandColor,
+          'brand_accent_color': ?brandAccentColor,
+        },
+      ),
     );
-    return DukaMerchant.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return DukaMerchant.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<DukaMerchant> uploadLogo(File logo) async {
-    final formData =
-        FormData.fromMap({'logo': await MultipartFile.fromFile(logo.path)});
-    final response = await _client
-        .guard(() => _client.dio.post('/merchant/logo', data: formData));
-    return DukaMerchant.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    final formData = FormData.fromMap({
+      'logo': await MultipartFile.fromFile(logo.path),
+    });
+    final response = await _client.guard(
+      () => _client.dio.post('/merchant/logo', data: formData),
+    );
+    return DukaMerchant.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 }

@@ -22,39 +22,73 @@ class DukaColors {
   static const rose = Color(0xFFE15252);
 }
 
-ThemeData buildDukaTheme() {
+/// "#14532D" → Color; null when the value isn't a 6-digit hex colour.
+Color? colorFromHex(String? hex) {
+  final value = hex?.replaceFirst('#', '');
+  if (value == null || value.length != 6) return null;
+  final parsed = int.tryParse(value, radix: 16);
+  return parsed == null ? null : Color(0xFF000000 | parsed);
+}
+
+/// The app theme. Sellers get their own brand colours ([primary] main,
+/// [accent] highlights); everyone else gets Odaamsterderm Hub's.
+ThemeData buildDukaTheme({
+  Color primary = DukaColors.indigo,
+  Color onPrimary = Colors.white,
+  Color accent = DukaColors.indigo,
+  Color onAccent = Colors.white,
+}) {
   final textTheme = GoogleFonts.karlaTextTheme().copyWith(
-    displayLarge:
-        GoogleFonts.outfit(fontWeight: FontWeight.w700, color: DukaColors.ink),
-    displayMedium:
-        GoogleFonts.outfit(fontWeight: FontWeight.w700, color: DukaColors.ink),
-    displaySmall:
-        GoogleFonts.outfit(fontWeight: FontWeight.w600, color: DukaColors.ink),
-    headlineLarge:
-        GoogleFonts.outfit(fontWeight: FontWeight.w700, color: DukaColors.ink),
-    headlineMedium:
-        GoogleFonts.outfit(fontWeight: FontWeight.w700, color: DukaColors.ink),
-    headlineSmall:
-        GoogleFonts.outfit(fontWeight: FontWeight.w600, color: DukaColors.ink),
-    titleLarge:
-        GoogleFonts.outfit(fontWeight: FontWeight.w600, color: DukaColors.ink),
-    titleMedium:
-        GoogleFonts.outfit(fontWeight: FontWeight.w600, color: DukaColors.ink),
-    titleSmall:
-        GoogleFonts.karla(fontWeight: FontWeight.w700, color: DukaColors.ink),
+    displayLarge: GoogleFonts.outfit(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
+    displayMedium: GoogleFonts.outfit(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
+    displaySmall: GoogleFonts.outfit(
+      fontWeight: FontWeight.w600,
+      color: DukaColors.ink,
+    ),
+    headlineLarge: GoogleFonts.outfit(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
+    headlineMedium: GoogleFonts.outfit(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
+    headlineSmall: GoogleFonts.outfit(
+      fontWeight: FontWeight.w600,
+      color: DukaColors.ink,
+    ),
+    titleLarge: GoogleFonts.outfit(
+      fontWeight: FontWeight.w600,
+      color: DukaColors.ink,
+    ),
+    titleMedium: GoogleFonts.outfit(
+      fontWeight: FontWeight.w600,
+      color: DukaColors.ink,
+    ),
+    titleSmall: GoogleFonts.karla(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
     bodyLarge: GoogleFonts.karla(color: DukaColors.ink),
     bodyMedium: GoogleFonts.karla(color: DukaColors.ink),
     bodySmall: GoogleFonts.karla(color: DukaColors.muted),
-    labelLarge:
-        GoogleFonts.karla(fontWeight: FontWeight.w700, color: DukaColors.ink),
+    labelLarge: GoogleFonts.karla(
+      fontWeight: FontWeight.w700,
+      color: DukaColors.ink,
+    ),
   );
 
-  final colorScheme =
-      ColorScheme.fromSeed(seedColor: DukaColors.indigo).copyWith(
-    primary: DukaColors.indigo,
-    onPrimary: Colors.white,
-    secondary: DukaColors.indigo,
-    onSecondary: Colors.white,
+  final colorScheme = ColorScheme.fromSeed(seedColor: primary).copyWith(
+    primary: primary,
+    onPrimary: onPrimary,
+    secondary: accent,
+    onSecondary: onAccent,
     surface: DukaColors.card,
     onSurface: DukaColors.ink,
     error: DukaColors.rose,
@@ -76,7 +110,10 @@ ThemeData buildDukaTheme() {
       elevation: 0,
       centerTitle: false,
       titleTextStyle: GoogleFonts.outfit(
-          fontSize: 19, fontWeight: FontWeight.w700, color: DukaColors.ink),
+        fontSize: 19,
+        fontWeight: FontWeight.w700,
+        color: DukaColors.ink,
+      ),
       iconTheme: const IconThemeData(color: DukaColors.ink),
     ),
     cardTheme: CardThemeData(
@@ -84,13 +121,14 @@ ThemeData buildDukaTheme() {
       elevation: 0,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: DukaColors.line)),
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: DukaColors.line),
+      ),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: DukaColors.indigo,
-        foregroundColor: Colors.white,
+        backgroundColor: primary,
+        foregroundColor: onPrimary,
         padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: GoogleFonts.karla(fontWeight: FontWeight.w700, fontSize: 15),
@@ -98,8 +136,8 @@ ThemeData buildDukaTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: DukaColors.indigo,
-        foregroundColor: Colors.white,
+        backgroundColor: primary,
+        foregroundColor: onPrimary,
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -108,7 +146,7 @@ ThemeData buildDukaTheme() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: DukaColors.indigo,
+        foregroundColor: primary,
         side: const BorderSide(color: DukaColors.line),
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -116,13 +154,13 @@ ThemeData buildDukaTheme() {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: DukaColors.indigo,
+        foregroundColor: primary,
         textStyle: GoogleFonts.karla(fontWeight: FontWeight.w700),
       ),
     ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: DukaColors.indigo,
-      foregroundColor: Colors.white,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: accent,
+      foregroundColor: onAccent,
       elevation: 1,
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -130,29 +168,40 @@ ThemeData buildDukaTheme() {
       fillColor: Colors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: DukaColors.line)),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: DukaColors.line),
+      ),
       enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: DukaColors.line)),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: DukaColors.line),
+      ),
       focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: DukaColors.indigo, width: 1.5)),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: primary, width: 1.5),
+      ),
       hintStyle: GoogleFonts.karla(color: DukaColors.muted),
       labelStyle: GoogleFonts.karla(color: DukaColors.muted),
     ),
     listTileTheme: ListTileThemeData(
       iconColor: DukaColors.ink,
       titleTextStyle: GoogleFonts.karla(
-          fontWeight: FontWeight.w700, fontSize: 14.5, color: DukaColors.ink),
-      subtitleTextStyle:
-          GoogleFonts.karla(fontSize: 12.5, color: DukaColors.muted),
+        fontWeight: FontWeight.w700,
+        fontSize: 14.5,
+        color: DukaColors.ink,
+      ),
+      subtitleTextStyle: GoogleFonts.karla(
+        fontSize: 12.5,
+        color: DukaColors.muted,
+      ),
     ),
-    dividerTheme:
-        const DividerThemeData(color: DukaColors.line, space: 1, thickness: 1),
+    dividerTheme: const DividerThemeData(
+      color: DukaColors.line,
+      space: 1,
+      thickness: 1,
+    ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: Colors.white,
-      indicatorColor: DukaColors.indigo.withValues(alpha: .10),
+      indicatorColor: accent.withValues(alpha: .28),
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       height: 64,
@@ -161,14 +210,14 @@ ThemeData buildDukaTheme() {
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: states.contains(WidgetState.selected)
-              ? DukaColors.indigo
+              ? primary
               : DukaColors.muted,
         ),
       ),
       iconTheme: WidgetStateProperty.resolveWith(
         (states) => IconThemeData(
           color: states.contains(WidgetState.selected)
-              ? DukaColors.indigo
+              ? primary
               : DukaColors.muted,
         ),
       ),
@@ -181,11 +230,14 @@ ThemeData buildDukaTheme() {
     ),
     chipTheme: base.chipTheme.copyWith(
       backgroundColor: const Color(0xFFF1F2F5),
-      labelStyle:
-          GoogleFonts.karla(fontWeight: FontWeight.w600, color: DukaColors.ink),
+      labelStyle: GoogleFonts.karla(
+        fontWeight: FontWeight.w600,
+        color: DukaColors.ink,
+      ),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(999),
-          side: const BorderSide(color: DukaColors.line)),
+        borderRadius: BorderRadius.circular(999),
+        side: const BorderSide(color: DukaColors.line),
+      ),
       side: const BorderSide(color: DukaColors.line),
     ),
   );

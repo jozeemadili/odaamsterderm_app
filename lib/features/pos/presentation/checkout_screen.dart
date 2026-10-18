@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
+import '../../../l10n/l10n_extension.dart';
 import '../data/pos_models.dart';
 import 'cart_controller.dart';
 
@@ -50,7 +52,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     });
 
     try {
-      final outcome = await ref.read(posRepositoryProvider).checkout(
+      final outcome = await ref
+          .read(posRepositoryProvider)
+          .checkout(
             items: cart.lines.map((l) => l.toInput()).toList(),
             overallDiscountType: cart.overallDiscountType,
             overallDiscountValue: cart.overallDiscountValue,
@@ -112,8 +116,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Order summary',
-                        style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      'Order summary',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 8),
                     for (final line in cart.lines)
                       Padding(
@@ -122,8 +128,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                                child: Text(
-                                    '${line.item.name} × ${line.quantity.toStringAsFixed(line.quantity.truncateToDouble() == line.quantity ? 0 : 2)}')),
+                              child: Text(
+                                '${line.item.name} × ${line.quantity.toStringAsFixed(line.quantity.truncateToDouble() == line.quantity ? 0 : 2)}',
+                              ),
+                            ),
                             Text(formatTzs(line.subtotal)),
                           ],
                         ),
@@ -138,16 +146,21 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Text('Payment method',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Payment method',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             methodsAsync.when(
               loading: () => const LinearProgressIndicator(),
               error: (_, _) => const Text(
-                  'Could not load payment methods — Cash will be used.'),
+                'Could not load payment methods — Cash will be used.',
+              ),
               data: (methods) {
                 if (methods.isEmpty) {
-                  return const Text('No payment methods configured — Cash will be used.');
+                  return const Text(
+                    'No payment methods configured — Cash will be used.',
+                  );
                 }
                 return Wrap(
                   spacing: 8,
@@ -167,36 +180,42 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: _tenderedController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: const InputDecoration(labelText: 'Amount tendered'),
               onChanged: (_) => setState(() => _tenderedTouched = true),
             ),
             const SizedBox(height: 8),
-            Text('Change due: ${formatTzs(_changeDue)}',
-                style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              'Change due: ${formatTzs(_changeDue)}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             if (_pendingApproval != null) ...[
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8)),
+                  color: Colors.orange.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Text(_pendingApproval!.message),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _approverEmailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration:
-                    const InputDecoration(labelText: 'Supervisor email'),
+                decoration: const InputDecoration(
+                  labelText: 'Supervisor email',
+                ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: _approverPasswordController,
                 obscureText: true,
-                decoration:
-                    const InputDecoration(labelText: 'Supervisor password'),
+                decoration: const InputDecoration(
+                  labelText: 'Supervisor password',
+                ),
               ),
             ],
             if (_error != null) ...[
@@ -210,10 +229,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
-                  : Text(_pendingApproval != null
-                      ? 'Approve & complete sale'
-                      : 'Complete sale'),
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      _pendingApproval != null
+                          ? 'Approve & complete sale'
+                          : 'Complete sale',
+                    ),
             ),
           ],
         ),
@@ -222,8 +244,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   Widget _totalRow(String label, double value, {bool bold = false}) {
-    final style =
-        TextStyle(fontWeight: bold ? FontWeight.w700 : FontWeight.w400);
+    final style = TextStyle(
+      fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
@@ -250,25 +273,42 @@ class _ReceiptDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Sale #${sale.id}',
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            'Sale #${sale.id}',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           const SizedBox(height: 8),
-          Text(formatTzs(sale.amount),
-              style: Theme.of(context).textTheme.headlineSmall),
+          Text(
+            formatTzs(sale.amount),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
           if (sale.changeDue != null && sale.changeDue! > 0) ...[
             const SizedBox(height: 4),
             Text('Change due: ${formatTzs(sale.changeDue!)}'),
           ],
           if (sale.paymentMethod != null) ...[
             const SizedBox(height: 4),
-            Text(sale.paymentMethod!,
-                style: const TextStyle(color: Colors.grey)),
+            Text(
+              sale.paymentMethod!,
+              style: const TextStyle(color: Colors.grey),
+            ),
           ],
         ],
       ),
       actions: [
+        if (sale.receiptUrl != null)
+          OutlinedButton.icon(
+            onPressed: () => launchUrl(
+              Uri.parse(sale.receiptUrl!),
+              mode: LaunchMode.externalApplication,
+            ),
+            icon: const Icon(Icons.receipt_long, size: 18),
+            label: Text(context.l10n.receiptOpen),
+          ),
         FilledButton(
-            onPressed: () => Navigator.pop(context), child: const Text('Done')),
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Done'),
+        ),
       ],
     );
   }

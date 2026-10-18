@@ -39,7 +39,9 @@ class _PosScreenState extends ConsumerState<PosScreen> {
     _debounce = Timer(const Duration(milliseconds: 350), () async {
       setState(() => _searching = true);
       try {
-        final page = await ref.read(inventoryRepositoryProvider).list(search: value.trim(), page: 1);
+        final page = await ref
+            .read(inventoryRepositoryProvider)
+            .list(search: value.trim(), page: 1);
         if (mounted) setState(() => _results = page.items.take(8).toList());
       } catch (_) {
         if (mounted) setState(() => _results = []);
@@ -58,7 +60,8 @@ class _PosScreenState extends ConsumerState<PosScreen> {
 
   Future<void> _scan() async {
     final item = await context.push<InventoryItem>('/pos/scan');
-    if (item != null) ref.read(posCartControllerProvider.notifier).addItem(item);
+    if (item != null)
+      ref.read(posCartControllerProvider.notifier).addItem(item);
   }
 
   Future<void> _clearCart() async {
@@ -68,8 +71,14 @@ class _PosScreenState extends ConsumerState<PosScreen> {
         title: const Text('Clear cart?'),
         content: const Text('This removes every item from the current sale.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Clear')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Clear'),
+          ),
         ],
       ),
     );
@@ -86,7 +95,9 @@ class _PosScreenState extends ConsumerState<PosScreen> {
       ),
     );
     if (result == null) return;
-    ref.read(posCartControllerProvider.notifier).setLineDiscount(line.item.id, type: result.$1, value: result.$2);
+    ref
+        .read(posCartControllerProvider.notifier)
+        .setLineDiscount(line.item.id, type: result.$1, value: result.$2);
   }
 
   Future<void> _editOverallDiscount(PosCartState cart) async {
@@ -99,7 +110,9 @@ class _PosScreenState extends ConsumerState<PosScreen> {
       ),
     );
     if (result == null) return;
-    ref.read(posCartControllerProvider.notifier).setOverallDiscount(type: result.$1, value: result.$2);
+    ref
+        .read(posCartControllerProvider.notifier)
+        .setOverallDiscount(type: result.$1, value: result.$2);
   }
 
   @override
@@ -110,9 +123,17 @@ class _PosScreenState extends ConsumerState<PosScreen> {
       appBar: AppBar(
         title: const Text('New sale'),
         actions: [
-          IconButton(icon: const Icon(Icons.qr_code_scanner), tooltip: 'Scan barcode', onPressed: _scan),
+          IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            tooltip: 'Scan barcode',
+            onPressed: _scan,
+          ),
           if (!cart.isEmpty)
-            IconButton(icon: const Icon(Icons.delete_outline), tooltip: 'Clear cart', onPressed: _clearCart),
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: 'Clear cart',
+              onPressed: _clearCart,
+            ),
         ],
       ),
       body: Column(
@@ -128,7 +149,11 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                 suffixIcon: _searching
                     ? const Padding(
                         padding: EdgeInsets.all(12),
-                        child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
                       )
                     : null,
               ),
@@ -157,9 +182,13 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       outOfStock
                           ? 'Out of stock'
                           : '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} on hand',
-                      style: outOfStock ? const TextStyle(color: Colors.redAccent) : null,
+                      style: outOfStock
+                          ? const TextStyle(color: Colors.redAccent)
+                          : null,
                     ),
-                    trailing: item.unitPrice != null ? Text(formatTzs(item.unitPrice!)) : null,
+                    trailing: item.unitPrice != null
+                        ? Text(formatTzs(item.unitPrice!))
+                        : null,
                     onTap: outOfStock ? null : () => _addToCart(item),
                   );
                 },
@@ -168,7 +197,9 @@ class _PosScreenState extends ConsumerState<PosScreen> {
           const SizedBox(height: 8),
           Expanded(
             child: cart.isEmpty
-                ? const Center(child: Text('Search or scan a product to start a sale.'))
+                ? const Center(
+                    child: Text('Search or scan a product to start a sale.'),
+                  )
                 : ListView.separated(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     itemCount: cart.lines.length,
@@ -177,17 +208,24 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                       final line = cart.lines[index];
                       return _CartLineTile(
                         line: line,
-                        onIncrement: () =>
-                            ref.read(posCartControllerProvider.notifier).setQuantity(line.item.id, line.quantity + 1),
-                        onDecrement: () =>
-                            ref.read(posCartControllerProvider.notifier).setQuantity(line.item.id, line.quantity - 1),
+                        onIncrement: () => ref
+                            .read(posCartControllerProvider.notifier)
+                            .setQuantity(line.item.id, line.quantity + 1),
+                        onDecrement: () => ref
+                            .read(posCartControllerProvider.notifier)
+                            .setQuantity(line.item.id, line.quantity - 1),
                         onDiscount: () => _editLineDiscount(line),
-                        onRemove: () => ref.read(posCartControllerProvider.notifier).removeItem(line.item.id),
+                        onRemove: () => ref
+                            .read(posCartControllerProvider.notifier)
+                            .removeItem(line.item.id),
                       );
                     },
                   ),
           ),
-          _SummaryPanel(cart: cart, onEditDiscount: () => _editOverallDiscount(cart)),
+          _SummaryPanel(
+            cart: cart,
+            onEditDiscount: () => _editOverallDiscount(cart),
+          ),
         ],
       ),
     );
@@ -220,22 +258,42 @@ class _CartLineTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(line.item.name, style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  line.item.name,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 2),
                 Row(
                   children: [
-                    Text(formatTzs(line.unitPrice), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    Text(
+                      formatTzs(line.unitPrice),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                     if (line.discountAmount > 0) ...[
                       const SizedBox(width: 6),
-                      Text('−${formatTzs(line.discountAmount)}', style: const TextStyle(color: Colors.orange, fontSize: 12)),
+                      Text(
+                        '−${formatTzs(line.discountAmount)}',
+                        style: const TextStyle(
+                          color: Colors.orange,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ],
                 ),
                 TextButton.icon(
                   onPressed: onDiscount,
                   icon: const Icon(Icons.percent, size: 14),
-                  label: Text(line.discountType == null ? 'Discount' : 'Edit discount'),
-                  style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 28), visualDensity: VisualDensity.compact),
+                  label: Text(
+                    line.discountType == null ? 'Discount' : 'Edit discount',
+                  ),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(0, 28),
+                    visualDensity: VisualDensity.compact,
+                  ),
                 ),
               ],
             ),
@@ -251,7 +309,11 @@ class _CartLineTile extends StatelessWidget {
                     visualDensity: VisualDensity.compact,
                     onPressed: onDecrement,
                   ),
-                  Text(line.quantity.toStringAsFixed(line.quantity.truncateToDouble() == line.quantity ? 0 : 2)),
+                  Text(
+                    line.quantity.toStringAsFixed(
+                      line.quantity.truncateToDouble() == line.quantity ? 0 : 2,
+                    ),
+                  ),
                   IconButton(
                     icon: const Icon(Icons.add_circle_outline),
                     visualDensity: VisualDensity.compact,
@@ -259,11 +321,21 @@ class _CartLineTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(formatTzs(line.subtotal), style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                formatTzs(line.subtotal),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               TextButton(
                 onPressed: onRemove,
-                style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 24), visualDensity: VisualDensity.compact),
-                child: const Text('Remove', style: TextStyle(color: Colors.redAccent, fontSize: 12)),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 24),
+                  visualDensity: VisualDensity.compact,
+                ),
+                child: const Text(
+                  'Remove',
+                  style: TextStyle(color: Colors.redAccent, fontSize: 12),
+                ),
               ),
             ],
           ),
@@ -285,7 +357,13 @@ class _SummaryPanel extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, -2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: SafeArea(
         top: false,
@@ -297,7 +375,9 @@ class _SummaryPanel extends ConsumerWidget {
               onTap: onEditDiscount,
               child: _SummaryRow(
                 cart.overallDiscountType == null ? 'Add discount' : 'Discount',
-                cart.overallDiscountAmount > 0 ? '−${formatTzs(cart.overallDiscountAmount)}' : '—',
+                cart.overallDiscountAmount > 0
+                    ? '−${formatTzs(cart.overallDiscountAmount)}'
+                    : '—',
                 trailing: const Icon(Icons.chevron_right, size: 18),
               ),
             ),
@@ -307,8 +387,14 @@ class _SummaryPanel extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: cart.isEmpty ? null : () => context.push('/pos/checkout'),
-                child: Text(cart.isEmpty ? 'Add items to charge' : 'Charge · ${formatTzs(cart.total)}'),
+                onPressed: cart.isEmpty
+                    ? null
+                    : () => context.push('/pos/checkout'),
+                child: Text(
+                  cart.isEmpty
+                      ? 'Add items to charge'
+                      : 'Charge · ${formatTzs(cart.total)}',
+                ),
               ),
             ),
           ],
@@ -328,14 +414,29 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(fontWeight: bold ? FontWeight.w700 : FontWeight.w500, fontSize: bold ? 17 : 14.5);
+    final style = TextStyle(
+      fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
+      fontSize: bold ? 17 : 14.5,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: style.copyWith(color: bold ? null : Theme.of(context).colorScheme.onSurfaceVariant)),
-          Row(children: [Text(value, style: style), ?trailing]),
+          Text(
+            label,
+            style: style.copyWith(
+              color: bold
+                  ? null
+                  : Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          Row(
+            children: [
+              Text(value, style: style),
+              ?trailing,
+            ],
+          ),
         ],
       ),
     );
@@ -343,7 +444,11 @@ class _SummaryRow extends StatelessWidget {
 }
 
 class _DiscountDialog extends StatefulWidget {
-  const _DiscountDialog({required this.title, this.initialType, this.initialValue});
+  const _DiscountDialog({
+    required this.title,
+    this.initialType,
+    this.initialValue,
+  });
 
   final String title;
   final String? initialType;
@@ -355,7 +460,9 @@ class _DiscountDialog extends StatefulWidget {
 
 class _DiscountDialogState extends State<_DiscountDialog> {
   late String _type = widget.initialType ?? 'percent';
-  late final _controller = TextEditingController(text: widget.initialValue?.toStringAsFixed(0) ?? '');
+  late final _controller = TextEditingController(
+    text: widget.initialValue?.toStringAsFixed(0) ?? '',
+  );
 
   @override
   void dispose() {
@@ -382,7 +489,9 @@ class _DiscountDialogState extends State<_DiscountDialog> {
           TextField(
             controller: _controller,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: InputDecoration(labelText: _type == 'percent' ? 'Percent off' : 'Amount off'),
+            decoration: InputDecoration(
+              labelText: _type == 'percent' ? 'Percent off' : 'Amount off',
+            ),
             autofocus: true,
           ),
         ],
@@ -393,7 +502,10 @@ class _DiscountDialogState extends State<_DiscountDialog> {
             onPressed: () => Navigator.pop(context, (null, null)),
             child: const Text('Remove'),
           ),
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
         FilledButton(
           onPressed: () {
             final value = double.tryParse(_controller.text);

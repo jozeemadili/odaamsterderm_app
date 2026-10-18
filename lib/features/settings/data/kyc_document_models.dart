@@ -8,12 +8,12 @@ class KycDocument {
   });
 
   factory KycDocument.fromJson(Map<String, dynamic> json) => KycDocument(
-        id: json['id'] as int,
-        documentType: json['document_type'] as String,
-        status: json['status'] as String,
-        notes: json['notes'] as String?,
-        fileUrl: json['file_url'] as String?,
-      );
+    id: json['id'] as int,
+    documentType: json['document_type'] as String,
+    status: json['status'] as String,
+    notes: json['notes'] as String?,
+    fileUrl: json['file_url'] as String?,
+  );
 
   final int id;
   final String documentType;
@@ -22,10 +22,10 @@ class KycDocument {
   final String? fileUrl;
 
   String get statusLabel => switch (status) {
-        'approved' => 'Approved',
-        'rejected' => 'Rejected',
-        _ => 'Pending review',
-      };
+    'approved' => 'Approved',
+    'rejected' => 'Rejected',
+    _ => 'Pending review',
+  };
 
   /// document_type value -> display label. Matches KycDocumentController's
   /// validation list on the API.

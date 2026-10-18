@@ -249,6 +249,18 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                           ),
                   ),
                 ),
+              if (o.receiptUrl != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () => launchUrl(
+                      Uri.parse(o.receiptUrl!),
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    icon: const Icon(Icons.receipt_long, size: 18),
+                    label: Text(l10n.receiptOpen),
+                  ),
+                ),
               const SizedBox(height: 8),
               Text(
                 l10n.orderItems,

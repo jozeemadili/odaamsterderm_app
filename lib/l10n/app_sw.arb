@@ -312,5 +312,6 @@
   "orderDistanceRetry": "Washa mahali",
   "orderDirections": "Maelekezo",
   "marketNearestShort": "Karibu zaidi",
-  "marketSetLocationForDistance": "Weka mahali ulipo kuona umbali"
+  "marketSetLocationForDistance": "Weka mahali ulipo kuona umbali",
+  "receiptOpen": "Risiti"
 }

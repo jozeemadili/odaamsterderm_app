@@ -29,14 +29,13 @@ class StaffRepository {
     required String role,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/staff', data: {
-        'name': name,
-        'email': email,
-        'phone': phone,
-        'role': role,
-      }),
+      () => _client.dio.post(
+        '/staff',
+        data: {'name': name, 'email': email, 'phone': phone, 'role': role},
+      ),
     );
-    return DukaUser.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return DukaUser.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 }

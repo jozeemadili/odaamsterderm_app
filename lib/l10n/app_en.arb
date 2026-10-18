@@ -451,5 +451,6 @@
     }
   },
   "marketNearestShort": "Nearest",
-  "marketSetLocationForDistance": "Set your location to see the distance"
+  "marketSetLocationForDistance": "Set your location to see the distance",
+  "receiptOpen": "Receipt"
 }

@@ -4,17 +4,19 @@ import '../../auth/presentation/auth_controller.dart';
 import '../../inventory/data/inventory_models.dart';
 import '../data/pos_repository.dart';
 
-final posRepositoryProvider =
-    Provider((ref) => PosRepository(ref.watch(apiClientProvider)));
+final posRepositoryProvider = Provider(
+  (ref) => PosRepository(ref.watch(apiClientProvider)),
+);
 
 /// One line in the cart. Discount fields mirror the backend's own shape —
 /// `percent` (of unit price) or `fixed` (a flat amount off the unit price).
 class CartLine {
-  CartLine(
-      {required this.item,
-      required this.quantity,
-      this.discountType,
-      this.discountValue});
+  CartLine({
+    required this.item,
+    required this.quantity,
+    this.discountType,
+    this.discountValue,
+  });
 
   final InventoryItem item;
   final double quantity;
@@ -36,26 +38,28 @@ class CartLine {
 
   double get subtotal => grossAmount - discountAmount;
 
-  CartLine copyWith(
-      {double? quantity,
-      String? discountType,
-      double? discountValue,
-      bool clearDiscount = false}) {
+  CartLine copyWith({
+    double? quantity,
+    String? discountType,
+    double? discountValue,
+    bool clearDiscount = false,
+  }) {
     return CartLine(
       item: item,
       quantity: quantity ?? this.quantity,
       discountType: clearDiscount ? null : (discountType ?? this.discountType),
-      discountValue:
-          clearDiscount ? null : (discountValue ?? this.discountValue),
+      discountValue: clearDiscount
+          ? null
+          : (discountValue ?? this.discountValue),
     );
   }
 
   CartLineInput toInput() => CartLineInput(
-        inventoryItemId: item.id,
-        quantity: quantity,
-        discountType: discountType,
-        discountValue: discountValue,
-      );
+    inventoryItemId: item.id,
+    quantity: quantity,
+    discountType: discountType,
+    discountValue: discountValue,
+  );
 }
 
 class PosCartState {
@@ -122,11 +126,16 @@ class PosCartController extends StateNotifier<PosCartState> {
     final index = state.lines.indexWhere((l) => l.item.id == item.id);
     if (index == -1) {
       state = state.copyWith(
-          lines: [...state.lines, CartLine(item: item, quantity: quantity)]);
+        lines: [
+          ...state.lines,
+          CartLine(item: item, quantity: quantity),
+        ],
+      );
     } else {
       final updated = [...state.lines];
-      updated[index] =
-          updated[index].copyWith(quantity: updated[index].quantity + quantity);
+      updated[index] = updated[index].copyWith(
+        quantity: updated[index].quantity + quantity,
+      );
       state = state.copyWith(lines: updated);
     }
   }
@@ -136,33 +145,41 @@ class PosCartController extends StateNotifier<PosCartState> {
       removeItem(itemId);
       return;
     }
-    state = state.copyWith(lines: [
-      for (final l in state.lines)
-        if (l.item.id == itemId) l.copyWith(quantity: quantity) else l,
-    ]);
+    state = state.copyWith(
+      lines: [
+        for (final l in state.lines)
+          if (l.item.id == itemId) l.copyWith(quantity: quantity) else l,
+      ],
+    );
   }
 
   void removeItem(int itemId) {
     state = state.copyWith(
-        lines: state.lines.where((l) => l.item.id != itemId).toList());
+      lines: state.lines.where((l) => l.item.id != itemId).toList(),
+    );
   }
 
   void setLineDiscount(int itemId, {String? type, double? value}) {
-    state = state.copyWith(lines: [
-      for (final l in state.lines)
-        if (l.item.id == itemId)
-          l.copyWith(
+    state = state.copyWith(
+      lines: [
+        for (final l in state.lines)
+          if (l.item.id == itemId)
+            l.copyWith(
               discountType: type,
               discountValue: value,
-              clearDiscount: type == null)
-        else
-          l,
-    ]);
+              clearDiscount: type == null,
+            )
+          else
+            l,
+      ],
+    );
   }
 
   void setOverallDiscount({String? type, double? value}) {
-    state =
-        state.copyWith(overallDiscountType: type, overallDiscountValue: value);
+    state = state.copyWith(
+      overallDiscountType: type,
+      overallDiscountValue: value,
+    );
   }
 
   void setPaymentMethod(int? id) => state = state.copyWith(paymentMethodId: id);
@@ -172,8 +189,9 @@ class PosCartController extends StateNotifier<PosCartState> {
 
 final posCartControllerProvider =
     StateNotifierProvider<PosCartController, PosCartState>(
-  (ref) => PosCartController(),
-);
+      (ref) => PosCartController(),
+    );
 
 final paymentMethodsProvider = FutureProvider.autoDispose(
-    (ref) => ref.watch(posRepositoryProvider).paymentMethods());
+  (ref) => ref.watch(posRepositoryProvider).paymentMethods(),
+);

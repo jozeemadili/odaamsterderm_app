@@ -37,7 +37,8 @@ class _HomeShellState extends State<HomeShell> {
       ),
       bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: DukaColors.line))),
+          border: Border(top: BorderSide(color: DukaColors.line)),
+        ),
         child: NavigationBar(
           selectedIndex: _index,
           onDestinationSelected: (i) => setState(() => _index = i),

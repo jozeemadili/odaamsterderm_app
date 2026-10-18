@@ -58,6 +58,7 @@ class MarketOrder {
     required this.nextStatuses,
     this.sellerName,
     this.store,
+    this.receiptUrl,
     this.customerName,
     this.customerPhone,
     this.items = const [],
@@ -86,6 +87,7 @@ class MarketOrder {
         )
         .toList(),
     sellerName: (json['seller'] as Map<String, dynamic>?)?['name'] as String?,
+    receiptUrl: json['receipt_url'] as String?,
     store: json['store'] != null
         ? PublicStore.fromJson(json['store'] as Map<String, dynamic>)
         : null,
@@ -118,6 +120,9 @@ class MarketOrder {
   final List<({String status, String label})> nextStatuses;
   final String? sellerName;
   final PublicStore? store;
+
+  /// Seller-branded receipt (signed link, opens without signing in).
+  final String? receiptUrl;
   final String? customerName;
   final String? customerPhone;
   final List<OrderItemLine> items;

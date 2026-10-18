@@ -1037,4 +1037,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get marketSetLocationForDistance => 'Weka mahali ulipo kuona umbali';
+
+  @override
+  String get receiptOpen => 'Risiti';
 }

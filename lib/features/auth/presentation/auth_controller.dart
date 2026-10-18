@@ -141,6 +141,14 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
+  /// Replaces the signed-in seller's business after a profile/branding change
+  /// (the app re-themes with the new brand colours straight away).
+  void updateMerchant(DukaMerchant merchant) {
+    if (state.status == AuthStatus.authenticated) {
+      state = AuthState.authenticated(state.user!, merchant);
+    }
+  }
+
   /// Returns null on success (state updated), or a [GoogleRegistrationRequired]
   /// the caller should hand to a "complete your business details" screen.
   Future<GoogleRegistrationRequired?> loginWithGoogle(

@@ -12,8 +12,8 @@ class ShopSettingsScreen extends ConsumerWidget {
 
   Future<void> _pickLanguage(BuildContext context, WidgetRef ref) async {
     final l10n = context.l10n;
-    final currentLocale = ref.read(localeControllerProvider) ??
-        Localizations.localeOf(context);
+    final currentLocale =
+        ref.read(localeControllerProvider) ?? Localizations.localeOf(context);
 
     final picked = await showModalBottomSheet<Locale>(
       context: context,
@@ -25,8 +25,10 @@ class ShopSettingsScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(l10n.languagePickerTitle,
-                    style: Theme.of(context).textTheme.titleSmall),
+                child: Text(
+                  l10n.languagePickerTitle,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ),
             ),
             ListTile(
@@ -101,11 +103,12 @@ class ShopSettingsScreen extends ConsumerWidget {
 }
 
 class _SettingsTile extends StatelessWidget {
-  const _SettingsTile(
-      {required this.icon,
-      required this.title,
-      required this.subtitle,
-      required this.onTap});
+  const _SettingsTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String title;

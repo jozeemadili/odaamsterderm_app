@@ -41,8 +41,11 @@ class _KycDocumentsScreenState extends ConsumerState<KycDocumentsScreen> {
     );
     if (source == null) return;
 
-    final picked = await ImagePicker()
-        .pickImage(source: source, maxWidth: 2000, imageQuality: 90);
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 2000,
+      imageQuality: 90,
+    );
     if (picked == null) return;
 
     setState(() => _uploadingType = documentType);
@@ -53,7 +56,9 @@ class _KycDocumentsScreenState extends ConsumerState<KycDocumentsScreen> {
       ref.invalidate(kycDocumentListProvider);
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _uploadingType = null);
@@ -74,8 +79,11 @@ class _KycDocumentsScreenState extends ConsumerState<KycDocumentsScreen> {
             children: [
               const SizedBox(height: 80),
               Center(
-                  child: Text('Could not load documents.\n$e',
-                      textAlign: TextAlign.center)),
+                child: Text(
+                  'Could not load documents.\n$e',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
           data: (documents) {
@@ -100,11 +108,12 @@ class _KycDocumentsScreenState extends ConsumerState<KycDocumentsScreen> {
 }
 
 class _DocumentTile extends StatelessWidget {
-  const _DocumentTile(
-      {required this.label,
-      required this.document,
-      required this.uploading,
-      required this.onTap});
+  const _DocumentTile({
+    required this.label,
+    required this.document,
+    required this.uploading,
+    required this.onTap,
+  });
 
   final String label;
   final KycDocument? document;
@@ -112,26 +121,30 @@ class _DocumentTile extends StatelessWidget {
   final VoidCallback onTap;
 
   Color _statusColor(String status) => switch (status) {
-        'approved' => Colors.green,
-        'rejected' => Colors.redAccent,
-        _ => Colors.blueGrey,
-      };
+    'approved' => Colors.green,
+    'rejected' => Colors.redAccent,
+    _ => Colors.blueGrey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(
-          document != null ? Icons.description : Icons.upload_file_outlined),
+        document != null ? Icons.description : Icons.upload_file_outlined,
+      ),
       title: Text(label),
       subtitle: document != null
-          ? Text(document!.statusLabel,
-              style: TextStyle(color: _statusColor(document!.status)))
+          ? Text(
+              document!.statusLabel,
+              style: TextStyle(color: _statusColor(document!.status)),
+            )
           : const Text('Not uploaded'),
       trailing: uploading
           ? const SizedBox(
               height: 18,
               width: 18,
-              child: CircularProgressIndicator(strokeWidth: 2))
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
           : Icon(document != null ? Icons.refresh : Icons.camera_alt_outlined),
       onTap: uploading ? null : onTap,
     );

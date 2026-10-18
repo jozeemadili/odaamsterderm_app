@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -163,7 +164,7 @@ class _PeriodSelector extends ConsumerWidget {
 }
 
 /// ---------------------------------------------------------------------
-/// Top bar — plain mark (never a real logo), greeting, business name.
+/// Top bar — the seller's logo on their brand colour, greeting, business name.
 /// ---------------------------------------------------------------------
 class _TopBar extends StatelessWidget {
   const _TopBar({
@@ -185,17 +186,34 @@ class _TopBar extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 38,
-          height: 38,
+          width: 44,
+          height: 44,
+          padding: EdgeInsets.all(auth.merchant?.logoUrl != null ? 3 : 0),
           decoration: BoxDecoration(
-            color: DukaColors.ink,
-            borderRadius: BorderRadius.circular(11),
+            color: auth.merchant?.logoUrl != null
+                ? Colors.white
+                : Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.secondary,
+              width: 2,
+            ),
           ),
-          child: const Icon(
-            Icons.storefront_outlined,
-            color: Colors.white,
-            size: 17,
-          ),
+          child: auth.merchant?.logoUrl != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(9),
+                  child: CachedNetworkImage(
+                    imageUrl: auth.merchant!.logoUrl!,
+                    fit: BoxFit.contain,
+                    errorWidget: (_, _, _) =>
+                        const Icon(Icons.storefront_outlined, size: 18),
+                  ),
+                )
+              : Icon(
+                  Icons.storefront_outlined,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  size: 18,
+                ),
         ),
         const SizedBox(width: 10),
         Expanded(

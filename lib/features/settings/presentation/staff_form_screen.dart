@@ -40,7 +40,9 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
       _error = null;
     });
     try {
-      final user = await ref.read(staffRepositoryProvider).create(
+      final user = await ref
+          .read(staffRepositoryProvider)
+          .create(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
             phone: _phoneController.text.trim().isEmpty
@@ -74,20 +76,22 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Full name'),
-                autofocus: true),
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Full name'),
+              autofocus: true,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress),
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _phoneController,
-                decoration:
-                    const InputDecoration(labelText: 'Phone (optional)'),
-                keyboardType: TextInputType.phone),
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone (optional)'),
+              keyboardType: TextInputType.phone,
+            ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
               initialValue: _role,
@@ -105,7 +109,8 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Add staff'),
             ),
           ],

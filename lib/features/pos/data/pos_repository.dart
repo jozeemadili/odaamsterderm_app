@@ -17,11 +17,11 @@ class CartLineInput {
   final double? discountValue;
 
   Map<String, dynamic> toJson() => {
-        'inventory_item_id': inventoryItemId,
-        'quantity': quantity,
-        if (discountType != null) 'discount_type': discountType,
-        if (discountValue != null) 'discount_value': discountValue,
-      };
+    'inventory_item_id': inventoryItemId,
+    'quantity': quantity,
+    if (discountType != null) 'discount_type': discountType,
+    if (discountValue != null) 'discount_value': discountValue,
+  };
 }
 
 class PosRepository {
@@ -30,8 +30,9 @@ class PosRepository {
   final ApiClient _client;
 
   Future<List<PaymentMethod>> paymentMethods() async {
-    final response =
-        await _client.guard(() => _client.dio.get('/payment-methods'));
+    final response = await _client.guard(
+      () => _client.dio.get('/payment-methods'),
+    );
     final data = (response.data as Map<String, dynamic>)['data'] as List;
     return data
         .map((e) => PaymentMethod.fromJson(e as Map<String, dynamic>))
@@ -51,18 +52,25 @@ class PosRepository {
     String? approverPassword,
   }) async {
     try {
-      final response = await _client.dio.post('/pos/checkout', data: {
-        'items': items.map((i) => i.toJson()).toList(),
-        'customer_id': customerId,
-        'overall_discount_type': overallDiscountType,
-        'overall_discount_value': overallDiscountValue,
-        'payment_method_id': paymentMethodId,
-        'amount_tendered': amountTendered,
-        'approver_email': approverEmail,
-        'approver_password': approverPassword,
-      });
-      return CheckoutSuccess(SaleResult.fromJson((response.data
-          as Map<String, dynamic>)['data'] as Map<String, dynamic>));
+      final response = await _client.dio.post(
+        '/pos/checkout',
+        data: {
+          'items': items.map((i) => i.toJson()).toList(),
+          'customer_id': customerId,
+          'overall_discount_type': overallDiscountType,
+          'overall_discount_value': overallDiscountValue,
+          'payment_method_id': paymentMethodId,
+          'amount_tendered': amountTendered,
+          'approver_email': approverEmail,
+          'approver_password': approverPassword,
+        },
+      );
+      return CheckoutSuccess(
+        SaleResult.fromJson(
+          (response.data as Map<String, dynamic>)['data']
+              as Map<String, dynamic>,
+        ),
+      );
     } on DioException catch (e) {
       final data = e.response?.data;
       if (e.response?.statusCode == 422 &&
@@ -70,8 +78,8 @@ class PosRepository {
           data['needs_approval'] == true) {
         return CheckoutNeedsApproval(
           message: data['message'] as String,
-          effectivePercent:
-              (data['effective_discount_percent'] as num).toDouble(),
+          effectivePercent: (data['effective_discount_percent'] as num)
+              .toDouble(),
           myLimitPercent: (data['my_limit_percent'] as num).toDouble(),
         );
       }

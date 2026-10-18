@@ -93,6 +93,9 @@ class DukaMerchant {
     required this.kycStatus,
     required this.status,
     required this.brandColor,
+    this.brandAccentColor = '#C9972E',
+    this.brandTextColor = '#FFFFFF',
+    this.brandAccentTextColor = '#01162F',
     this.logoUrl,
   });
 
@@ -111,6 +114,10 @@ class DukaMerchant {
     kycStatus: json['kyc_status'] as String,
     status: json['status'] as String,
     brandColor: json['brand_color'] as String,
+    brandAccentColor: json['brand_accent_color'] as String? ?? '#C9972E',
+    brandTextColor: json['brand_text_color'] as String? ?? '#FFFFFF',
+    brandAccentTextColor:
+        json['brand_accent_text_color'] as String? ?? '#01162F',
     logoUrl: json['logo_url'] as String?,
   );
 
@@ -128,6 +135,13 @@ class DukaMerchant {
   final String kycStatus;
   final String status;
   final String brandColor;
+
+  /// Second brand colour (highlights, totals, floating button).
+  final String brandAccentColor;
+
+  /// Readable text on [brandColor] / [brandAccentColor] (worked out by the server).
+  final String brandTextColor;
+  final String brandAccentTextColor;
   final String? logoUrl;
 }
 
