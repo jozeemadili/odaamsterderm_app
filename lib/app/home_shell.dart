@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/dashboard/presentation/dashboard_screen.dart';
 import '../features/inventory/presentation/inventory_list_screen.dart';
 import '../features/invoices/presentation/invoice_list_screen.dart';
 import '../features/more/presentation/more_screen.dart';
 import '../features/pos/presentation/pos_screen.dart';
+import '../features/stores/presentation/current_store.dart';
 import '../l10n/l10n_extension.dart';
 import 'theme.dart';
 
 /// Bottom-nav shell for the app's main destinations. Each tab keeps its own
 /// Scaffold/AppBar; this only swaps which one is visible.
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
 
   @override
@@ -25,7 +27,9 @@ class _HomeShellState extends State<HomeShell> {
     final l10n = context.l10n;
 
     return Scaffold(
+      // Switching store reloads every tab with that store's data.
       body: IndexedStack(
+        key: ValueKey(ref.watch(currentStoreProvider)),
         index: _index,
         children: const [
           DashboardScreen(),

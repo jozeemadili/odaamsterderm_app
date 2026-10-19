@@ -25,6 +25,9 @@ class ApiClient {
             options.headers['Authorization'] = 'Bearer $token';
           }
           options.headers['Accept'] = 'application/json';
+          if (storeId != null) {
+            options.headers['X-Store-Id'] = '$storeId';
+          }
           handler.next(options);
         },
         onError: (error, handler) => handler.next(error),
@@ -35,9 +38,13 @@ class ApiClient {
   final Dio dio;
   final TokenStorage _tokenStorage;
 
+  /// The seller store being worked in (sent as X-Store-Id); null = all.
+  int? storeId;
+
   /// Runs [request] and converts any Dio error into an [ApiException].
   Future<Response<dynamic>> guard(
-      Future<Response<dynamic>> Function() request) async {
+    Future<Response<dynamic>> Function() request,
+  ) async {
     try {
       return await request();
     } on DioException catch (e) {
@@ -59,12 +66,15 @@ class ApiClient {
       if (rawErrors is Map) {
         errors = rawErrors.map(
           (key, value) => MapEntry(
-              key as String, (value as List).map((v) => v.toString()).toList()),
+            key as String,
+            (value as List).map((v) => v.toString()).toList(),
+          ),
         );
       }
 
       return ApiException(
-        message: (data['message'] as String?) ??
+        message:
+            (data['message'] as String?) ??
             e.message ??
             'Something went wrong.',
         errors: errors,

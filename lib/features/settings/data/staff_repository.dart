@@ -27,11 +27,20 @@ class StaffRepository {
     required String email,
     String? phone,
     required String role,
+    bool allStores = true,
+    List<int> storeIds = const [],
   }) async {
     final response = await _client.guard(
       () => _client.dio.post(
         '/staff',
-        data: {'name': name, 'email': email, 'phone': phone, 'role': role},
+        data: {
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'role': role,
+          'all_stores': allStores,
+          if (!allStores) 'store_ids': storeIds,
+        },
       ),
     );
     return DukaUser.fromJson(

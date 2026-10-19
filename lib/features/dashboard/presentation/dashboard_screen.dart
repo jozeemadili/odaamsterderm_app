@@ -11,6 +11,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../auth/presentation/auth_controller.dart';
 import '../../notifications/presentation/notification_controller.dart';
+import '../../stores/presentation/current_store.dart';
 import '../data/dashboard_models.dart';
 import '../data/dashboard_repository.dart';
 
@@ -240,6 +241,11 @@ class _TopBar extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
+              if (auth.user?.stores.isNotEmpty ?? false)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: StoreSwitcherChip(allLabel: l10n.storeAll),
+                ),
             ],
           ),
         ),

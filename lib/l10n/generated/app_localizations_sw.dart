@@ -1040,4 +1040,24 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get receiptOpen => 'Risiti';
+
+  @override
+  String get storeAll => 'Maduka yangu yote';
+
+  @override
+  String get posChooseStore => 'Unauza kutoka duka gani?';
+
+  @override
+  String get posChooseStoreHint =>
+      'Mauzo yatatoka kwenye stoo ya duka hilo na kurekodiwa kwake.';
+
+  @override
+  String get staffStoreAccess => 'Ruhusa ya maduka';
+
+  @override
+  String get staffAllStores => 'Maduka yote (sasa na ya baadaye)';
+
+  @override
+  String get staffChooseStore =>
+      'Chagua angalau duka moja, au washa Maduka yote.';
 }

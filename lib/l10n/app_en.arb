@@ -452,5 +452,11 @@
   },
   "marketNearestShort": "Nearest",
   "marketSetLocationForDistance": "Set your location to see the distance",
-  "receiptOpen": "Receipt"
+  "receiptOpen": "Receipt",
+  "storeAll": "All my stores",
+  "posChooseStore": "Which store are you selling from?",
+  "posChooseStoreHint": "The till sells that store's stock and records the sale under it.",
+  "staffStoreAccess": "Store access",
+  "staffAllStores": "All stores (now and future)",
+  "staffChooseStore": "Choose at least one store, or turn on All stores."
 }

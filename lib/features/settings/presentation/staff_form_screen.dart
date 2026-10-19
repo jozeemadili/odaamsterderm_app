@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_exception.dart';
+import '../../../l10n/l10n_extension.dart';
+import '../../inventory/presentation/inventory_controller.dart';
 import '../data/staff_repository.dart';
 import 'settings_controller.dart';
 
@@ -18,6 +20,8 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   String _role = StaffRepository.roles.keys.first;
+  bool _allStores = false;
+  final Set<int> _storeIds = {};
   bool _submitting = false;
   String? _error;
 
@@ -35,6 +39,10 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
       setState(() => _error = 'Name and email are required.');
       return;
     }
+    if (!_allStores && _storeIds.isEmpty) {
+      setState(() => _error = context.l10n.staffChooseStore);
+      return;
+    }
     setState(() {
       _submitting = true;
       _error = null;
@@ -49,6 +57,8 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
                 ? null
                 : _phoneController.text.trim(),
             role: _role,
+            allStores: _allStores,
+            storeIds: _storeIds.toList(),
           );
       if (mounted) context.pop(user);
     } on ApiException catch (e) {
@@ -102,6 +112,39 @@ class _StaffFormScreenState extends ConsumerState<StaffFormScreen> {
               ],
               onChanged: (v) => setState(() => _role = v ?? _role),
             ),
+            const SizedBox(height: 16),
+            Text(
+              context.l10n.staffStoreAccess,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.staffAllStores),
+              value: _allStores,
+              onChanged: (v) => setState(() => _allStores = v),
+            ),
+            if (!_allStores)
+              ref
+                  .watch(inventoryBranchesProvider)
+                  .maybeWhen(
+                    data: (stores) => Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: [
+                        for (final store in stores)
+                          FilterChip(
+                            label: Text(store.name),
+                            selected: _storeIds.contains(store.id),
+                            onSelected: (on) => setState(
+                              () => on
+                                  ? _storeIds.add(store.id)
+                                  : _storeIds.remove(store.id),
+                            ),
+                          ),
+                      ],
+                    ),
+                    orElse: () => const LinearProgressIndicator(),
+                  ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _submitting ? null : _submit,

@@ -39,6 +39,8 @@ class DukaUser {
     this.latitude,
     this.longitude,
     this.locationLabel,
+    this.allStores = false,
+    this.stores = const [],
   });
 
   factory DukaUser.fromJson(Map<String, dynamic> json) => DukaUser(
@@ -57,6 +59,14 @@ class DukaUser {
             ?.toDouble(),
     locationLabel:
         (json['location'] as Map<String, dynamic>?)?['label'] as String?,
+    allStores: json['all_stores'] as bool? ?? false,
+    stores: [
+      for (final s in (json['stores'] as List? ?? const []))
+        StoreRef(
+          id: (s as Map<String, dynamic>)['id'] as int,
+          name: s['name'] as String,
+        ),
+    ],
   );
 
   final int id;
@@ -73,8 +83,22 @@ class DukaUser {
   final double? longitude;
   final String? locationLabel;
 
+  /// Seller staff: works in every store of the business.
+  final bool allStores;
+
+  /// Seller staff: the stores this person may see and operate.
+  final List<StoreRef> stores;
+
   /// Marketplace buyer (farmer, livestock keeper, retailer) — not a seller.
   bool get isCustomer => userType == 'customer';
+}
+
+/// A store (branch) a seller's staff member works in.
+class StoreRef {
+  const StoreRef({required this.id, required this.name});
+
+  final int id;
+  final String name;
 }
 
 class DukaMerchant {

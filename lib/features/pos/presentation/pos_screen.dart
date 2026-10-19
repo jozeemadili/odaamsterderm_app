@@ -6,8 +6,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
+import '../../../l10n/l10n_extension.dart';
+import '../../auth/data/auth_models.dart';
+import '../../auth/presentation/auth_controller.dart';
 import '../../inventory/data/inventory_models.dart';
 import '../../inventory/presentation/inventory_controller.dart';
+import '../../stores/presentation/current_store.dart';
 import 'cart_controller.dart';
 
 class PosScreen extends ConsumerStatefulWidget {
@@ -118,6 +122,41 @@ class _PosScreenState extends ConsumerState<PosScreen> {
   @override
   Widget build(BuildContext context) {
     final cart = ref.watch(posCartControllerProvider);
+    final stores = ref.watch(
+      authControllerProvider.select(
+        (a) => a.user?.stores ?? const <StoreRef>[],
+      ),
+    );
+    final currentStore = ref.watch(currentStoreProvider);
+
+    // The till sells from one store: ask which, when the person has several.
+    if (currentStore == null && stores.length > 1) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('New sale')),
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text(
+              context.l10n.posChooseStore,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 4),
+            Text(context.l10n.posChooseStoreHint),
+            const SizedBox(height: 12),
+            for (final store in stores)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: FilledButton.icon(
+                  onPressed: () =>
+                      ref.read(currentStoreProvider.notifier).choose(store.id),
+                  icon: const Icon(Icons.storefront_outlined),
+                  label: Text(store.name),
+                ),
+              ),
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

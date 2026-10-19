@@ -1981,6 +1981,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Receipt'**
   String get receiptOpen;
+
+  /// No description provided for @storeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All my stores'**
+  String get storeAll;
+
+  /// No description provided for @posChooseStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Which store are you selling from?'**
+  String get posChooseStore;
+
+  /// No description provided for @posChooseStoreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The till sells that store\'s stock and records the sale under it.'**
+  String get posChooseStoreHint;
+
+  /// No description provided for @staffStoreAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Store access'**
+  String get staffStoreAccess;
+
+  /// No description provided for @staffAllStores.
+  ///
+  /// In en, this message translates to:
+  /// **'All stores (now and future)'**
+  String get staffAllStores;
+
+  /// No description provided for @staffChooseStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose at least one store, or turn on All stores.'**
+  String get staffChooseStore;
 }
 
 class _AppLocalizationsDelegate

@@ -313,5 +313,11 @@
   "orderDirections": "Maelekezo",
   "marketNearestShort": "Karibu zaidi",
   "marketSetLocationForDistance": "Weka mahali ulipo kuona umbali",
-  "receiptOpen": "Risiti"
+  "receiptOpen": "Risiti",
+  "storeAll": "Maduka yangu yote",
+  "posChooseStore": "Unauza kutoka duka gani?",
+  "posChooseStoreHint": "Mauzo yatatoka kwenye stoo ya duka hilo na kurekodiwa kwake.",
+  "staffStoreAccess": "Ruhusa ya maduka",
+  "staffAllStores": "Maduka yote (sasa na ya baadaye)",
+  "staffChooseStore": "Chagua angalau duka moja, au washa Maduka yote."
 }

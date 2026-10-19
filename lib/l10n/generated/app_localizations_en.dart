@@ -1045,4 +1045,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get receiptOpen => 'Receipt';
+
+  @override
+  String get storeAll => 'All my stores';
+
+  @override
+  String get posChooseStore => 'Which store are you selling from?';
+
+  @override
+  String get posChooseStoreHint =>
+      'The till sells that store\'s stock and records the sale under it.';
+
+  @override
+  String get staffStoreAccess => 'Store access';
+
+  @override
+  String get staffAllStores => 'All stores (now and future)';
+
+  @override
+  String get staffChooseStore =>
+      'Choose at least one store, or turn on All stores.';
 }
