@@ -10,6 +10,7 @@ import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/distance_pill.dart';
 import '../../../core/widgets/producer_line.dart';
+import '../../../core/widgets/store_brand_header.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../ai/data/ai_models.dart';
 import '../../ai/presentation/ai_providers.dart';
@@ -292,28 +293,32 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                       children: [
                         for (final s in stores)
                           Card(
-                            child: ListTile(
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
                               onTap: () =>
                                   context.push('/market/stores/${s.id}'),
-                              leading: const Icon(
-                                Icons.storefront,
-                                color: DukaColors.indigo,
-                              ),
-                              title: Text(s.name),
-                              subtitle: Text(
-                                [s.sellerName, s.addressLine]
-                                    .whereType<String>()
-                                    .where((t) => t.isNotEmpty)
-                                    .join(' · '),
-                              ),
-                              trailing: s.distanceLabel != null
-                                  ? Text(
-                                      s.distanceLabel!,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  StoreBrandHeader(store: s),
+                                  if (s.addressLine.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        12,
+                                        8,
+                                        12,
+                                        10,
                                       ),
-                                    )
-                                  : const Icon(Icons.chevron_right),
+                                      child: Text(
+                                        s.addressLine,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: DukaColors.muted,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                       ],

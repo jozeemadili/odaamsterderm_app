@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/store_map.dart';
+import '../../../core/widgets/store_brand_header.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../orders/presentation/add_to_cart.dart';
 import '../data/market_models.dart';
@@ -42,12 +43,11 @@ class MarketStoreScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              if (s.sellerName != null)
-                Text(
-                  s.sellerName!,
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
-                ),
-              Text(s.name, style: Theme.of(context).textTheme.headlineSmall),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: StoreBrandHeader(store: s, large: true),
+              ),
+              const SizedBox(height: 10),
               if (s.addressLine.isNotEmpty) Text(s.addressLine),
               if (s.distanceLabel != null)
                 Padding(

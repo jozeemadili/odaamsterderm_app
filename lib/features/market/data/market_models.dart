@@ -59,6 +59,10 @@ class PublicStore {
     required this.id,
     required this.name,
     this.sellerName,
+    this.sellerLogoUrl,
+    this.brandColor,
+    this.accentColor,
+    this.brandTextColor,
     this.address,
     this.city,
     this.phone,
@@ -74,6 +78,16 @@ class PublicStore {
     id: json['id'] as int,
     name: json['name'] as String,
     sellerName: (json['seller'] as Map<String, dynamic>?)?['name'] as String?,
+    sellerLogoUrl:
+        (json['seller'] as Map<String, dynamic>?)?['logo_url'] as String?,
+    brandColor:
+        (json['seller'] as Map<String, dynamic>?)?['brand_color'] as String?,
+    accentColor:
+        (json['seller'] as Map<String, dynamic>?)?['brand_accent_color']
+            as String?,
+    brandTextColor:
+        (json['seller'] as Map<String, dynamic>?)?['brand_text_color']
+            as String?,
     address: json['address'] as String?,
     city: json['city'] as String?,
     phone: json['phone'] as String?,
@@ -90,6 +104,12 @@ class PublicStore {
   final int id;
   final String name;
   final String? sellerName;
+
+  /// The seller's branding, so customers recognise the store.
+  final String? sellerLogoUrl;
+  final String? brandColor;
+  final String? accentColor;
+  final String? brandTextColor;
   final String? address;
   final String? city;
   final String? phone;
