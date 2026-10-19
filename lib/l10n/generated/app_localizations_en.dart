@@ -1065,4 +1065,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get staffChooseStore =>
       'Choose at least one store, or turn on All stores.';
+
+  @override
+  String get moreTransfersTitle => 'Stock transfers';
+
+  @override
+  String get moreTransfersSubtitle =>
+      'Send stock between your stores and receive it';
 }

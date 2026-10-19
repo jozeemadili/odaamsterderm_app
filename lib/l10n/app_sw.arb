@@ -319,5 +319,7 @@
   "posChooseStoreHint": "Mauzo yatatoka kwenye stoo ya duka hilo na kurekodiwa kwake.",
   "staffStoreAccess": "Ruhusa ya maduka",
   "staffAllStores": "Maduka yote (sasa na ya baadaye)",
-  "staffChooseStore": "Chagua angalau duka moja, au washa Maduka yote."
+  "staffChooseStore": "Chagua angalau duka moja, au washa Maduka yote.",
+  "moreTransfersTitle": "Uhamisho wa bidhaa",
+  "moreTransfersSubtitle": "Tuma bidhaa kati ya maduka yako na uzipokee"
 }

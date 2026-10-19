@@ -1060,4 +1060,11 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get staffChooseStore =>
       'Chagua angalau duka moja, au washa Maduka yote.';
+
+  @override
+  String get moreTransfersTitle => 'Uhamisho wa bidhaa';
+
+  @override
+  String get moreTransfersSubtitle =>
+      'Tuma bidhaa kati ya maduka yako na uzipokee';
 }

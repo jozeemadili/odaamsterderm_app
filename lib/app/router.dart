@@ -48,6 +48,8 @@ import '../features/stock_receipts/presentation/stock_receipt_detail_screen.dart
 import '../features/stock_receipts/presentation/stock_receipt_form_screen.dart';
 import '../features/stock_receipts/presentation/stock_receipt_list_screen.dart';
 import '../features/stores/data/store_models.dart';
+import '../features/transfers/data/transfer_models.dart';
+import '../features/transfers/presentation/transfer_screens.dart';
 import '../features/stores/presentation/store_detail_screen.dart';
 import '../features/stores/presentation/store_form_screen.dart';
 import '../features/stores/presentation/store_list_screen.dart';
@@ -264,6 +266,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/suppliers/:id/edit',
         builder: (context, state) =>
             SupplierFormScreen(existing: state.extra as Supplier?),
+      ),
+      GoRoute(
+        path: '/transfers',
+        builder: (context, state) => const TransferListScreen(),
+      ),
+      GoRoute(
+        path: '/transfers/new',
+        builder: (context, state) =>
+            TransferFormScreen(list: state.extra as TransferList?),
+      ),
+      GoRoute(
+        path: '/transfers/:id',
+        builder: (context, state) => TransferDetailScreen(
+          id: int.parse(state.pathParameters['id']!),
+        ),
       ),
       GoRoute(
         path: '/stock-receipts',

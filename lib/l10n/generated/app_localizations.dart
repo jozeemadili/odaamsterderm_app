@@ -2017,6 +2017,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose at least one store, or turn on All stores.'**
   String get staffChooseStore;
+
+  /// No description provided for @moreTransfersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock transfers'**
+  String get moreTransfersTitle;
+
+  /// No description provided for @moreTransfersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send stock between your stores and receive it'**
+  String get moreTransfersSubtitle;
 }
 
 class _AppLocalizationsDelegate

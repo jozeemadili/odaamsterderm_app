@@ -97,6 +97,9 @@ class DukaUser {
 class StoreRef {
   const StoreRef({required this.id, required this.name});
 
+  factory StoreRef.fromJson(Map<String, dynamic> json) =>
+      StoreRef(id: json['id'] as int, name: json['name'] as String? ?? '');
+
   final int id;
   final String name;
 }
