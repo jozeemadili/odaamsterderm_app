@@ -38,9 +38,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     ref.read(inventoryListControllerProvider.notifier).upsert(item);
   }
 
-  /// Camera or gallery photo of this stock item; customers see it on the
-  /// marketplace. [hasPhoto] adds a "Remove photo" choice.
-  Future<void> _pickPhoto({required bool hasPhoto}) async {
+  /// Camera or gallery photo of the front or [back] of this stock item;
+  /// customers see both on the marketplace. [hasPhoto] adds "Remove photo".
+  Future<void> _pickPhoto({required bool hasPhoto, bool back = false}) async {
     final l10n = context.l10n;
     final choice = await showModalBottomSheet<String>(
       context: context,
@@ -77,7 +77,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     try {
       if (choice == 'remove') {
         setState(() => _busy = true);
-        _refresh(await repo.removeImage(widget.id));
+        _refresh(await repo.removeImage(widget.id, back: back));
         return;
       }
 
@@ -89,7 +89,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       if (picked == null) return;
 
       setState(() => _busy = true);
-      _refresh(await repo.uploadImage(widget.id, File(picked.path)));
+      _refresh(
+        await repo.uploadImage(widget.id, File(picked.path), back: back),
+      );
       if (mounted) {
         ScaffoldMessenger.of(
           context,
@@ -245,56 +247,28 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                Center(
-                  child: GestureDetector(
-                    onTap: () => _pickPhoto(hasPhoto: item.imageUrl != null),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: item.imageUrl != null
-                              ? CachedNetworkImage(
-                                  imageUrl: item.imageUrl!,
-                                  width: 160,
-                                  height: 160,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, _, _) => Container(
-                                    width: 160,
-                                    height: 160,
-                                    color: DukaColors.bg,
-                                    child: const Icon(
-                                      Icons.inventory_2_outlined,
-                                      size: 48,
-                                      color: DukaColors.muted,
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  width: 160,
-                                  height: 160,
-                                  color: DukaColors.bg,
-                                  child: const Icon(
-                                    Icons.inventory_2_outlined,
-                                    size: 48,
-                                    color: DukaColors.muted,
-                                  ),
-                                ),
-                        ),
-                        Positioned(
-                          right: 4,
-                          bottom: 4,
-                          child: CircleAvatar(
-                            radius: 16,
-                            child: const Icon(Icons.camera_alt, size: 16),
-                          ),
-                        ),
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _PhotoTile(
+                      label: context.l10n.photoFront,
+                      url: item.imageUrl,
+                      onTap: () => _pickPhoto(hasPhoto: item.imageUrl != null),
                     ),
-                  ),
+                    const SizedBox(width: 12),
+                    _PhotoTile(
+                      label: context.l10n.photoBack,
+                      url: item.backImageUrl,
+                      onTap: () => _pickPhoto(
+                        hasPhoto: item.backImageUrl != null,
+                        back: true,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  item.imageUrl != null
+                  item.imageUrl != null || item.backImageUrl != null
                       ? context.l10n.photoHintChange
                       : context.l10n.photoHintAdd,
                   textAlign: TextAlign.center,
@@ -753,6 +727,73 @@ class _StockMovementDialogState extends State<_StockMovementDialog> {
           child: const Text('Save'),
         ),
       ],
+    );
+  }
+}
+
+/// One tappable photo slot (front or back) with a camera badge.
+class _PhotoTile extends StatelessWidget {
+  const _PhotoTile({
+    required this.label,
+    required this.url,
+    required this.onTap,
+  });
+
+  final String label;
+  final String? url;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final placeholder = Container(
+      width: 140,
+      height: 140,
+      color: DukaColors.bg,
+      child: const Icon(
+        Icons.inventory_2_outlined,
+        size: 44,
+        color: DukaColors.muted,
+      ),
+    );
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: url != null
+                    ? CachedNetworkImage(
+                        imageUrl: url!,
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.cover,
+                        errorWidget: (_, _, _) => placeholder,
+                      )
+                    : placeholder,
+              ),
+              const Positioned(
+                right: 4,
+                bottom: 4,
+                child: CircleAvatar(
+                  radius: 15,
+                  child: Icon(Icons.camera_alt, size: 15),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: DukaColors.muted,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1067,4 +1067,10 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get moreTransfersSubtitle =>
       'Tuma bidhaa kati ya maduka yako na uzipokee';
+
+  @override
+  String get photoFront => 'Mbele';
+
+  @override
+  String get photoBack => 'Nyuma';
 }

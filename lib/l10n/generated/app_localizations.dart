@@ -2029,6 +2029,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send stock between your stores and receive it'**
   String get moreTransfersSubtitle;
+
+  /// No description provided for @photoFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Front'**
+  String get photoFront;
+
+  /// No description provided for @photoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get photoBack;
 }
 
 class _AppLocalizationsDelegate

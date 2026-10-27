@@ -195,18 +195,26 @@ class InventoryRepository {
   Future<void> delete(int id) =>
       _client.guard(() => _client.dio.delete('/inventory/$id'));
 
-  Future<InventoryItem> removeImage(int id) async {
+  Future<InventoryItem> removeImage(int id, {bool back = false}) async {
     final response = await _client.guard(
-      () => _client.dio.delete('/inventory/$id/image'),
+      () => _client.dio.delete(
+        '/inventory/$id/image',
+        queryParameters: {'side': back ? 'back' : 'front'},
+      ),
     );
     return InventoryItem.fromJson(
       (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
     );
   }
 
-  Future<InventoryItem> uploadImage(int id, File imageFile) async {
+  Future<InventoryItem> uploadImage(
+    int id,
+    File imageFile, {
+    bool back = false,
+  }) async {
     final formData = FormData.fromMap({
       'image': await MultipartFile.fromFile(imageFile.path),
+      'side': back ? 'back' : 'front',
     });
     final response = await _client.guard(
       () => _client.dio.post('/inventory/$id/image', data: formData),

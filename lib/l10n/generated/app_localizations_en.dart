@@ -1072,4 +1072,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get moreTransfersSubtitle =>
       'Send stock between your stores and receive it';
+
+  @override
+  String get photoFront => 'Front';
+
+  @override
+  String get photoBack => 'Back';
 }

@@ -460,5 +460,7 @@
   "staffAllStores": "All stores (now and future)",
   "staffChooseStore": "Choose at least one store, or turn on All stores.",
   "moreTransfersTitle": "Stock transfers",
-  "moreTransfersSubtitle": "Send stock between your stores and receive it"
+  "moreTransfersSubtitle": "Send stock between your stores and receive it",
+  "photoFront": "Front",
+  "photoBack": "Back"
 }

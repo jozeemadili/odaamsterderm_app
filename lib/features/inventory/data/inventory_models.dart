@@ -45,6 +45,7 @@ class InventoryItem {
     required this.isExpiringSoon,
     required this.isExpired,
     this.imageUrl,
+    this.backImageUrl,
     this.category,
     this.branch,
     this.productId,
@@ -71,6 +72,7 @@ class InventoryItem {
     isExpiringSoon: json['is_expiring_soon'] as bool,
     isExpired: json['is_expired'] as bool,
     imageUrl: json['image_url'] as String?,
+    backImageUrl: json['back_image_url'] as String?,
     category: json['category'] != null
         ? InventoryCategory.fromJson(json['category'] as Map<String, dynamic>)
         : null,
@@ -100,6 +102,9 @@ class InventoryItem {
   final bool isExpiringSoon;
   final bool isExpired;
   final String? imageUrl;
+
+  /// Photo of the back of the pack (ingredients, dosage, expiry).
+  final String? backImageUrl;
   final InventoryCategory? category;
   final Branch? branch;
 

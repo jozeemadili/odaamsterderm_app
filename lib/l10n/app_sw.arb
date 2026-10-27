@@ -321,5 +321,7 @@
   "staffAllStores": "Maduka yote (sasa na ya baadaye)",
   "staffChooseStore": "Chagua angalau duka moja, au washa Maduka yote.",
   "moreTransfersTitle": "Uhamisho wa bidhaa",
-  "moreTransfersSubtitle": "Tuma bidhaa kati ya maduka yako na uzipokee"
+  "moreTransfersSubtitle": "Tuma bidhaa kati ya maduka yako na uzipokee",
+  "photoFront": "Mbele",
+  "photoBack": "Nyuma"
 }

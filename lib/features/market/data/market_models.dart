@@ -177,6 +177,7 @@ class MarketProductDetail {
     this.producerDescription,
     this.description,
     this.imageUrl,
+    this.imageUrls = const [],
     this.animalType,
     this.category,
     required this.offers,
@@ -193,6 +194,9 @@ class MarketProductDetail {
       producerDescription: p['producer_description'] as String?,
       description: p['description'] as String?,
       imageUrl: p['image_url'] as String?,
+      imageUrls: ((p['image_urls'] as List?) ?? const [])
+          .map((e) => e as String)
+          .toList(),
       animalType: p['animal_type'] as String?,
       category: p['category'] as String?,
       offers: (json['offers'] as List)
@@ -209,6 +213,9 @@ class MarketProductDetail {
   final String? producerDescription;
   final String? description;
   final String? imageUrl;
+
+  /// Front then back photo.
+  final List<String> imageUrls;
   final String? animalType;
   final String? category;
   final List<Offer> offers;
