@@ -11,6 +11,7 @@ class MarketProduct {
     this.brand,
     this.producer,
     this.imageUrl,
+    this.imageUrls = const [],
     this.animalType,
     this.category,
     this.minPrice,
@@ -26,6 +27,9 @@ class MarketProduct {
     brand: json['brand'] as String?,
     producer: ProducerInfo.fromJson(json['producer']),
     imageUrl: json['image_url'] as String?,
+    imageUrls: ((json['image_urls'] as List?) ?? const [])
+        .whereType<String>()
+        .toList(),
     animalType:
         (json['animal_type'] as Map<String, dynamic>?)?['name'] as String?,
     category: (json['category'] as Map<String, dynamic>?)?['name'] as String?,
@@ -41,8 +45,14 @@ class MarketProduct {
   final String? brand;
   final ProducerInfo? producer;
   final String? imageUrl;
+
+  /// Front then back, for swiping on the card.
+  final List<String> imageUrls;
   final String? animalType;
   final String? category;
+
+  /// Photos to show: the front/back pair, else the single image.
+  List<String> get photos => imageUrls.isNotEmpty ? imageUrls : [?imageUrl];
 
   /// Lowest price among sellers with stock; null when out of stock everywhere.
   final double? minPrice;

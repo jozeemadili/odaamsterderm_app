@@ -1073,4 +1073,21 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get photoBack => 'Nyuma';
+
+  @override
+  String get marketHeroEyebrow => 'SOKO LA BIDHAA ZA MIFUGO';
+
+  @override
+  String get marketHeroTitle =>
+      'Kila kitu mifugo yako inahitaji, kutoka kwa wauzaji waaminifu karibu nawe.';
+
+  @override
+  String get marketHeroBody =>
+      'Linganisha bei za vyakula, chanjo, dawa na vifaa kutoka kwa maduka ya pembejeo yaliyoidhinishwa.';
+
+  @override
+  String get marketAllProducts => 'Bidhaa zote';
+
+  @override
+  String get marketFilters => 'Vichujio';
 }

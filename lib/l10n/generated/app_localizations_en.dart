@@ -1078,4 +1078,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoBack => 'Back';
+
+  @override
+  String get marketHeroEyebrow => 'ANIMAL PRODUCTS MARKETPLACE';
+
+  @override
+  String get marketHeroTitle =>
+      'Everything your animals need, from trusted sellers near you.';
+
+  @override
+  String get marketHeroBody =>
+      'Compare prices on feeds, vaccines, medicines and equipment from approved agrovets.';
+
+  @override
+  String get marketAllProducts => 'All products';
+
+  @override
+  String get marketFilters => 'Filters';
 }

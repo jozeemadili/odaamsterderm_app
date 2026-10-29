@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
+import '../../../core/widgets/photo_carousel.dart';
 import '../../../core/widgets/store_map.dart';
 import '../../../core/widgets/producer_line.dart';
 import '../../../core/widgets/distance_pill.dart';
@@ -56,7 +56,13 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             if (p.imageUrls.isNotEmpty) ...[
-              _PhotoGallery(urls: p.imageUrls),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: PhotoCarousel(urls: p.imageUrls),
+                ),
+              ),
               const SizedBox(height: 12),
             ],
             Text(
@@ -232,76 +238,3 @@ class _OfferTile extends ConsumerWidget {
 }
 
 /// Front and back photos of the product; swipe or tap a dot to switch.
-class _PhotoGallery extends StatefulWidget {
-  const _PhotoGallery({required this.urls});
-
-  final List<String> urls;
-
-  @override
-  State<_PhotoGallery> createState() => _PhotoGalleryState();
-}
-
-class _PhotoGalleryState extends State<_PhotoGallery> {
-  final _controller = PageController();
-  int _page = 0;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-            height: 220,
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: widget.urls.length,
-              onPageChanged: (i) => setState(() => _page = i),
-              itemBuilder: (context, i) => Container(
-                color: DukaColors.bg,
-                child: CachedNetworkImage(
-                  imageUrl: widget.urls[i],
-                  fit: BoxFit.contain,
-                  errorWidget: (_, _, _) => const Icon(
-                    Icons.inventory_2_outlined,
-                    size: 48,
-                    color: DukaColors.muted,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        if (widget.urls.length > 1)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (var i = 0; i < widget.urls.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: ChoiceChip(
-                      label: Text(i == 0 ? l10n.photoFront : l10n.photoBack),
-                      selected: _page == i,
-                      onSelected: (_) => _controller.animateToPage(
-                        i,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeOut,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-      ],
-    );
-  }
-}

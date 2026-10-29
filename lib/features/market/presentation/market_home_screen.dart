@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/distance_pill.dart';
+import '../../../core/widgets/photo_carousel.dart';
 import '../../../core/widgets/producer_line.dart';
 import '../../../core/widgets/store_brand_header.dart';
 import '../../../l10n/l10n_extension.dart';
@@ -128,6 +128,10 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
+            if (!aiMode && _search.isEmpty && _animalTypeId == null) ...[
+              const _MarketHero(),
+              const SizedBox(height: 14),
+            ],
             Row(
               children: [
                 Expanded(
@@ -233,28 +237,34 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  for (final s in MarketSort.values)
-                    ChoiceChip(
-                      label: Text(switch (s) {
-                        MarketSort.nearest => l10n.marketSortNearest,
-                        MarketSort.price => l10n.marketSortPrice,
-                        MarketSort.availability => l10n.marketSortAvailability,
-                      }),
-                      selected: sort == s,
-                      onSelected: s == MarketSort.nearest && from == null
-                          ? null
-                          : (_) => setState(() => _sort = s),
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    for (final s in MarketSort.values)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          label: Text(switch (s) {
+                            MarketSort.nearest => l10n.marketSortNearest,
+                            MarketSort.price => l10n.marketSortPrice,
+                            MarketSort.availability =>
+                              l10n.marketSortAvailability,
+                          }),
+                          selected: sort == s,
+                          onSelected: s == MarketSort.nearest && from == null
+                              ? null
+                              : (_) => setState(() => _sort = s),
+                        ),
+                      ),
+                    FilterChip(
+                      label: Text(l10n.marketInStockOnly),
+                      selected: _inStock,
+                      onSelected: (v) => setState(() => _inStock = v),
                     ),
-                  FilterChip(
-                    label: Text(l10n.marketInStockOnly),
-                    selected: _inStock,
-                    onSelected: (v) => setState(() => _inStock = v),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 12),
               products.when(
@@ -273,8 +283,25 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                         ),
                       )
                     : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          for (final p in list) _ProductCard(product: p),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  l10n.marketAllProducts,
+                                  style: Theme.of(context).textTheme.titleLarge
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Text(
+                                '${list.length}',
+                                style: const TextStyle(color: DukaColors.muted),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          _ProductGrid(products: list),
                         ],
                       ),
               ),
@@ -497,7 +524,7 @@ class _AiResults extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                   ],
-                  for (final p in r.products) _ProductCard(product: p),
+                  _ProductGrid(products: r.products),
                 ],
           orElse: () => const [],
         ),
@@ -528,6 +555,88 @@ class _Chip extends StatelessWidget {
   );
 }
 
+/// Two-column grid of product tiles (three on wide screens).
+class _ProductGrid extends StatelessWidget {
+  const _ProductGrid({required this.products});
+
+  final List<MarketProduct> products;
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      const gap = 12.0;
+      final columns = constraints.maxWidth >= 600 ? 3 : 2;
+      final tile = (constraints.maxWidth - gap * (columns - 1)) / columns;
+      return Wrap(
+        spacing: gap,
+        runSpacing: gap,
+        children: [
+          for (final p in products)
+            SizedBox(
+              width: tile,
+              child: _ProductCard(product: p),
+            ),
+        ],
+      );
+    },
+  );
+}
+
+/// Navy welcome banner at the top of the marketplace.
+class _MarketHero extends StatelessWidget {
+  const _MarketHero();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [DukaColors.ink, Color(0xFF0B2E57)],
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.marketHeroEyebrow,
+            style: const TextStyle(
+              color: DukaColors.gold,
+              fontSize: 11,
+              letterSpacing: 1.6,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.marketHeroTitle,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              height: 1.2,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.marketHeroBody,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 13,
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Product tile: swipeable front/back photos, then name and best price.
 class _ProductCard extends StatelessWidget {
   const _ProductCard({required this.product});
 
@@ -536,86 +645,61 @@ class _ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    void open() => context.push('/market/products/${product.id}');
 
     return Card(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => context.push('/market/products/${product.id}'),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: product.imageUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl: product.imageUrl!,
-                        width: 64,
-                        height: 64,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        width: 64,
-                        height: 64,
-                        color: DukaColors.bg,
-                        child: const Icon(
-                          Icons.inventory_2_outlined,
-                          color: DukaColors.muted,
-                        ),
-                      ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      [
-                        product.animalType,
-                        product.category,
-                      ].whereType<String>().join(' · '),
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: DukaColors.muted,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      product.displayName,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    if (product.producer != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: ProducerLine(producer: product.producer),
-                      ),
-                    const SizedBox(height: 4),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          l10n.marketSellersCount(product.sellersCount),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: DukaColors.muted,
-                          ),
-                        ),
-                        if (product.nearestLabel != null)
-                          DistancePill(
-                            label: product.nearestLabel!,
-                            prefix: l10n.marketNearestShort,
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: GestureDetector(
+              onTap: open,
+              child: PhotoCarousel(urls: product.photos),
+            ),
+          ),
+          InkWell(
+            onTap: open,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    [
+                      product.animalType,
+                      product.category,
+                    ].whereType<String>().join(' · ').toUpperCase(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      letterSpacing: 0.4,
+                      color: DukaColors.muted,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: 36,
+                    child: Text(
+                      product.displayName,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        height: 1.25,
+                      ),
+                    ),
+                  ),
+                  if (product.producer != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: ProducerLine(producer: product.producer),
+                    ),
+                  const SizedBox(height: 8),
                   if (product.minPrice != null) ...[
                     Text(
                       l10n.marketFrom,
@@ -626,7 +710,10 @@ class _ProductCard extends StatelessWidget {
                     ),
                     Text(
                       formatTzs(product.minPrice!),
-                      style: const TextStyle(fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
                     ),
                   ] else
                     Text(
@@ -636,11 +723,31 @@ class _ProductCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                  const SizedBox(height: 4),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        l10n.marketSellersCount(product.sellersCount),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: DukaColors.muted,
+                        ),
+                      ),
+                      if (product.nearestLabel != null)
+                        DistancePill(
+                          label: product.nearestLabel!,
+                          prefix: l10n.marketNearestShort,
+                        ),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

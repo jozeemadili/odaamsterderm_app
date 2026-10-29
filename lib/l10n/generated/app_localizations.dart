@@ -2041,6 +2041,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get photoBack;
+
+  /// No description provided for @marketHeroEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'ANIMAL PRODUCTS MARKETPLACE'**
+  String get marketHeroEyebrow;
+
+  /// No description provided for @marketHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything your animals need, from trusted sellers near you.'**
+  String get marketHeroTitle;
+
+  /// No description provided for @marketHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare prices on feeds, vaccines, medicines and equipment from approved agrovets.'**
+  String get marketHeroBody;
+
+  /// No description provided for @marketAllProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'All products'**
+  String get marketAllProducts;
+
+  /// No description provided for @marketFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get marketFilters;
 }
 
 class _AppLocalizationsDelegate
