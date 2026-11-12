@@ -588,7 +588,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get marketSignIn => 'Ingia';
 
   @override
-  String get marketBrowse => 'Tazama soko';
+  String get marketBrowse => 'Angalia bidhaa';
 
   @override
   String get marketNoSellers => 'Hakuna muuzaji anayeuza bidhaa hii kwa sasa.';
@@ -821,8 +821,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get aiAskAi => 'Uliza AI';
 
   @override
-  String get aiSearchHint =>
-      'Eleza unachohitaji, mfano chakula cha vifaranga 200';
+  String get aiSearchHint => 'Uliza chochote, mfano chakula cha vifaranga 200';
 
   @override
   String get aiPicksTitle => 'Mapendekezo ya AI';
@@ -871,20 +870,21 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get aiOrderIntro =>
-      'Eleza unachohitaji nami nitaandaa kikapu kutoka maduka yaliyo karibu nawe. Utakihakiki, kisha uthibitishe oda kwenye kikapu chako.';
+      'Niulize chochote kuhusu vyakula vya mifugo, dawa, bidhaa na maduka yetu, au eleza unachohitaji nami nitaandaa kikapu kutoka maduka yaliyo karibu nawe. Utakihakiki, kisha uthibitishe oda kwenye kikapu chako.';
 
   @override
   String get aiOrderExample1 =>
       'Chakula cha vifaranga 200 vya nyama kwa wiki 2 za kwanza';
 
   @override
-  String get aiOrderExample2 => 'Layers mash kwa kuku 500, bei nafuu zaidi';
+  String get aiOrderExample2 =>
+      'Vitamix Chick huchanganywa kiasi gani kwenye maji?';
 
   @override
-  String get aiOrderExample3 => 'Nahitaji chakula cha samaki tilapia';
+  String get aiOrderExample3 => 'Duka gani liko wazi Jumapili?';
 
   @override
-  String get aiOrderHint => 'mfano Nina vifaranga 200 vya wiki moja…';
+  String get aiOrderHint => 'Uliza swali au eleza unachohitaji…';
 
   @override
   String get aiOrderSend => 'Tuma';
@@ -1090,4 +1090,44 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get marketFilters => 'Vichujio';
+
+  @override
+  String get marketFeatured => 'MAALUMU';
+
+  @override
+  String marketBrandProducts(String brand) {
+    return 'Bidhaa za $brand';
+  }
+
+  @override
+  String get marketSeeAll => 'Ona zote';
+
+  @override
+  String marketPartnerTitle(String brand) {
+    return 'Vyakula vya $brand';
+  }
+
+  @override
+  String get marketPartnerBody =>
+      'Ratiba za ulishaji wa kuku wa nyama na wa mayai, kuanzia siku ya kwanza hadi kuuza.';
+
+  @override
+  String marketShopBrand(String brand) {
+    return 'Nunua $brand';
+  }
+
+  @override
+  String get marketShopByAnimal => 'Nunua kwa aina ya mfugo';
+
+  @override
+  String get aiFollowUpHint => 'Uliza swali jingine…';
+
+  @override
+  String get aiEndChat => 'Maliza mazungumzo';
+
+  @override
+  String get aiChatTitle => 'Uliza AI';
+
+  @override
+  String get marketNotInStoresYet => 'Bado haipo madukani';
 }

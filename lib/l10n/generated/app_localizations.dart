@@ -1205,7 +1205,7 @@ abstract class AppLocalizations {
   /// No description provided for @marketBrowse.
   ///
   /// In en, this message translates to:
-  /// **'Browse the marketplace'**
+  /// **'Browse products'**
   String get marketBrowse;
 
   /// No description provided for @marketNoSellers.
@@ -1625,7 +1625,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Describe what you need, e.g. feed for 200 broiler chicks'**
+  /// **'Ask anything, e.g. feed for 200 broiler chicks'**
   String get aiSearchHint;
 
   /// No description provided for @aiPicksTitle.
@@ -1709,7 +1709,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiOrderIntro.
   ///
   /// In en, this message translates to:
-  /// **'Describe what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.'**
+  /// **'Ask me anything about animal feeds, medicines, our products and stores, or tell me what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.'**
   String get aiOrderIntro;
 
   /// No description provided for @aiOrderExample1.
@@ -1721,19 +1721,19 @@ abstract class AppLocalizations {
   /// No description provided for @aiOrderExample2.
   ///
   /// In en, this message translates to:
-  /// **'Layers mash for 500 hens, the cheapest'**
+  /// **'How much Vitamix Chick do I mix in water?'**
   String get aiOrderExample2;
 
   /// No description provided for @aiOrderExample3.
   ///
   /// In en, this message translates to:
-  /// **'Nahitaji chakula cha samaki tilapia'**
+  /// **'Which store is open on Sunday?'**
   String get aiOrderExample3;
 
   /// No description provided for @aiOrderHint.
   ///
   /// In en, this message translates to:
-  /// **'e.g. I have 200 broiler chicks, 1 week old…'**
+  /// **'Ask a question or say what you need…'**
   String get aiOrderHint;
 
   /// No description provided for @aiOrderSend.
@@ -2071,6 +2071,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filters'**
   String get marketFilters;
+
+  /// No description provided for @marketFeatured.
+  ///
+  /// In en, this message translates to:
+  /// **'FEATURED'**
+  String get marketFeatured;
+
+  /// No description provided for @marketBrandProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'{brand} products'**
+  String marketBrandProducts(String brand);
+
+  /// No description provided for @marketSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get marketSeeAll;
+
+  /// No description provided for @marketPartnerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{brand} feeds'**
+  String marketPartnerTitle(String brand);
+
+  /// No description provided for @marketPartnerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Broiler and layer feeding programmes, from the first day to sale.'**
+  String get marketPartnerBody;
+
+  /// No description provided for @marketShopBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop {brand}'**
+  String marketShopBrand(String brand);
+
+  /// No description provided for @marketShopByAnimal.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop by animal'**
+  String get marketShopByAnimal;
+
+  /// No description provided for @aiFollowUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a follow-up…'**
+  String get aiFollowUpHint;
+
+  /// No description provided for @aiEndChat.
+  ///
+  /// In en, this message translates to:
+  /// **'End chat'**
+  String get aiEndChat;
+
+  /// No description provided for @aiChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI'**
+  String get aiChatTitle;
+
+  /// No description provided for @marketNotInStoresYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in stores yet'**
+  String get marketNotInStoresYet;
 }
 
 class _AppLocalizationsDelegate

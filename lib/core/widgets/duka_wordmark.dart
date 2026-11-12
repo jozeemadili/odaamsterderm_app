@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../app/theme.dart';
 
-/// The "odaamsterderm hub" wordmark, two-tone like the logo: navy
-/// "odaamsterderm" + gold "hub".
+/// The "Amsterdam Digital" wordmark, two-tone like the logo: green
+/// "Amsterdam" + maroon "Digital".
 class DukaWordmark extends StatelessWidget {
   const DukaWordmark({super.key, this.fontSize = 32});
 
@@ -11,17 +12,20 @@ class DukaWordmark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(fontSize: fontSize, fontWeight: FontWeight.w700);
+    final style = GoogleFonts.montserrat(
+      fontSize: fontSize,
+      fontWeight: FontWeight.w700,
+    );
     return Text.rich(
       TextSpan(
         children: [
           TextSpan(
-            text: 'odaamsterderm',
-            style: style.copyWith(color: DukaColors.ink),
+            text: 'Amsterdam ',
+            style: style.copyWith(color: DukaColors.leafDeep),
           ),
           TextSpan(
-            text: 'hub',
-            style: style.copyWith(color: DukaColors.gold),
+            text: 'Digital',
+            style: style.copyWith(color: DukaColors.indigo),
           ),
         ],
       ),

@@ -13,11 +13,25 @@ class AiRepository {
     return AiConfig.fromJson(r.data as Map<String, dynamic>);
   }
 
-  Future<AiSearchResult> search(String query, {MarketLocation? from}) async {
+  /// [history]: earlier question-and-answer turns of the same Ask AI chat,
+  /// oldest first, so follow-ups ("and for layers?") make sense.
+  Future<AiSearchResult> search(
+    String query, {
+    MarketLocation? from,
+    List<({String question, String answer})> history = const [],
+  }) async {
     final r = await _client.guard(
       () => _client.dio.post(
         '/market/ai/search',
-        data: {'query': query, if (from != null) ...from.toQuery()},
+        data: {
+          'query': query,
+          if (history.isNotEmpty)
+            'history': [
+              for (final t in history)
+                {'question': t.question, 'answer': t.answer},
+            ],
+          if (from != null) ...from.toQuery(),
+        },
       ),
     );
     return AiSearchResult.fromJson(r.data as Map<String, dynamic>);

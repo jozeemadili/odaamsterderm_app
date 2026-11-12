@@ -218,7 +218,7 @@
   "marketPickOnMap": "Or tap the map to choose a location",
   "marketUseThisPoint": "Use this point",
   "marketSignIn": "Sign in",
-  "marketBrowse": "Browse the marketplace",
+  "marketBrowse": "Browse products",
   "marketNoSellers": "No sellers are offering this product right now.",
   "customerSignupTitle": "Create your account",
   "customerSignupSubtitle": "Compare prices and find the nearest store for animal feeds, medicines and equipment.",
@@ -337,7 +337,7 @@
     }
   },
   "aiAskAi": "Ask AI",
-  "aiSearchHint": "Describe what you need, e.g. feed for 200 broiler chicks",
+  "aiSearchHint": "Ask anything, e.g. feed for 200 broiler chicks",
   "aiPicksTitle": "AI picks for you",
   "aiThinking": "Finding the right products in live stock…",
   "aiDisclaimer": "AI suggestions can be wrong — check each product before you buy. Prices, stock and distances are live from the stores.",
@@ -351,11 +351,11 @@
   "aiOrderBannerBody": "Tell our AI what your animals need and it builds the order from stores near you.",
   "aiOrderTitle": "AI order assistant",
   "aiOrderSubtitle": "Tell it what you need — English or Kiswahili.",
-  "aiOrderIntro": "Describe what you need and I'll put together a basket from stores near you. You check it, then confirm the order in your cart.",
+  "aiOrderIntro": "Ask me anything about animal feeds, medicines, our products and stores, or tell me what you need and I'll put together a basket from stores near you. You check it, then confirm the order in your cart.",
   "aiOrderExample1": "Feed for 200 broiler chicks for the first 2 weeks",
-  "aiOrderExample2": "Layers mash for 500 hens, the cheapest",
-  "aiOrderExample3": "Nahitaji chakula cha samaki tilapia",
-  "aiOrderHint": "e.g. I have 200 broiler chicks, 1 week old…",
+  "aiOrderExample2": "How much Vitamix Chick do I mix in water?",
+  "aiOrderExample3": "Which store is open on Sunday?",
+  "aiOrderHint": "Ask a question or say what you need…",
   "aiOrderSend": "Send",
   "aiOrderStartOver": "Start over",
   "aiOrderChecking": "Checking live stock…",
@@ -467,5 +467,37 @@
   "marketHeroTitle": "Everything your animals need, from trusted sellers near you.",
   "marketHeroBody": "Compare prices on feeds, vaccines, medicines and equipment from approved agrovets.",
   "marketAllProducts": "All products",
-  "marketFilters": "Filters"
+  "marketFilters": "Filters",
+  "marketFeatured": "FEATURED",
+  "marketBrandProducts": "{brand} products",
+  "@marketBrandProducts": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "marketSeeAll": "See all",
+  "marketPartnerTitle": "{brand} feeds",
+  "@marketPartnerTitle": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "marketPartnerBody": "Broiler and layer feeding programmes, from the first day to sale.",
+  "marketShopBrand": "Shop {brand}",
+  "@marketShopBrand": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "marketShopByAnimal": "Shop by animal",
+  "aiFollowUpHint": "Ask a follow-up…",
+  "aiEndChat": "End chat",
+  "aiChatTitle": "Ask AI",
+  "marketNotInStoresYet": "Not in stores yet"
 }

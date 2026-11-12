@@ -20,7 +20,7 @@ class OdaamsterdermApp extends ConsumerWidget {
     );
 
     return MaterialApp.router(
-      title: 'Odaamsterderm Hub',
+      title: 'Amsterdam Digital',
       debugShowCheckedModeBanner: false,
       theme: merchant == null
           ? buildDukaTheme()

@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// "Wazi" — the app's design language: clean, minimal, trustworthy.
+/// "Wazi": the app's design language, clean, minimal, trustworthy.
 /// One confident brand accent, thin dividers instead of heavy card
 /// chrome, generous whitespace.
 ///
-/// The accent pair (navy + gold) is the Odaamsterderm Hub logo's own palette —
-/// `ink`/`indigo` are the logo's navy (same value as the backend's
-/// `Merchant::DEFAULT_BRAND_COLOR`, so mobile and the merchant's own
-/// portal branding start from the same navy), and `gold` is the logo's
-/// gold, reserved for small accents rather than large filled surfaces
-/// (navy already carries the primary/interactive role `indigo` had).
+/// Colours come from the Amsterdam Group logo, the same palette as the
+/// website: maroon (`indigo`, the primary/interactive colour, kept under
+/// its old name so every screen follows) and green (`gold`/`leaf`, the
+/// accent for highlights and good news), with a warm near-black for text.
 class DukaColors {
-  static const bg = Color(0xFFF7F8FA);
+  static const bg = Color(0xFFF7F8F3);
   static const card = Color(0xFFFFFFFF);
-  static const ink = Color(0xFF01162F);
-  static const muted = Color(0xFF6B7280);
-  static const line = Color(0xFFE9EAEE);
-  static const indigo = Color(0xFF01162F);
-  static const gold = Color(0xFFC9972E);
-  static const rose = Color(0xFFE15252);
+  static const ink = Color(0xFF231416);
+  static const muted = Color(0xFF6D5C5E);
+  static const line = Color(0xFFE7E6DF);
+  static const indigo = Color(0xFF881824);
+  static const gold = Color(0xFF82C247);
+  static const rose = Color(0xFFD92D20);
+
+  /// Logo green on its own, and a darker green for text on light ground.
+  static const leaf = Color(0xFF82C247);
+  static const leafDeep = Color(0xFF3F7D1C);
+
+  /// Deep maroon for dark bands (header, AI band), and a pale maroon tint.
+  static const brandDark = Color(0xFF2A0A0F);
+  static const maroonTint = Color(0xFFF6E4E6);
+  static const leafTint = Color(0xFFE6F3D6);
 }
 
 /// "#14532D" → Color; null when the value isn't a 6-digit hex colour.
@@ -31,54 +38,54 @@ Color? colorFromHex(String? hex) {
 }
 
 /// The app theme. Sellers get their own brand colours ([primary] main,
-/// [accent] highlights); everyone else gets Odaamsterderm Hub's.
+/// [accent] highlights); everyone else gets Amsterdam Digital's.
 ThemeData buildDukaTheme({
   Color primary = DukaColors.indigo,
   Color onPrimary = Colors.white,
   Color accent = DukaColors.indigo,
   Color onAccent = Colors.white,
 }) {
-  final textTheme = GoogleFonts.karlaTextTheme().copyWith(
-    displayLarge: GoogleFonts.outfit(
+  final textTheme = GoogleFonts.interTextTheme().copyWith(
+    displayLarge: GoogleFonts.montserrat(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
-    displayMedium: GoogleFonts.outfit(
+    displayMedium: GoogleFonts.montserrat(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
-    displaySmall: GoogleFonts.outfit(
+    displaySmall: GoogleFonts.montserrat(
       fontWeight: FontWeight.w600,
       color: DukaColors.ink,
     ),
-    headlineLarge: GoogleFonts.outfit(
+    headlineLarge: GoogleFonts.montserrat(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
-    headlineMedium: GoogleFonts.outfit(
+    headlineMedium: GoogleFonts.montserrat(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
-    headlineSmall: GoogleFonts.outfit(
+    headlineSmall: GoogleFonts.montserrat(
       fontWeight: FontWeight.w600,
       color: DukaColors.ink,
     ),
-    titleLarge: GoogleFonts.outfit(
+    titleLarge: GoogleFonts.montserrat(
       fontWeight: FontWeight.w600,
       color: DukaColors.ink,
     ),
-    titleMedium: GoogleFonts.outfit(
+    titleMedium: GoogleFonts.montserrat(
       fontWeight: FontWeight.w600,
       color: DukaColors.ink,
     ),
-    titleSmall: GoogleFonts.karla(
+    titleSmall: GoogleFonts.inter(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
-    bodyLarge: GoogleFonts.karla(color: DukaColors.ink),
-    bodyMedium: GoogleFonts.karla(color: DukaColors.ink),
-    bodySmall: GoogleFonts.karla(color: DukaColors.muted),
-    labelLarge: GoogleFonts.karla(
+    bodyLarge: GoogleFonts.inter(color: DukaColors.ink),
+    bodyMedium: GoogleFonts.inter(color: DukaColors.ink),
+    bodySmall: GoogleFonts.inter(color: DukaColors.muted),
+    labelLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w700,
       color: DukaColors.ink,
     ),
@@ -109,7 +116,7 @@ ThemeData buildDukaTheme({
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       centerTitle: false,
-      titleTextStyle: GoogleFonts.outfit(
+      titleTextStyle: GoogleFonts.montserrat(
         fontSize: 19,
         fontWeight: FontWeight.w700,
         color: DukaColors.ink,
@@ -129,9 +136,9 @@ ThemeData buildDukaTheme({
       style: FilledButton.styleFrom(
         backgroundColor: primary,
         foregroundColor: onPrimary,
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: GoogleFonts.karla(fontWeight: FontWeight.w700, fontSize: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        shape: const StadiumBorder(),
+        textStyle: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 15),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -141,7 +148,7 @@ ThemeData buildDukaTheme({
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: GoogleFonts.karla(fontWeight: FontWeight.w700, fontSize: 15),
+        textStyle: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 15),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
@@ -155,7 +162,7 @@ ThemeData buildDukaTheme({
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primary,
-        textStyle: GoogleFonts.karla(fontWeight: FontWeight.w700),
+        textStyle: GoogleFonts.inter(fontWeight: FontWeight.w700),
       ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -179,17 +186,17 @@ ThemeData buildDukaTheme({
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: primary, width: 1.5),
       ),
-      hintStyle: GoogleFonts.karla(color: DukaColors.muted),
-      labelStyle: GoogleFonts.karla(color: DukaColors.muted),
+      hintStyle: GoogleFonts.inter(color: DukaColors.muted),
+      labelStyle: GoogleFonts.inter(color: DukaColors.muted),
     ),
     listTileTheme: ListTileThemeData(
       iconColor: DukaColors.ink,
-      titleTextStyle: GoogleFonts.karla(
+      titleTextStyle: GoogleFonts.inter(
         fontWeight: FontWeight.w700,
         fontSize: 14.5,
         color: DukaColors.ink,
       ),
-      subtitleTextStyle: GoogleFonts.karla(
+      subtitleTextStyle: GoogleFonts.inter(
         fontSize: 12.5,
         color: DukaColors.muted,
       ),
@@ -206,7 +213,7 @@ ThemeData buildDukaTheme({
       elevation: 0,
       height: 64,
       labelTextStyle: WidgetStateProperty.resolveWith(
-        (states) => GoogleFonts.karla(
+        (states) => GoogleFonts.inter(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: states.contains(WidgetState.selected)
@@ -224,13 +231,15 @@ ThemeData buildDukaTheme({
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: DukaColors.ink,
-      contentTextStyle: GoogleFonts.karla(color: Colors.white),
+      contentTextStyle: GoogleFonts.inter(color: Colors.white),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       behavior: SnackBarBehavior.floating,
     ),
     chipTheme: base.chipTheme.copyWith(
-      backgroundColor: const Color(0xFFF1F2F5),
-      labelStyle: GoogleFonts.karla(
+      backgroundColor: Colors.white,
+      selectedColor: DukaColors.maroonTint,
+      checkmarkColor: primary,
+      labelStyle: GoogleFonts.inter(
         fontWeight: FontWeight.w600,
         color: DukaColors.ink,
       ),

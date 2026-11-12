@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
 
-import '../../app/theme.dart';
-
-/// The Odaamsterderm Hub monogram: a gold-outlined rounded square with a bold navy
-/// "O", matching the logo. Drawn in code (no bitmap asset) so it renders
-/// crisply at any size.
+/// The Amsterdam Group ring mark on a white tile, as in the website's header.
 class DukaLogoMark extends StatelessWidget {
   const DukaLogoMark({super.key, this.size = 44});
 
+  /// Height of the tile; it is about 1.6 times as wide.
   final double size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
       height: size,
+      width: size * 1.6,
+      padding: EdgeInsets.symmetric(
+        horizontal: size * 0.14,
+        vertical: size * 0.12,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(size * 0.22),
-        border: Border.all(color: DukaColors.gold, width: size * 0.06),
       ),
-      alignment: Alignment.center,
-      child: Text(
-        'O',
-        style: TextStyle(
-          fontSize: size * 0.56,
-          fontWeight: FontWeight.w800,
-          height: 1,
-          color: DukaColors.ink,
-        ),
+      child: Image.asset(
+        'assets/images/amsterdam-mark.png',
+        fit: BoxFit.contain,
+        semanticLabel: 'Amsterdam Digital',
       ),
     );
   }

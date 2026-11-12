@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
@@ -199,40 +201,91 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
 
   Widget _intro(BuildContext context) {
     final l10n = context.l10n;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.aiOrderSubtitle,
-              style: const TextStyle(fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 6),
-            Text(l10n.aiOrderIntro),
-            const SizedBox(height: 4),
-            for (final example in [
-              l10n.aiOrderExample1,
-              l10n.aiOrderExample2,
-              l10n.aiOrderExample3,
-            ])
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    alignment: Alignment.centerLeft,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: DukaColors.line),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: DukaColors.leafTint,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.auto_awesome,
+                  color: DukaColors.leafDeep,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.aiOrderSubtitle,
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: DukaColors.ink,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l10n.aiOrderIntro,
+            style: const TextStyle(height: 1.45, color: DukaColors.ink),
+          ),
+          const SizedBox(height: 12),
+          for (final example in [
+            l10n.aiOrderExample1,
+            l10n.aiOrderExample2,
+            l10n.aiOrderExample3,
+          ])
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Material(
+                color: DukaColors.maroonTint.withValues(alpha: 0.6),
+                borderRadius: BorderRadius.circular(14),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () => _send(example),
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14,
                       vertical: 10,
                     ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            example,
+                            style: const TextStyle(
+                              color: DukaColors.indigo,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward,
+                          size: 16,
+                          color: DukaColors.indigo,
+                        ),
+                      ],
+                    ),
                   ),
-                  onPressed: () => _send(example),
-                  child: Text(example),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
@@ -258,8 +311,14 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
           maxWidth: MediaQuery.sizeOf(context).width * 0.8,
         ),
         decoration: BoxDecoration(
-          color: mine ? DukaColors.indigo : DukaColors.line,
-          borderRadius: BorderRadius.circular(16),
+          color: mine ? DukaColors.indigo : Colors.white,
+          border: mine ? null : Border.all(color: DukaColors.line),
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(18),
+            topRight: const Radius.circular(18),
+            bottomLeft: Radius.circular(mine ? 18 : 4),
+            bottomRight: Radius.circular(mine ? 4 : 18),
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -275,7 +334,10 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
             Flexible(
               child: Text(
                 m.content,
-                style: TextStyle(color: mine ? Colors.white : DukaColors.ink),
+                style: TextStyle(
+                  height: 1.4,
+                  color: mine ? Colors.white : DukaColors.ink,
+                ),
               ),
             ),
           ],
@@ -295,8 +357,8 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     return Card(
       margin: const EdgeInsets.only(top: 12),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: DukaColors.gold),
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(color: DukaColors.leaf, width: 1.5),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14),
@@ -308,7 +370,11 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                 Expanded(
                   child: Text(
                     l10n.aiOrderBasketTitle,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: DukaColors.ink,
+                    ),
                   ),
                 ),
                 Text(
@@ -437,13 +503,18 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
 
   Widget _composer(BuildContext context) {
     final l10n = context.l10n;
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24),
+      borderSide: const BorderSide(color: DukaColors.line),
+    );
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       decoration: const BoxDecoration(
         color: DukaColors.card,
         border: Border(top: BorderSide(color: DukaColors.line)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
             child: TextField(
@@ -452,19 +523,31 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
               enabled: !_waiting,
               minLines: 1,
               maxLines: 4,
-              maxLength: 500,
+              maxLength: 1000,
               decoration: InputDecoration(
                 hintText: l10n.aiOrderHint,
                 counterText: '',
+                fillColor: DukaColors.bg,
+                border: border,
+                enabledBorder: border,
+                focusedBorder: border.copyWith(
+                  borderSide: const BorderSide(color: DukaColors.indigo),
+                ),
               ),
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _send(),
             ),
           ),
           const SizedBox(width: 8),
-          FilledButton(
+          IconButton.filled(
+            tooltip: l10n.aiOrderSend,
+            style: IconButton.styleFrom(
+              backgroundColor: DukaColors.indigo,
+              foregroundColor: Colors.white,
+              minimumSize: const Size(48, 48),
+            ),
             onPressed: _waiting ? null : () => _send(),
-            child: Text(l10n.aiOrderSend),
+            icon: const Icon(Icons.arrow_upward),
           ),
         ],
       ),
@@ -485,7 +568,7 @@ class _Gate extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.auto_awesome, size: 40, color: DukaColors.gold),
+          const Icon(Icons.auto_awesome, size: 40, color: DukaColors.indigo),
           const SizedBox(height: 12),
           Text(text, textAlign: TextAlign.center),
           if (action != null) ...[const SizedBox(height: 12), action!],

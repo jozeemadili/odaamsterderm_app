@@ -587,7 +587,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get marketSignIn => 'Sign in';
 
   @override
-  String get marketBrowse => 'Browse the marketplace';
+  String get marketBrowse => 'Browse products';
 
   @override
   String get marketNoSellers =>
@@ -825,8 +825,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiAskAi => 'Ask AI';
 
   @override
-  String get aiSearchHint =>
-      'Describe what you need, e.g. feed for 200 broiler chicks';
+  String get aiSearchHint => 'Ask anything, e.g. feed for 200 broiler chicks';
 
   @override
   String get aiPicksTitle => 'AI picks for you';
@@ -874,20 +873,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiOrderIntro =>
-      'Describe what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.';
+      'Ask me anything about animal feeds, medicines, our products and stores, or tell me what you need and I\'ll put together a basket from stores near you. You check it, then confirm the order in your cart.';
 
   @override
   String get aiOrderExample1 =>
       'Feed for 200 broiler chicks for the first 2 weeks';
 
   @override
-  String get aiOrderExample2 => 'Layers mash for 500 hens, the cheapest';
+  String get aiOrderExample2 => 'How much Vitamix Chick do I mix in water?';
 
   @override
-  String get aiOrderExample3 => 'Nahitaji chakula cha samaki tilapia';
+  String get aiOrderExample3 => 'Which store is open on Sunday?';
 
   @override
-  String get aiOrderHint => 'e.g. I have 200 broiler chicks, 1 week old…';
+  String get aiOrderHint => 'Ask a question or say what you need…';
 
   @override
   String get aiOrderSend => 'Send';
@@ -1095,4 +1094,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketFilters => 'Filters';
+
+  @override
+  String get marketFeatured => 'FEATURED';
+
+  @override
+  String marketBrandProducts(String brand) {
+    return '$brand products';
+  }
+
+  @override
+  String get marketSeeAll => 'See all';
+
+  @override
+  String marketPartnerTitle(String brand) {
+    return '$brand feeds';
+  }
+
+  @override
+  String get marketPartnerBody =>
+      'Broiler and layer feeding programmes, from the first day to sale.';
+
+  @override
+  String marketShopBrand(String brand) {
+    return 'Shop $brand';
+  }
+
+  @override
+  String get marketShopByAnimal => 'Shop by animal';
+
+  @override
+  String get aiFollowUpHint => 'Ask a follow-up…';
+
+  @override
+  String get aiEndChat => 'End chat';
+
+  @override
+  String get aiChatTitle => 'Ask AI';
+
+  @override
+  String get marketNotInStoresYet => 'Not in stores yet';
 }
