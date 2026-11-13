@@ -12,8 +12,7 @@ class OrderStatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = switch (status) {
-      'pending' => Colors.orange,
-      'accepted' || 'preparing' => DukaColors.indigo,
+      'pending' || 'accepted' || 'preparing' => DukaColors.indigo,
       'ready_for_pickup' || 'completed' => Colors.green,
       _ => DukaColors.rose,
     };

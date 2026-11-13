@@ -42,15 +42,11 @@ Future<void> addOfferToCart(
   try {
     await ref.read(cartControllerProvider.notifier).add(offer.id, quantity);
     if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.cartAdded),
-        action: SnackBarAction(
-          label: l10n.cartView,
-          onPressed: () => context.push('/cart'),
-        ),
-      ),
-    );
+    // Straight to checkout; "Add more products" there brings them back.
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.cartAdded)));
+    context.push('/cart');
   } on ApiException catch (e) {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

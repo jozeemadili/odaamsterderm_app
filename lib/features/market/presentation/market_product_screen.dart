@@ -11,7 +11,9 @@ import '../../../core/widgets/store_map.dart';
 import '../../../core/widgets/producer_line.dart';
 import '../../../core/widgets/distance_pill.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../auth/presentation/auth_controller.dart';
 import '../../orders/presentation/add_to_cart.dart';
+import '../../orders/presentation/cart_badge.dart';
 import '../data/market_models.dart';
 import 'location_sheet.dart';
 import 'market_controller.dart';
@@ -49,7 +51,19 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
     final detail = ref.watch(_productProvider((widget.id, sort, from)));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.marketCompareSellers)),
+      appBar: AppBar(
+        title: Text(l10n.marketCompareSellers),
+        actions: [
+          if (ref.watch(
+            authControllerProvider.select((a) => a.user?.isCustomer ?? false),
+          ))
+            IconButton(
+              tooltip: l10n.navCart,
+              onPressed: () => context.push('/cart'),
+              icon: const CartBadgeIcon(),
+            ),
+        ],
+      ),
       body: detail.when(
         loading: () => const SkeletonDetail(image: true),
         error: (e, _) => Center(child: Text('$e')),

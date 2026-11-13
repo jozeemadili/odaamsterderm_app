@@ -397,5 +397,14 @@
   "profileRequired": "Inahitajika",
   "profileInvalidPhone": "Weka namba sahihi ya simu",
   "profileInvalidEmail": "Weka barua pepe sahihi",
-  "profileCustomer": "Mteja"
+  "profileCustomer": "Mteja",
+  "cartCheckoutTitle": "Malipo",
+  "cartAddMore": "Ongeza bidhaa zaidi",
+  "cartBackToShop": "Rudi dukani",
+  "cartItemsInCart": "{count, plural, =1{bidhaa 1} other{bidhaa {count}}}",
+  "orderSentTitle": "Oda imetumwa dukani",
+  "orderSentBody": "{store} imepokea oda yako. Onyesha namba {reference} unapoichukua.",
+  "orderContinueShopping": "Endelea kununua",
+  "cartPayAtPickupNote": "Unalipa dukani unapochukua.",
+  "orderSentManyBody": "Oda zako zimetumwa kwa maduka {count}. Chukua kila moja dukani kwake."
 }

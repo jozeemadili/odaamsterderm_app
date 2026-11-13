@@ -1327,4 +1327,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileCustomer => 'Customer';
+
+  @override
+  String get cartCheckoutTitle => 'Checkout';
+
+  @override
+  String get cartAddMore => 'Add more products';
+
+  @override
+  String get cartBackToShop => 'Back to shop';
+
+  @override
+  String cartItemsInCart(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get orderSentTitle => 'Order sent to the shop';
+
+  @override
+  String orderSentBody(String store, String reference) {
+    return '$store has your order. Show reference $reference when you pick it up.';
+  }
+
+  @override
+  String get orderContinueShopping => 'Continue shopping';
+
+  @override
+  String get cartPayAtPickupNote => 'You pay at the shop when you pick up.';
+
+  @override
+  String orderSentManyBody(int count) {
+    return 'Your orders were sent to $count shops. Pick up each one at its store.';
+  }
 }

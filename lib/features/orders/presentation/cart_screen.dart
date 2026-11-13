@@ -14,12 +14,16 @@ import 'order_controller.dart';
 String _qty(double v) =>
     v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
 
-/// Basket grouped by pickup store; checkout places one order per store.
+/// Checkout: the basket grouped by pickup store, contact details, and
+/// "Place order", which sends one order per store straight to the shop.
 class CartScreen extends ConsumerStatefulWidget {
-  const CartScreen({super.key, this.embedded = false});
+  const CartScreen({super.key, this.embedded = false, this.onShopMore});
 
-  /// True inside the customer shell (no back button).
+  /// True inside the customer shell (a tab, so no back arrow).
   final bool embedded;
+
+  /// In the shell: switch to the shop tab. Otherwise the screen pops.
+  final VoidCallback? onShopMore;
 
   @override
   ConsumerState<CartScreen> createState() => _CartScreenState();
@@ -66,42 +70,83 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           );
       ref.invalidate(myOrdersProvider);
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.orderPlaced)));
-      context.push(
-        orders.length == 1 ? '/my-orders/${orders.first.id}' : '/my-orders',
-      );
+      final target = orders.length == 1
+          ? '/my-orders/${orders.first.id}?placed=1'
+          : '/my-orders?placed=${orders.length}';
+      // Leave checkout behind: back from the order goes to the shop.
+      if (widget.embedded) {
+        context.push(target);
+      } else {
+        context.pushReplacement(target);
+      }
     });
     if (mounted) setState(() => _placing = false);
+  }
+
+  void _shopMore() {
+    if (widget.onShopMore != null) {
+      widget.onShopMore!();
+    } else if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/home');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final cart = ref.watch(cartControllerProvider);
+    final data = cart.valueOrNull;
+    final ready = data != null && data.stores.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.cartTitle),
-        automaticallyImplyLeading: !widget.embedded,
+        title: Text(l10n.cartCheckoutTitle),
+        automaticallyImplyLeading: false,
+        leading: widget.embedded
+            ? null
+            : IconButton(
+                tooltip: l10n.cartBackToShop,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: _shopMore,
+              ),
+        actions: [
+          if (ready)
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Center(
+                child: Text(
+                  l10n.cartItemsInCart(data.count),
+                  style: TextStyle(fontSize: 13, color: DukaColors.muted),
+                ),
+              ),
+            ),
+        ],
       ),
       body: cart.when(
-        loading: () => const SkeletonList(),
+        loading: () => const SkeletonList(count: 4),
         error: (e, _) => Center(child: Text('$e')),
         data: (data) => data.stores.isEmpty
             ? Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 56,
+                      color: DukaColors.muted,
+                    ),
+                    const SizedBox(height: 12),
                     Text(
                       l10n.cartEmpty,
                       style: TextStyle(color: DukaColors.muted),
                     ),
-                    const SizedBox(height: 8),
-                    TextButton(
-                      onPressed: () => context.go('/market'),
-                      child: Text(l10n.marketBrowse),
+                    const SizedBox(height: 12),
+                    FilledButton.icon(
+                      onPressed: _shopMore,
+                      icon: const Icon(Icons.storefront_outlined),
+                      label: Text(l10n.marketBrowse),
                     ),
                   ],
                 ),
@@ -110,63 +155,111 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 onRefresh: () =>
                     ref.read(cartControllerProvider.notifier).refresh(),
                 child: ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                   children: [
                     for (final group in data.stores)
-                      _StoreGroup(group: group, run: _run),
-                    const SizedBox(height: 8),
-                    if (data.stores.length > 1)
-                      Text(
-                        l10n.cartManyStores(data.stores.length),
-                        style: TextStyle(fontSize: 12, color: DukaColors.muted),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _StoreGroup(group: group, run: _run),
                       ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(l10n.cartTotalAtPickup),
-                        Text(
-                          formatTzs(data.total),
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
+                    OutlinedButton.icon(
+                      onPressed: _shopMore,
+                      icon: const Icon(Icons.add),
+                      label: Text(l10n.cartAddMore),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
+                    if (data.stores.length > 1)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Text(
+                          l10n.cartManyStores(data.stores.length),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: DukaColors.muted,
+                          ),
+                        ),
+                      ),
                     TextField(
                       controller: _phone,
                       keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(labelText: l10n.cartPhone),
+                      decoration: InputDecoration(
+                        labelText: l10n.cartPhone,
+                        prefixIcon: const Icon(Icons.phone_outlined),
+                      ),
                     ),
                     const SizedBox(height: 12),
                     TextField(
                       controller: _note,
-                      decoration: InputDecoration(labelText: l10n.cartNote),
+                      decoration: InputDecoration(
+                        labelText: l10n.cartNote,
+                        prefixIcon: const Icon(Icons.edit_note),
+                      ),
                     ),
-                    const SizedBox(height: 16),
                     if (data.hasProblems)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(top: 12),
                         child: Text(
                           l10n.cartFixProblems,
                           style: const TextStyle(color: DukaColors.rose),
                         ),
                       ),
-                    FilledButton(
-                      onPressed: _placing || data.hasProblems
-                          ? null
-                          : _checkout,
-                      child: _placing
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text(l10n.cartPlaceOrder),
-                    ),
                   ],
                 ),
               ),
       ),
+      // Always in reach: the total and "Place order".
+      bottomNavigationBar: ready
+          ? Container(
+              decoration: BoxDecoration(
+                color: DukaColors.card,
+                border: Border(top: BorderSide(color: DukaColors.line)),
+              ),
+              child: SafeArea(
+                top: false,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              formatTzs(data.total),
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            Text(
+                              l10n.cartPayAtPickupNote,
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: DukaColors.muted,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      FilledButton(
+                        onPressed: _placing || data.hasProblems
+                            ? null
+                            : _checkout,
+                        child: _placing
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(l10n.cartPlaceOrder),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }

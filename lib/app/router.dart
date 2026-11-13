@@ -133,12 +133,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
       GoRoute(
         path: '/my-orders',
-        builder: (context, state) => const MyOrdersScreen(),
+        builder: (context, state) => MyOrdersScreen(
+          placedCount: int.tryParse(state.uri.queryParameters['placed'] ?? ''),
+        ),
       ),
       GoRoute(
         path: '/my-orders/:id',
-        builder: (context, state) =>
-            OrderDetailScreen(id: int.parse(state.pathParameters['id']!)),
+        builder: (context, state) => OrderDetailScreen(
+          id: int.parse(state.pathParameters['id']!),
+          justPlaced: state.uri.queryParameters['placed'] == '1',
+        ),
       ),
       GoRoute(
         path: '/seller-orders',

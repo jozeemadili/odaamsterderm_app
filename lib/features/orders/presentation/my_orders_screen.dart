@@ -8,13 +8,17 @@ import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
 import 'order_controller.dart';
+import 'order_placed_banner.dart';
 import 'order_status_chip.dart';
 
 /// A customer's orders, with recent order updates on top.
 class MyOrdersScreen extends ConsumerWidget {
-  const MyOrdersScreen({super.key, this.embedded = false});
+  const MyOrdersScreen({super.key, this.embedded = false, this.placedCount});
 
   final bool embedded;
+
+  /// Opened right after a checkout: how many orders it made.
+  final int? placedCount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,6 +40,8 @@ class MyOrdersScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (placedCount != null)
+              OrderPlacedBanner(message: l10n.orderSentManyBody(placedCount!)),
             ...notifications.maybeWhen(
               data: (n) => n.$2.where((x) => !x.read).isEmpty
                   ? const <Widget>[]

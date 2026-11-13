@@ -11,6 +11,7 @@ import '../../../l10n/l10n_extension.dart';
 import '../data/order_models.dart';
 import 'order_controller.dart';
 import 'live_store_distance.dart';
+import 'order_placed_banner.dart';
 import 'order_status_chip.dart';
 
 String _qty(double v) =>
@@ -19,10 +20,18 @@ String _qty(double v) =>
 /// Order detail for customers ([seller] false) and sellers ([seller] true):
 /// items, pickup store, timeline, and the actions each side may take.
 class OrderDetailScreen extends ConsumerStatefulWidget {
-  const OrderDetailScreen({super.key, required this.id, this.seller = false});
+  const OrderDetailScreen({
+    super.key,
+    required this.id,
+    this.seller = false,
+    this.justPlaced = false,
+  });
 
   final int id;
   final bool seller;
+
+  /// Opened right after checkout: show the "sent to the shop" confirmation.
+  final bool justPlaced;
 
   @override
   ConsumerState<OrderDetailScreen> createState() => _OrderDetailScreenState();
@@ -153,6 +162,10 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
+              if (widget.justPlaced && !widget.seller)
+                OrderPlacedBanner(
+                  message: l10n.orderSentBody(o.store?.name ?? '', o.reference),
+                ),
               Row(
                 children: [
                   Expanded(

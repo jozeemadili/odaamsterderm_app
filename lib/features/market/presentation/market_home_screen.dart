@@ -16,6 +16,7 @@ import '../../../l10n/l10n_extension.dart';
 import '../../ai/data/ai_models.dart';
 import '../../ai/presentation/ai_providers.dart';
 import '../../auth/presentation/auth_controller.dart';
+import '../../orders/presentation/cart_badge.dart';
 import '../data/market_models.dart';
 import 'location_sheet.dart';
 import 'market_controller.dart';
@@ -226,7 +227,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                   side: BorderSide(color: DukaColors.line),
                 ),
                 onPressed: () => context.push('/cart'),
-                icon: const Icon(Icons.shopping_cart_outlined, size: 20),
+                icon: const CartBadgeIcon(size: 20),
               ),
             ),
         ],

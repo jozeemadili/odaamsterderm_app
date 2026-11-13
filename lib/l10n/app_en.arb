@@ -585,5 +585,38 @@
         "type": "String"
       }
     }
+  },
+  "cartCheckoutTitle": "Checkout",
+  "cartAddMore": "Add more products",
+  "cartBackToShop": "Back to shop",
+  "cartItemsInCart": "{count, plural, =1{1 item} other{{count} items}}",
+  "orderSentTitle": "Order sent to the shop",
+  "orderSentBody": "{store} has your order. Show reference {reference} when you pick it up.",
+  "orderContinueShopping": "Continue shopping",
+  "cartPayAtPickupNote": "You pay at the shop when you pick up.",
+  "@cartItemsInCart": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@orderSentBody": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      },
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "orderSentManyBody": "Your orders were sent to {count} shops. Pick up each one at its store.",
+  "@orderSentManyBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

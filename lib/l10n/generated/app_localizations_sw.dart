@@ -1322,4 +1322,43 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get profileCustomer => 'Mteja';
+
+  @override
+  String get cartCheckoutTitle => 'Malipo';
+
+  @override
+  String get cartAddMore => 'Ongeza bidhaa zaidi';
+
+  @override
+  String get cartBackToShop => 'Rudi dukani';
+
+  @override
+  String cartItemsInCart(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'bidhaa $count',
+      one: 'bidhaa 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get orderSentTitle => 'Oda imetumwa dukani';
+
+  @override
+  String orderSentBody(String store, String reference) {
+    return '$store imepokea oda yako. Onyesha namba $reference unapoichukua.';
+  }
+
+  @override
+  String get orderContinueShopping => 'Endelea kununua';
+
+  @override
+  String get cartPayAtPickupNote => 'Unalipa dukani unapochukua.';
+
+  @override
+  String orderSentManyBody(int count) {
+    return 'Oda zako zimetumwa kwa maduka $count. Chukua kila moja dukani kwake.';
+  }
 }

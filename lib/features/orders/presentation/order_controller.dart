@@ -36,9 +36,13 @@ class CartController extends StateNotifier<AsyncValue<CartData>> {
 }
 
 final cartControllerProvider =
-    StateNotifierProvider.autoDispose<CartController, AsyncValue<CartData>>(
-      (ref) => CartController(ref.watch(orderRepositoryProvider)),
-    );
+    StateNotifierProvider.autoDispose<CartController, AsyncValue<CartData>>((
+      ref,
+    ) {
+      // A fresh cart for whoever signs in next.
+      ref.watch(authControllerProvider.select((a) => a.user?.id));
+      return CartController(ref.watch(orderRepositoryProvider));
+    });
 
 final myOrdersProvider = FutureProvider.autoDispose(
   (ref) => ref.watch(orderRepositoryProvider).myOrders(),
@@ -60,3 +64,13 @@ final sellerOrderProvider = FutureProvider.autoDispose.family(
 final userNotificationsProvider = FutureProvider.autoDispose(
   (ref) => ref.watch(orderRepositoryProvider).notifications(),
 );
+
+/// Lines in the signed-in customer's cart, for the badge on cart icons;
+/// 0 for guests and seller accounts (they have no cart).
+final cartCountProvider = Provider.autoDispose<int>((ref) {
+  final isCustomer = ref.watch(
+    authControllerProvider.select((a) => a.user?.isCustomer ?? false),
+  );
+  if (!isCustomer) return 0;
+  return ref.watch(cartControllerProvider).valueOrNull?.count ?? 0;
+});

@@ -2485,6 +2485,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Customer'**
   String get profileCustomer;
+
+  /// No description provided for @cartCheckoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get cartCheckoutTitle;
+
+  /// No description provided for @cartAddMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Add more products'**
+  String get cartAddMore;
+
+  /// No description provided for @cartBackToShop.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to shop'**
+  String get cartBackToShop;
+
+  /// No description provided for @cartItemsInCart.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String cartItemsInCart(int count);
+
+  /// No description provided for @orderSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order sent to the shop'**
+  String get orderSentTitle;
+
+  /// No description provided for @orderSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{store} has your order. Show reference {reference} when you pick it up.'**
+  String orderSentBody(String store, String reference);
+
+  /// No description provided for @orderContinueShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue shopping'**
+  String get orderContinueShopping;
+
+  /// No description provided for @cartPayAtPickupNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You pay at the shop when you pick up.'**
+  String get cartPayAtPickupNote;
+
+  /// No description provided for @orderSentManyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your orders were sent to {count} shops. Pick up each one at its store.'**
+  String orderSentManyBody(int count);
 }
 
 class _AppLocalizationsDelegate
