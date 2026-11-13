@@ -42,6 +42,17 @@ class ProfileRepository {
   Future<DukaUser> removeAvatar() async =>
       _user(await _client.guard(() => _client.dio.delete('/me/avatar')));
 
+  /// Deletes the signed-in customer's account (password, or "DELETE" for
+  /// Google-only accounts). The server signs out every device.
+  Future<void> deleteAccount({String? password, String? confirm}) async {
+    await _client.guard(
+      () => _client.dio.delete(
+        '/me',
+        data: {'password': ?password, 'confirm': ?confirm},
+      ),
+    );
+  }
+
   Future<DukaUser> changePassword({
     String? current,
     required String password,

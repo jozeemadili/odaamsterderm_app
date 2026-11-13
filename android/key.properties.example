@@ -1,0 +1,8 @@
+# Copy to android/key.properties (never commit it) after creating the
+# upload key with:
+#   keytool -genkey -v -keystore ~/amsterdam-digital-upload.jks -keyalg RSA \
+#     -keysize 2048 -validity 10000 -alias upload
+storePassword=<the keystore password you chose>
+keyPassword=<the key password you chose>
+keyAlias=upload
+storeFile=/Users/<you>/amsterdam-digital-upload.jks

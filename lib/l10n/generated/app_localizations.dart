@@ -2539,6 +2539,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your orders were sent to {count} shops. Pick up each one at its store.'**
   String orderSentManyBody(int count);
+
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @profileDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get profileDeleteTitle;
+
+  /// No description provided for @profileDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name, email, phone, photo and saved location are removed and you are signed out everywhere. Orders a shop has not started are cancelled. This cannot be undone.'**
+  String get profileDeleteBody;
+
+  /// No description provided for @profileDeletePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password'**
+  String get profileDeletePassword;
+
+  /// No description provided for @profileDeleteTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm'**
+  String get profileDeleteTypeHint;
+
+  /// No description provided for @profileDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get profileDeleteButton;
+
+  /// No description provided for @profileDeleteDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted.'**
+  String get profileDeleteDone;
 }
 
 class _AppLocalizationsDelegate

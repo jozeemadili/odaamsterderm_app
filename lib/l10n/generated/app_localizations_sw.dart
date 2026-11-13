@@ -1361,4 +1361,26 @@ class AppLocalizationsSw extends AppLocalizations {
   String orderSentManyBody(int count) {
     return 'Oda zako zimetumwa kwa maduka $count. Chukua kila moja dukani kwake.';
   }
+
+  @override
+  String get profileDeleteAccount => 'Futa akaunti';
+
+  @override
+  String get profileDeleteTitle => 'Futa akaunti yako?';
+
+  @override
+  String get profileDeleteBody =>
+      'Jina, barua pepe, simu, picha na mahali ulipohifadhi vitaondolewa na utatolewa kwenye vifaa vyote. Oda ambazo duka halijaanza kuandaa zitaghairiwa. Huwezi kurudisha.';
+
+  @override
+  String get profileDeletePassword => 'Nenosiri lako';
+
+  @override
+  String get profileDeleteTypeHint => 'Andika FUTA kuthibitisha';
+
+  @override
+  String get profileDeleteButton => 'Futa akaunti yangu';
+
+  @override
+  String get profileDeleteDone => 'Akaunti yako imefutwa.';
 }

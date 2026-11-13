@@ -618,5 +618,12 @@
         "type": "int"
       }
     }
-  }
+  },
+  "profileDeleteAccount": "Delete account",
+  "profileDeleteTitle": "Delete your account?",
+  "profileDeleteBody": "Your name, email, phone, photo and saved location are removed and you are signed out everywhere. Orders a shop has not started are cancelled. This cannot be undone.",
+  "profileDeletePassword": "Your password",
+  "profileDeleteTypeHint": "Type DELETE to confirm",
+  "profileDeleteButton": "Delete my account",
+  "profileDeleteDone": "Your account has been deleted."
 }

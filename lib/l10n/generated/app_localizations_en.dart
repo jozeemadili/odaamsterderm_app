@@ -1366,4 +1366,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String orderSentManyBody(int count) {
     return 'Your orders were sent to $count shops. Pick up each one at its store.';
   }
+
+  @override
+  String get profileDeleteAccount => 'Delete account';
+
+  @override
+  String get profileDeleteTitle => 'Delete your account?';
+
+  @override
+  String get profileDeleteBody =>
+      'Your name, email, phone, photo and saved location are removed and you are signed out everywhere. Orders a shop has not started are cancelled. This cannot be undone.';
+
+  @override
+  String get profileDeletePassword => 'Your password';
+
+  @override
+  String get profileDeleteTypeHint => 'Type DELETE to confirm';
+
+  @override
+  String get profileDeleteButton => 'Delete my account';
+
+  @override
+  String get profileDeleteDone => 'Your account has been deleted.';
 }

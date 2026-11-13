@@ -155,6 +155,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
   }
 
+  Future<void> _deleteAccount(DukaUser user) async {
+    final l10n = context.l10n;
+    final deleted = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _DeleteSheet(
+        needsPassword: user.hasPassword,
+        delete: (value) => _repo.deleteAccount(
+          password: user.hasPassword ? value : null,
+          confirm: user.hasPassword ? null : value,
+        ),
+      ),
+    );
+    if (deleted ?? false) {
+      final messenger = ScaffoldMessenger.of(context);
+      await ref.read(authControllerProvider.notifier).logout();
+      messenger.showSnackBar(SnackBar(content: Text(l10n.profileDeleteDone)));
+    }
+  }
+
   Future<void> _logout() async {
     final l10n = context.l10n;
     final ok = await showDialog<bool>(
@@ -358,6 +379,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   icon: const Icon(Icons.logout),
                   label: Text(l10n.profileLogout),
                 ),
+                if (user.isCustomer)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: TextButton(
+                      onPressed: () => _deleteAccount(user),
+                      style: TextButton.styleFrom(
+                        foregroundColor: DukaColors.rose,
+                      ),
+                      child: Text(l10n.profileDeleteAccount),
+                    ),
+                  ),
                 if (version != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
@@ -1040,6 +1072,105 @@ class _PasswordSheetState extends State<_PasswordSheet> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Confirm deleting the account: the password, or DELETE/FUTA for
+/// accounts made with Google.
+class _DeleteSheet extends StatefulWidget {
+  const _DeleteSheet({required this.needsPassword, required this.delete});
+
+  final bool needsPassword;
+  final Future<void> Function(String) delete;
+
+  @override
+  State<_DeleteSheet> createState() => _DeleteSheetState();
+}
+
+class _DeleteSheetState extends State<_DeleteSheet> {
+  final _controller = TextEditingController();
+  String? _error;
+  bool _busy = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await widget.delete(_controller.text);
+      if (mounted) Navigator.pop(context, true);
+    } on ApiException catch (e) {
+      if (mounted) {
+        setState(
+          () => _error =
+              e.fieldError('password') ??
+              e.fieldError('confirm') ??
+              e.fieldError('account') ??
+              e.message,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        0,
+        20,
+        20 + MediaQuery.viewInsetsOf(context).bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l10n.profileDeleteTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.profileDeleteBody,
+            style: TextStyle(color: DukaColors.muted, height: 1.4),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _controller,
+            obscureText: widget.needsPassword,
+            autofocus: true,
+            decoration: InputDecoration(
+              labelText: widget.needsPassword
+                  ? l10n.profileDeletePassword
+                  : l10n.profileDeleteTypeHint,
+              errorText: _error,
+            ),
+          ),
+          const SizedBox(height: 16),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: DukaColors.rose),
+            onPressed: _busy ? null : _submit,
+            child: _busy
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(l10n.profileDeleteButton),
+          ),
+        ],
       ),
     );
   }

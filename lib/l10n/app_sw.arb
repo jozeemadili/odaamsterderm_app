@@ -406,5 +406,12 @@
   "orderSentBody": "{store} imepokea oda yako. Onyesha namba {reference} unapoichukua.",
   "orderContinueShopping": "Endelea kununua",
   "cartPayAtPickupNote": "Unalipa dukani unapochukua.",
-  "orderSentManyBody": "Oda zako zimetumwa kwa maduka {count}. Chukua kila moja dukani kwake."
+  "orderSentManyBody": "Oda zako zimetumwa kwa maduka {count}. Chukua kila moja dukani kwake.",
+  "profileDeleteAccount": "Futa akaunti",
+  "profileDeleteTitle": "Futa akaunti yako?",
+  "profileDeleteBody": "Jina, barua pepe, simu, picha na mahali ulipohifadhi vitaondolewa na utatolewa kwenye vifaa vyote. Oda ambazo duka halijaanza kuandaa zitaghairiwa. Huwezi kurudisha.",
+  "profileDeletePassword": "Nenosiri lako",
+  "profileDeleteTypeHint": "Andika FUTA kuthibitisha",
+  "profileDeleteButton": "Futa akaunti yangu",
+  "profileDeleteDone": "Akaunti yako imefutwa."
 }
