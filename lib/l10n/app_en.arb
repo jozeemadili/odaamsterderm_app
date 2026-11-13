@@ -523,5 +523,20 @@
         "type": "int"
       }
     }
-  }
+  },
+  "marketFeedView": "View",
+  "marketAskAbout": "Ask AI about this",
+  "marketAskAboutQuery": "Tell me about {product}: what it is for and how to use it.",
+  "@marketAskAboutQuery": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      }
+    }
+  },
+  "marketShare": "Share",
+  "marketAllCaughtUp": "You're all caught up",
+  "marketAllCaughtUpBody": "You've seen every product. Try another animal or ask the assistant.",
+  "marketRetry": "Try again",
+  "marketStoriesTitle": "Stores"
 }

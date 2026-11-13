@@ -1170,4 +1170,31 @@ class AppLocalizationsSw extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get marketFeedView => 'Angalia';
+
+  @override
+  String get marketAskAbout => 'Uliza AI kuhusu hiki';
+
+  @override
+  String marketAskAboutQuery(String product) {
+    return 'Niambie kuhusu $product: kinatumika kwa nini na jinsi ya kukitumia.';
+  }
+
+  @override
+  String get marketShare => 'Shiriki';
+
+  @override
+  String get marketAllCaughtUp => 'Umeona zote';
+
+  @override
+  String get marketAllCaughtUpBody =>
+      'Umeona bidhaa zote. Jaribu mnyama mwingine au muulize msaidizi.';
+
+  @override
+  String get marketRetry => 'Jaribu tena';
+
+  @override
+  String get marketStoriesTitle => 'Maduka';
 }

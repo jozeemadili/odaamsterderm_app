@@ -2197,6 +2197,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 item} other{{count} items}}'**
   String aiBasketSummary(int count);
+
+  /// No description provided for @marketFeedView.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get marketFeedView;
+
+  /// No description provided for @marketAskAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI about this'**
+  String get marketAskAbout;
+
+  /// No description provided for @marketAskAboutQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me about {product}: what it is for and how to use it.'**
+  String marketAskAboutQuery(String product);
+
+  /// No description provided for @marketShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get marketShare;
+
+  /// No description provided for @marketAllCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up'**
+  String get marketAllCaughtUp;
+
+  /// No description provided for @marketAllCaughtUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve seen every product. Try another animal or ask the assistant.'**
+  String get marketAllCaughtUpBody;
+
+  /// No description provided for @marketRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get marketRetry;
+
+  /// No description provided for @marketStoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get marketStoriesTitle;
 }
 
 class _AppLocalizationsDelegate

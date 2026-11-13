@@ -24,6 +24,30 @@ class MarketRepository {
     MarketSort sort = MarketSort.nearest,
     MarketLocation? from,
     int page = 1,
+  }) async => (await productsPage(
+    search: search,
+    animalTypeId: animalTypeId,
+    categoryId: categoryId,
+    brand: brand,
+    inStock: inStock,
+    maxPrice: maxPrice,
+    sort: sort,
+    from: from,
+    page: page,
+  )).items;
+
+  /// One page of products, and whether more pages follow — for the
+  /// infinitely scrolling feed.
+  Future<({List<MarketProduct> items, bool hasMore})> productsPage({
+    String? search,
+    int? animalTypeId,
+    int? categoryId,
+    String? brand,
+    bool inStock = false,
+    double? maxPrice,
+    MarketSort sort = MarketSort.nearest,
+    MarketLocation? from,
+    int page = 1,
   }) async {
     final response = await _client.guard(
       () => _client.dio.get(
@@ -41,9 +65,16 @@ class MarketRepository {
         },
       ),
     );
-    return ((response.data as Map<String, dynamic>)['data'] as List)
+    final body = response.data as Map<String, dynamic>;
+    final items = (body['data'] as List)
         .map((e) => MarketProduct.fromJson(e as Map<String, dynamic>))
         .toList();
+    final meta = body['meta'] as Map<String, dynamic>?;
+    final lastPage = meta?['last_page'] as int?;
+    return (
+      items: items,
+      hasMore: lastPage != null ? page < lastPage : items.isNotEmpty,
+    );
   }
 
   Future<MarketProductDetail> product(

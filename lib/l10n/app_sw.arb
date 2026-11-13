@@ -349,5 +349,13 @@
   "navAssistant": "Msaidizi",
   "marketPicks": "Chaguo za {brand}",
   "marketSortBy": "Panga",
-  "aiBasketSummary": "{count, plural, =1{bidhaa 1} other{bidhaa {count}}}"
+  "aiBasketSummary": "{count, plural, =1{bidhaa 1} other{bidhaa {count}}}",
+  "marketFeedView": "Angalia",
+  "marketAskAbout": "Uliza AI kuhusu hiki",
+  "marketAskAboutQuery": "Niambie kuhusu {product}: kinatumika kwa nini na jinsi ya kukitumia.",
+  "marketShare": "Shiriki",
+  "marketAllCaughtUp": "Umeona zote",
+  "marketAllCaughtUpBody": "Umeona bidhaa zote. Jaribu mnyama mwingine au muulize msaidizi.",
+  "marketRetry": "Jaribu tena",
+  "marketStoriesTitle": "Maduka"
 }

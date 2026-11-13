@@ -1175,4 +1175,31 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get marketFeedView => 'View';
+
+  @override
+  String get marketAskAbout => 'Ask AI about this';
+
+  @override
+  String marketAskAboutQuery(String product) {
+    return 'Tell me about $product: what it is for and how to use it.';
+  }
+
+  @override
+  String get marketShare => 'Share';
+
+  @override
+  String get marketAllCaughtUp => 'You\'re all caught up';
+
+  @override
+  String get marketAllCaughtUpBody =>
+      'You\'ve seen every product. Try another animal or ask the assistant.';
+
+  @override
+  String get marketRetry => 'Try again';
+
+  @override
+  String get marketStoriesTitle => 'Stores';
 }

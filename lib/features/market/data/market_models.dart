@@ -19,6 +19,7 @@ class MarketProduct {
     required this.availableQuantity,
     this.nearestLabel,
     this.packNames = const [],
+    this.slug,
   });
 
   factory MarketProduct.fromJson(Map<String, dynamic> json) => MarketProduct(
@@ -42,7 +43,11 @@ class MarketProduct {
       for (final v in (json['variants'] as List?) ?? const [])
         if (v is Map && v['name'] is String) v['name'] as String,
     ],
+    slug: json['slug'] as String?,
   );
+
+  /// URL-friendly name, used for the shareable website link.
+  final String? slug;
 
   final int id;
   final String displayName;
