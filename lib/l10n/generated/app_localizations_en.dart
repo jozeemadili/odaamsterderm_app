@@ -1202,4 +1202,129 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketStoriesTitle => 'Stores';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileEditPhoto => 'Change photo';
+
+  @override
+  String get profileTakePhoto => 'Take a photo';
+
+  @override
+  String get profileChoosePhoto => 'Choose from gallery';
+
+  @override
+  String get profileRemovePhoto => 'Remove photo';
+
+  @override
+  String get profilePhotoUpdated => 'Photo updated';
+
+  @override
+  String get profileSectionAccount => 'Account';
+
+  @override
+  String get profileSectionSecurity => 'Security';
+
+  @override
+  String get profileSectionPreferences => 'Preferences';
+
+  @override
+  String get profileSectionShopping => 'Shopping';
+
+  @override
+  String get profileName => 'Full name';
+
+  @override
+  String get profilePhone => 'Phone number';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profileNotSet => 'Not set';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileSaved => 'Saved';
+
+  @override
+  String get profilePhoneHint => 'e.g. +255 712 345 678';
+
+  @override
+  String get profileChangePassword => 'Change password';
+
+  @override
+  String get profileSetPassword => 'Set a password';
+
+  @override
+  String get profileSetPasswordHint =>
+      'You signed in with Google. Set a password to also sign in with your email.';
+
+  @override
+  String get profileCurrentPassword => 'Current password';
+
+  @override
+  String get profileNewPassword => 'New password';
+
+  @override
+  String get profileConfirmPassword => 'Confirm new password';
+
+  @override
+  String get profilePasswordTooShort => 'Use at least 8 characters';
+
+  @override
+  String get profilePasswordMismatch => 'The passwords don\'t match';
+
+  @override
+  String get profilePasswordChanged =>
+      'Password changed. Other devices were signed out.';
+
+  @override
+  String get profileAppearance => 'Appearance';
+
+  @override
+  String get profileThemeSystem => 'System';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileLanguage => 'Language';
+
+  @override
+  String get profileLocation => 'Default location';
+
+  @override
+  String get profileLogout => 'Log out';
+
+  @override
+  String get profileLogoutConfirm =>
+      'Log out of Amsterdam Digital on this phone?';
+
+  @override
+  String get profileCancel => 'Cancel';
+
+  @override
+  String profileVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get profileRequired => 'Required';
+
+  @override
+  String get profileInvalidPhone => 'Enter a valid phone number';
+
+  @override
+  String get profileInvalidEmail => 'Enter a valid email';
+
+  @override
+  String get profileCustomer => 'Customer';
 }

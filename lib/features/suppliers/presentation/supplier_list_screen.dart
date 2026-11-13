@@ -65,8 +65,11 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load suppliers.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load suppliers.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -93,13 +96,17 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
         final supplier = state.items[index];
         return ListTile(
           title: Text(supplier.name),
-          subtitle: Text([
-            if (supplier.contactPerson != null) supplier.contactPerson!,
-            if (supplier.phone != null) supplier.phone!
-          ].join(' · ')),
+          subtitle: Text(
+            [
+              if (supplier.contactPerson != null) supplier.contactPerson!,
+              if (supplier.phone != null) supplier.phone!,
+            ].join(' · '),
+          ),
           trailing: supplier.outstandingBalance > 0
-              ? Text(formatTzs(supplier.outstandingBalance),
-                  style: const TextStyle(color: Colors.redAccent))
+              ? Text(
+                  formatTzs(supplier.outstandingBalance),
+                  style: const TextStyle(color: Colors.redAccent),
+                )
               : null,
           onTap: () => context.push('/suppliers/${supplier.id}'),
         );

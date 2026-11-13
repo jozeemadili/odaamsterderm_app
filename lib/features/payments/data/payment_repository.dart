@@ -19,13 +19,15 @@ class PaymentRepository {
 
   Future<PaymentPage> list({int page = 1}) async {
     final response = await _client.guard(
-        () => _client.dio.get('/payments', queryParameters: {'page': page}));
+      () => _client.dio.get('/payments', queryParameters: {'page': page}),
+    );
     final data = response.data as Map<String, dynamic>;
     final items = (data['data'] as List)
         .map((e) => PaymentRecord.fromJson(e as Map<String, dynamic>))
         .toList();
     final meta = data['meta'] as Map<String, dynamic>?;
-    final hasMore = meta != null &&
+    final hasMore =
+        meta != null &&
         (meta['current_page'] as int) < (meta['last_page'] as int);
     return PaymentPage(items: items, hasMore: hasMore);
   }
@@ -45,9 +47,11 @@ class PaymentRepository {
       if (proofOfPayment != null)
         'proof_of_payment': await MultipartFile.fromFile(proofOfPayment.path),
     });
-    final response = await _client
-        .guard(() => _client.dio.post('/payments', data: formData));
-    return PaymentRecord.fromJson((response.data
-        as Map<String, dynamic>)['data'] as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.post('/payments', data: formData),
+    );
+    return PaymentRecord.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 }

@@ -62,8 +62,11 @@ class _StockReceiptListScreenState
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load stock receipts.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load stock receipts.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -97,8 +100,10 @@ class _StockReceiptListScreenState
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(formatTzs(receipt.totalAmount),
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                formatTzs(receipt.totalAmount),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 2),
               _StatusBadge(status: receipt.status, label: receipt.statusLabel),
             ],
@@ -117,22 +122,28 @@ class _StatusBadge extends StatelessWidget {
   final String label;
 
   Color get _color => switch (status) {
-        'pending' => Colors.blueGrey,
-        'approved' => Colors.green,
-        'rejected' => Colors.redAccent,
-        _ => Colors.grey,
-      };
+    'pending' => Colors.blueGrey,
+    'approved' => Colors.green,
+    'rejected' => Colors.redAccent,
+    _ => Colors.grey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-          color: _color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(999)),
-      child: Text(label,
-          style: TextStyle(
-              fontSize: 11, color: _color, fontWeight: FontWeight.w600)),
+        color: _color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          color: _color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

@@ -49,8 +49,9 @@ class _ExpenseFormScreenState extends ConsumerState<ExpenseFormScreen> {
       setState(() => _error = 'Enter a valid amount.');
       return;
     }
-    final category =
-        _isOther ? _customCategoryController.text.trim() : _category;
+    final category = _isOther
+        ? _customCategoryController.text.trim()
+        : _category;
     if (category.isEmpty) {
       setState(() => _error = 'Enter a category.');
       return;
@@ -61,7 +62,9 @@ class _ExpenseFormScreenState extends ConsumerState<ExpenseFormScreen> {
       _error = null;
     });
     try {
-      final expense = await ref.read(expenseRepositoryProvider).create(
+      final expense = await ref
+          .read(expenseRepositoryProvider)
+          .create(
             category: category,
             amount: amount,
             description: _descriptionController.text.trim().isEmpty
@@ -112,9 +115,12 @@ class _ExpenseFormScreenState extends ConsumerState<ExpenseFormScreen> {
             TextField(
               controller: _amountController,
               decoration: const InputDecoration(
-                  labelText: 'Amount', prefixText: 'TZS '),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                labelText: 'Amount',
+                prefixText: 'TZS ',
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
             ),
             const SizedBox(height: 12),
             ListTile(
@@ -127,8 +133,9 @@ class _ExpenseFormScreenState extends ConsumerState<ExpenseFormScreen> {
             const SizedBox(height: 12),
             TextField(
               controller: _descriptionController,
-              decoration:
-                  const InputDecoration(labelText: 'Description (optional)'),
+              decoration: const InputDecoration(
+                labelText: 'Description (optional)',
+              ),
               maxLines: 2,
             ),
             const SizedBox(height: 24),
@@ -138,7 +145,8 @@ class _ExpenseFormScreenState extends ConsumerState<ExpenseFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Save expense'),
             ),
           ],

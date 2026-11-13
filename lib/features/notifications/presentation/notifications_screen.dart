@@ -25,12 +25,18 @@ class NotificationsScreen extends ConsumerWidget {
       body: feedAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text('Could not load notifications.\n$e',
-                textAlign: TextAlign.center)),
+          child: Text(
+            'Could not load notifications.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (feed) => feed.count == 0 && feed.damagedItems.isEmpty
-            ? const Center(
-                child: Text('Nothing to see here — all clear.',
-                    style: TextStyle(color: DukaColors.muted)))
+            ? Center(
+                child: Text(
+                  'Nothing to see here — all clear.',
+                  style: TextStyle(color: DukaColors.muted),
+                ),
+              )
             : RefreshIndicator(
                 onRefresh: () => ref.refresh(notificationsFeedProvider.future),
                 child: ListView(
@@ -67,8 +73,9 @@ class NotificationsScreen extends ConsumerWidget {
                               title: item.name,
                               subtitle: item.branch?.name,
                               trailing: item.expiryDate != null
-                                  ? DateFormat('dd MMM')
-                                      .format(DateTime.parse(item.expiryDate!))
+                                  ? DateFormat(
+                                      'dd MMM',
+                                    ).format(DateTime.parse(item.expiryDate!))
                                   : '',
                               trailingColor: DukaColors.indigo,
                               onTap: () =>
@@ -96,11 +103,12 @@ class NotificationsScreen extends ConsumerWidget {
 }
 
 class _Section extends StatelessWidget {
-  const _Section(
-      {required this.title,
-      required this.icon,
-      required this.color,
-      required this.children});
+  const _Section({
+    required this.title,
+    required this.icon,
+    required this.color,
+    required this.children,
+  });
 
   final String title;
   final IconData icon;
@@ -177,25 +185,32 @@ class _ProductTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: DukaColors.ink),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: DukaColors.ink,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   if (subtitle != null)
-                    Text(subtitle!,
-                        style: const TextStyle(
-                            fontSize: 11, color: DukaColors.muted)),
+                    Text(
+                      subtitle!,
+                      style: TextStyle(fontSize: 11, color: DukaColors.muted),
+                    ),
                 ],
               ),
             ),
-            Text(trailing,
-                style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w700,
-                    color: trailingColor)),
+            Text(
+              trailing,
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w700,
+                color: trailingColor,
+              ),
+            ),
           ],
         ),
       ),
@@ -232,35 +247,41 @@ class _DamageTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(report.productName ?? 'Unknown product',
-                    style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: DukaColors.ink)),
+                Text(
+                  report.productName ?? 'Unknown product',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: DukaColors.ink,
+                  ),
+                ),
                 if (report.description != null &&
                     report.description!.isNotEmpty)
-                  Text(report.description!,
-                      style: const TextStyle(
-                          fontSize: 11, color: DukaColors.muted),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis),
+                  Text(
+                    report.description!,
+                    style: TextStyle(fontSize: 11, color: DukaColors.muted),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 Text(
                   [
                     if (report.branchName != null) report.branchName!,
-                    if (report.reportedBy != null)
-                      'by ${report.reportedBy}',
+                    if (report.reportedBy != null) 'by ${report.reportedBy}',
                     if (report.reportedAt != null) report.reportedAt!,
                   ].join(' · '),
-                  style: const TextStyle(fontSize: 10.5, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 10.5, color: DukaColors.muted),
                 ),
               ],
             ),
           ),
-          Text('-${report.quantity.toStringAsFixed(0)}',
-              style: const TextStyle(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w700,
-                  color: DukaColors.rose)),
+          Text(
+            '-${report.quantity.toStringAsFixed(0)}',
+            style: const TextStyle(
+              fontSize: 12.5,
+              fontWeight: FontWeight.w700,
+              color: DukaColors.rose,
+            ),
+          ),
         ],
       ),
     );
@@ -276,8 +297,11 @@ class _ImagePlaceholder extends StatelessWidget {
       width: 36,
       height: 36,
       color: DukaColors.bg,
-      child:
-          const Icon(Icons.inventory_2_outlined, size: 16, color: DukaColors.muted),
+      child: Icon(
+        Icons.inventory_2_outlined,
+        size: 16,
+        color: DukaColors.muted,
+      ),
     );
   }
 }

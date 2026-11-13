@@ -5,8 +5,11 @@ import 'package:intl/intl.dart';
 /// already used; every other screen that shows a money amount should
 /// go through this instead of `toStringAsFixed(0)` so `8000` reads as
 /// `TZS 8,000`.
-final _currencyFormat =
-    NumberFormat.currency(locale: 'en_TZ', symbol: 'TZS ', decimalDigits: 0);
+final _currencyFormat = NumberFormat.currency(
+  locale: 'en_TZ',
+  symbol: 'TZS ',
+  decimalDigits: 0,
+);
 final _numberFormat = NumberFormat.decimalPattern('en_TZ');
 
 String formatTzs(num value) => _currencyFormat.format(value);

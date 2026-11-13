@@ -86,29 +86,28 @@ class Invoice {
   });
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
-        id: json['id'] as int,
-        number: json['number'] as String,
-        status: json['status'] as String,
-        statusLabel: json['status_label'] as String,
-        subtotal: (json['subtotal'] as num).toDouble(),
-        discountAmount: (json['discount_amount'] as num).toDouble(),
-        total: (json['total'] as num).toDouble(),
-        amountPaid: (json['amount_paid'] as num).toDouble(),
-        balanceDue: (json['balance_due'] as num).toDouble(),
-        issueDate: json['issue_date'] as String,
-        dueDate: json['due_date'] as String?,
-        notes: json['notes'] as String?,
-        customer: json['customer'] != null
-            ? InvoiceCustomerRef.fromJson(
-                json['customer'] as Map<String, dynamic>)
-            : null,
-        items: (json['items'] as List? ?? [])
-            .map((e) => InvoiceLineItem.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        payments: (json['payments'] as List? ?? [])
-            .map((e) => InvoicePaymentEntry.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: json['id'] as int,
+    number: json['number'] as String,
+    status: json['status'] as String,
+    statusLabel: json['status_label'] as String,
+    subtotal: (json['subtotal'] as num).toDouble(),
+    discountAmount: (json['discount_amount'] as num).toDouble(),
+    total: (json['total'] as num).toDouble(),
+    amountPaid: (json['amount_paid'] as num).toDouble(),
+    balanceDue: (json['balance_due'] as num).toDouble(),
+    issueDate: json['issue_date'] as String,
+    dueDate: json['due_date'] as String?,
+    notes: json['notes'] as String?,
+    customer: json['customer'] != null
+        ? InvoiceCustomerRef.fromJson(json['customer'] as Map<String, dynamic>)
+        : null,
+    items: (json['items'] as List? ?? [])
+        .map((e) => InvoiceLineItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    payments: (json['payments'] as List? ?? [])
+        .map((e) => InvoicePaymentEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   final int id;
   final String number;

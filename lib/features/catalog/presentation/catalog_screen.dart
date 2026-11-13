@@ -70,7 +70,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
         children: [
           Text(
             l10n.catalogSubtitle,
-            style: const TextStyle(fontSize: 13, color: DukaColors.muted),
+            style: TextStyle(fontSize: 13, color: DukaColors.muted),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -139,7 +139,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Text(
                       l10n.catalogNoMatches,
-                      style: const TextStyle(color: DukaColors.muted),
+                      style: TextStyle(color: DukaColors.muted),
                     ),
                   )
                 : Card(
@@ -158,7 +158,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                             ),
                             trailing: Text(
                               p.unit,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 color: DukaColors.muted,
                               ),

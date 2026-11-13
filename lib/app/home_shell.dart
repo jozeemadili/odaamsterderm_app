@@ -40,7 +40,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
         ],
       ),
       bottomNavigationBar: DecoratedBox(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(top: BorderSide(color: DukaColors.line)),
         ),
         child: NavigationBar(

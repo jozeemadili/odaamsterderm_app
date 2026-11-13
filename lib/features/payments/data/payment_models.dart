@@ -10,14 +10,14 @@ class PaymentRecord {
   });
 
   factory PaymentRecord.fromJson(Map<String, dynamic> json) => PaymentRecord(
-        id: json['id'] as int,
-        amount: (json['amount'] as num).toDouble(),
-        payerName: json['payer_name'] as String,
-        paymentDate: json['payment_date'] as String,
-        status: json['status'] as String,
-        notes: json['notes'] as String?,
-        proofOfPaymentUrl: json['proof_of_payment_url'] as String?,
-      );
+    id: json['id'] as int,
+    amount: (json['amount'] as num).toDouble(),
+    payerName: json['payer_name'] as String,
+    paymentDate: json['payment_date'] as String,
+    status: json['status'] as String,
+    notes: json['notes'] as String?,
+    proofOfPaymentUrl: json['proof_of_payment_url'] as String?,
+  );
 
   final int id;
   final double amount;
@@ -28,8 +28,8 @@ class PaymentRecord {
   final String? proofOfPaymentUrl;
 
   String get statusLabel => switch (status) {
-        'verified' => 'Verified',
-        'flagged' => 'Flagged',
-        _ => 'Recorded',
-      };
+    'verified' => 'Verified',
+    'flagged' => 'Flagged',
+    _ => 'Recorded',
+  };
 }

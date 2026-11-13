@@ -15,13 +15,15 @@ class ExpenseRepository {
 
   Future<ExpensePage> list({int page = 1}) async {
     final response = await _client.guard(
-        () => _client.dio.get('/expenses', queryParameters: {'page': page}));
+      () => _client.dio.get('/expenses', queryParameters: {'page': page}),
+    );
     final data = response.data as Map<String, dynamic>;
     final items = (data['data'] as List)
         .map((e) => Expense.fromJson(e as Map<String, dynamic>))
         .toList();
     final meta = data['meta'] as Map<String, dynamic>?;
-    final hasMore = meta != null &&
+    final hasMore =
+        meta != null &&
         (meta['current_page'] as int) < (meta['last_page'] as int);
     return ExpensePage(items: items, hasMore: hasMore);
   }
@@ -33,14 +35,18 @@ class ExpenseRepository {
     required String expenseDate,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/expenses', data: {
-        'category': category,
-        'amount': amount,
-        'description': description,
-        'expense_date': expenseDate,
-      }),
+      () => _client.dio.post(
+        '/expenses',
+        data: {
+          'category': category,
+          'amount': amount,
+          'description': description,
+          'expense_date': expenseDate,
+        },
+      ),
     );
-    return Expense.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return Expense.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 }

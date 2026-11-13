@@ -10,14 +10,14 @@ class Supplier {
   });
 
   factory Supplier.fromJson(Map<String, dynamic> json) => Supplier(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        contactPerson: json['contact_person'] as String?,
-        phone: json['phone'] as String?,
-        address: json['address'] as String?,
-        notes: json['notes'] as String?,
-        outstandingBalance: (json['outstanding_balance'] as num).toDouble(),
-      );
+    id: json['id'] as int,
+    name: json['name'] as String,
+    contactPerson: json['contact_person'] as String?,
+    phone: json['phone'] as String?,
+    address: json['address'] as String?,
+    notes: json['notes'] as String?,
+    outstandingBalance: (json['outstanding_balance'] as num).toDouble(),
+  );
 
   final int id;
   final String name;

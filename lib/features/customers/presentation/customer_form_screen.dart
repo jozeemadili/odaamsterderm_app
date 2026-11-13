@@ -16,14 +16,18 @@ class CustomerFormScreen extends ConsumerStatefulWidget {
 }
 
 class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
-  late final _nameController =
-      TextEditingController(text: widget.existing?.name ?? '');
-  late final _phoneController =
-      TextEditingController(text: widget.existing?.phone ?? '');
-  late final _emailController =
-      TextEditingController(text: widget.existing?.email ?? '');
-  late final _addressController =
-      TextEditingController(text: widget.existing?.address ?? '');
+  late final _nameController = TextEditingController(
+    text: widget.existing?.name ?? '',
+  );
+  late final _phoneController = TextEditingController(
+    text: widget.existing?.phone ?? '',
+  );
+  late final _emailController = TextEditingController(
+    text: widget.existing?.email ?? '',
+  );
+  late final _addressController = TextEditingController(
+    text: widget.existing?.address ?? '',
+  );
   bool _submitting = false;
   String? _error;
 
@@ -87,27 +91,30 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
               const SizedBox(height: 12),
             ],
             TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Customer name'),
-                autofocus: !_isEdit),
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Customer name'),
+              autofocus: !_isEdit,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _phoneController,
-                decoration:
-                    const InputDecoration(labelText: 'Phone (optional)'),
-                keyboardType: TextInputType.phone),
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone (optional)'),
+              keyboardType: TextInputType.phone,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _emailController,
-                decoration:
-                    const InputDecoration(labelText: 'Email (optional)'),
-                keyboardType: TextInputType.emailAddress),
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email (optional)'),
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _addressController,
-                decoration:
-                    const InputDecoration(labelText: 'Address (optional)'),
-                maxLines: 2),
+              controller: _addressController,
+              decoration: const InputDecoration(
+                labelText: 'Address (optional)',
+              ),
+              maxLines: 2,
+            ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _submitting ? null : _submit,
@@ -115,7 +122,8 @@ class _CustomerFormScreenState extends ConsumerState<CustomerFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Text(_isEdit ? 'Save changes' : 'Add customer'),
             ),
           ],

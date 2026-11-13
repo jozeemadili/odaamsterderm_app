@@ -57,6 +57,7 @@ import '../features/suppliers/data/supplier_models.dart';
 import '../features/suppliers/presentation/supplier_detail_screen.dart';
 import '../features/suppliers/presentation/supplier_form_screen.dart';
 import '../features/suppliers/presentation/supplier_list_screen.dart';
+import '../features/profile/presentation/profile_screen.dart';
 import 'home_shell.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -104,6 +105,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             final customerArea =
                 loc == '/home' ||
                 loc == '/cart' ||
+                loc == '/profile' ||
                 loc == '/my-orders' ||
                 loc.startsWith('/my-orders/');
             return (customerArea || onMarket) ? null : '/home';
@@ -315,6 +317,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const ShopSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: '/settings/profile',

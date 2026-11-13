@@ -19,7 +19,8 @@ class InvoiceDetailScreen extends ConsumerStatefulWidget {
   final int id;
 
   @override
-  ConsumerState<InvoiceDetailScreen> createState() => _InvoiceDetailScreenState();
+  ConsumerState<InvoiceDetailScreen> createState() =>
+      _InvoiceDetailScreenState();
 }
 
 class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
@@ -36,7 +37,10 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
       final invoice = await action();
       _refresh(invoice);
     } on ApiException catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+      if (mounted)
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -46,12 +50,15 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => _AddItemSheet(invoiceId: widget.id, onAdded: _refresh),
+      builder: (context) =>
+          _AddItemSheet(invoiceId: widget.id, onAdded: _refresh),
     );
   }
 
   Future<void> _removeItem(int itemId) async {
-    await _run(() => ref.read(invoiceRepositoryProvider).removeItem(widget.id, itemId));
+    await _run(
+      () => ref.read(invoiceRepositoryProvider).removeItem(widget.id, itemId),
+    );
   }
 
   Future<void> _editDiscount(Invoice invoice) async {
@@ -60,7 +67,11 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
       builder: (context) => const _DiscountDialog(),
     );
     if (result == null) return;
-    await _run(() => ref.read(invoiceRepositoryProvider).setDiscount(widget.id, type: result.$1, value: result.$2));
+    await _run(
+      () => ref
+          .read(invoiceRepositoryProvider)
+          .setDiscount(widget.id, type: result.$1, value: result.$2),
+    );
   }
 
   Future<void> _approve() async {
@@ -68,10 +79,18 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Approve this proforma?'),
-        content: const Text('This locks the invoice, decrements stock for every line item, and can\'t be undone.'),
+        content: const Text(
+          'This locks the invoice, decrements stock for every line item, and can\'t be undone.',
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Approve')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Approve'),
+          ),
         ],
       ),
     );
@@ -84,10 +103,18 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Cancel this proforma?'),
-        content: const Text('This proforma will be marked cancelled and can no longer be edited or approved.'),
+        content: const Text(
+          'This proforma will be marked cancelled and can no longer be edited or approved.',
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Keep it')),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Cancel proforma')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Keep it'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Cancel proforma'),
+          ),
         ],
       ),
     );
@@ -109,11 +136,19 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
   Future<void> _sharePdf(Invoice invoice) async {
     setState(() => _busy = true);
     try {
-      final filename = '${invoice.isDraft ? 'proforma' : 'invoice'}-${invoice.number}.pdf';
-      final path = await ref.read(invoiceRepositoryProvider).downloadPdf(widget.id, filename);
-      await SharePlus.instance.share(ShareParams(files: [XFile(path)], fileNameOverrides: [filename]));
+      final filename =
+          '${invoice.isDraft ? 'proforma' : 'invoice'}-${invoice.number}.pdf';
+      final path = await ref
+          .read(invoiceRepositoryProvider)
+          .downloadPdf(widget.id, filename);
+      await SharePlus.instance.share(
+        ShareParams(files: [XFile(path)], fileNameOverrides: [filename]),
+      );
     } on ApiException catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+      if (mounted)
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -139,7 +174,12 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
       ),
       body: invoiceAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Could not load this invoice.\n$e', textAlign: TextAlign.center)),
+        error: (e, _) => Center(
+          child: Text(
+            'Could not load this invoice.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (invoice) => AbsorbPointer(
           absorbing: _busy,
           child: Opacity(
@@ -150,17 +190,28 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(invoice.number, style: Theme.of(context).textTheme.headlineSmall),
-                    _StatusChip(status: invoice.status, label: invoice.statusLabel),
+                    Text(
+                      invoice.number,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    _StatusChip(
+                      status: invoice.status,
+                      label: invoice.statusLabel,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(invoice.customer?.name ?? 'No customer', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  invoice.customer?.name ?? 'No customer',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 4),
                 Text(
                   'Issued ${DateFormat.yMMMd().format(DateTime.parse(invoice.issueDate))}'
                   '${invoice.dueDate != null ? ' · Due ${DateFormat.yMMMd().format(DateTime.parse(invoice.dueDate!))}' : ''}',
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 if (invoice.notes != null && invoice.notes!.isNotEmpty) ...[
                   const SizedBox(height: 8),
@@ -176,28 +227,52 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Items', style: Theme.of(context).textTheme.titleMedium),
+                            Text(
+                              'Items',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                             if (invoice.isDraft)
-                              TextButton.icon(onPressed: _addItem, icon: const Icon(Icons.add), label: const Text('Add')),
+                              TextButton.icon(
+                                onPressed: _addItem,
+                                icon: const Icon(Icons.add),
+                                label: const Text('Add'),
+                              ),
                           ],
                         ),
-                        if (invoice.items.isEmpty) const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Text('No items yet.')),
-                        for (final line in invoice.items) _LineItemRow(line: line, editable: invoice.isDraft, onRemove: () => _removeItem(line.id)),
+                        if (invoice.items.isEmpty)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text('No items yet.'),
+                          ),
+                        for (final line in invoice.items)
+                          _LineItemRow(
+                            line: line,
+                            editable: invoice.isDraft,
+                            onRemove: () => _removeItem(line.id),
+                          ),
                         const Divider(height: 24),
                         _totalsRow('Subtotal', invoice.subtotal),
                         InkWell(
-                          onTap: invoice.isDraft ? () => _editDiscount(invoice) : null,
+                          onTap: invoice.isDraft
+                              ? () => _editDiscount(invoice)
+                              : null,
                           child: _totalsRow(
                             'Discount',
                             invoice.discountAmount,
                             negative: true,
-                            trailing: invoice.isDraft ? const Icon(Icons.chevron_right, size: 18) : null,
+                            trailing: invoice.isDraft
+                                ? const Icon(Icons.chevron_right, size: 18)
+                                : null,
                           ),
                         ),
                         _totalsRow('Total', invoice.total, bold: true),
                         if (!invoice.isDraft) ...[
                           _totalsRow('Paid', invoice.amountPaid),
-                          _totalsRow('Balance due', invoice.balanceDue, bold: true),
+                          _totalsRow(
+                            'Balance due',
+                            invoice.balanceDue,
+                            bold: true,
+                          ),
                         ],
                       ],
                     ),
@@ -211,16 +286,22 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Payments', style: Theme.of(context).textTheme.titleMedium),
+                          Text(
+                            'Payments',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                           const SizedBox(height: 8),
                           for (final p in invoice.payments)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${DateFormat.yMMMd().format(DateTime.parse(p.paymentDate))}'
-                                      '${p.paymentMethod != null ? ' · ${p.paymentMethod}' : ''}'),
+                                  Text(
+                                    '${DateFormat.yMMMd().format(DateTime.parse(p.paymentDate))}'
+                                    '${p.paymentMethod != null ? ' · ${p.paymentMethod}' : ''}',
+                                  ),
                                   Text(formatTzs(p.amount)),
                                 ],
                               ),
@@ -232,11 +313,20 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
                 ],
                 const SizedBox(height: 24),
                 if (invoice.isDraft) ...[
-                  FilledButton(onPressed: _approve, child: const Text('Approve')),
+                  FilledButton(
+                    onPressed: _approve,
+                    child: const Text('Approve'),
+                  ),
                   const SizedBox(height: 8),
-                  OutlinedButton(onPressed: _cancelInvoice, child: const Text('Cancel proforma')),
+                  OutlinedButton(
+                    onPressed: _cancelInvoice,
+                    child: const Text('Cancel proforma'),
+                  ),
                 ] else if (!invoice.isCancelled && invoice.balanceDue > 0)
-                  FilledButton(onPressed: () => _recordPayment(invoice), child: const Text('Record payment')),
+                  FilledButton(
+                    onPressed: () => _recordPayment(invoice),
+                    child: const Text('Record payment'),
+                  ),
               ],
             ),
           ),
@@ -245,16 +335,31 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
     );
   }
 
-  Widget _totalsRow(String label, double value, {bool bold = false, bool negative = false, Widget? trailing}) {
-    final style = TextStyle(fontWeight: bold ? FontWeight.w700 : FontWeight.w400);
-    final text = negative && value > 0 ? '−${formatTzs(value)}' : formatTzs(value);
+  Widget _totalsRow(
+    String label,
+    double value, {
+    bool bold = false,
+    bool negative = false,
+    Widget? trailing,
+  }) {
+    final style = TextStyle(
+      fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
+    );
+    final text = negative && value > 0
+        ? '−${formatTzs(value)}'
+        : formatTzs(value);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: style),
-          Row(children: [Text(text, style: style), ?trailing]),
+          Row(
+            children: [
+              Text(text, style: style),
+              ?trailing,
+            ],
+          ),
         ],
       ),
     );
@@ -262,7 +367,11 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
 }
 
 class _LineItemRow extends StatelessWidget {
-  const _LineItemRow({required this.line, required this.editable, required this.onRemove});
+  const _LineItemRow({
+    required this.line,
+    required this.editable,
+    required this.onRemove,
+  });
 
   final InvoiceLineItem line;
   final bool editable;
@@ -275,7 +384,9 @@ class _LineItemRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text('${line.itemName} × ${line.quantity.toStringAsFixed(line.quantity.truncateToDouble() == line.quantity ? 0 : 2)}'),
+            child: Text(
+              '${line.itemName} × ${line.quantity.toStringAsFixed(line.quantity.truncateToDouble() == line.quantity ? 0 : 2)}',
+            ),
           ),
           Text(formatTzs(line.subtotal)),
           if (editable)
@@ -297,20 +408,26 @@ class _StatusChip extends StatelessWidget {
   final String label;
 
   Color get _color => switch (status) {
-        'draft' => Colors.blueGrey,
-        'invoiced' => Colors.orange,
-        'partially_paid' => Colors.amber.shade800,
-        'paid' => Colors.green,
-        'cancelled' => Colors.redAccent,
-        _ => Colors.grey,
-      };
+    'draft' => Colors.blueGrey,
+    'invoiced' => Colors.orange,
+    'partially_paid' => Colors.amber.shade800,
+    'paid' => Colors.green,
+    'cancelled' => Colors.redAccent,
+    _ => Colors.grey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(color: _color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: TextStyle(color: _color, fontWeight: FontWeight.w600)),
+      decoration: BoxDecoration(
+        color: _color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(color: _color, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
@@ -355,7 +472,9 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
     _debounce = Timer(const Duration(milliseconds: 350), () async {
       setState(() => _searching = true);
       try {
-        final page = await ref.read(inventoryRepositoryProvider).list(search: value.trim(), page: 1);
+        final page = await ref
+            .read(inventoryRepositoryProvider)
+            .list(search: value.trim(), page: 1);
         if (mounted) setState(() => _results = page.items.take(8).toList());
       } catch (_) {
         if (mounted) setState(() => _results = []);
@@ -379,7 +498,10 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
     if (item == null) return;
     final quantity = double.tryParse(_quantityController.text);
     final unitPrice = double.tryParse(_unitPriceController.text);
-    if (quantity == null || quantity <= 0 || unitPrice == null || unitPrice < 0) {
+    if (quantity == null ||
+        quantity <= 0 ||
+        unitPrice == null ||
+        unitPrice < 0) {
       setState(() => _error = 'Enter a valid quantity and price.');
       return;
     }
@@ -389,7 +511,9 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
       _error = null;
     });
     try {
-      final invoice = await ref.read(invoiceRepositoryProvider).addItem(
+      final invoice = await ref
+          .read(invoiceRepositoryProvider)
+          .addItem(
             widget.invoiceId,
             inventoryItemId: item.id,
             quantity: quantity,
@@ -407,88 +531,116 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 16, right: 16, top: 16),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Add item', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 12),
-            if (_selected == null) ...[
-              TextField(
-                controller: _searchController,
-                autofocus: true,
-                onChanged: _onSearchChanged,
-                decoration: InputDecoration(
-                  hintText: 'Search products',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: _searching
-                      ? const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
-                        )
-                      : null,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Add item', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 12),
+              if (_selected == null) ...[
+                TextField(
+                  controller: _searchController,
+                  autofocus: true,
+                  onChanged: _onSearchChanged,
+                  decoration: InputDecoration(
+                    hintText: 'Search products',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: _searching
+                        ? const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          )
+                        : null,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 260),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: _results.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
-                  itemBuilder: (context, index) {
-                    final item = _results[index];
-                    return ListTile(
-                      title: Text(item.name),
-                      subtitle: Text('${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} on hand'),
-                      trailing: item.unitPrice != null ? Text(formatTzs(item.unitPrice!)) : null,
-                      onTap: () => _select(item),
-                    );
-                  },
-                ),
-              ),
-            ] else ...[
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(_selected!.name),
-                trailing: TextButton(onPressed: () => setState(() => _selected = null), child: const Text('Change')),
-              ),
-              if (_error != null) ...[
-                Text(_error!, style: const TextStyle(color: Colors.red)),
                 const SizedBox(height: 8),
-              ],
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _quantityController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(labelText: 'Quantity'),
-                    ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 260),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: _results.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final item = _results[index];
+                      return ListTile(
+                        title: Text(item.name),
+                        subtitle: Text(
+                          '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} on hand',
+                        ),
+                        trailing: item.unitPrice != null
+                            ? Text(formatTzs(item.unitPrice!))
+                            : null,
+                        onTap: () => _select(item),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      controller: _unitPriceController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(labelText: 'Unit price'),
-                    ),
+                ),
+              ] else ...[
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(_selected!.name),
+                  trailing: TextButton(
+                    onPressed: () => setState(() => _selected = null),
+                    child: const Text('Change'),
                   ),
+                ),
+                if (_error != null) ...[
+                  Text(_error!, style: const TextStyle(color: Colors.red)),
+                  const SizedBox(height: 8),
                 ],
-              ),
-              const SizedBox(height: 16),
-              FilledButton(
-                onPressed: _submitting ? null : _submit,
-                child: _submitting
-                    ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const Text('Add to invoice'),
-              ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _quantityController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Quantity',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        controller: _unitPriceController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Unit price',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: _submitting ? null : _submit,
+                  child: _submitting
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Add to invoice'),
+                ),
+              ],
+              const SizedBox(height: 12),
             ],
-            const SizedBox(height: 12),
-          ],
           ),
         ),
       ),
@@ -532,14 +684,22 @@ class _DiscountDialogState extends State<_DiscountDialog> {
           TextField(
             controller: _controller,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: InputDecoration(labelText: _type == 'percent' ? 'Percent off' : 'Amount off'),
+            decoration: InputDecoration(
+              labelText: _type == 'percent' ? 'Percent off' : 'Amount off',
+            ),
             autofocus: true,
           ),
         ],
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context, (null, null)), child: const Text('Remove')),
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+        TextButton(
+          onPressed: () => Navigator.pop(context, (null, null)),
+          child: const Text('Remove'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
         FilledButton(
           onPressed: () {
             final value = double.tryParse(_controller.text);
@@ -559,11 +719,14 @@ class _RecordPaymentSheet extends ConsumerStatefulWidget {
   final Invoice invoice;
 
   @override
-  ConsumerState<_RecordPaymentSheet> createState() => _RecordPaymentSheetState();
+  ConsumerState<_RecordPaymentSheet> createState() =>
+      _RecordPaymentSheetState();
 }
 
 class _RecordPaymentSheetState extends ConsumerState<_RecordPaymentSheet> {
-  late final _amountController = TextEditingController(text: widget.invoice.balanceDue.toStringAsFixed(0));
+  late final _amountController = TextEditingController(
+    text: widget.invoice.balanceDue.toStringAsFixed(0),
+  );
   final _referenceController = TextEditingController();
   int? _paymentMethodId;
   DateTime _paymentDate = DateTime.now();
@@ -598,12 +761,16 @@ class _RecordPaymentSheetState extends ConsumerState<_RecordPaymentSheet> {
       _error = null;
     });
     try {
-      await ref.read(invoiceRepositoryProvider).recordPayment(
+      await ref
+          .read(invoiceRepositoryProvider)
+          .recordPayment(
             widget.invoice.id,
             amount: amount,
             paymentMethodId: _paymentMethodId,
             paymentDate: DateFormat('yyyy-MM-dd').format(_paymentDate),
-            reference: _referenceController.text.trim().isEmpty ? null : _referenceController.text.trim(),
+            reference: _referenceController.text.trim().isEmpty
+                ? null
+                : _referenceController.text.trim(),
           );
       if (mounted) Navigator.pop(context, true);
     } on ApiException catch (e) {
@@ -618,65 +785,90 @@ class _RecordPaymentSheetState extends ConsumerState<_RecordPaymentSheet> {
     final methodsAsync = ref.watch(paymentMethodsProvider);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 16, right: 16, top: 16),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Record payment', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 4),
-            Text('Balance due: ${formatTzs(widget.invoice.balanceDue)}', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-            const SizedBox(height: 16),
-            if (_error != null) ...[
-              Text(_error!, style: const TextStyle(color: Colors.red)),
-              const SizedBox(height: 8),
-            ],
-            TextField(
-              controller: _amountController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Amount'),
-            ),
-            const SizedBox(height: 16),
-            Text('Payment method', style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(height: 8),
-            methodsAsync.when(
-              loading: () => const LinearProgressIndicator(),
-              error: (_, _) => const Text('Could not load payment methods.'),
-              data: (methods) => Wrap(
-                spacing: 8,
-                children: [
-                  for (final m in methods)
-                    ChoiceChip(
-                      label: Text(m.name),
-                      selected: _paymentMethodId == m.id,
-                      onSelected: (_) => setState(() => _paymentMethodId = m.id),
-                    ),
-                ],
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Record payment',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.event_outlined),
-              title: const Text('Payment date'),
-              trailing: Text(DateFormat.yMMMd().format(_paymentDate)),
-              onTap: _pickDate,
-            ),
-            TextField(
-              controller: _referenceController,
-              decoration: const InputDecoration(labelText: 'Reference (optional)'),
-            ),
-            const SizedBox(height: 20),
-            FilledButton(
-              onPressed: _submitting ? null : _submit,
-              child: _submitting
-                  ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('Record payment'),
-            ),
-            const SizedBox(height: 12),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                'Balance due: ${formatTzs(widget.invoice.balanceDue)}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 16),
+              if (_error != null) ...[
+                Text(_error!, style: const TextStyle(color: Colors.red)),
+                const SizedBox(height: 8),
+              ],
+              TextField(
+                controller: _amountController,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                decoration: const InputDecoration(labelText: 'Amount'),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Payment method',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              methodsAsync.when(
+                loading: () => const LinearProgressIndicator(),
+                error: (_, _) => const Text('Could not load payment methods.'),
+                data: (methods) => Wrap(
+                  spacing: 8,
+                  children: [
+                    for (final m in methods)
+                      ChoiceChip(
+                        label: Text(m.name),
+                        selected: _paymentMethodId == m.id,
+                        onSelected: (_) =>
+                            setState(() => _paymentMethodId = m.id),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.event_outlined),
+                title: const Text('Payment date'),
+                trailing: Text(DateFormat.yMMMd().format(_paymentDate)),
+                onTap: _pickDate,
+              ),
+              TextField(
+                controller: _referenceController,
+                decoration: const InputDecoration(
+                  labelText: 'Reference (optional)',
+                ),
+              ),
+              const SizedBox(height: 20),
+              FilledButton(
+                onPressed: _submitting ? null : _submit,
+                child: _submitting
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Record payment'),
+              ),
+              const SizedBox(height: 12),
+            ],
           ),
         ),
       ),

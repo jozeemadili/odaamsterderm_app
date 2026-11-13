@@ -66,8 +66,11 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load expenses.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load expenses.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -102,8 +105,10 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
                 expense.description!,
             ].join(' · '),
           ),
-          trailing: Text(formatTzs(expense.amount),
-              style: const TextStyle(fontWeight: FontWeight.w600)),
+          trailing: Text(
+            formatTzs(expense.amount),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
         );
       },
     );

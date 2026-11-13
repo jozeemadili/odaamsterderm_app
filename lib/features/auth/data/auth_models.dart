@@ -41,6 +41,8 @@ class DukaUser {
     this.locationLabel,
     this.allStores = false,
     this.stores = const [],
+    this.avatarUrl,
+    this.hasPassword = true,
   });
 
   factory DukaUser.fromJson(Map<String, dynamic> json) => DukaUser(
@@ -67,7 +69,16 @@ class DukaUser {
           name: s['name'] as String,
         ),
     ],
+    avatarUrl: json['avatar_url'] as String?,
+    hasPassword: json['has_password'] as bool? ?? true,
   );
+
+  /// Profile photo, or null to show initials.
+  final String? avatarUrl;
+
+  /// False for Google accounts that never chose a password: setting one
+  /// then doesn't ask for the current password.
+  final bool hasPassword;
 
   final int id;
   final String name;

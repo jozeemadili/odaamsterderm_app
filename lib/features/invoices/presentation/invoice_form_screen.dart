@@ -57,7 +57,9 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
     });
 
     try {
-      final invoice = await ref.read(invoiceRepositoryProvider).create(
+      final invoice = await ref
+          .read(invoiceRepositoryProvider)
+          .create(
             customerId: _customer!.id,
             issueDate: DateFormat('yyyy-MM-dd').format(_issueDate),
             dueDate: _dueDate != null
@@ -101,7 +103,8 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
               onTap: _pickCustomer,
               tileColor: Theme.of(context).colorScheme.surfaceContainerHighest,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             const SizedBox(height: 16),
             ListTile(
@@ -115,8 +118,9 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.event_busy_outlined),
               title: const Text('Due date (optional)'),
-              trailing:
-                  Text(_dueDate != null ? dateFormat.format(_dueDate!) : '—'),
+              trailing: Text(
+                _dueDate != null ? dateFormat.format(_dueDate!) : '—',
+              ),
               onTap: () => _pickDate(isDue: true),
             ),
             const SizedBox(height: 12),
@@ -132,7 +136,8 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Create proforma'),
             ),
           ],

@@ -53,7 +53,9 @@ class _StockReceiptFormScreenState
       _error = null;
     });
     try {
-      final receipt = await ref.read(stockReceiptRepositoryProvider).create(
+      final receipt = await ref
+          .read(stockReceiptRepositoryProvider)
+          .create(
             supplierId: _supplier?.id,
             referenceNo: _referenceController.text.trim().isEmpty
                 ? null
@@ -89,20 +91,23 @@ class _StockReceiptFormScreenState
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(_supplier?.name ?? 'Supplier (optional)'),
-              subtitle:
-                  _supplier?.phone != null ? Text(_supplier!.phone!) : null,
+              subtitle: _supplier?.phone != null
+                  ? Text(_supplier!.phone!)
+                  : null,
               leading: const Icon(Icons.local_shipping_outlined),
               trailing: const Icon(Icons.chevron_right),
               onTap: _pickSupplier,
               tileColor: Theme.of(context).colorScheme.surfaceContainerHighest,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _referenceController,
-              decoration:
-                  const InputDecoration(labelText: 'Reference no. (optional)'),
+              decoration: const InputDecoration(
+                labelText: 'Reference no. (optional)',
+              ),
             ),
             const SizedBox(height: 12),
             ListTile(
@@ -125,7 +130,8 @@ class _StockReceiptFormScreenState
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Create receipt'),
             ),
           ],

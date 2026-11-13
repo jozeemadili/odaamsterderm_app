@@ -23,8 +23,10 @@ class SupplierDetailScreen extends ConsumerWidget {
             data: (supplier) => IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () async {
-                final updated = await context
-                    .push<Supplier>('/suppliers/$id/edit', extra: supplier);
+                final updated = await context.push<Supplier>(
+                  '/suppliers/$id/edit',
+                  extra: supplier,
+                );
                 if (updated != null) ref.invalidate(supplierDetailProvider(id));
               },
             ),
@@ -35,13 +37,18 @@ class SupplierDetailScreen extends ConsumerWidget {
       body: supplierAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text('Could not load this supplier.\n$e',
-                textAlign: TextAlign.center)),
+          child: Text(
+            'Could not load this supplier.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (supplier) => ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text(supplier.name,
-                style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              supplier.name,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 20),
             Card(
               child: Padding(
@@ -89,14 +96,18 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
           Flexible(
-            child: Text(value,
-                style:
-                    TextStyle(fontWeight: FontWeight.w600, color: valueColor),
-                textAlign: TextAlign.right),
+            child: Text(
+              value,
+              style: TextStyle(fontWeight: FontWeight.w600, color: valueColor),
+              textAlign: TextAlign.right,
+            ),
           ),
         ],
       ),

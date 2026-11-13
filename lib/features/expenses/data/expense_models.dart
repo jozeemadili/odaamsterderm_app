@@ -8,12 +8,12 @@ class Expense {
   });
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
-        id: json['id'] as int,
-        category: json['category'] as String,
-        amount: (json['amount'] as num).toDouble(),
-        description: json['description'] as String?,
-        expenseDate: json['expense_date'] as String,
-      );
+    id: json['id'] as int,
+    category: json['category'] as String,
+    amount: (json['amount'] as num).toDouble(),
+    description: json['description'] as String?,
+    expenseDate: json['expense_date'] as String,
+  );
 
   final int id;
   final String category;
@@ -30,6 +30,6 @@ class Expense {
     'Utilities',
     'Transport',
     'Supplier',
-    'Other'
+    'Other',
   ];
 }

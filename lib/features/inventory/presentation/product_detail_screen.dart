@@ -272,7 +272,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       ? context.l10n.photoHintChange
                       : context.l10n.photoHintAdd,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
                 const SizedBox(height: 14),
                 Text(
@@ -607,7 +607,7 @@ class _MarketplaceSheetState extends State<_MarketplaceSheet> {
           const SizedBox(height: 4),
           Text(
             'Customers see the marketplace quantity. You can expose up to ${_fmt(available)} ${widget.item.unit ?? ''}.',
-            style: const TextStyle(fontSize: 12.5, color: DukaColors.muted),
+            style: TextStyle(fontSize: 12.5, color: DukaColors.muted),
           ),
           const SizedBox(height: 16),
           TextField(
@@ -749,7 +749,7 @@ class _PhotoTile extends StatelessWidget {
       width: 140,
       height: 140,
       color: DukaColors.bg,
-      child: const Icon(
+      child: Icon(
         Icons.inventory_2_outlined,
         size: 44,
         color: DukaColors.muted,
@@ -786,7 +786,7 @@ class _PhotoTile extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: DukaColors.muted,

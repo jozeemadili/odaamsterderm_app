@@ -54,7 +54,7 @@ class MarketStoreScreen extends ConsumerWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     s.distanceLabel!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: DukaColors.indigo,
                     ),
@@ -107,7 +107,7 @@ class MarketStoreScreen extends ConsumerWidget {
                       if (s.openingHoursLines == null)
                         Text(
                           l10n.notSet,
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         )
                       else
                         for (final e in s.openingHoursLines!.entries)

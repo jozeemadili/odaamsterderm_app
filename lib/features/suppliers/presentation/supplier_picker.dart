@@ -31,8 +31,9 @@ class _SupplierPickerSheetState extends ConsumerState<_SupplierPickerSheet> {
     final state = ref.watch(supplierListControllerProvider);
 
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.4,
@@ -45,8 +46,11 @@ class _SupplierPickerSheetState extends ConsumerState<_SupplierPickerSheet> {
               child: Row(
                 children: [
                   Expanded(
-                      child: Text('Select supplier',
-                          style: Theme.of(context).textTheme.titleLarge)),
+                    child: Text(
+                      'Select supplier',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
                   TextButton.icon(
                     onPressed: () =>
                         setState(() => _showNewForm = !_showNewForm),
@@ -58,8 +62,10 @@ class _SupplierPickerSheetState extends ConsumerState<_SupplierPickerSheet> {
             ),
             if (_showNewForm)
               Expanded(
-                  child: _NewSupplierForm(
-                      onCreated: (s) => Navigator.pop(context, s)))
+                child: _NewSupplierForm(
+                  onCreated: (s) => Navigator.pop(context, s),
+                ),
+              )
             else if (state.isLoading && state.items.isEmpty)
               const Expanded(child: Center(child: CircularProgressIndicator()))
             else if (state.items.isEmpty)
@@ -121,7 +127,9 @@ class _NewSupplierFormState extends ConsumerState<_NewSupplierForm> {
       _error = null;
     });
     try {
-      final supplier = await ref.read(supplierRepositoryProvider).create(
+      final supplier = await ref
+          .read(supplierRepositoryProvider)
+          .create(
             name: _nameController.text.trim(),
             phone: _phoneController.text.trim().isEmpty
                 ? null
@@ -145,14 +153,16 @@ class _NewSupplierFormState extends ConsumerState<_NewSupplierForm> {
           const SizedBox(height: 12),
         ],
         TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Supplier name'),
-            autofocus: true),
+          controller: _nameController,
+          decoration: const InputDecoration(labelText: 'Supplier name'),
+          autofocus: true,
+        ),
         const SizedBox(height: 12),
         TextField(
-            controller: _phoneController,
-            decoration: const InputDecoration(labelText: 'Phone (optional)'),
-            keyboardType: TextInputType.phone),
+          controller: _phoneController,
+          decoration: const InputDecoration(labelText: 'Phone (optional)'),
+          keyboardType: TextInputType.phone,
+        ),
         const SizedBox(height: 20),
         FilledButton(
           onPressed: _submitting ? null : _submit,
@@ -160,7 +170,8 @@ class _NewSupplierFormState extends ConsumerState<_NewSupplierForm> {
               ? const SizedBox(
                   height: 18,
                   width: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Text('Add supplier'),
         ),
       ],

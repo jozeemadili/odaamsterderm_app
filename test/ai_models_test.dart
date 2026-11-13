@@ -28,8 +28,15 @@ void main() {
     expect(r.basket.single.available, 25.0);
 
     // The assistant's turn is sent back with its memo; notices are not sent.
-    final msg = AiChatMessage(role: 'assistant', content: r.reply, memo: r.memo);
-    expect(msg.toJson()['content'], 'Here you go\n\n[Basket I proposed: offer 7 x 2]');
+    final msg = AiChatMessage(
+      role: 'assistant',
+      content: r.reply,
+      memo: r.memo,
+    );
+    expect(
+      msg.toJson()['content'],
+      'Here you go\n\n[Basket I proposed: offer 7 x 2]',
+    );
   });
 
   test('config defaults to off', () {

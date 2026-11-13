@@ -5,7 +5,7 @@ import '../../../l10n/l10n_extension.dart';
 import '../../ai/presentation/ai_order_screen.dart';
 import '../../orders/presentation/cart_screen.dart';
 import '../../orders/presentation/my_orders_screen.dart';
-import 'customer_account_screen.dart';
+import '../../profile/presentation/profile_screen.dart';
 import 'market_home_screen.dart';
 
 /// Bottom-nav shell for marketplace customers.
@@ -31,11 +31,11 @@ class _CustomerShellState extends State<CustomerShell> {
           AiOrderScreen(),
           CartScreen(embedded: true),
           MyOrdersScreen(embedded: true),
-          CustomerAccountScreen(),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: DecoratedBox(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(top: BorderSide(color: DukaColors.line)),
         ),
         child: NavigationBar(

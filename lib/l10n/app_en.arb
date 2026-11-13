@@ -538,5 +538,52 @@
   "marketAllCaughtUp": "You're all caught up",
   "marketAllCaughtUpBody": "You've seen every product. Try another animal or ask the assistant.",
   "marketRetry": "Try again",
-  "marketStoriesTitle": "Stores"
+  "marketStoriesTitle": "Stores",
+  "profileTitle": "Profile",
+  "profileEditPhoto": "Change photo",
+  "profileTakePhoto": "Take a photo",
+  "profileChoosePhoto": "Choose from gallery",
+  "profileRemovePhoto": "Remove photo",
+  "profilePhotoUpdated": "Photo updated",
+  "profileSectionAccount": "Account",
+  "profileSectionSecurity": "Security",
+  "profileSectionPreferences": "Preferences",
+  "profileSectionShopping": "Shopping",
+  "profileName": "Full name",
+  "profilePhone": "Phone number",
+  "profileEmail": "Email",
+  "profileNotSet": "Not set",
+  "profileSave": "Save",
+  "profileSaved": "Saved",
+  "profilePhoneHint": "e.g. +255 712 345 678",
+  "profileChangePassword": "Change password",
+  "profileSetPassword": "Set a password",
+  "profileSetPasswordHint": "You signed in with Google. Set a password to also sign in with your email.",
+  "profileCurrentPassword": "Current password",
+  "profileNewPassword": "New password",
+  "profileConfirmPassword": "Confirm new password",
+  "profilePasswordTooShort": "Use at least 8 characters",
+  "profilePasswordMismatch": "The passwords don't match",
+  "profilePasswordChanged": "Password changed. Other devices were signed out.",
+  "profileAppearance": "Appearance",
+  "profileThemeSystem": "System",
+  "profileThemeLight": "Light",
+  "profileThemeDark": "Dark",
+  "profileLanguage": "Language",
+  "profileLocation": "Default location",
+  "profileLogout": "Log out",
+  "profileLogoutConfirm": "Log out of Amsterdam Digital on this phone?",
+  "profileCancel": "Cancel",
+  "profileVersion": "Version {version}",
+  "profileRequired": "Required",
+  "profileInvalidPhone": "Enter a valid phone number",
+  "profileInvalidEmail": "Enter a valid email",
+  "profileCustomer": "Customer",
+  "@profileVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
 }

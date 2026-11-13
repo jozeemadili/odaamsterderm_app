@@ -65,8 +65,9 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.4,
@@ -79,8 +80,11 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
               child: Row(
                 children: [
                   Expanded(
-                      child: Text('Select customer',
-                          style: Theme.of(context).textTheme.titleLarge)),
+                    child: Text(
+                      'Select customer',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
                   TextButton.icon(
                     onPressed: () =>
                         setState(() => _showNewForm = !_showNewForm),
@@ -92,8 +96,10 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
             ),
             if (_showNewForm)
               Expanded(
-                  child: _NewCustomerForm(
-                      onCreated: (c) => Navigator.pop(context, c)))
+                child: _NewCustomerForm(
+                  onCreated: (c) => Navigator.pop(context, c),
+                ),
+              )
             else ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -108,10 +114,10 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
                         ? const Padding(
                             padding: EdgeInsets.all(12),
                             child: SizedBox(
-                                width: 16,
-                                height: 16,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2)),
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
                           )
                         : null,
                   ),
@@ -129,10 +135,12 @@ class _CustomerPickerSheetState extends ConsumerState<_CustomerPickerSheet> {
                           final c = _results[index];
                           return ListTile(
                             title: Text(c.name),
-                            subtitle: Text([
-                              if (c.phone != null) c.phone!,
-                              c.customerCode
-                            ].join(' · ')),
+                            subtitle: Text(
+                              [
+                                if (c.phone != null) c.phone!,
+                                c.customerCode,
+                              ].join(' · '),
+                            ),
                             onTap: () => Navigator.pop(context, c),
                           );
                         },
@@ -180,7 +188,9 @@ class _NewCustomerFormState extends ConsumerState<_NewCustomerForm> {
       _error = null;
     });
     try {
-      final customer = await ref.read(customerRepositoryProvider).create(
+      final customer = await ref
+          .read(customerRepositoryProvider)
+          .create(
             name: _nameController.text.trim(),
             phone: _phoneController.text.trim().isEmpty
                 ? null
@@ -207,19 +217,22 @@ class _NewCustomerFormState extends ConsumerState<_NewCustomerForm> {
           const SizedBox(height: 12),
         ],
         TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Customer name'),
-            autofocus: true),
+          controller: _nameController,
+          decoration: const InputDecoration(labelText: 'Customer name'),
+          autofocus: true,
+        ),
         const SizedBox(height: 12),
         TextField(
-            controller: _phoneController,
-            decoration: const InputDecoration(labelText: 'Phone (optional)'),
-            keyboardType: TextInputType.phone),
+          controller: _phoneController,
+          decoration: const InputDecoration(labelText: 'Phone (optional)'),
+          keyboardType: TextInputType.phone,
+        ),
         const SizedBox(height: 12),
         TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email (optional)'),
-            keyboardType: TextInputType.emailAddress),
+          controller: _emailController,
+          decoration: const InputDecoration(labelText: 'Email (optional)'),
+          keyboardType: TextInputType.emailAddress,
+        ),
         const SizedBox(height: 20),
         FilledButton(
           onPressed: _submitting ? null : _submit,
@@ -227,7 +240,8 @@ class _NewCustomerFormState extends ConsumerState<_NewCustomerForm> {
               ? const SizedBox(
                   height: 18,
                   width: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Text('Add customer'),
         ),
       ],

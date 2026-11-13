@@ -4,8 +4,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../data/stock_receipt_models.dart';
 import '../data/stock_receipt_repository.dart';
 
-final stockReceiptRepositoryProvider =
-    Provider((ref) => StockReceiptRepository(ref.watch(apiClientProvider)));
+final stockReceiptRepositoryProvider = Provider(
+  (ref) => StockReceiptRepository(ref.watch(apiClientProvider)),
+);
 
 class StockReceiptListState {
   const StockReceiptListState({
@@ -47,7 +48,7 @@ const _unset = Object();
 
 class StockReceiptListController extends StateNotifier<StockReceiptListState> {
   StockReceiptListController(this._repository)
-      : super(const StockReceiptListState()) {
+    : super(const StockReceiptListState()) {
     load();
   }
 
@@ -58,10 +59,11 @@ class StockReceiptListController extends StateNotifier<StockReceiptListState> {
     try {
       final result = await _repository.list(page: 1);
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -74,10 +76,11 @@ class StockReceiptListController extends StateNotifier<StockReceiptListState> {
       final nextPage = state.page + 1;
       final result = await _repository.list(page: nextPage);
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -95,13 +98,16 @@ class StockReceiptListController extends StateNotifier<StockReceiptListState> {
   }
 }
 
-final stockReceiptListControllerProvider = StateNotifierProvider.autoDispose<
-    StockReceiptListController, StockReceiptListState>(
-  (ref) =>
-      StockReceiptListController(ref.watch(stockReceiptRepositoryProvider)),
-);
+final stockReceiptListControllerProvider =
+    StateNotifierProvider.autoDispose<
+      StockReceiptListController,
+      StockReceiptListState
+    >(
+      (ref) =>
+          StockReceiptListController(ref.watch(stockReceiptRepositoryProvider)),
+    );
 
-final stockReceiptDetailProvider =
-    FutureProvider.autoDispose.family<StockReceipt, int>(
-  (ref, id) => ref.watch(stockReceiptRepositoryProvider).get(id),
-);
+final stockReceiptDetailProvider = FutureProvider.autoDispose
+    .family<StockReceipt, int>(
+      (ref, id) => ref.watch(stockReceiptRepositoryProvider).get(id),
+    );

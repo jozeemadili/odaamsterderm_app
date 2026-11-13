@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../auth/presentation/auth_controller.dart';
 
 /// A simple hub for sections that don't warrant their own bottom-nav slot:
 /// Phase 5's stock receipts/customers/suppliers, and Phase 6's expenses,
@@ -17,6 +21,7 @@ class MoreScreen extends StatelessWidget {
       appBar: AppBar(title: Text(l10n.moreTitle)),
       body: ListView(
         children: [
+          const _ProfileCard(),
           _MoreTile(
             icon: Icons.receipt_long,
             title: l10n.sellerOrdersTitle,
@@ -116,6 +121,85 @@ class _MoreTile extends StatelessWidget {
       subtitle: Text(subtitle),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
+    );
+  }
+}
+
+/// The signed-in person at the top of More: photo, name, role → Profile.
+class _ProfileCard extends ConsumerWidget {
+  const _ProfileCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider).user;
+    if (user == null) return const SizedBox.shrink();
+    final initials = user.name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((w) => w.isNotEmpty)
+        .take(2)
+        .map((w) => w[0].toUpperCase())
+        .join();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: Material(
+        color: DukaColors.card,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: BorderSide(color: DukaColors.line),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: () => context.push('/profile'),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundColor: DukaColors.maroonTint,
+                  foregroundImage: user.avatarUrl != null
+                      ? CachedNetworkImageProvider(user.avatarUrl!)
+                      : null,
+                  child: Text(
+                    initials,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: DukaColors.indigo,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        [?user.roleLabel, user.email].join(' · '),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          color: DukaColors.muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: DukaColors.muted),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -74,7 +74,7 @@ class MyOrdersScreen extends ConsumerWidget {
                       child: Center(
                         child: Text(
                           l10n.ordersEmpty,
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         ),
                       ),
                     )

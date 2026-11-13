@@ -10,21 +10,20 @@ class SalesReportRow {
     this.store,
   });
 
-  factory SalesReportRow.fromJson(Map<String, dynamic> json) =>
-      SalesReportRow(
-        inventoryItemId: json['inventory_item_id'] as int,
-        productName: json['product_name'] as String,
-        quantitySold: (json['quantity_sold'] as num).toDouble(),
-        totalSalesAmount: (json['total_sales_amount'] as num).toDouble(),
-        totalBuyingValue: json['total_buying_value'] != null
-            ? (json['total_buying_value'] as num).toDouble()
-            : null,
-        totalProfit: json['total_profit'] != null
-            ? (json['total_profit'] as num).toDouble()
-            : null,
-        soldBy: json['sold_by'] as String?,
-        store: json['store'] as String?,
-      );
+  factory SalesReportRow.fromJson(Map<String, dynamic> json) => SalesReportRow(
+    inventoryItemId: json['inventory_item_id'] as int,
+    productName: json['product_name'] as String,
+    quantitySold: (json['quantity_sold'] as num).toDouble(),
+    totalSalesAmount: (json['total_sales_amount'] as num).toDouble(),
+    totalBuyingValue: json['total_buying_value'] != null
+        ? (json['total_buying_value'] as num).toDouble()
+        : null,
+    totalProfit: json['total_profit'] != null
+        ? (json['total_profit'] as num).toDouble()
+        : null,
+    soldBy: json['sold_by'] as String?,
+    store: json['store'] as String?,
+  );
 
   final int inventoryItemId;
   final String productName;
@@ -66,13 +65,18 @@ class TodaySalesSummary {
 }
 
 class TodaySalesReport {
-  TodaySalesReport({required this.date, required this.summary, required this.rows});
+  TodaySalesReport({
+    required this.date,
+    required this.summary,
+    required this.rows,
+  });
 
   factory TodaySalesReport.fromJson(Map<String, dynamic> json) =>
       TodaySalesReport(
         date: json['date'] as String,
         summary: TodaySalesSummary.fromJson(
-            json['summary'] as Map<String, dynamic>),
+          json['summary'] as Map<String, dynamic>,
+        ),
         rows: (json['rows'] as List)
             .map((e) => SalesReportRow.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -114,19 +118,21 @@ class ProductPerformanceRow {
 }
 
 class ProductPerformanceReport {
-  ProductPerformanceReport({required this.mostSold, required this.mostProfitable});
+  ProductPerformanceReport({
+    required this.mostSold,
+    required this.mostProfitable,
+  });
 
-  factory ProductPerformanceReport.fromJson(Map<String, dynamic> json) =>
-      ProductPerformanceReport(
-        mostSold: (json['most_sold'] as List)
-            .map((e) =>
-                ProductPerformanceRow.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        mostProfitable: (json['most_profitable'] as List)
-            .map((e) =>
-                ProductPerformanceRow.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+  factory ProductPerformanceReport.fromJson(
+    Map<String, dynamic> json,
+  ) => ProductPerformanceReport(
+    mostSold: (json['most_sold'] as List)
+        .map((e) => ProductPerformanceRow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    mostProfitable: (json['most_profitable'] as List)
+        .map((e) => ProductPerformanceRow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   final List<ProductPerformanceRow> mostSold;
   final List<ProductPerformanceRow> mostProfitable;

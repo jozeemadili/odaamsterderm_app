@@ -96,7 +96,7 @@ class _CatalogPickerSheetState extends ConsumerState<_CatalogPickerSheet> {
                         padding: const EdgeInsets.all(16),
                         child: Text(
                           l10n.catalogNoMatches,
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         ),
                       ),
                     for (final product in products)

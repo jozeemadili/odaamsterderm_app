@@ -100,11 +100,7 @@ class StoreSwitcherChip extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(child: Text(name, overflow: TextOverflow.ellipsis)),
-            const Icon(
-              Icons.arrow_drop_down,
-              size: 18,
-              color: DukaColors.muted,
-            ),
+            Icon(Icons.arrow_drop_down, size: 18, color: DukaColors.muted),
           ],
         ),
       ),

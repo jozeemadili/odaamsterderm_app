@@ -168,7 +168,7 @@ class _LocationPickerMapState extends State<LocationPickerMap> {
                 value != null
                     ? '${value.latitude.toStringAsFixed(6)}, ${value.longitude.toStringAsFixed(6)}'
                     : '',
-                style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                style: TextStyle(fontSize: 12, color: DukaColors.muted),
               ),
             ),
             OutlinedButton.icon(

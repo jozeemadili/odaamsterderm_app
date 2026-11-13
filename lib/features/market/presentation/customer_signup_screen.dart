@@ -102,7 +102,7 @@ class _CustomerSignupScreenState extends ConsumerState<CustomerSignupScreen> {
               const SizedBox(height: 4),
               Text(
                 l10n.customerSignupSubtitle,
-                style: const TextStyle(color: DukaColors.muted),
+                style: TextStyle(color: DukaColors.muted),
               ),
               const SizedBox(height: 20),
               if (_error != null) ...[

@@ -66,8 +66,11 @@ class _PaymentListScreenState extends ConsumerState<PaymentListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load payments.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load payments.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -98,13 +101,16 @@ class _PaymentListScreenState extends ConsumerState<PaymentListScreen> {
               : null,
           title: Text(payment.payerName),
           subtitle: Text(
-              DateFormat.yMMMd().format(DateTime.parse(payment.paymentDate))),
+            DateFormat.yMMMd().format(DateTime.parse(payment.paymentDate)),
+          ),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(formatTzs(payment.amount),
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                formatTzs(payment.amount),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 2),
               _StatusBadge(status: payment.status, label: payment.statusLabel),
             ],
@@ -122,21 +128,27 @@ class _StatusBadge extends StatelessWidget {
   final String label;
 
   Color get _color => switch (status) {
-        'verified' => Colors.green,
-        'flagged' => Colors.redAccent,
-        _ => Colors.blueGrey,
-      };
+    'verified' => Colors.green,
+    'flagged' => Colors.redAccent,
+    _ => Colors.blueGrey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-          color: _color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(999)),
-      child: Text(label,
-          style: TextStyle(
-              fontSize: 11, color: _color, fontWeight: FontWeight.w600)),
+        color: _color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          color: _color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

@@ -19,12 +19,18 @@ class TodaySalesScreen extends ConsumerWidget {
       body: reportAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text("Couldn't load today's sales.\n$e",
-                textAlign: TextAlign.center)),
+          child: Text(
+            "Couldn't load today's sales.\n$e",
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (report) => report.rows.isEmpty
-            ? const Center(
-                child: Text('No sales recorded yet today.',
-                    style: TextStyle(color: DukaColors.muted)))
+            ? Center(
+                child: Text(
+                  'No sales recorded yet today.',
+                  style: TextStyle(color: DukaColors.muted),
+                ),
+              )
             : RefreshIndicator(
                 onRefresh: () => ref.refresh(todaySalesReportProvider.future),
                 child: ListView(
@@ -32,10 +38,11 @@ class TodaySalesScreen extends ConsumerWidget {
                   children: [
                     Text(
                       DateFormat.yMMMd().format(DateTime.parse(report.date)),
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: DukaColors.muted,
-                          fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: DukaColors.muted,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     _SummaryCard(summary: report.summary),
@@ -63,29 +70,38 @@ class _SummaryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Today\'s total',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w700)),
+            const Text(
+              'Today\'s total',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
-                    child: _SummaryStat(
-                        label: 'Buying value',
-                        value: formatTzs(summary.totalBuyingValue))),
+                  child: _SummaryStat(
+                    label: 'Buying value',
+                    value: formatTzs(summary.totalBuyingValue),
+                  ),
+                ),
                 Expanded(
-                    child: _SummaryStat(
-                        label: 'Selling value',
-                        value: formatTzs(summary.totalSalesAmount))),
+                  child: _SummaryStat(
+                    label: 'Selling value',
+                    value: formatTzs(summary.totalSalesAmount),
+                  ),
+                ),
                 Expanded(
-                    child: _SummaryStat(
-                        label: 'Profit',
-                        value: formatTzs(summary.totalProfit),
-                        valueColor: summary.totalProfit >= 0
-                            ? const Color(0xFF6FE0A0)
-                            : DukaColors.rose)),
+                  child: _SummaryStat(
+                    label: 'Profit',
+                    value: formatTzs(summary.totalProfit),
+                    valueColor: summary.totalProfit >= 0
+                        ? const Color(0xFF6FE0A0)
+                        : DukaColors.rose,
+                  ),
+                ),
               ],
             ),
             if (summary.profitPartial) ...[
@@ -103,8 +119,11 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _SummaryStat extends StatelessWidget {
-  const _SummaryStat(
-      {required this.label, required this.value, this.valueColor});
+  const _SummaryStat({
+    required this.label,
+    required this.value,
+    this.valueColor,
+  });
 
   final String label;
   final String value;
@@ -115,14 +134,19 @@ class _SummaryStat extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 10.5, color: Colors.white70)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 10.5, color: Colors.white70),
+        ),
         const SizedBox(height: 3),
-        Text(value,
-            style: TextStyle(
-                fontSize: 13.5,
-                fontWeight: FontWeight.w800,
-                color: valueColor ?? Colors.white)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 13.5,
+            fontWeight: FontWeight.w800,
+            color: valueColor ?? Colors.white,
+          ),
+        ),
       ],
     );
   }
@@ -145,13 +169,14 @@ class _SalesRowCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(row.productName,
-                      style: Theme.of(context).textTheme.titleMedium),
+                  child: Text(
+                    row.productName,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
                 Text(
                   '${row.quantitySold.toStringAsFixed(row.quantitySold.truncateToDouble() == row.quantitySold ? 0 : 2)} sold',
-                  style: const TextStyle(
-                      fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
               ],
             ),
@@ -161,7 +186,7 @@ class _SalesRowCard extends StatelessWidget {
                 if (row.store != null) row.store!,
                 if (row.soldBy != null) 'by ${row.soldBy}',
               ].join(' · '),
-              style: const TextStyle(fontSize: 11.5, color: DukaColors.muted),
+              style: TextStyle(fontSize: 11.5, color: DukaColors.muted),
             ),
             const SizedBox(height: 10),
             Row(
@@ -170,34 +195,40 @@ class _SalesRowCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Sales',
-                        style: TextStyle(
-                            fontSize: 11, color: DukaColors.muted)),
-                    Text(formatTzs(row.totalSalesAmount),
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: DukaColors.ink)),
+                    Text(
+                      'Sales',
+                      style: TextStyle(fontSize: 11, color: DukaColors.muted),
+                    ),
+                    Text(
+                      formatTzs(row.totalSalesAmount),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: DukaColors.ink,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text('Profit',
-                        style: TextStyle(
-                            fontSize: 11, color: DukaColors.muted)),
+                    Text(
+                      'Profit',
+                      style: TextStyle(fontSize: 11, color: DukaColors.muted),
+                    ),
                     Text(
                       row.totalProfit != null
                           ? formatTzs(row.totalProfit!)
                           : 'N/A',
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: row.totalProfit == null
-                              ? DukaColors.muted
-                              : (row.totalProfit! >= 0
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: row.totalProfit == null
+                            ? DukaColors.muted
+                            : (row.totalProfit! >= 0
                                   ? const Color(0xFF1B9E5A)
-                                  : DukaColors.rose)),
+                                  : DukaColors.rose),
+                      ),
                     ),
                   ],
                 ),

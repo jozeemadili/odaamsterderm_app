@@ -34,14 +34,14 @@ class ShopSettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text(l10n.languageEnglish),
               trailing: currentLocale.languageCode == 'en'
-                  ? const Icon(Icons.check, color: DukaColors.indigo)
+                  ? Icon(Icons.check, color: DukaColors.indigo)
                   : null,
               onTap: () => Navigator.pop(context, const Locale('en')),
             ),
             ListTile(
               title: Text(l10n.languageKiswahili),
               trailing: currentLocale.languageCode == 'sw'
-                  ? const Icon(Icons.check, color: DukaColors.indigo)
+                  ? Icon(Icons.check, color: DukaColors.indigo)
                   : null,
               onTap: () => Navigator.pop(context, const Locale('sw')),
             ),

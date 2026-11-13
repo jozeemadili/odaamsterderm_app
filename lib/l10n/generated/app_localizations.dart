@@ -2245,6 +2245,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stores'**
   String get marketStoriesTitle;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileEditPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get profileEditPhoto;
+
+  /// No description provided for @profileTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get profileTakePhoto;
+
+  /// No description provided for @profileChoosePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get profileChoosePhoto;
+
+  /// No description provided for @profileRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get profileRemovePhoto;
+
+  /// No description provided for @profilePhotoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo updated'**
+  String get profilePhotoUpdated;
+
+  /// No description provided for @profileSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get profileSectionAccount;
+
+  /// No description provided for @profileSectionSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get profileSectionSecurity;
+
+  /// No description provided for @profileSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get profileSectionPreferences;
+
+  /// No description provided for @profileSectionShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get profileSectionShopping;
+
+  /// No description provided for @profileName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get profileName;
+
+  /// No description provided for @profilePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get profilePhone;
+
+  /// No description provided for @profileEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmail;
+
+  /// No description provided for @profileNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get profileNotSet;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileSave;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get profileSaved;
+
+  /// No description provided for @profilePhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. +255 712 345 678'**
+  String get profilePhoneHint;
+
+  /// No description provided for @profileChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get profileChangePassword;
+
+  /// No description provided for @profileSetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password'**
+  String get profileSetPassword;
+
+  /// No description provided for @profileSetPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You signed in with Google. Set a password to also sign in with your email.'**
+  String get profileSetPasswordHint;
+
+  /// No description provided for @profileCurrentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get profileCurrentPassword;
+
+  /// No description provided for @profileNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get profileNewPassword;
+
+  /// No description provided for @profileConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get profileConfirmPassword;
+
+  /// No description provided for @profilePasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get profilePasswordTooShort;
+
+  /// No description provided for @profilePasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The passwords don\'t match'**
+  String get profilePasswordMismatch;
+
+  /// No description provided for @profilePasswordChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed. Other devices were signed out.'**
+  String get profilePasswordChanged;
+
+  /// No description provided for @profileAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get profileAppearance;
+
+  /// No description provided for @profileThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get profileThemeSystem;
+
+  /// No description provided for @profileThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get profileThemeLight;
+
+  /// No description provided for @profileThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get profileThemeDark;
+
+  /// No description provided for @profileLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLanguage;
+
+  /// No description provided for @profileLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Default location'**
+  String get profileLocation;
+
+  /// No description provided for @profileLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get profileLogout;
+
+  /// No description provided for @profileLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out of Amsterdam Digital on this phone?'**
+  String get profileLogoutConfirm;
+
+  /// No description provided for @profileCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get profileCancel;
+
+  /// No description provided for @profileVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String profileVersion(String version);
+
+  /// No description provided for @profileRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get profileRequired;
+
+  /// No description provided for @profileInvalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number'**
+  String get profileInvalidPhone;
+
+  /// No description provided for @profileInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get profileInvalidEmail;
+
+  /// No description provided for @profileCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get profileCustomer;
 }
 
 class _AppLocalizationsDelegate

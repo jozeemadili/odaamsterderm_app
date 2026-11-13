@@ -1197,4 +1197,129 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get marketStoriesTitle => 'Maduka';
+
+  @override
+  String get profileTitle => 'Wasifu';
+
+  @override
+  String get profileEditPhoto => 'Badilisha picha';
+
+  @override
+  String get profileTakePhoto => 'Piga picha';
+
+  @override
+  String get profileChoosePhoto => 'Chagua kutoka kwenye picha';
+
+  @override
+  String get profileRemovePhoto => 'Ondoa picha';
+
+  @override
+  String get profilePhotoUpdated => 'Picha imesasishwa';
+
+  @override
+  String get profileSectionAccount => 'Akaunti';
+
+  @override
+  String get profileSectionSecurity => 'Usalama';
+
+  @override
+  String get profileSectionPreferences => 'Mapendeleo';
+
+  @override
+  String get profileSectionShopping => 'Ununuzi';
+
+  @override
+  String get profileName => 'Jina kamili';
+
+  @override
+  String get profilePhone => 'Namba ya simu';
+
+  @override
+  String get profileEmail => 'Barua pepe';
+
+  @override
+  String get profileNotSet => 'Haijawekwa';
+
+  @override
+  String get profileSave => 'Hifadhi';
+
+  @override
+  String get profileSaved => 'Imehifadhiwa';
+
+  @override
+  String get profilePhoneHint => 'mfano +255 712 345 678';
+
+  @override
+  String get profileChangePassword => 'Badilisha nenosiri';
+
+  @override
+  String get profileSetPassword => 'Weka nenosiri';
+
+  @override
+  String get profileSetPasswordHint =>
+      'Uliingia kwa Google. Weka nenosiri ili pia uingie kwa barua pepe yako.';
+
+  @override
+  String get profileCurrentPassword => 'Nenosiri la sasa';
+
+  @override
+  String get profileNewPassword => 'Nenosiri jipya';
+
+  @override
+  String get profileConfirmPassword => 'Thibitisha nenosiri jipya';
+
+  @override
+  String get profilePasswordTooShort => 'Tumia angalau herufi 8';
+
+  @override
+  String get profilePasswordMismatch => 'Manenosiri hayalingani';
+
+  @override
+  String get profilePasswordChanged =>
+      'Nenosiri limebadilishwa. Vifaa vingine vimetolewa.';
+
+  @override
+  String get profileAppearance => 'Mwonekano';
+
+  @override
+  String get profileThemeSystem => 'Mfumo';
+
+  @override
+  String get profileThemeLight => 'Mwanga';
+
+  @override
+  String get profileThemeDark => 'Giza';
+
+  @override
+  String get profileLanguage => 'Lugha';
+
+  @override
+  String get profileLocation => 'Mahali chaguo-msingi';
+
+  @override
+  String get profileLogout => 'Toka';
+
+  @override
+  String get profileLogoutConfirm =>
+      'Toka kwenye Amsterdam Digital kwenye simu hii?';
+
+  @override
+  String get profileCancel => 'Ghairi';
+
+  @override
+  String profileVersion(String version) {
+    return 'Toleo $version';
+  }
+
+  @override
+  String get profileRequired => 'Inahitajika';
+
+  @override
+  String get profileInvalidPhone => 'Weka namba sahihi ya simu';
+
+  @override
+  String get profileInvalidEmail => 'Weka barua pepe sahihi';
+
+  @override
+  String get profileCustomer => 'Mteja';
 }

@@ -12,18 +12,18 @@ class Customer {
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-        id: json['id'] as int,
-        customerCode: json['customer_code'] as String,
-        name: json['name'] as String,
-        phone: json['phone'] as String?,
-        email: json['email'] as String?,
-        address: json['address'] as String?,
-        creditAllowed: json['credit_allowed'] as bool? ?? false,
-        creditLimit: json['credit_limit'] != null
-            ? (json['credit_limit'] as num).toDouble()
-            : null,
-        notes: json['notes'] as String?,
-      );
+    id: json['id'] as int,
+    customerCode: json['customer_code'] as String,
+    name: json['name'] as String,
+    phone: json['phone'] as String?,
+    email: json['email'] as String?,
+    address: json['address'] as String?,
+    creditAllowed: json['credit_allowed'] as bool? ?? false,
+    creditLimit: json['credit_limit'] != null
+        ? (json['credit_limit'] as num).toDouble()
+        : null,
+    notes: json['notes'] as String?,
+  );
 
   final int id;
   final String customerCode;

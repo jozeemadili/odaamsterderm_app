@@ -47,7 +47,7 @@ class _LocationSheetState extends ConsumerState<_LocationSheet> {
           const SizedBox(height: 4),
           Text(
             l10n.marketPickOnMap,
-            style: const TextStyle(fontSize: 13, color: DukaColors.muted),
+            style: TextStyle(fontSize: 13, color: DukaColors.muted),
           ),
           const SizedBox(height: 12),
           LocationPickerMap(

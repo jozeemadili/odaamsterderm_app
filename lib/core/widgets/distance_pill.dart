@@ -22,11 +22,11 @@ class DistancePill extends StatelessWidget {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(Icons.near_me, size: 13, color: DukaColors.ink),
+        Icon(Icons.near_me, size: 13, color: DukaColors.ink),
         const SizedBox(width: 4),
         Text(
           prefix == null ? label : '$prefix $label',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: DukaColors.ink,

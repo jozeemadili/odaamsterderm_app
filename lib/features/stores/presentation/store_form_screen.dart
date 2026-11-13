@@ -154,7 +154,7 @@ class _StoreFormScreenState extends ConsumerState<StoreFormScreen> {
           const SizedBox(height: 4),
           Text(
             l10n.storeLocationHint,
-            style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+            style: TextStyle(fontSize: 12, color: DukaColors.muted),
           ),
           const SizedBox(height: 8),
           LocationPickerMap(
@@ -185,7 +185,7 @@ class _StoreFormScreenState extends ConsumerState<StoreFormScreen> {
                 if (_hours[entry.key] == null)
                   Text(
                     l10n.storeClosed,
-                    style: const TextStyle(color: DukaColors.muted),
+                    style: TextStyle(color: DukaColors.muted),
                   )
                 else ...[
                   TextButton(

@@ -4,8 +4,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../data/expense_models.dart';
 import '../data/expense_repository.dart';
 
-final expenseRepositoryProvider =
-    Provider((ref) => ExpenseRepository(ref.watch(apiClientProvider)));
+final expenseRepositoryProvider = Provider(
+  (ref) => ExpenseRepository(ref.watch(apiClientProvider)),
+);
 
 class ExpenseListState {
   const ExpenseListState({
@@ -57,10 +58,11 @@ class ExpenseListController extends StateNotifier<ExpenseListState> {
     try {
       final result = await _repository.list(page: 1);
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -73,10 +75,11 @@ class ExpenseListController extends StateNotifier<ExpenseListState> {
       final nextPage = state.page + 1;
       final result = await _repository.list(page: nextPage);
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -89,5 +92,5 @@ class ExpenseListController extends StateNotifier<ExpenseListState> {
 
 final expenseListControllerProvider =
     StateNotifierProvider.autoDispose<ExpenseListController, ExpenseListState>(
-  (ref) => ExpenseListController(ref.watch(expenseRepositoryProvider)),
-);
+      (ref) => ExpenseListController(ref.watch(expenseRepositoryProvider)),
+    );

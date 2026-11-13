@@ -93,7 +93,7 @@ class StoreBrandHeader extends StatelessWidget {
                   ),
                   child: Text(
                     store.distanceLabel!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: DukaColors.ink,

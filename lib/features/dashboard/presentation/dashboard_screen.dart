@@ -75,7 +75,7 @@ class DashboardScreen extends ConsumerWidget {
               child: Text(
                 l10n.dashboardLoadError('$error'),
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: DukaColors.muted),
+                style: TextStyle(color: DukaColors.muted),
               ),
             ),
           ),
@@ -150,7 +150,7 @@ class _PeriodSelector extends ConsumerWidget {
           foregroundColor: DukaColors.muted,
           selectedBackgroundColor: DukaColors.indigo,
           selectedForegroundColor: Colors.white,
-          side: const BorderSide(color: DukaColors.line),
+          side: BorderSide(color: DukaColors.line),
           textStyle: const TextStyle(
             fontSize: 10.5,
             fontWeight: FontWeight.w700,
@@ -226,7 +226,7 @@ class _TopBar extends StatelessWidget {
                   _timeGreeting(l10n),
                   auth.user?.name.split(' ').first ?? l10n.greetingFallbackName,
                 ),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11.5,
                   color: DukaColors.muted,
                   fontWeight: FontWeight.w600,
@@ -279,10 +279,10 @@ class _IconButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Material(
-          color: Colors.white,
+          color: DukaColors.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: DukaColors.line),
+            side: BorderSide(color: DukaColors.line),
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
@@ -362,7 +362,7 @@ class _TrendCard extends StatelessWidget {
                               _periodLabel(l10n, summary.period),
                             )
                             .toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10.5,
                           color: DukaColors.muted,
                           fontWeight: FontWeight.w700,
@@ -391,10 +391,7 @@ class _TrendCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       l10n.expensesLabel,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: DukaColors.muted,
-                      ),
+                      style: TextStyle(fontSize: 10, color: DukaColors.muted),
                     ),
                   ],
                 ),
@@ -432,10 +429,7 @@ class _TrendCard extends StatelessWidget {
                   ? Center(
                       child: Text(
                         l10n.noActivityYet,
-                        style: const TextStyle(
-                          color: DukaColors.muted,
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(color: DukaColors.muted, fontSize: 12),
                       ),
                     )
                   : LineChart(
@@ -448,10 +442,8 @@ class _TrendCard extends StatelessWidget {
                           show: true,
                           drawVerticalLine: false,
                           horizontalInterval: maxY / 3,
-                          getDrawingHorizontalLine: (_) => const FlLine(
-                            color: DukaColors.line,
-                            strokeWidth: 1,
-                          ),
+                          getDrawingHorizontalLine: (_) =>
+                              FlLine(color: DukaColors.line, strokeWidth: 1),
                         ),
                         borderData: FlBorderData(show: false),
                         titlesData: const FlTitlesData(
@@ -537,7 +529,7 @@ class _TrendCard extends StatelessWidget {
                     if (labelIndexes.contains(i))
                       Text(
                         trend.labels[i].toUpperCase(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 9,
                           color: DukaColors.muted,
                           fontWeight: FontWeight.w600,
@@ -572,7 +564,7 @@ class _LegendDot extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 10.5,
             color: DukaColors.muted,
             fontWeight: FontWeight.w600,
@@ -905,7 +897,7 @@ class _StatRow extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w600,
                   color: DukaColors.ink,

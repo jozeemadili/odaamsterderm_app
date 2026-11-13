@@ -94,8 +94,11 @@ class _InvoiceListScreenState extends ConsumerState<InvoiceListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load invoices.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load invoices.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -134,15 +137,19 @@ class _InvoiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () => context.push('/invoices/${invoice.id}'),
-      title: Text(invoice.number,
-          style: const TextStyle(fontWeight: FontWeight.w600)),
+      title: Text(
+        invoice.number,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
       subtitle: Text(invoice.customer?.name ?? 'No customer'),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(formatTzs(invoice.total),
-              style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text(
+            formatTzs(invoice.total),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 2),
           _StatusBadge(status: invoice.status, label: invoice.statusLabel),
         ],
@@ -158,24 +165,30 @@ class _StatusBadge extends StatelessWidget {
   final String label;
 
   Color get _color => switch (status) {
-        'draft' => Colors.blueGrey,
-        'invoiced' => Colors.orange,
-        'partially_paid' => Colors.amber.shade800,
-        'paid' => Colors.green,
-        'cancelled' => Colors.redAccent,
-        _ => Colors.grey,
-      };
+    'draft' => Colors.blueGrey,
+    'invoiced' => Colors.orange,
+    'partially_paid' => Colors.amber.shade800,
+    'paid' => Colors.green,
+    'cancelled' => Colors.redAccent,
+    _ => Colors.grey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-          color: _color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(999)),
-      child: Text(label,
-          style: TextStyle(
-              fontSize: 11, color: _color, fontWeight: FontWeight.w600)),
+        color: _color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          color: _color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

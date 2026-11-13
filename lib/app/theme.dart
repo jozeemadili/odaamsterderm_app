@@ -10,23 +10,46 @@ import 'package:google_fonts/google_fonts.dart';
 /// its old name so every screen follows) and green (`gold`/`leaf`, the
 /// accent for highlights and good news), with a warm near-black for text.
 class DukaColors {
-  static const bg = Color(0xFFF7F8F3);
-  static const card = Color(0xFFFFFFFF);
-  static const ink = Color(0xFF231416);
-  static const muted = Color(0xFF6D5C5E);
-  static const line = Color(0xFFE7E6DF);
-  static const indigo = Color(0xFF881824);
+  /// Set by the app root from the user's light/dark choice, before the
+  /// tree rebuilds; every neutral below follows it.
+  static bool dark = false;
+
+  static Color get bg =>
+      dark ? const Color(0xFF130B0D) : const Color(0xFFF7F8F3);
+  static Color get card =>
+      dark ? const Color(0xFF1F1416) : const Color(0xFFFFFFFF);
+
+  /// A slightly raised surface: search pills, photo backgrounds.
+  static Color get soft =>
+      dark ? const Color(0xFF2A1D20) : const Color(0xFFF4F4EF);
+  static Color get ink =>
+      dark ? const Color(0xFFF4EDEE) : const Color(0xFF231416);
+  static Color get muted =>
+      dark ? const Color(0xFFB9A9AB) : const Color(0xFF6D5C5E);
+  static Color get line =>
+      dark ? const Color(0xFF3A2C2F) : const Color(0xFFE7E6DF);
+
+  /// Maroon, the primary colour: a lighter shade on dark ground so text
+  /// and icons in it stay readable.
+  static Color get indigo =>
+      dark ? const Color(0xFFD25B69) : const Color(0xFF881824);
   static const gold = Color(0xFF82C247);
   static const rose = Color(0xFFD92D20);
 
   /// Logo green on its own, and a darker green for text on light ground.
   static const leaf = Color(0xFF82C247);
-  static const leafDeep = Color(0xFF3F7D1C);
+  static Color get leafDeep =>
+      dark ? const Color(0xFF9BD468) : const Color(0xFF3F7D1C);
 
-  /// Deep maroon for dark bands (header, AI band), and a pale maroon tint.
+  /// Deep maroon for dark bands (header, AI band), and the pale tints.
   static const brandDark = Color(0xFF2A0A0F);
-  static const maroonTint = Color(0xFFF6E4E6);
-  static const leafTint = Color(0xFFE6F3D6);
+  static Color get maroonTint =>
+      dark ? const Color(0xFF3B1A20) : const Color(0xFFF6E4E6);
+  static Color get leafTint =>
+      dark ? const Color(0xFF223318) : const Color(0xFFE6F3D6);
+
+  /// The brand maroon itself, fixed in both modes (logo, splash).
+  static const maroon = Color(0xFF881824);
 }
 
 /// "#14532D" → Color; null when the value isn't a 6-digit hex colour.
@@ -40,11 +63,14 @@ Color? colorFromHex(String? hex) {
 /// The app theme. Sellers get their own brand colours ([primary] main,
 /// [accent] highlights); everyone else gets Amsterdam Digital's.
 ThemeData buildDukaTheme({
-  Color primary = DukaColors.indigo,
+  Color? primary,
   Color onPrimary = Colors.white,
-  Color accent = DukaColors.indigo,
+  Color? accent,
   Color onAccent = Colors.white,
 }) {
+  primary ??= DukaColors.indigo;
+  accent ??= DukaColors.indigo;
+  final brightness = DukaColors.dark ? Brightness.dark : Brightness.light;
   final textTheme = GoogleFonts.interTextTheme().copyWith(
     displayLarge: GoogleFonts.montserrat(
       fontWeight: FontWeight.w700,
@@ -91,19 +117,21 @@ ThemeData buildDukaTheme({
     ),
   );
 
-  final colorScheme = ColorScheme.fromSeed(seedColor: primary).copyWith(
-    primary: primary,
-    onPrimary: onPrimary,
-    secondary: accent,
-    onSecondary: onAccent,
-    surface: DukaColors.card,
-    onSurface: DukaColors.ink,
-    error: DukaColors.rose,
-    onError: Colors.white,
-  );
+  final colorScheme =
+      ColorScheme.fromSeed(seedColor: primary, brightness: brightness).copyWith(
+        primary: primary,
+        onPrimary: onPrimary,
+        secondary: accent,
+        onSecondary: onAccent,
+        surface: DukaColors.card,
+        onSurface: DukaColors.ink,
+        error: DukaColors.rose,
+        onError: Colors.white,
+      );
 
   final base = ThemeData(
     useMaterial3: true,
+    brightness: brightness,
     colorScheme: colorScheme,
     scaffoldBackgroundColor: DukaColors.bg,
     textTheme: textTheme,
@@ -121,7 +149,7 @@ ThemeData buildDukaTheme({
         fontWeight: FontWeight.w700,
         color: DukaColors.ink,
       ),
-      iconTheme: const IconThemeData(color: DukaColors.ink),
+      iconTheme: IconThemeData(color: DukaColors.ink),
     ),
     cardTheme: CardThemeData(
       color: DukaColors.card,
@@ -129,7 +157,7 @@ ThemeData buildDukaTheme({
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: DukaColors.line),
+        side: BorderSide(color: DukaColors.line),
       ),
     ),
     filledButtonTheme: FilledButtonThemeData(
@@ -154,7 +182,7 @@ ThemeData buildDukaTheme({
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primary,
-        side: const BorderSide(color: DukaColors.line),
+        side: BorderSide(color: DukaColors.line),
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -172,15 +200,15 @@ ThemeData buildDukaTheme({
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: DukaColors.card,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: DukaColors.line),
+        borderSide: BorderSide(color: DukaColors.line),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: DukaColors.line),
+        borderSide: BorderSide(color: DukaColors.line),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -201,13 +229,13 @@ ThemeData buildDukaTheme({
         color: DukaColors.muted,
       ),
     ),
-    dividerTheme: const DividerThemeData(
+    dividerTheme: DividerThemeData(
       color: DukaColors.line,
       space: 1,
       thickness: 1,
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: Colors.white,
+      backgroundColor: DukaColors.card,
       indicatorColor: accent.withValues(alpha: .28),
       surfaceTintColor: Colors.transparent,
       elevation: 0,
@@ -229,14 +257,24 @@ ThemeData buildDukaTheme({
         ),
       ),
     ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: DukaColors.card,
+      surfaceTintColor: Colors.transparent,
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: DukaColors.card,
+      surfaceTintColor: Colors.transparent,
+    ),
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: DukaColors.ink,
+      backgroundColor: DukaColors.dark
+          ? const Color(0xFF3A2C2F)
+          : const Color(0xFF231416),
       contentTextStyle: GoogleFonts.inter(color: Colors.white),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       behavior: SnackBarBehavior.floating,
     ),
     chipTheme: base.chipTheme.copyWith(
-      backgroundColor: Colors.white,
+      backgroundColor: DukaColors.card,
       selectedColor: DukaColors.maroonTint,
       checkmarkColor: primary,
       labelStyle: GoogleFonts.inter(
@@ -245,9 +283,9 @@ ThemeData buildDukaTheme({
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(999),
-        side: const BorderSide(color: DukaColors.line),
+        side: BorderSide(color: DukaColors.line),
       ),
-      side: const BorderSide(color: DukaColors.line),
+      side: BorderSide(color: DukaColors.line),
     ),
   );
 }

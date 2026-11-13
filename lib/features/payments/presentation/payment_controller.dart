@@ -4,8 +4,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../data/payment_models.dart';
 import '../data/payment_repository.dart';
 
-final paymentRepositoryProvider =
-    Provider((ref) => PaymentRepository(ref.watch(apiClientProvider)));
+final paymentRepositoryProvider = Provider(
+  (ref) => PaymentRepository(ref.watch(apiClientProvider)),
+);
 
 class PaymentListState {
   const PaymentListState({
@@ -57,10 +58,11 @@ class PaymentListController extends StateNotifier<PaymentListState> {
     try {
       final result = await _repository.list(page: 1);
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -73,10 +75,11 @@ class PaymentListController extends StateNotifier<PaymentListState> {
       final nextPage = state.page + 1;
       final result = await _repository.list(page: nextPage);
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -89,5 +92,5 @@ class PaymentListController extends StateNotifier<PaymentListState> {
 
 final paymentListControllerProvider =
     StateNotifierProvider.autoDispose<PaymentListController, PaymentListState>(
-  (ref) => PaymentListController(ref.watch(paymentRepositoryProvider)),
-);
+      (ref) => PaymentListController(ref.watch(paymentRepositoryProvider)),
+    );

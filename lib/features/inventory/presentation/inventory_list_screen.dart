@@ -251,7 +251,7 @@ class _ImagePlaceholder extends StatelessWidget {
       width: 44,
       height: 44,
       color: DukaColors.bg,
-      child: const Icon(
+      child: Icon(
         Icons.inventory_2_outlined,
         size: 20,
         color: DukaColors.muted,

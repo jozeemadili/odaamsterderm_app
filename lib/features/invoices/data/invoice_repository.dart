@@ -20,10 +20,13 @@ class InvoiceRepository {
 
   Future<InvoicePage> list({String? status, int page = 1}) async {
     final response = await _client.guard(
-      () => _client.dio.get('/invoices', queryParameters: {
-        if (status != null && status.isNotEmpty) 'status': status,
-        'page': page,
-      }),
+      () => _client.dio.get(
+        '/invoices',
+        queryParameters: {
+          if (status != null && status.isNotEmpty) 'status': status,
+          'page': page,
+        },
+      ),
     );
 
     final data = response.data as Map<String, dynamic>;
@@ -31,17 +34,20 @@ class InvoiceRepository {
         .map((e) => Invoice.fromJson(e as Map<String, dynamic>))
         .toList();
     final meta = data['meta'] as Map<String, dynamic>?;
-    final hasMore = meta != null &&
+    final hasMore =
+        meta != null &&
         (meta['current_page'] as int) < (meta['last_page'] as int);
 
     return InvoicePage(items: items, hasMore: hasMore);
   }
 
   Future<Invoice> get(int id) async {
-    final response =
-        await _client.guard(() => _client.dio.get('/invoices/$id'));
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.get('/invoices/$id'),
+    );
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> create({
@@ -51,15 +57,19 @@ class InvoiceRepository {
     String? notes,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/invoices', data: {
-        'customer_id': customerId,
-        'issue_date': issueDate,
-        'due_date': dueDate,
-        'notes': notes,
-      }),
+      () => _client.dio.post(
+        '/invoices',
+        data: {
+          'customer_id': customerId,
+          'issue_date': issueDate,
+          'due_date': dueDate,
+          'notes': notes,
+        },
+      ),
     );
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> addItem(
@@ -71,49 +81,63 @@ class InvoiceRepository {
     double? discountValue,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/invoices/$invoiceId/items', data: {
-        'inventory_item_id': inventoryItemId,
-        'quantity': quantity,
-        'unit_price': unitPrice,
-        if (discountType != null) 'discount_type': discountType,
-        if (discountValue != null) 'discount_value': discountValue,
-      }),
+      () => _client.dio.post(
+        '/invoices/$invoiceId/items',
+        data: {
+          'inventory_item_id': inventoryItemId,
+          'quantity': quantity,
+          'unit_price': unitPrice,
+          if (discountType != null) 'discount_type': discountType,
+          if (discountValue != null) 'discount_value': discountValue,
+        },
+      ),
     );
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> removeItem(int invoiceId, int itemId) async {
-    final response = await _client
-        .guard(() => _client.dio.delete('/invoices/$invoiceId/items/$itemId'));
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.delete('/invoices/$invoiceId/items/$itemId'),
+    );
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
-  Future<Invoice> setDiscount(int invoiceId,
-      {String? type, double? value}) async {
+  Future<Invoice> setDiscount(
+    int invoiceId, {
+    String? type,
+    double? value,
+  }) async {
     final response = await _client.guard(
-      () => _client.dio.patch('/invoices/$invoiceId/discount', data: {
-        'discount_type': type,
-        'discount_value': value,
-      }),
+      () => _client.dio.patch(
+        '/invoices/$invoiceId/discount',
+        data: {'discount_type': type, 'discount_value': value},
+      ),
     );
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> approve(int invoiceId) async {
-    final response = await _client
-        .guard(() => _client.dio.post('/invoices/$invoiceId/approve'));
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.post('/invoices/$invoiceId/approve'),
+    );
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> cancel(int invoiceId) async {
-    final response = await _client
-        .guard(() => _client.dio.post('/invoices/$invoiceId/cancel'));
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    final response = await _client.guard(
+      () => _client.dio.post('/invoices/$invoiceId/cancel'),
+    );
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   Future<Invoice> recordPayment(
@@ -124,15 +148,19 @@ class InvoiceRepository {
     String? reference,
   }) async {
     final response = await _client.guard(
-      () => _client.dio.post('/invoices/$invoiceId/payments', data: {
-        'amount': amount,
-        'payment_method_id': paymentMethodId,
-        'payment_date': paymentDate,
-        'reference': reference,
-      }),
+      () => _client.dio.post(
+        '/invoices/$invoiceId/payments',
+        data: {
+          'amount': amount,
+          'payment_method_id': paymentMethodId,
+          'payment_date': paymentDate,
+          'reference': reference,
+        },
+      ),
     );
-    return Invoice.fromJson((response.data as Map<String, dynamic>)['data']
-        as Map<String, dynamic>);
+    return Invoice.fromJson(
+      (response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>,
+    );
   }
 
   /// Downloads the invoice/proforma PDF to a local temp file and returns its

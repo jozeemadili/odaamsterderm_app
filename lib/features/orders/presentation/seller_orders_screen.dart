@@ -65,7 +65,7 @@ class _SellerOrdersScreenState extends ConsumerState<SellerOrdersScreen> {
                       child: Center(
                         child: Text(
                           l10n.sellerOrdersEmpty,
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         ),
                       ),
                     )

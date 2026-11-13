@@ -166,7 +166,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
               if (o.createdAt != null)
                 Text(
                   DateFormat.yMMMd().add_Hm().format(o.createdAt!.toLocal()),
-                  style: const TextStyle(color: DukaColors.muted),
+                  style: TextStyle(color: DukaColors.muted),
                 ),
               if (!widget.seller && o.status == 'ready_for_pickup')
                 Card(
@@ -347,7 +347,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                 Text(
                   l10n.orderCancelHint,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
               ],
             ],

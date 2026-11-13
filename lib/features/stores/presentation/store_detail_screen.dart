@@ -56,7 +56,7 @@ class StoreDetailScreen extends ConsumerWidget {
                   detail.store.address,
                   detail.store.phone,
                 ].whereType<String>().join(' · '),
-                style: const TextStyle(fontSize: 13, color: DukaColors.muted),
+                style: TextStyle(fontSize: 13, color: DukaColors.muted),
               ),
             ],
             const SizedBox(height: 8),
@@ -135,10 +135,7 @@ class StoreDetailScreen extends ConsumerWidget {
                 child: Center(
                   child: Text(
                     l10n.noProductsInStore,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: DukaColors.muted,
-                    ),
+                    style: TextStyle(fontSize: 12, color: DukaColors.muted),
                   ),
                 ),
               )
@@ -216,7 +213,7 @@ class _HoursAndPickup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const muted = TextStyle(fontSize: 13, color: DukaColors.muted);
+    final muted = TextStyle(fontSize: 13, color: DukaColors.muted);
 
     return Card(
       child: Padding(
@@ -279,7 +276,7 @@ class _StatTile extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(fontSize: 11.5, color: DukaColors.muted),
+              style: TextStyle(fontSize: 11.5, color: DukaColors.muted),
             ),
             const SizedBox(height: 4),
             Text(

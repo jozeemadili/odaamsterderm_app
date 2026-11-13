@@ -15,8 +15,7 @@ class ReportDamageScreen extends ConsumerStatefulWidget {
   const ReportDamageScreen({super.key});
 
   @override
-  ConsumerState<ReportDamageScreen> createState() =>
-      _ReportDamageScreenState();
+  ConsumerState<ReportDamageScreen> createState() => _ReportDamageScreenState();
 }
 
 class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
@@ -66,8 +65,11 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
     );
     if (source == null) return;
 
-    final picked = await ImagePicker()
-        .pickImage(source: source, maxWidth: 2000, imageQuality: 90);
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 2000,
+      imageQuality: 90,
+    );
     if (picked == null) return;
     setState(() => _photo = File(picked.path));
   }
@@ -91,7 +93,9 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
     });
 
     try {
-      await ref.read(notificationRepositoryProvider).reportDamage(
+      await ref
+          .read(notificationRepositoryProvider)
+          .reportDamage(
             inventoryItemId: product.id,
             quantity: quantity,
             description: _descriptionController.text.trim().isEmpty
@@ -127,14 +131,17 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
                 child: Text(
                   _product?.name ?? 'Tap to select a product',
                   style: TextStyle(
-                      color: _product == null ? Colors.grey : null),
+                    color: _product == null ? Colors.grey : null,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _quantityController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: InputDecoration(
                 labelText: 'Quantity affected',
                 suffixText: _product?.unit,
@@ -145,7 +152,8 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
               controller: _descriptionController,
               maxLines: 3,
               decoration: const InputDecoration(
-                  labelText: 'What happened? (optional)'),
+                labelText: 'What happened? (optional)',
+              ),
             ),
             const SizedBox(height: 12),
             if (_photo != null) ...[
@@ -158,9 +166,9 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
             OutlinedButton.icon(
               onPressed: _pickPhoto,
               icon: const Icon(Icons.camera_alt_outlined),
-              label: Text(_photo == null
-                  ? 'Attach a photo (optional)'
-                  : 'Replace photo'),
+              label: Text(
+                _photo == null ? 'Attach a photo (optional)' : 'Replace photo',
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -169,7 +177,8 @@ class _ReportDamageScreenState extends ConsumerState<ReportDamageScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Submit report'),
             ),
           ],
@@ -228,8 +237,9 @@ class _ProductPickerSheetState extends ConsumerState<_ProductPickerSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: DraggableScrollableSheet(
         initialChildSize: 0.7,
         minChildSize: 0.4,
@@ -239,8 +249,10 @@ class _ProductPickerSheetState extends ConsumerState<_ProductPickerSheet> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Text('Select product',
-                  style: Theme.of(context).textTheme.titleLarge),
+              child: Text(
+                'Select product',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -254,9 +266,10 @@ class _ProductPickerSheetState extends ConsumerState<_ProductPickerSheet> {
                       ? const Padding(
                           padding: EdgeInsets.all(12),
                           child: SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2)),
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
                         )
                       : null,
                 ),
@@ -274,10 +287,12 @@ class _ProductPickerSheetState extends ConsumerState<_ProductPickerSheet> {
                         final item = _results[index];
                         return ListTile(
                           title: Text(item.name),
-                          subtitle: Text([
-                            if (item.branch != null) item.branch!.name,
-                            '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} in stock',
-                          ].join(' · ')),
+                          subtitle: Text(
+                            [
+                              if (item.branch != null) item.branch!.name,
+                              '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} in stock',
+                            ].join(' · '),
+                          ),
                           onTap: () => Navigator.pop(context, item),
                         );
                       },

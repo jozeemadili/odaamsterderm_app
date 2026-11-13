@@ -30,4 +30,26 @@ void main() {
 
     expect(user.stores, isEmpty);
   });
+
+  test('profile photo and password state parse, with safe defaults', () {
+    final google = DukaUser.fromJson({
+      'id': 2,
+      'name': 'Juma',
+      'email': 'j@example.com',
+      'user_type': 'customer',
+      'avatar_url': 'https://example.com/storage/avatars/j.jpg',
+      'has_password': false,
+    });
+    expect(google.avatarUrl, endsWith('j.jpg'));
+    expect(google.hasPassword, isFalse);
+
+    final older = DukaUser.fromJson({
+      'id': 3,
+      'name': 'Owner',
+      'email': 'o@example.com',
+      'user_type': 'merchant',
+    });
+    expect(older.avatarUrl, isNull);
+    expect(older.hasPassword, isTrue);
+  });
 }

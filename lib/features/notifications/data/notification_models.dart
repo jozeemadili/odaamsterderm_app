@@ -14,18 +14,18 @@ class DamageReport {
   });
 
   factory DamageReport.fromJson(Map<String, dynamic> json) => DamageReport(
-        id: json['id'] as int,
-        inventoryItemId: json['inventory_item_id'] as int,
-        productName: json['product_name'] as String?,
-        quantity: (json['quantity'] as num).toDouble(),
-        description: json['description'] as String?,
-        photoUrl: json['photo_url'] as String?,
-        branchName: json['branch'] != null
-            ? (json['branch'] as Map<String, dynamic>)['name'] as String?
-            : null,
-        reportedBy: json['reported_by'] as String?,
-        reportedAt: json['reported_at'] as String?,
-      );
+    id: json['id'] as int,
+    inventoryItemId: json['inventory_item_id'] as int,
+    productName: json['product_name'] as String?,
+    quantity: (json['quantity'] as num).toDouble(),
+    description: json['description'] as String?,
+    photoUrl: json['photo_url'] as String?,
+    branchName: json['branch'] != null
+        ? (json['branch'] as Map<String, dynamic>)['name'] as String?
+        : null,
+    reportedBy: json['reported_by'] as String?,
+    reportedAt: json['reported_at'] as String?,
+  );
 
   final int id;
   final int inventoryItemId;

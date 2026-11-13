@@ -3,7 +3,9 @@ class StockReceiptSupplierRef {
 
   factory StockReceiptSupplierRef.fromJson(Map<String, dynamic> json) =>
       StockReceiptSupplierRef(
-          id: json['id'] as int, name: json['name'] as String);
+        id: json['id'] as int,
+        name: json['name'] as String,
+      );
 
   final int id;
   final String name;
@@ -53,21 +55,21 @@ class StockReceipt {
   });
 
   factory StockReceipt.fromJson(Map<String, dynamic> json) => StockReceipt(
-        id: json['id'] as int,
-        referenceNo: json['reference_no'] as String?,
-        status: json['status'] as String,
-        totalAmount: (json['total_amount'] as num).toDouble(),
-        receiptDate: json['receipt_date'] as String,
-        notes: json['notes'] as String?,
-        supplier: json['supplier'] != null
-            ? StockReceiptSupplierRef.fromJson(
-                json['supplier'] as Map<String, dynamic>)
-            : null,
-        items: (json['items'] as List? ?? [])
-            .map(
-                (e) => StockReceiptLineItem.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    id: json['id'] as int,
+    referenceNo: json['reference_no'] as String?,
+    status: json['status'] as String,
+    totalAmount: (json['total_amount'] as num).toDouble(),
+    receiptDate: json['receipt_date'] as String,
+    notes: json['notes'] as String?,
+    supplier: json['supplier'] != null
+        ? StockReceiptSupplierRef.fromJson(
+            json['supplier'] as Map<String, dynamic>,
+          )
+        : null,
+    items: (json['items'] as List? ?? [])
+        .map((e) => StockReceiptLineItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   final int id;
   final String? referenceNo;
@@ -81,9 +83,9 @@ class StockReceipt {
   bool get isPending => status == 'pending';
 
   String get statusLabel => switch (status) {
-        'pending' => 'Pending',
-        'approved' => 'Approved',
-        'rejected' => 'Rejected',
-        _ => status,
-      };
+    'pending' => 'Pending',
+    'approved' => 'Approved',
+    'rejected' => 'Rejected',
+    _ => status,
+  };
 }

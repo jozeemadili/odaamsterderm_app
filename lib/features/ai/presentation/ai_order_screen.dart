@@ -228,19 +228,19 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        shape: const Border(bottom: BorderSide(color: DukaColors.line)),
+        backgroundColor: DukaColors.card,
+        shape: Border(bottom: BorderSide(color: DukaColors.line)),
         titleSpacing: 12,
         title: Row(
           children: [
             Container(
               width: 34,
               height: 34,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: DukaColors.leafTint,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.auto_awesome,
                 size: 17,
                 color: DukaColors.leafDeep,
@@ -261,7 +261,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                   ),
                   Text(
                     l10n.aiAssistantSubtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11.5,
                       color: DukaColors.leafDeep,
                     ),
@@ -314,7 +314,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: DukaColors.card,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: DukaColors.line),
       ),
@@ -332,7 +332,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
           const SizedBox(height: 8),
           Text(
             l10n.aiOrderIntro,
-            style: const TextStyle(height: 1.45, color: DukaColors.ink),
+            style: TextStyle(height: 1.45, color: DukaColors.ink),
           ),
           const SizedBox(height: 4),
           for (final example in [
@@ -358,13 +358,13 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                         Expanded(
                           child: Text(
                             example,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: DukaColors.indigo,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.arrow_forward,
                           size: 16,
                           color: DukaColors.indigo,
@@ -387,7 +387,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
         child: Text(
           m.text,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+          style: TextStyle(fontSize: 12, color: DukaColors.muted),
         ),
       );
     }
@@ -401,7 +401,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
           maxWidth: MediaQuery.sizeOf(context).width * 0.8,
         ),
         decoration: BoxDecoration(
-          color: mine ? DukaColors.indigo : Colors.white,
+          color: mine ? DukaColors.indigo : DukaColors.card,
           border: mine ? null : Border.all(color: DukaColors.line),
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(18),
@@ -448,10 +448,10 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
         itemBuilder: (context, i) {
           final p = products[i];
           return Material(
-            color: Colors.white,
+            color: DukaColors.card,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
-              side: const BorderSide(color: DukaColors.line),
+              side: BorderSide(color: DukaColors.line),
             ),
             child: InkWell(
               borderRadius: BorderRadius.circular(14),
@@ -466,7 +466,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                         width: 40,
                         height: 52,
                         child: p.photos.isEmpty
-                            ? const Icon(
+                            ? Icon(
                                 Icons.inventory_2_outlined,
                                 color: DukaColors.muted,
                               )
@@ -528,7 +528,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
           Expanded(
             child: Text(
               l10n.aiSignInToOrder,
-              style: const TextStyle(fontSize: 13, color: DukaColors.ink),
+              style: TextStyle(fontSize: 13, color: DukaColors.ink),
             ),
           ),
           TextButton(
@@ -594,7 +594,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     context: context,
     isScrollControlled: true,
     showDragHandle: true,
-    backgroundColor: Colors.white,
+    backgroundColor: DukaColors.card,
     builder: (sheetContext) => StatefulBuilder(
       builder: (sheetContext, setSheet) {
         void refresh(VoidCallback change) {
@@ -636,7 +636,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
             ),
             Text(
               l10n.aiOrderPickupStores(stores),
-              style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+              style: TextStyle(fontSize: 12, color: DukaColors.muted),
             ),
           ],
         ),
@@ -673,7 +673,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
         Text(
           l10n.aiOrderNothingOrdered,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 11, color: DukaColors.muted),
+          style: TextStyle(fontSize: 11, color: DukaColors.muted),
         ),
       ],
     );
@@ -700,11 +700,11 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                 ),
                 Text(
                   [line.store, line.distance].whereType<String>().join(' · '),
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
                 Text(
                   '${formatTzs(line.unitPrice)} / ${line.unit} · ${l10n.aiOrderAvailable(_fmtQty(line.available))}',
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
                 if (line.note != null)
                   Text(
@@ -761,11 +761,11 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     final l10n = context.l10n;
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(24),
-      borderSide: const BorderSide(color: DukaColors.line),
+      borderSide: BorderSide(color: DukaColors.line),
     );
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: DukaColors.card,
         border: Border(top: BorderSide(color: DukaColors.line)),
       ),
@@ -787,7 +787,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                 border: border,
                 enabledBorder: border,
                 focusedBorder: border.copyWith(
-                  borderSide: const BorderSide(color: DukaColors.indigo),
+                  borderSide: BorderSide(color: DukaColors.indigo),
                 ),
               ),
               textInputAction: TextInputAction.send,
@@ -823,7 +823,7 @@ class _Gate extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.auto_awesome, size: 40, color: DukaColors.indigo),
+          Icon(Icons.auto_awesome, size: 40, color: DukaColors.indigo),
           const SizedBox(height: 12),
           Text(text, textAlign: TextAlign.center),
         ],

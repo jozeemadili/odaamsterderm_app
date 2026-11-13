@@ -4,8 +4,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../data/customer_models.dart';
 import '../data/customer_repository.dart';
 
-final customerRepositoryProvider =
-    Provider((ref) => CustomerRepository(ref.watch(apiClientProvider)));
+final customerRepositoryProvider = Provider(
+  (ref) => CustomerRepository(ref.watch(apiClientProvider)),
+);
 
 class CustomerListState {
   const CustomerListState({
@@ -61,10 +62,11 @@ class CustomerListController extends StateNotifier<CustomerListState> {
     try {
       final result = await _repository.list(search: state.search, page: 1);
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -75,13 +77,16 @@ class CustomerListController extends StateNotifier<CustomerListState> {
     state = state.copyWith(isLoadingMore: true);
     try {
       final nextPage = state.page + 1;
-      final result =
-          await _repository.list(search: state.search, page: nextPage);
+      final result = await _repository.list(
+        search: state.search,
+        page: nextPage,
+      );
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -104,12 +109,13 @@ class CustomerListController extends StateNotifier<CustomerListState> {
   }
 }
 
-final customerListControllerProvider = StateNotifierProvider.autoDispose<
-    CustomerListController, CustomerListState>(
-  (ref) => CustomerListController(ref.watch(customerRepositoryProvider)),
-);
+final customerListControllerProvider =
+    StateNotifierProvider.autoDispose<
+      CustomerListController,
+      CustomerListState
+    >((ref) => CustomerListController(ref.watch(customerRepositoryProvider)));
 
-final customerDetailProvider =
-    FutureProvider.autoDispose.family<CustomerDetail, int>(
-  (ref, id) => ref.watch(customerRepositoryProvider).get(id),
-);
+final customerDetailProvider = FutureProvider.autoDispose
+    .family<CustomerDetail, int>(
+      (ref, id) => ref.watch(customerRepositoryProvider).get(id),
+    );

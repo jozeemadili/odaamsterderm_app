@@ -11,7 +11,13 @@ void main() {
       'to_store': {'id': 2, 'name': 'Tegeta'},
       'sent_at': '2026-10-19T08:00:00+03:00',
       'items': [
-        {'id': 1, 'inventory_item_id': 9, 'name': 'Layers Mash', 'unit': 'bag', 'quantity': 5},
+        {
+          'id': 1,
+          'inventory_item_id': 9,
+          'name': 'Layers Mash',
+          'unit': 'bag',
+          'quantity': 5,
+        },
       ],
       'can_receive': true,
       'can_cancel': false,

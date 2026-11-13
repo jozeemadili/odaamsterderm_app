@@ -37,7 +37,9 @@ class _StockReceiptDetailScreenState
       _refresh(receipt);
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -54,8 +56,11 @@ class _StockReceiptDetailScreenState
   }
 
   Future<void> _removeItem(int itemId) async {
-    await _run(() =>
-        ref.read(stockReceiptRepositoryProvider).removeItem(widget.id, itemId));
+    await _run(
+      () => ref
+          .read(stockReceiptRepositoryProvider)
+          .removeItem(widget.id, itemId),
+    );
   }
 
   Future<void> _approve() async {
@@ -64,20 +69,24 @@ class _StockReceiptDetailScreenState
       builder: (context) => AlertDialog(
         title: const Text('Approve this receipt?'),
         content: const Text(
-            'This adds every line item to stock and can\'t be undone.'),
+          'This adds every line item to stock and can\'t be undone.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Approve')),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Approve'),
+          ),
         ],
       ),
     );
     if (confirmed != true) return;
     await _run(
-        () => ref.read(stockReceiptRepositoryProvider).approve(widget.id));
+      () => ref.read(stockReceiptRepositoryProvider).approve(widget.id),
+    );
   }
 
   Future<void> _reject() async {
@@ -86,20 +95,24 @@ class _StockReceiptDetailScreenState
       builder: (context) => AlertDialog(
         title: const Text('Reject this receipt?'),
         content: const Text(
-            'This marks the receipt rejected — stock is left untouched and it can no longer be edited.'),
+          'This marks the receipt rejected — stock is left untouched and it can no longer be edited.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep it')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Keep it'),
+          ),
           TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Reject')),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Reject'),
+          ),
         ],
       ),
     );
     if (confirmed != true) return;
     await _run(
-        () => ref.read(stockReceiptRepositoryProvider).reject(widget.id));
+      () => ref.read(stockReceiptRepositoryProvider).reject(widget.id),
+    );
   }
 
   @override
@@ -111,8 +124,11 @@ class _StockReceiptDetailScreenState
       body: receiptAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text('Could not load this receipt.\n$e',
-                textAlign: TextAlign.center)),
+          child: Text(
+            'Could not load this receipt.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (receipt) => AbsorbPointer(
           absorbing: _busy,
           child: Opacity(
@@ -123,21 +139,29 @@ class _StockReceiptDetailScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(receipt.referenceNo ?? 'Receipt #${receipt.id}',
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    Text(
+                      receipt.referenceNo ?? 'Receipt #${receipt.id}',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                     _StatusChip(
-                        status: receipt.status, label: receipt.statusLabel),
+                      status: receipt.status,
+                      label: receipt.statusLabel,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(receipt.supplier?.name ?? 'No supplier',
-                    style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  receipt.supplier?.name ?? 'No supplier',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 4),
                 Text(
-                  DateFormat.yMMMd()
-                      .format(DateTime.parse(receipt.receiptDate)),
+                  DateFormat.yMMMd().format(
+                    DateTime.parse(receipt.receiptDate),
+                  ),
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 if (receipt.notes != null && receipt.notes!.isNotEmpty) ...[
                   const SizedBox(height: 8),
@@ -153,19 +177,23 @@ class _StockReceiptDetailScreenState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Items',
-                                style: Theme.of(context).textTheme.titleMedium),
+                            Text(
+                              'Items',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                             if (receipt.isPending)
                               TextButton.icon(
-                                  onPressed: _addItem,
-                                  icon: const Icon(Icons.add),
-                                  label: const Text('Add')),
+                                onPressed: _addItem,
+                                icon: const Icon(Icons.add),
+                                label: const Text('Add'),
+                              ),
                           ],
                         ),
                         if (receipt.items.isEmpty)
                           const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8),
-                              child: Text('No items yet.')),
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text('No items yet.'),
+                          ),
                         for (final line in receipt.items)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -190,11 +218,16 @@ class _StockReceiptDetailScreenState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total',
-                                style: TextStyle(fontWeight: FontWeight.w700)),
-                            Text(formatTzs(receipt.totalAmount),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700)),
+                            const Text(
+                              'Total',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              formatTzs(receipt.totalAmount),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -204,10 +237,14 @@ class _StockReceiptDetailScreenState
                 const SizedBox(height: 24),
                 if (receipt.isPending) ...[
                   FilledButton(
-                      onPressed: _approve, child: const Text('Approve')),
+                    onPressed: _approve,
+                    child: const Text('Approve'),
+                  ),
                   const SizedBox(height: 8),
                   OutlinedButton(
-                      onPressed: _reject, child: const Text('Reject')),
+                    onPressed: _reject,
+                    child: const Text('Reject'),
+                  ),
                 ],
               ],
             ),
@@ -225,21 +262,24 @@ class _StatusChip extends StatelessWidget {
   final String label;
 
   Color get _color => switch (status) {
-        'pending' => Colors.blueGrey,
-        'approved' => Colors.green,
-        'rejected' => Colors.redAccent,
-        _ => Colors.grey,
-      };
+    'pending' => Colors.blueGrey,
+    'approved' => Colors.green,
+    'rejected' => Colors.redAccent,
+    _ => Colors.grey,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-          color: _color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(999)),
-      child: Text(label,
-          style: TextStyle(color: _color, fontWeight: FontWeight.w600)),
+        color: _color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(color: _color, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
@@ -337,14 +377,16 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
       _error = null;
     });
     try {
-      final receipt = await ref.read(stockReceiptRepositoryProvider).addItem(
+      final receipt = await ref
+          .read(stockReceiptRepositoryProvider)
+          .addItem(
             widget.receiptId,
             inventoryItemId: _newProduct ? null : _selected!.id,
             newProductName: _newProduct ? _nameController.text.trim() : null,
             newProductUnit:
                 _newProduct && _unitController.text.trim().isNotEmpty
-                    ? _unitController.text.trim()
-                    : null,
+                ? _unitController.text.trim()
+                : null,
             newProductUnitPrice: _newProduct
                 ? double.tryParse(_sellingPriceController.text)
                 : null,
@@ -364,10 +406,11 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 16,
-          right: 16,
-          top: 16),
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -406,8 +449,9 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       child: TextField(
                         controller: _unitController,
                         decoration: const InputDecoration(
-                            labelText: 'Unit (optional)',
-                            hintText: 'pcs, kg...'),
+                          labelText: 'Unit (optional)',
+                          hintText: 'pcs, kg...',
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -415,9 +459,11 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       child: TextField(
                         controller: _sellingPriceController,
                         keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
+                          decimal: true,
+                        ),
                         decoration: const InputDecoration(
-                            labelText: 'Selling price (optional)'),
+                          labelText: 'Selling price (optional)',
+                        ),
                       ),
                     ),
                   ],
@@ -434,10 +480,10 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                         ? const Padding(
                             padding: EdgeInsets.all(12),
                             child: SizedBox(
-                                width: 16,
-                                height: 16,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2)),
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
                           )
                         : null,
                   ),
@@ -454,7 +500,8 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       return ListTile(
                         title: Text(item.name),
                         subtitle: Text(
-                            '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} on hand'),
+                          '${item.quantityOnHand.toStringAsFixed(0)} ${item.unit ?? ''} on hand',
+                        ),
                         onTap: () => _select(item),
                       );
                     },
@@ -465,8 +512,9 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                   contentPadding: EdgeInsets.zero,
                   title: Text(_selected!.name),
                   trailing: TextButton(
-                      onPressed: () => setState(() => _selected = null),
-                      child: const Text('Change')),
+                    onPressed: () => setState(() => _selected = null),
+                    child: const Text('Change'),
+                  ),
                 ),
               if (_newProduct || _selected != null) ...[
                 const SizedBox(height: 4),
@@ -476,9 +524,11 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       child: TextField(
                         controller: _quantityController,
                         keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        decoration:
-                            const InputDecoration(labelText: 'Quantity'),
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Quantity',
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -486,9 +536,11 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       child: TextField(
                         controller: _unitCostController,
                         keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        decoration:
-                            const InputDecoration(labelText: 'Unit cost'),
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Unit cost',
+                        ),
                       ),
                     ),
                   ],
@@ -500,7 +552,8 @@ class _AddItemSheetState extends ConsumerState<_AddItemSheet> {
                       ? const SizedBox(
                           height: 18,
                           width: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2))
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const Text('Add to receipt'),
                 ),
               ],

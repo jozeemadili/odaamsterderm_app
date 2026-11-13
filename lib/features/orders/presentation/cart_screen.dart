@@ -95,7 +95,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                   children: [
                     Text(
                       l10n.cartEmpty,
-                      style: const TextStyle(color: DukaColors.muted),
+                      style: TextStyle(color: DukaColors.muted),
                     ),
                     const SizedBox(height: 8),
                     TextButton(
@@ -117,10 +117,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     if (data.stores.length > 1)
                       Text(
                         l10n.cartManyStores(data.stores.length),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: DukaColors.muted,
-                        ),
+                        style: TextStyle(fontSize: 12, color: DukaColors.muted),
                       ),
                     const SizedBox(height: 8),
                     Row(
@@ -199,7 +196,7 @@ class _StoreGroup extends ConsumerWidget {
                 group.store.sellerName,
                 group.store.addressLine,
               ].whereType<String>().where((s) => s.isNotEmpty).join(' · '),
-              style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+              style: TextStyle(fontSize: 12, color: DukaColors.muted),
             ),
             const Divider(),
             for (final line in group.lines)
@@ -217,7 +214,7 @@ class _StoreGroup extends ConsumerWidget {
                           ),
                           Text(
                             '${formatTzs(line.unitPrice)} / ${line.unit ?? ''}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               color: DukaColors.muted,
                             ),

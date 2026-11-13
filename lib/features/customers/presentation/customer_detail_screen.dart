@@ -27,8 +27,9 @@ class CustomerDetailScreen extends ConsumerWidget {
               icon: const Icon(Icons.edit),
               onPressed: () async {
                 final updated = await context.push<Customer>(
-                    '/customers/$id/edit',
-                    extra: detail.customer);
+                  '/customers/$id/edit',
+                  extra: detail.customer,
+                );
                 if (updated != null) ref.invalidate(customerDetailProvider(id));
               },
             ),
@@ -39,17 +40,25 @@ class CustomerDetailScreen extends ConsumerWidget {
       body: detailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-            child: Text('Could not load this customer.\n$e',
-                textAlign: TextAlign.center)),
+          child: Text(
+            'Could not load this customer.\n$e',
+            textAlign: TextAlign.center,
+          ),
+        ),
         data: (detail) => ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text(detail.customer.name,
-                style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              detail.customer.name,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 4),
-            Text(detail.customer.customerCode,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            Text(
+              detail.customer.customerCode,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
             const SizedBox(height: 20),
             Card(
               child: Padding(
@@ -68,8 +77,9 @@ class CustomerDetailScreen extends ConsumerWidget {
             const SizedBox(height: 8),
             if (detail.invoices.isEmpty)
               const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text('No invoices yet.'))
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text('No invoices yet.'),
+              )
             else
               Card(
                 child: Column(
@@ -84,8 +94,9 @@ class CustomerDetailScreen extends ConsumerWidget {
             const SizedBox(height: 8),
             if (detail.sales.isEmpty)
               const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text('No sales yet.'))
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text('No sales yet.'),
+              )
             else
               Card(
                 child: Column(
@@ -114,13 +125,19 @@ class _Row extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
           Flexible(
-              child: Text(value,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.right)),
+            child: Text(
+              value,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+              textAlign: TextAlign.right,
+            ),
+          ),
         ],
       ),
     );
@@ -137,17 +154,21 @@ class _InvoiceRow extends StatelessWidget {
     return ListTile(
       dense: true,
       title: Text(invoice.number),
-      subtitle:
-          Text(DateFormat.yMMMd().format(DateTime.parse(invoice.issueDate))),
+      subtitle: Text(
+        DateFormat.yMMMd().format(DateTime.parse(invoice.issueDate)),
+      ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(formatTzs(invoice.total)),
-          Text(invoice.statusLabel,
-              style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)),
+          Text(
+            invoice.statusLabel,
+            style: TextStyle(
+              fontSize: 11,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
         ],
       ),
       onTap: () => context.push('/invoices/${invoice.id}'),
@@ -166,7 +187,8 @@ class _SaleRow extends StatelessWidget {
       dense: true,
       title: Text('Sale #${sale.id}'),
       subtitle: Text(
-          '${DateFormat.yMMMd().format(DateTime.parse(sale.saleDate))}${sale.paymentMethod != null ? ' · ${sale.paymentMethod}' : ''}'),
+        '${DateFormat.yMMMd().format(DateTime.parse(sale.saleDate))}${sale.paymentMethod != null ? ' · ${sale.paymentMethod}' : ''}',
+      ),
       trailing: Text(formatTzs(sale.amount)),
     );
   }

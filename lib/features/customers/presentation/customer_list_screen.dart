@@ -86,8 +86,11 @@ class _CustomerListScreenState extends ConsumerState<CustomerListScreen> {
         children: [
           const SizedBox(height: 80),
           Center(
-              child: Text('Could not load customers.\n${state.error}',
-                  textAlign: TextAlign.center)),
+            child: Text(
+              'Could not load customers.\n${state.error}',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       );
     }
@@ -114,10 +117,12 @@ class _CustomerListScreenState extends ConsumerState<CustomerListScreen> {
         final customer = state.items[index];
         return ListTile(
           title: Text(customer.name),
-          subtitle: Text([
-            if (customer.phone != null) customer.phone!,
-            customer.customerCode
-          ].join(' · ')),
+          subtitle: Text(
+            [
+              if (customer.phone != null) customer.phone!,
+              customer.customerCode,
+            ].join(' · '),
+          ),
           onTap: () => context.push('/customers/${customer.id}'),
         );
       },

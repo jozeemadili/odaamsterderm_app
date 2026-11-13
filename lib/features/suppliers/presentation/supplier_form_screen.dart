@@ -16,16 +16,21 @@ class SupplierFormScreen extends ConsumerStatefulWidget {
 }
 
 class _SupplierFormScreenState extends ConsumerState<SupplierFormScreen> {
-  late final _nameController =
-      TextEditingController(text: widget.existing?.name ?? '');
-  late final _contactController =
-      TextEditingController(text: widget.existing?.contactPerson ?? '');
-  late final _phoneController =
-      TextEditingController(text: widget.existing?.phone ?? '');
-  late final _addressController =
-      TextEditingController(text: widget.existing?.address ?? '');
-  late final _notesController =
-      TextEditingController(text: widget.existing?.notes ?? '');
+  late final _nameController = TextEditingController(
+    text: widget.existing?.name ?? '',
+  );
+  late final _contactController = TextEditingController(
+    text: widget.existing?.contactPerson ?? '',
+  );
+  late final _phoneController = TextEditingController(
+    text: widget.existing?.phone ?? '',
+  );
+  late final _addressController = TextEditingController(
+    text: widget.existing?.address ?? '',
+  );
+  late final _notesController = TextEditingController(
+    text: widget.existing?.notes ?? '',
+  );
   bool _submitting = false;
   String? _error;
 
@@ -92,32 +97,37 @@ class _SupplierFormScreenState extends ConsumerState<SupplierFormScreen> {
               const SizedBox(height: 12),
             ],
             TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Supplier name'),
-                autofocus: !_isEdit),
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Supplier name'),
+              autofocus: !_isEdit,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _contactController,
-                decoration: const InputDecoration(
-                    labelText: 'Contact person (optional)')),
+              controller: _contactController,
+              decoration: const InputDecoration(
+                labelText: 'Contact person (optional)',
+              ),
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _phoneController,
-                decoration:
-                    const InputDecoration(labelText: 'Phone (optional)'),
-                keyboardType: TextInputType.phone),
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone (optional)'),
+              keyboardType: TextInputType.phone,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _addressController,
-                decoration:
-                    const InputDecoration(labelText: 'Address (optional)'),
-                maxLines: 2),
+              controller: _addressController,
+              decoration: const InputDecoration(
+                labelText: 'Address (optional)',
+              ),
+              maxLines: 2,
+            ),
             const SizedBox(height: 12),
             TextField(
-                controller: _notesController,
-                decoration:
-                    const InputDecoration(labelText: 'Notes (optional)'),
-                maxLines: 3),
+              controller: _notesController,
+              decoration: const InputDecoration(labelText: 'Notes (optional)'),
+              maxLines: 3,
+            ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _submitting ? null : _submit,
@@ -125,7 +135,8 @@ class _SupplierFormScreenState extends ConsumerState<SupplierFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Text(_isEdit ? 'Save changes' : 'Add supplier'),
             ),
           ],

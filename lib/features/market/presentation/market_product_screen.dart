@@ -67,7 +67,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
             ],
             Text(
               [p.animalType, p.category].whereType<String>().join(' · '),
-              style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+              style: TextStyle(fontSize: 12, color: DukaColors.muted),
             ),
             const SizedBox(height: 4),
             Text(
@@ -82,10 +82,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     p.producerDescription!,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: DukaColors.muted,
-                    ),
+                    style: TextStyle(fontSize: 12, color: DukaColors.muted),
                   ),
                 ),
             ],
@@ -123,7 +120,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
                 child: Text(
                   l10n.marketNoSellers,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: DukaColors.muted),
+                  style: TextStyle(color: DukaColors.muted),
                 ),
               )
             else ...[
@@ -144,7 +141,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
             const SizedBox(height: 12),
             Text(
               l10n.cartTotalAtPickup,
-              style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+              style: TextStyle(fontSize: 12, color: DukaColors.muted),
             ),
           ],
         ),
@@ -185,10 +182,7 @@ class _OfferTile extends ConsumerWidget {
                 else
                   Text(
                     l10n.marketSetLocationForDistance,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: DukaColors.muted,
-                    ),
+                    style: TextStyle(fontSize: 11, color: DukaColors.muted),
                   ),
               ],
             ),

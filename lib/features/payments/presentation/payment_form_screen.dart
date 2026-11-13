@@ -66,8 +66,11 @@ class _PaymentFormScreenState extends ConsumerState<PaymentFormScreen> {
     );
     if (source == null) return;
 
-    final picked = await ImagePicker()
-        .pickImage(source: source, maxWidth: 1600, imageQuality: 85);
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: 1600,
+      imageQuality: 85,
+    );
     if (picked != null) setState(() => _proof = File(picked.path));
   }
 
@@ -87,7 +90,9 @@ class _PaymentFormScreenState extends ConsumerState<PaymentFormScreen> {
       _error = null;
     });
     try {
-      final payment = await ref.read(paymentRepositoryProvider).create(
+      final payment = await ref
+          .read(paymentRepositoryProvider)
+          .create(
             amount: amount,
             payerName: _payerController.text.trim(),
             paymentDate: DateFormat('yyyy-MM-dd').format(_paymentDate),
@@ -127,9 +132,12 @@ class _PaymentFormScreenState extends ConsumerState<PaymentFormScreen> {
             TextField(
               controller: _amountController,
               decoration: const InputDecoration(
-                  labelText: 'Amount', prefixText: 'TZS '),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                labelText: 'Amount',
+                prefixText: 'TZS ',
+              ),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
             ),
             const SizedBox(height: 12),
             ListTile(
@@ -149,17 +157,23 @@ class _PaymentFormScreenState extends ConsumerState<PaymentFormScreen> {
             if (_proof != null) ...[
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.file(_proof!,
-                    height: 160, width: double.infinity, fit: BoxFit.cover),
+                child: Image.file(
+                  _proof!,
+                  height: 160,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
               const SizedBox(height: 8),
             ],
             OutlinedButton.icon(
               onPressed: _pickProof,
               icon: const Icon(Icons.camera_alt_outlined),
-              label: Text(_proof == null
-                  ? 'Attach proof of payment (optional)'
-                  : 'Replace proof of payment'),
+              label: Text(
+                _proof == null
+                    ? 'Attach proof of payment (optional)'
+                    : 'Replace proof of payment',
+              ),
             ),
             const SizedBox(height: 24),
             FilledButton(
@@ -168,7 +182,8 @@ class _PaymentFormScreenState extends ConsumerState<PaymentFormScreen> {
                   ? const SizedBox(
                       height: 18,
                       width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2))
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : const Text('Save payment'),
             ),
           ],

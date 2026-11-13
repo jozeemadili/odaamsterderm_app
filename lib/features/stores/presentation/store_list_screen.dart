@@ -167,7 +167,7 @@ class _StoreCard extends StatelessWidget {
                         color: DukaColors.indigo.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(999),
                       ),
-                      child: const Text(
+                      child: Text(
                         'primary',
                         style: TextStyle(
                           fontSize: 10.5,
@@ -182,10 +182,7 @@ class _StoreCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   store.address!,
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: DukaColors.muted,
-                  ),
+                  style: TextStyle(fontSize: 12.5, color: DukaColors.muted),
                 ),
               ],
               if (!store.hasLocation) ...[
@@ -214,7 +211,7 @@ class _StoreCard extends StatelessWidget {
                 children: [
                   Text(
                     '${store.productCount} products',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12.5,
                       color: DukaColors.indigo,
                       fontWeight: FontWeight.w700,
@@ -222,7 +219,7 @@ class _StoreCard extends StatelessWidget {
                   ),
                   Text(
                     formatTzs(store.stockValue),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: DukaColors.ink,

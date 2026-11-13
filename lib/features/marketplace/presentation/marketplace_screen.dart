@@ -48,7 +48,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
           children: [
             Text(
               l10n.marketplaceSubtitle,
-              style: const TextStyle(fontSize: 13, color: DukaColors.muted),
+              style: TextStyle(fontSize: 13, color: DukaColors.muted),
             ),
             const SizedBox(height: 12),
             Wrap(
@@ -75,7 +75,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                       child: Center(
                         child: Text(
                           l10n.marketplaceEmpty,
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         ),
                       ),
                     )

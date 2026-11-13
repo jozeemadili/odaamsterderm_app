@@ -5,10 +5,12 @@ import '../../customers/data/customer_repository.dart';
 import '../data/invoice_models.dart';
 import '../data/invoice_repository.dart';
 
-final invoiceRepositoryProvider =
-    Provider((ref) => InvoiceRepository(ref.watch(apiClientProvider)));
-final customerRepositoryProvider =
-    Provider((ref) => CustomerRepository(ref.watch(apiClientProvider)));
+final invoiceRepositoryProvider = Provider(
+  (ref) => InvoiceRepository(ref.watch(apiClientProvider)),
+);
+final customerRepositoryProvider = Provider(
+  (ref) => CustomerRepository(ref.watch(apiClientProvider)),
+);
 
 class InvoiceListState {
   const InvoiceListState({
@@ -64,10 +66,11 @@ class InvoiceListController extends StateNotifier<InvoiceListState> {
     try {
       final result = await _repository.list(status: state.status, page: 1);
       state = state.copyWith(
-          items: result.items,
-          page: 1,
-          hasMore: result.hasMore,
-          isLoading: false);
+        items: result.items,
+        page: 1,
+        hasMore: result.hasMore,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -78,13 +81,16 @@ class InvoiceListController extends StateNotifier<InvoiceListState> {
     state = state.copyWith(isLoadingMore: true);
     try {
       final nextPage = state.page + 1;
-      final result =
-          await _repository.list(status: state.status, page: nextPage);
+      final result = await _repository.list(
+        status: state.status,
+        page: nextPage,
+      );
       state = state.copyWith(
-          items: [...state.items, ...result.items],
-          page: nextPage,
-          hasMore: result.hasMore,
-          isLoadingMore: false);
+        items: [...state.items, ...result.items],
+        page: nextPage,
+        hasMore: result.hasMore,
+        isLoadingMore: false,
+      );
     } catch (_) {
       state = state.copyWith(isLoadingMore: false);
     }
@@ -109,8 +115,8 @@ class InvoiceListController extends StateNotifier<InvoiceListState> {
 
 final invoiceListControllerProvider =
     StateNotifierProvider.autoDispose<InvoiceListController, InvoiceListState>(
-  (ref) => InvoiceListController(ref.watch(invoiceRepositoryProvider)),
-);
+      (ref) => InvoiceListController(ref.watch(invoiceRepositoryProvider)),
+    );
 
 final invoiceDetailProvider = FutureProvider.autoDispose.family<Invoice, int>(
   (ref, id) => ref.watch(invoiceRepositoryProvider).get(id),

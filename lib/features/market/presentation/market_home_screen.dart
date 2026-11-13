@@ -181,7 +181,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     return Scaffold(
       backgroundColor: DukaColors.bg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: DukaColors.card,
         titleSpacing: 16,
         title: Row(
           children: [
@@ -222,7 +222,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
               child: IconButton.outlined(
                 tooltip: l10n.navCart,
                 style: IconButton.styleFrom(
-                  side: const BorderSide(color: DukaColors.line),
+                  side: BorderSide(color: DukaColors.line),
                 ),
                 onPressed: () => context.push('/cart'),
                 icon: const Icon(Icons.shopping_cart_outlined, size: 20),
@@ -232,7 +232,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(92),
           child: Container(
-            color: Colors.white,
+            color: DukaColors.card,
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,12 +412,12 @@ class _SearchPill extends StatelessWidget {
       height: 46,
       padding: const EdgeInsets.only(left: 14, right: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2EC),
+        color: DukaColors.soft,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
         children: [
-          const Icon(Icons.search, size: 20, color: DukaColors.muted),
+          Icon(Icons.search, size: 20, color: DukaColors.muted),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -477,7 +477,7 @@ class _LocationLine extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
           children: [
-            const Icon(
+            Icon(
               Icons.location_on_outlined,
               size: 15,
               color: DukaColors.indigo,
@@ -490,14 +490,14 @@ class _LocationLine extends StatelessWidget {
                     : l10n.marketNear(from!.label ?? l10n.marketMyLocation),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w600,
                   color: DukaColors.ink,
                 ),
               ),
             ),
-            const Icon(Icons.expand_more, size: 18, color: DukaColors.muted),
+            Icon(Icons.expand_more, size: 18, color: DukaColors.muted),
           ],
         ),
       ),
@@ -547,11 +547,11 @@ class _PicksRow extends StatelessWidget {
                 return SizedBox(
                   width: 128,
                   child: Material(
-                    color: Colors.white,
+                    color: DukaColors.card,
                     clipBehavior: Clip.antiAlias,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
-                      side: const BorderSide(color: DukaColors.line),
+                      side: BorderSide(color: DukaColors.line),
                     ),
                     child: InkWell(
                       onTap: () => context.push('/market/products/${p.id}'),
@@ -560,7 +560,7 @@ class _PicksRow extends StatelessWidget {
                         children: [
                           Container(
                             height: 100,
-                            color: const Color(0xFFF4F7EC),
+                            color: DukaColors.soft,
                             padding: const EdgeInsets.all(6),
                             child: Image.network(
                               p.photos.first,
@@ -595,7 +595,7 @@ class _PicksRow extends StatelessWidget {
                                           fontWeight: FontWeight.w700,
                                           color: DukaColors.ink,
                                         )
-                                      : const TextStyle(
+                                      : TextStyle(
                                           fontSize: 11.5,
                                           color: DukaColors.muted,
                                         ),
@@ -663,14 +663,14 @@ class _SortButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: DukaColors.card,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(color: DukaColors.line),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.tune, size: 15, color: DukaColors.ink),
+            Icon(Icons.tune, size: 15, color: DukaColors.ink),
             const SizedBox(width: 5),
             Text(
               label(sort),
@@ -698,7 +698,7 @@ class _Chip extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(right: 8),
     child: Material(
-      color: selected ? DukaColors.indigo : Colors.white,
+      color: selected ? DukaColors.indigo : DukaColors.card,
       shape: StadiumBorder(
         side: BorderSide(color: selected ? DukaColors.indigo : DukaColors.line),
       ),
@@ -742,7 +742,7 @@ class _RingAvatar extends StatelessWidget {
       width: size,
       height: size,
       padding: EdgeInsets.all(ring),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
           begin: Alignment.topRight,
@@ -752,8 +752,8 @@ class _RingAvatar extends StatelessWidget {
       ),
       child: Container(
         padding: EdgeInsets.all(ring),
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: DukaColors.card,
           shape: BoxShape.circle,
         ),
         child: ClipOval(
@@ -869,7 +869,7 @@ class _FeedPostState extends State<_FeedPost> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: DukaColors.card,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: DukaColors.line),
       ),
@@ -906,7 +906,7 @@ class _FeedPostState extends State<_FeedPost> {
                           subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11.5,
                             color: DukaColors.muted,
                           ),
@@ -926,7 +926,7 @@ class _FeedPostState extends State<_FeedPost> {
                     ),
                     child: Text(
                       l10n.marketAvailable,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: DukaColors.leafDeep,
@@ -944,9 +944,9 @@ class _FeedPostState extends State<_FeedPost> {
               // No photo yet: a shorter placeholder instead of an empty square.
               aspectRatio: photos.isEmpty ? 2 : 1,
               child: Container(
-                color: const Color(0xFFF4F7EC),
+                color: DukaColors.soft,
                 child: photos.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Icon(
                           Icons.inventory_2_outlined,
                           size: 56,
@@ -964,7 +964,7 @@ class _FeedPostState extends State<_FeedPost> {
                                 imageUrl: photos[i],
                                 fit: BoxFit.contain,
                                 placeholder: (_, _) => const SizedBox.shrink(),
-                                errorWidget: (_, _, _) => const Icon(
+                                errorWidget: (_, _, _) => Icon(
                                   Icons.broken_image_outlined,
                                   color: DukaColors.muted,
                                 ),
@@ -1009,7 +1009,7 @@ class _FeedPostState extends State<_FeedPost> {
                   IconButton(
                     tooltip: l10n.marketAskAbout,
                     onPressed: widget.onAskAi,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.auto_awesome_outlined,
                       color: DukaColors.indigo,
                     ),
@@ -1017,7 +1017,7 @@ class _FeedPostState extends State<_FeedPost> {
                 IconButton(
                   tooltip: l10n.marketShare,
                   onPressed: _share,
-                  icon: const Icon(Icons.send_outlined, color: DukaColors.ink),
+                  icon: Icon(Icons.send_outlined, color: DukaColors.ink),
                 ),
                 Expanded(
                   child: photos.length > 1
@@ -1095,7 +1095,7 @@ class _FeedPostState extends State<_FeedPost> {
                       if (p.packRange != null)
                         TextSpan(
                           text: '  ${p.packRange}',
-                          style: const TextStyle(color: DukaColors.muted),
+                          style: TextStyle(color: DukaColors.muted),
                         ),
                     ],
                   ),
@@ -1138,7 +1138,7 @@ class _FeedFooter extends StatelessWidget {
             Text(
               '$error',
               textAlign: TextAlign.center,
-              style: const TextStyle(color: DukaColors.muted),
+              style: TextStyle(color: DukaColors.muted),
             ),
             const SizedBox(height: 8),
             OutlinedButton(onPressed: onRetry, child: Text(l10n.marketRetry)),
@@ -1158,7 +1158,7 @@ class _FeedFooter extends StatelessWidget {
         child: Text(
           l10n.marketNoProducts,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: DukaColors.muted),
+          style: TextStyle(color: DukaColors.muted),
         ),
       );
     }
@@ -1169,7 +1169,7 @@ class _FeedFooter extends StatelessWidget {
           Container(
             width: 52,
             height: 52,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [DukaColors.indigo, DukaColors.leaf],
@@ -1189,7 +1189,7 @@ class _FeedFooter extends StatelessWidget {
           Text(
             l10n.marketAllCaughtUpBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12.5, color: DukaColors.muted),
+            style: TextStyle(fontSize: 12.5, color: DukaColors.muted),
           ),
         ],
       ),

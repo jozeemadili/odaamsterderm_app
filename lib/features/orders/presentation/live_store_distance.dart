@@ -128,7 +128,7 @@ class _LiveStoreDistanceState extends State<LiveStoreDistance> {
             l10n.orderDistanceEta(
               (meters / 1000 / _cityKmPerHour * 60).ceil().clamp(1, 999),
             ),
-            style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+            style: TextStyle(fontSize: 12, color: DukaColors.muted),
           ),
         ],
       ),
@@ -145,7 +145,7 @@ class _LiveStoreDistanceState extends State<LiveStoreDistance> {
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.near_me_outlined,
                   size: 18,
                   color: DukaColors.indigo,
@@ -153,7 +153,7 @@ class _LiveStoreDistanceState extends State<LiveStoreDistance> {
                 const SizedBox(width: 6),
                 Text(
                   l10n.orderDistanceTitle,
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+                  style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
               ],
             ),

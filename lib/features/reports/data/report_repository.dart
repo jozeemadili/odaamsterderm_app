@@ -7,15 +7,18 @@ class ReportRepository {
   final ApiClient _client;
 
   Future<TodaySalesReport> todaySales() async {
-    final response =
-        await _client.guard(() => _client.dio.get('/reports/sales/today'));
+    final response = await _client.guard(
+      () => _client.dio.get('/reports/sales/today'),
+    );
     return TodaySalesReport.fromJson(response.data as Map<String, dynamic>);
   }
 
   Future<ProductPerformanceReport> productPerformance() async {
-    final response = await _client
-        .guard(() => _client.dio.get('/reports/product-performance'));
+    final response = await _client.guard(
+      () => _client.dio.get('/reports/product-performance'),
+    );
     return ProductPerformanceReport.fromJson(
-        response.data as Map<String, dynamic>);
+      response.data as Map<String, dynamic>,
+    );
   }
 }
