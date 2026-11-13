@@ -499,5 +499,29 @@
   "aiFollowUpHint": "Ask a follow-up…",
   "aiEndChat": "End chat",
   "aiChatTitle": "Ask AI",
-  "marketNotInStoresYet": "Not in stores yet"
+  "marketNotInStoresYet": "Not in stores yet",
+  "aiAssistantTitle": "Farm assistant",
+  "aiAssistantSubtitle": "Answers and builds your order",
+  "aiNewChat": "New chat",
+  "aiReviewOrder": "Review order",
+  "aiSignInToOrder": "Sign in so the assistant can build your order.",
+  "aiAskPlaceholder": "Ask anything about your animals…",
+  "navAssistant": "Assistant",
+  "marketPicks": "{brand} picks",
+  "@marketPicks": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "marketSortBy": "Sort",
+  "aiBasketSummary": "{count, plural, =1{1 item} other{{count} items}}",
+  "@aiBasketSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

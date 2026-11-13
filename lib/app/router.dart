@@ -157,7 +157,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/market/ai-order',
-        builder: (context, state) => const AiOrderScreen(),
+        builder: (context, state) =>
+            AiOrderScreen(initialQuery: state.uri.queryParameters['q']),
       ),
       GoRoute(
         path: '/market/products/:id',
@@ -278,9 +279,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/transfers/:id',
-        builder: (context, state) => TransferDetailScreen(
-          id: int.parse(state.pathParameters['id']!),
-        ),
+        builder: (context, state) =>
+            TransferDetailScreen(id: int.parse(state.pathParameters['id']!)),
       ),
       GoRoute(
         path: '/stock-receipts',

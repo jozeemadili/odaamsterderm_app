@@ -18,6 +18,7 @@ class MarketProduct {
     required this.sellersCount,
     required this.availableQuantity,
     this.nearestLabel,
+    this.packNames = const [],
   });
 
   factory MarketProduct.fromJson(Map<String, dynamic> json) => MarketProduct(
@@ -37,6 +38,10 @@ class MarketProduct {
     sellersCount: json['sellers_count'] as int,
     availableQuantity: _d(json['available_quantity']) ?? 0,
     nearestLabel: json['nearest_label'] as String?,
+    packNames: [
+      for (final v in (json['variants'] as List?) ?? const [])
+        if (v is Map && v['name'] is String) v['name'] as String,
+    ],
   );
 
   final int id;
@@ -61,6 +66,36 @@ class MarketProduct {
 
   /// Distance to the nearest store with stock, e.g. "1.2 km".
   final String? nearestLabel;
+
+  /// Pack sizes on sale ("30 g sachet", "1 kg sachet"…), smallest first.
+  final List<String> packNames;
+
+  /// "30 g – 1 kg" (smallest to largest), the only pack's name, or null.
+  String? get packRange {
+    if (packNames.isEmpty) return null;
+    if (packNames.length == 1) return packNames.first;
+
+    final sizes = [
+      for (final name in packNames)
+        if (_packSize(name) case final size?) size,
+    ]..sort((a, b) => a.amount.compareTo(b.amount));
+    if (sizes.length < 2) return '${packNames.length} sizes';
+    return '${sizes.first.label} – ${sizes.last.label}';
+  }
+
+  /// "25 kg bag" → (amount: 25000, label: "25 kg"); null when unreadable.
+  static ({double amount, String label})? _packSize(String name) {
+    final m = RegExp(
+      r'^([\d.,]+)\s*(g|kg|ml|l)\b',
+      caseSensitive: false,
+    ).firstMatch(name.trim());
+    if (m == null) return null;
+    final value = double.tryParse(m[1]!.replaceAll(',', ''));
+    if (value == null) return null;
+    final unit = m[2]!.toLowerCase();
+    final factor = unit == 'kg' || unit == 'l' ? 1000 : 1;
+    return (amount: value * factor, label: '${m[1]} ${m[2]}');
+  }
 }
 
 /// Public store details.

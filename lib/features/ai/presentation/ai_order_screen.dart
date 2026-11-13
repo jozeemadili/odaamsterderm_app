@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../auth/presentation/auth_controller.dart';
+import '../../market/data/market_models.dart';
 import '../../market/presentation/market_controller.dart';
 import '../../orders/presentation/order_controller.dart';
 import '../data/ai_models.dart';
@@ -16,10 +17,27 @@ import 'ai_providers.dart';
 String _fmtQty(double v) =>
     v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
 
-/// "Use AI to place order": chat with the assistant, adjust the basket it
-/// proposes, then add it to the cart and confirm the order there.
+/// One chat line. Assistant answers from Ask AI carry the products it
+/// picked; order-assistant answers keep the server's basket [memo].
+class _Msg {
+  _Msg(this.role, this.text, {this.memo = '', this.picks = const []});
+
+  /// user | assistant | notice
+  final String role;
+  final String text;
+  final String memo;
+  final List<MarketProduct> picks;
+}
+
+/// The farm assistant: one chat for questions and orders. Signed-in
+/// customers get the order assistant (answers and builds a basket they
+/// review and add to the cart); everyone else gets Ask AI answers with
+/// product suggestions and a prompt to sign in to order.
 class AiOrderScreen extends ConsumerStatefulWidget {
-  const AiOrderScreen({super.key});
+  const AiOrderScreen({super.key, this.initialQuery});
+
+  /// A question typed on the marketplace, sent as soon as the screen opens.
+  final String? initialQuery;
 
   @override
   ConsumerState<AiOrderScreen> createState() => _AiOrderScreenState();
@@ -28,7 +46,7 @@ class AiOrderScreen extends ConsumerStatefulWidget {
 class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
   final _input = TextEditingController();
   final _scroll = ScrollController();
-  final List<AiChatMessage> _messages = [];
+  final List<_Msg> _messages = [];
   List<AiBasketLine> _basket = [];
   final Map<int, double> _qty = {};
   bool _waiting = false;
@@ -36,10 +54,26 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
   String? _basketError;
 
   @override
+  void initState() {
+    super.initState();
+    final q = widget.initialQuery?.trim();
+    if (q != null && q.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _send(q));
+    }
+  }
+
+  @override
   void dispose() {
     _input.dispose();
     _scroll.dispose();
     super.dispose();
+  }
+
+  /// Signed-in customers with the order assistant switched on.
+  bool get _canOrder {
+    final user = ref.read(authControllerProvider).user;
+    final ai = ref.read(aiConfigProvider).valueOrNull ?? AiConfig.off;
+    return user != null && user.isCustomer && ai.orderEnabled;
   }
 
   void _scrollDown() => WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -55,43 +89,15 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
   Future<void> _send([String? text]) async {
     final message = (text ?? _input.text).trim();
     if (message.isEmpty || _waiting) return;
-    final l10n = context.l10n;
 
     setState(() {
-      _messages.add(AiChatMessage(role: 'user', content: message));
+      _messages.add(_Msg('user', message));
       _input.clear();
       _waiting = true;
     });
     _scrollDown();
 
-    AiChatMessage reply;
-    try {
-      final r = await ref
-          .read(aiRepositoryProvider)
-          .order(_messages, from: ref.read(marketLocationProvider));
-      reply = switch (r.status) {
-        'ok' => AiChatMessage(
-          role: 'assistant',
-          content: r.reply,
-          memo: r.memo,
-        ),
-        'limited' => AiChatMessage(role: 'notice', content: l10n.aiOrderBusy),
-        'refused' => AiChatMessage(
-          role: 'notice',
-          content: l10n.aiOrderRefused,
-        ),
-        _ => AiChatMessage(role: 'notice', content: l10n.aiOrderUnavailable),
-      };
-      if (r.status == 'ok' && r.basket.isNotEmpty) {
-        _basket = r.basket;
-        _qty
-          ..clear()
-          ..addEntries(r.basket.map((l) => MapEntry(l.offerId, l.quantity)));
-        _basketError = null;
-      }
-    } catch (_) {
-      reply = AiChatMessage(role: 'notice', content: l10n.aiOrderUnavailable);
-    }
+    final reply = _canOrder ? await _askOrder() : await _askSearch(message);
 
     if (!mounted) return;
     setState(() {
@@ -99,6 +105,73 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
       _waiting = false;
     });
     _scrollDown();
+  }
+
+  Future<_Msg> _askOrder() async {
+    final l10n = context.l10n;
+    try {
+      final r = await ref.read(aiRepositoryProvider).order([
+        for (final m in _messages)
+          if (m.role != 'notice')
+            AiChatMessage(role: m.role, content: m.text, memo: m.memo),
+      ], from: ref.read(marketLocationProvider));
+      if (r.status == 'ok' && r.basket.isNotEmpty) {
+        _basket = r.basket;
+        _qty
+          ..clear()
+          ..addEntries(r.basket.map((l) => MapEntry(l.offerId, l.quantity)));
+        _basketError = null;
+      }
+      return switch (r.status) {
+        'ok' => _Msg('assistant', r.reply, memo: r.memo),
+        'limited' => _Msg('notice', l10n.aiOrderBusy),
+        'refused' => _Msg('notice', l10n.aiOrderRefused),
+        _ => _Msg('notice', l10n.aiOrderUnavailable),
+      };
+    } catch (_) {
+      return _Msg('notice', l10n.aiOrderUnavailable);
+    }
+  }
+
+  Future<_Msg> _askSearch(String question) async {
+    final l10n = context.l10n;
+    final history = <({String question, String answer})>[];
+    for (var i = 0; i + 1 < _messages.length - 1; i++) {
+      if (_messages[i].role == 'user' && _messages[i + 1].role == 'assistant') {
+        history.add((
+          question: _messages[i].text,
+          answer: _messages[i + 1].text,
+        ));
+      }
+    }
+    try {
+      final r = await ref
+          .read(aiRepositoryProvider)
+          .search(
+            question,
+            from: ref.read(marketLocationProvider),
+            history: history.length > 6
+                ? history.sublist(history.length - 6)
+                : history,
+          );
+      return switch (r.status) {
+        'unavailable' => _Msg('notice', l10n.aiSearchUnavailable),
+        'limited' => _Msg('notice', l10n.aiSearchLimited),
+        'refused' => _Msg('notice', l10n.aiSearchRefused),
+        _ => _Msg(
+          'assistant',
+          r.summary,
+          picks: r.fallback ? const [] : r.products.take(8).toList(),
+        ),
+      };
+    } on ApiException catch (e) {
+      return _Msg(
+        'notice',
+        e.statusCode == 401 ? l10n.aiSignInToAsk : l10n.aiOrderUnavailable,
+      );
+    } catch (_) {
+      return _Msg('notice', l10n.aiOrderUnavailable);
+    }
   }
 
   Future<void> _addToCart() async {
@@ -127,6 +200,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
       return;
     }
 
+    Navigator.of(context).maybePop(); // the basket sheet
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(l10n.aiOrderAdded)));
@@ -140,58 +214,94 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     _basketError = null;
   });
 
+  double get _total => _basket.fold<double>(
+    0,
+    (sum, l) => sum + (_qty[l.offerId] ?? 0) * l.unitPrice,
+  );
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final user = ref.watch(authControllerProvider).user;
-    final enabled =
-        ref.watch(aiConfigProvider).valueOrNull?.orderEnabled ?? true;
+    final ai = ref.watch(aiConfigProvider).valueOrNull;
+    final enabled = ai == null || ai.orderEnabled || ai.searchEnabled;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.aiOrderTitle),
+        backgroundColor: Colors.white,
+        shape: const Border(bottom: BorderSide(color: DukaColors.line)),
+        titleSpacing: 12,
+        title: Row(
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              decoration: const BoxDecoration(
+                color: DukaColors.leafTint,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.auto_awesome,
+                size: 17,
+                color: DukaColors.leafDeep,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.aiAssistantTitle,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: DukaColors.ink,
+                    ),
+                  ),
+                  Text(
+                    l10n.aiAssistantSubtitle,
+                    style: const TextStyle(
+                      fontSize: 11.5,
+                      color: DukaColors.leafDeep,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         actions: [
           if (_messages.isNotEmpty)
-            TextButton(
-              onPressed: _startOver,
-              child: Text(l10n.aiOrderStartOver),
-            ),
+            TextButton(onPressed: _startOver, child: Text(l10n.aiNewChat)),
         ],
       ),
       body: SafeArea(
-        child: user == null
-            ? _Gate(
-                text: l10n.aiOrderSignIn,
-                action: FilledButton(
-                  onPressed: () => context.push('/login'),
-                  child: Text(l10n.marketSignIn),
-                ),
-              )
-            : !user.isCustomer
-            ? _Gate(text: l10n.aiOrderNotCustomer)
-            : !enabled
+        child: !enabled
             ? _Gate(text: l10n.aiOrderUnavailable)
             : Column(
                 children: [
                   Expanded(
                     child: ListView(
                       controller: _scroll,
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
                       children: [
                         if (_messages.isEmpty) _intro(context),
-                        for (final m in _messages) _bubble(m),
+                        for (final m in _messages) ...[
+                          _bubble(m),
+                          if (m.picks.isNotEmpty) _picks(m.picks),
+                        ],
                         if (_waiting)
                           _bubble(
-                            AiChatMessage(
-                              role: 'assistant',
-                              content: l10n.aiOrderChecking,
-                            ),
+                            _Msg('assistant', l10n.aiOrderChecking),
                             pending: true,
                           ),
-                        if (_basket.isNotEmpty) _basketCard(context),
+                        if (user == null && _messages.isNotEmpty)
+                          _signInToOrder(context),
                       ],
                     ),
                   ),
+                  if (_basket.isNotEmpty) _basketBar(context),
                   _composer(context),
                 ],
               ),
@@ -211,40 +321,20 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  color: DukaColors.leafTint,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.auto_awesome,
-                  color: DukaColors.leafDeep,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  l10n.aiOrderSubtitle,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                    color: DukaColors.ink,
-                  ),
-                ),
-              ),
-            ],
+          Text(
+            l10n.aiOrderSubtitle,
+            style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+              color: DukaColors.ink,
+            ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Text(
             l10n.aiOrderIntro,
             style: const TextStyle(height: 1.45, color: DukaColors.ink),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
           for (final example in [
             l10n.aiOrderExample1,
             l10n.aiOrderExample2,
@@ -290,12 +380,12 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     );
   }
 
-  Widget _bubble(AiChatMessage m, {bool pending = false}) {
+  Widget _bubble(_Msg m, {bool pending = false}) {
     if (m.role == 'notice') {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: Text(
-          m.content,
+          m.text,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 12, color: DukaColors.muted),
         ),
@@ -333,7 +423,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
             ],
             Flexible(
               child: Text(
-                m.content,
+                m.text,
                 style: TextStyle(
                   height: 1.4,
                   color: mine ? Colors.white : DukaColors.ink,
@@ -346,88 +436,254 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
     );
   }
 
-  Widget _basketCard(BuildContext context) {
-    final l10n = context.l10n;
-    final total = _basket.fold<double>(
-      0,
-      (sum, l) => sum + (_qty[l.offerId] ?? 0) * l.unitPrice,
-    );
-    final stores = _basket.map((l) => l.store).toSet().length;
-
-    return Card(
-      margin: const EdgeInsets.only(top: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: DukaColors.leaf, width: 1.5),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    l10n.aiOrderBasketTitle,
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: DukaColors.ink,
-                    ),
+  /// Products the assistant picked, as small tappable cards.
+  Widget _picks(List<MarketProduct> products) => Padding(
+    padding: const EdgeInsets.only(top: 4, bottom: 6),
+    child: SizedBox(
+      height: 72,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: products.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
+          final p = products[i];
+          return Material(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+              side: const BorderSide(color: DukaColors.line),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(14),
+              onTap: () => context.push('/market/products/${p.id}'),
+              child: SizedBox(
+                width: 176,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 40,
+                        height: 52,
+                        child: p.photos.isEmpty
+                            ? const Icon(
+                                Icons.inventory_2_outlined,
+                                color: DukaColors.muted,
+                              )
+                            : Image.network(
+                                p.photos.first,
+                                fit: BoxFit.contain,
+                              ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              p.displayName,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                height: 1.2,
+                              ),
+                            ),
+                            if (p.minPrice != null)
+                              Text(
+                                formatTzs(p.minPrice!),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: DukaColors.ink,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  l10n.aiOrderPickupStores(stores),
-                  style: const TextStyle(fontSize: 12, color: DukaColors.muted),
-                ),
-              ],
-            ),
-            const Divider(),
-            for (final line in _basket) _line(line),
-            const Divider(),
-            Row(
-              children: [
-                Expanded(child: Text(l10n.aiOrderTotal)),
-                Text(
-                  formatTzs(total),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            if (_basketError != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                _basketError!,
-                style: const TextStyle(color: DukaColors.rose, fontSize: 12),
               ),
-            ],
-            const SizedBox(height: 10),
-            FilledButton(
-              key: const Key('ai-add-to-cart'),
-              onPressed: _adding || total <= 0 ? null : _addToCart,
-              child: Text(l10n.aiOrderAddToCart),
             ),
-            const SizedBox(height: 6),
-            Text(
-              l10n.aiOrderNothingOrdered,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11, color: DukaColors.muted),
+          );
+        },
+      ),
+    ),
+  );
+
+  Widget _signInToOrder(BuildContext context) {
+    final l10n = context.l10n;
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.fromLTRB(14, 10, 8, 10),
+      decoration: BoxDecoration(
+        color: DukaColors.leafTint,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              l10n.aiSignInToOrder,
+              style: const TextStyle(fontSize: 13, color: DukaColors.ink),
             ),
-          ],
-        ),
+          ),
+          TextButton(
+            onPressed: () => context.push('/login'),
+            child: Text(l10n.marketSignIn),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _line(AiBasketLine line) {
+  /// Dark bar above the composer: what's in the proposed basket.
+  Widget _basketBar(BuildContext context) {
+    final l10n = context.l10n;
+    final count = _basket.where((l) => (_qty[l.offerId] ?? 0) > 0).length;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+      padding: const EdgeInsets.fromLTRB(14, 10, 10, 10),
+      decoration: BoxDecoration(
+        color: DukaColors.brandDark,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${l10n.aiOrderBasketTitle} · ${l10n.aiBasketSummary(count)}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: 0.7),
+                  ),
+                ),
+                Text(
+                  formatTzs(_total),
+                  style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FilledButton(
+            key: const Key('ai-review-order'),
+            style: FilledButton.styleFrom(
+              backgroundColor: DukaColors.leaf,
+              foregroundColor: DukaColors.ink,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ),
+            onPressed: () => _openBasket(context),
+            child: Text(l10n.aiReviewOrder),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openBasket(BuildContext context) => showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    backgroundColor: Colors.white,
+    builder: (sheetContext) => StatefulBuilder(
+      builder: (sheetContext, setSheet) {
+        void refresh(VoidCallback change) {
+          setState(change);
+          setSheet(() {});
+        }
+
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: _basketCard(sheetContext, refresh),
+          ),
+        );
+      },
+    ),
+  );
+
+  Widget _basketCard(
+    BuildContext context,
+    void Function(VoidCallback) refresh,
+  ) {
+    final l10n = context.l10n;
+    final stores = _basket.map((l) => l.store).toSet().length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.aiOrderBasketTitle,
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  color: DukaColors.ink,
+                ),
+              ),
+            ),
+            Text(
+              l10n.aiOrderPickupStores(stores),
+              style: const TextStyle(fontSize: 12, color: DukaColors.muted),
+            ),
+          ],
+        ),
+        const Divider(height: 20),
+        for (final line in _basket) _line(line, refresh),
+        const Divider(height: 20),
+        Row(
+          children: [
+            Expanded(child: Text(l10n.aiOrderTotal)),
+            Text(
+              formatTzs(_total),
+              style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+                color: DukaColors.ink,
+              ),
+            ),
+          ],
+        ),
+        if (_basketError != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            _basketError!,
+            style: const TextStyle(color: DukaColors.rose, fontSize: 12),
+          ),
+        ],
+        const SizedBox(height: 12),
+        FilledButton(
+          key: const Key('ai-add-to-cart'),
+          onPressed: _adding || _total <= 0 ? null : _addToCart,
+          child: Text(l10n.aiOrderAddToCart),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.aiOrderNothingOrdered,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 11, color: DukaColors.muted),
+        ),
+      ],
+    );
+  }
+
+  Widget _line(AiBasketLine line, void Function(VoidCallback) refresh) {
     final l10n = context.l10n;
     final q = _qty[line.offerId] ?? 0;
     void set(double v) =>
-        setState(() => _qty[line.offerId] = v.clamp(0, line.available));
+        refresh(() => _qty[line.offerId] = v.clamp(0, line.available));
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -483,7 +739,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                 ],
               ),
               TextButton(
-                onPressed: () => setState(() {
+                onPressed: () => refresh(() {
                   _basket = _basket
                       .where((l) => l.offerId != line.offerId)
                       .toList();
@@ -525,7 +781,7 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
               maxLines: 4,
               maxLength: 1000,
               decoration: InputDecoration(
-                hintText: l10n.aiOrderHint,
+                hintText: l10n.aiAskPlaceholder,
                 counterText: '',
                 fillColor: DukaColors.bg,
                 border: border,
@@ -556,10 +812,9 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
 }
 
 class _Gate extends StatelessWidget {
-  const _Gate({required this.text, this.action});
+  const _Gate({required this.text});
 
   final String text;
-  final Widget? action;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -571,7 +826,6 @@ class _Gate extends StatelessWidget {
           const Icon(Icons.auto_awesome, size: 40, color: DukaColors.indigo),
           const SizedBox(height: 12),
           Text(text, textAlign: TextAlign.center),
-          if (action != null) ...[const SizedBox(height: 12), action!],
         ],
       ),
     ),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,21 +27,15 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: OdaamsterdermApp()));
     await tester.pumpAndSettle();
 
-    expect(find.text('Marketplace'), findsOneWidget);
+    expect(find.text('Amsterdam Digital', findRichText: true), findsOneWidget);
     expect(find.text('Set your location'), findsOneWidget);
+    expect(find.byKey(const Key('market-search')), findsOneWidget);
 
     // Sellers and customers sign in from the marketplace header.
     await tester.tap(find.text('Sign in'));
     await tester.pumpAndSettle();
 
-    expect(
-      find.text(
-        'odaamsterderm'
-        'hub',
-        findRichText: true,
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('Amsterdam Digital', findRichText: true), findsOneWidget);
     expect(find.text('Sign in to your account'), findsOneWidget);
   });
 }

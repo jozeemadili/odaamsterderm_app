@@ -34,6 +34,27 @@ void main() {
     expect(p.category, 'Feed › Starter');
   });
 
+  test('MarketProduct shows its pack sizes smallest to largest', () {
+    MarketProduct product(List<String> packs) => MarketProduct.fromJson({
+      'id': 1,
+      'display_name': 'Layers Mash',
+      'unit': 'bag',
+      'sellers_count': 0,
+      'available_quantity': 0,
+      'variants': [
+        for (final p in packs) {'name': p},
+      ],
+    });
+
+    expect(product(['50 kg bag', '25 kg bag']).packRange, '25 kg – 50 kg');
+    expect(
+      product(['30 g sachet', '100 g sachet', '1 kg sachet']).packRange,
+      '30 g – 1 kg',
+    );
+    expect(product(['Single set']).packRange, 'Single set');
+    expect(product([]).packRange, isNull);
+  });
+
   test('Comparison parses available and out-of-stock offers', () {
     final detail = MarketProductDetail.fromJson({
       'product': {

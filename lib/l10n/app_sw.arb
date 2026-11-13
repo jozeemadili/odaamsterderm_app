@@ -339,5 +339,15 @@
   "aiFollowUpHint": "Uliza swali jingine…",
   "aiEndChat": "Maliza mazungumzo",
   "aiChatTitle": "Uliza AI",
-  "marketNotInStoresYet": "Bado haipo madukani"
+  "marketNotInStoresYet": "Bado haipo madukani",
+  "aiAssistantTitle": "Msaidizi wa shamba",
+  "aiAssistantSubtitle": "Hujibu na kuandaa oda yako",
+  "aiNewChat": "Mazungumzo mapya",
+  "aiReviewOrder": "Hakiki oda",
+  "aiSignInToOrder": "Ingia ili msaidizi akuandalie oda yako.",
+  "aiAskPlaceholder": "Uliza chochote kuhusu mifugo yako…",
+  "navAssistant": "Msaidizi",
+  "marketPicks": "Chaguo za {brand}",
+  "marketSortBy": "Panga",
+  "aiBasketSummary": "{count, plural, =1{bidhaa 1} other{bidhaa {count}}}"
 }

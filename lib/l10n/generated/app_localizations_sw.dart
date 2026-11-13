@@ -1130,4 +1130,44 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get marketNotInStoresYet => 'Bado haipo madukani';
+
+  @override
+  String get aiAssistantTitle => 'Msaidizi wa shamba';
+
+  @override
+  String get aiAssistantSubtitle => 'Hujibu na kuandaa oda yako';
+
+  @override
+  String get aiNewChat => 'Mazungumzo mapya';
+
+  @override
+  String get aiReviewOrder => 'Hakiki oda';
+
+  @override
+  String get aiSignInToOrder => 'Ingia ili msaidizi akuandalie oda yako.';
+
+  @override
+  String get aiAskPlaceholder => 'Uliza chochote kuhusu mifugo yako…';
+
+  @override
+  String get navAssistant => 'Msaidizi';
+
+  @override
+  String marketPicks(String brand) {
+    return 'Chaguo za $brand';
+  }
+
+  @override
+  String get marketSortBy => 'Panga';
+
+  @override
+  String aiBasketSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'bidhaa $count',
+      one: 'bidhaa 1',
+    );
+    return '$_temp0';
+  }
 }

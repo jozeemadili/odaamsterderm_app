@@ -1134,4 +1134,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketNotInStoresYet => 'Not in stores yet';
+
+  @override
+  String get aiAssistantTitle => 'Farm assistant';
+
+  @override
+  String get aiAssistantSubtitle => 'Answers and builds your order';
+
+  @override
+  String get aiNewChat => 'New chat';
+
+  @override
+  String get aiReviewOrder => 'Review order';
+
+  @override
+  String get aiSignInToOrder =>
+      'Sign in so the assistant can build your order.';
+
+  @override
+  String get aiAskPlaceholder => 'Ask anything about your animals…';
+
+  @override
+  String get navAssistant => 'Assistant';
+
+  @override
+  String marketPicks(String brand) {
+    return '$brand picks';
+  }
+
+  @override
+  String get marketSortBy => 'Sort';
+
+  @override
+  String aiBasketSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
 }

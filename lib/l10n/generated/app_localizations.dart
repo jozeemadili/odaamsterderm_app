@@ -2137,6 +2137,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not in stores yet'**
   String get marketNotInStoresYet;
+
+  /// No description provided for @aiAssistantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm assistant'**
+  String get aiAssistantTitle;
+
+  /// No description provided for @aiAssistantSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Answers and builds your order'**
+  String get aiAssistantSubtitle;
+
+  /// No description provided for @aiNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New chat'**
+  String get aiNewChat;
+
+  /// No description provided for @aiReviewOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Review order'**
+  String get aiReviewOrder;
+
+  /// No description provided for @aiSignInToOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in so the assistant can build your order.'**
+  String get aiSignInToOrder;
+
+  /// No description provided for @aiAskPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask anything about your animals…'**
+  String get aiAskPlaceholder;
+
+  /// No description provided for @navAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Assistant'**
+  String get navAssistant;
+
+  /// No description provided for @marketPicks.
+  ///
+  /// In en, this message translates to:
+  /// **'{brand} picks'**
+  String marketPicks(String brand);
+
+  /// No description provided for @marketSortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get marketSortBy;
+
+  /// No description provided for @aiBasketSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String aiBasketSummary(int count);
 }
 
 class _AppLocalizationsDelegate

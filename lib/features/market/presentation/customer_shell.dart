@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../ai/presentation/ai_order_screen.dart';
 import '../../orders/presentation/cart_screen.dart';
 import '../../orders/presentation/my_orders_screen.dart';
 import 'customer_account_screen.dart';
@@ -27,6 +28,7 @@ class _CustomerShellState extends State<CustomerShell> {
         index: _index,
         children: const [
           MarketHomeScreen(),
+          AiOrderScreen(),
           CartScreen(embedded: true),
           MyOrdersScreen(embedded: true),
           CustomerAccountScreen(),
@@ -44,6 +46,11 @@ class _CustomerShellState extends State<CustomerShell> {
               icon: const Icon(Icons.storefront_outlined),
               selectedIcon: const Icon(Icons.storefront),
               label: l10n.navMarket,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.auto_awesome_outlined),
+              selectedIcon: const Icon(Icons.auto_awesome),
+              label: l10n.navAssistant,
             ),
             NavigationDestination(
               icon: const Icon(Icons.shopping_cart_outlined),
