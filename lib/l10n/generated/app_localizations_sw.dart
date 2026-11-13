@@ -1383,4 +1383,33 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get profileDeleteDone => 'Akaunti yako imefutwa.';
+
+  @override
+  String authWelcomeBack(String name) {
+    return 'Karibu tena, $name!';
+  }
+
+  @override
+  String authWelcomeNew(String name) {
+    return 'Karibu Amsterdam Digital, $name! Akaunti yako iko tayari.';
+  }
+
+  @override
+  String get authGoogleCancelled => 'Kuingia kwa Google kumeghairiwa.';
+
+  @override
+  String authGoogleNoAccount(String email) {
+    return 'Bado hakuna akaunti ya $email. Weka namba ya simu kumaliza kujisajili.';
+  }
+
+  @override
+  String authSignupWithGoogle(String email) {
+    return 'Unajisajili kwa Google kama $email';
+  }
+
+  @override
+  String get authUseEmailInstead => 'Tumia barua pepe na nenosiri badala yake';
+
+  @override
+  String get authSigningUp => 'Tunaunda akaunti yako…';
 }

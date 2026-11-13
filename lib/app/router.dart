@@ -58,6 +58,7 @@ import '../features/suppliers/presentation/supplier_detail_screen.dart';
 import '../features/suppliers/presentation/supplier_form_screen.dart';
 import '../features/suppliers/presentation/supplier_list_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
+import '../features/auth/data/auth_models.dart';
 import 'home_shell.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -124,7 +125,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/signup',
-        builder: (context, state) => const CustomerSignupScreen(),
+        builder: (context, state) => CustomerSignupScreen(
+          prefill: state.extra is GoogleSignupPrefill
+              ? state.extra! as GoogleSignupPrefill
+              : null,
+        ),
       ),
       GoRoute(
         path: '/home',

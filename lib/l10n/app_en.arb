@@ -625,5 +625,40 @@
   "profileDeletePassword": "Your password",
   "profileDeleteTypeHint": "Type DELETE to confirm",
   "profileDeleteButton": "Delete my account",
-  "profileDeleteDone": "Your account has been deleted."
+  "profileDeleteDone": "Your account has been deleted.",
+  "authWelcomeBack": "Welcome back, {name}!",
+  "authWelcomeNew": "Welcome to Amsterdam Digital, {name}! Your account is ready.",
+  "authGoogleCancelled": "Google sign-in was cancelled.",
+  "authGoogleNoAccount": "No account for {email} yet. Add your phone number to finish signing up.",
+  "authSignupWithGoogle": "Signing up with Google as {email}",
+  "authUseEmailInstead": "Use email and password instead",
+  "authSigningUp": "Creating your account…",
+  "@authWelcomeBack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@authWelcomeNew": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@authGoogleNoAccount": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authSignupWithGoogle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  }
 }

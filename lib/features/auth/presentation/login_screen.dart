@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/api/api_exception.dart';
-import '../../../core/config/google_auth_config.dart';
 import '../../../core/widgets/duka_logo_mark.dart';
 import '../../../core/widgets/duka_wordmark.dart';
 import '../../../core/widgets/google_auth_button.dart';
 import '../../../l10n/l10n_extension.dart';
 import 'auth_controller.dart';
-import 'complete_google_registration_screen.dart';
+import 'customer_google.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -49,60 +47,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
+      if (mounted) {
+        final name = ref.read(authControllerProvider).user?.name ?? '';
+        showAuthToast(context, context.l10n.authWelcomeBack(name));
+      }
     } on ApiException catch (e) {
       setState(() => _error = e.message);
+      if (mounted) showAuthToast(context, e.message, error: true);
     } catch (e) {
       // Not a server error (storage, network, parsing): still tell the person.
-      if (mounted) setState(() => _error = context.l10n.signInFailed('$e'));
+      if (mounted) {
+        final message = context.l10n.signInFailed('$e');
+        setState(() => _error = message);
+        showAuthToast(context, message, error: true);
+      }
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
   }
 
   Future<void> _continueWithGoogle() async {
-    if (googleServerClientId.isEmpty) {
-      setState(() => _error = context.l10n.loginGoogleNotConfigured);
-      return;
-    }
-
     setState(() {
       _googleSubmitting = true;
       _error = null;
     });
-
-    try {
-      final googleSignIn = GoogleSignIn(serverClientId: googleServerClientId);
-      final account = await googleSignIn.signIn();
-      if (account == null) return; // user cancelled
-
-      final auth = await account.authentication;
-      final idToken = auth.idToken;
-      if (idToken == null) {
-        setState(() => _error = context.l10n.loginGoogleNoIdToken);
-        return;
-      }
-
-      final pending = await ref
-          .read(authControllerProvider.notifier)
-          // For now Google sign-in in the app is for customers only: a new
-          // Google user becomes a customer; sellers use email and password.
-          .loginWithGoogle(idToken, asCustomer: true);
-
-      if (pending != null && mounted) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => CompleteGoogleRegistrationScreen(pending: pending),
-          ),
-        );
-      }
-    } on ApiException catch (e) {
-      setState(() => _error = e.message);
-    } catch (e) {
-      // Not a server error (storage, network, parsing): still tell the person.
-      if (mounted) setState(() => _error = context.l10n.signInFailed('$e'));
-    } finally {
-      if (mounted) setState(() => _googleSubmitting = false);
-    }
+    // Registered → signed in; not registered → the sign-up page, prefilled.
+    await continueWithGoogleAsCustomer(
+      context,
+      ref,
+      onNeedsSignup: (prefill) {
+        if (mounted) context.push('/signup', extra: prefill);
+      },
+    );
+    if (mounted) setState(() => _googleSubmitting = false);
   }
 
   @override

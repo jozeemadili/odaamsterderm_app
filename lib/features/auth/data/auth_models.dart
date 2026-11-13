@@ -217,3 +217,14 @@ class GoogleRegistrationRequired {
   final String? email;
   final String? name;
 }
+
+/// A Google account that has no Amsterdam Digital account yet: the sign-up
+/// form opens with these filled in, and sends [idToken] back so the server
+/// can verify the Google identity again.
+class GoogleSignupPrefill {
+  const GoogleSignupPrefill({required this.idToken, this.name, this.email});
+
+  final String idToken;
+  final String? name;
+  final String? email;
+}

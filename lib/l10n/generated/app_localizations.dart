@@ -2581,6 +2581,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your account has been deleted.'**
   String get profileDeleteDone;
+
+  /// No description provided for @authWelcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back, {name}!'**
+  String authWelcomeBack(String name);
+
+  /// No description provided for @authWelcomeNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Amsterdam Digital, {name}! Your account is ready.'**
+  String authWelcomeNew(String name);
+
+  /// No description provided for @authGoogleCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in was cancelled.'**
+  String get authGoogleCancelled;
+
+  /// No description provided for @authGoogleNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account for {email} yet. Add your phone number to finish signing up.'**
+  String authGoogleNoAccount(String email);
+
+  /// No description provided for @authSignupWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing up with Google as {email}'**
+  String authSignupWithGoogle(String email);
+
+  /// No description provided for @authUseEmailInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Use email and password instead'**
+  String get authUseEmailInstead;
+
+  /// No description provided for @authSigningUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating your account…'**
+  String get authSigningUp;
 }
 
 class _AppLocalizationsDelegate

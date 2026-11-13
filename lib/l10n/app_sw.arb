@@ -413,5 +413,12 @@
   "profileDeletePassword": "Nenosiri lako",
   "profileDeleteTypeHint": "Andika FUTA kuthibitisha",
   "profileDeleteButton": "Futa akaunti yangu",
-  "profileDeleteDone": "Akaunti yako imefutwa."
+  "profileDeleteDone": "Akaunti yako imefutwa.",
+  "authWelcomeBack": "Karibu tena, {name}!",
+  "authWelcomeNew": "Karibu Amsterdam Digital, {name}! Akaunti yako iko tayari.",
+  "authGoogleCancelled": "Kuingia kwa Google kumeghairiwa.",
+  "authGoogleNoAccount": "Bado hakuna akaunti ya {email}. Weka namba ya simu kumaliza kujisajili.",
+  "authSignupWithGoogle": "Unajisajili kwa Google kama {email}",
+  "authUseEmailInstead": "Tumia barua pepe na nenosiri badala yake",
+  "authSigningUp": "Tunaunda akaunti yako…"
 }

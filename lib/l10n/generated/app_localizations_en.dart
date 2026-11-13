@@ -1388,4 +1388,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileDeleteDone => 'Your account has been deleted.';
+
+  @override
+  String authWelcomeBack(String name) {
+    return 'Welcome back, $name!';
+  }
+
+  @override
+  String authWelcomeNew(String name) {
+    return 'Welcome to Amsterdam Digital, $name! Your account is ready.';
+  }
+
+  @override
+  String get authGoogleCancelled => 'Google sign-in was cancelled.';
+
+  @override
+  String authGoogleNoAccount(String email) {
+    return 'No account for $email yet. Add your phone number to finish signing up.';
+  }
+
+  @override
+  String authSignupWithGoogle(String email) {
+    return 'Signing up with Google as $email';
+  }
+
+  @override
+  String get authUseEmailInstead => 'Use email and password instead';
+
+  @override
+  String get authSigningUp => 'Creating your account…';
 }

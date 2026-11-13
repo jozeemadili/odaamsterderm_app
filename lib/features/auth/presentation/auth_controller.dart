@@ -134,6 +134,26 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> registerCustomerWithGoogle({
+    required String idToken,
+    required String name,
+    required String phone,
+  }) async {
+    state = const AuthState.authenticating();
+    try {
+      final session = await _repository.registerCustomerWithGoogle(
+        idToken: idToken,
+        name: name,
+        phone: phone,
+      );
+      await _tokenStorage.save(session.token);
+      state = AuthState.authenticated(session.user, session.merchant);
+    } catch (_) {
+      state = const AuthState.unauthenticated();
+      rethrow;
+    }
+  }
+
   /// Replaces the signed-in user after a profile change.
   void updateUser(DukaUser user) {
     if (state.status == AuthStatus.authenticated) {
@@ -154,12 +174,14 @@ class AuthController extends StateNotifier<AuthState> {
   Future<GoogleRegistrationRequired?> loginWithGoogle(
     String idToken, {
     bool asCustomer = false,
+    bool askSignup = false,
   }) async {
     state = const AuthState.authenticating();
     try {
       final result = await _repository.loginWithGoogle(
         idToken,
         asCustomer: asCustomer,
+        askSignup: askSignup,
       );
 
       if (result is GoogleRegistrationRequired) {

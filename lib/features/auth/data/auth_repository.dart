@@ -68,6 +68,22 @@ class AuthRepository {
     return AuthSession.fromJson(response.data as Map<String, dynamic>);
   }
 
+  /// Customer sign-up with a Google account: the server takes the email from
+  /// the verified [idToken], so no password is needed.
+  Future<AuthSession> registerCustomerWithGoogle({
+    required String idToken,
+    required String name,
+    required String phone,
+  }) async {
+    final response = await _client.guard(
+      () => _client.dio.post(
+        '/auth/register-customer',
+        data: {'id_token': idToken, 'name': name, 'phone': phone},
+      ),
+    );
+    return AuthSession.fromJson(response.data as Map<String, dynamic>);
+  }
+
   /// Saves a customer's profile / default marketplace location.
   Future<DukaUser> updateCustomerProfile({
     String? name,
@@ -118,11 +134,16 @@ class AuthRepository {
   Future<Object> loginWithGoogle(
     String idToken, {
     bool asCustomer = false,
+    bool askSignup = false,
   }) async {
     final response = await _client.guard(
       () => _client.dio.post(
         '/auth/google',
-        data: {'id_token': idToken, if (asCustomer) 'account_type': 'customer'},
+        data: {
+          'id_token': idToken,
+          if (asCustomer) 'account_type': 'customer',
+          if (askSignup) 'ask_signup': true,
+        },
       ),
     );
     final data = response.data as Map<String, dynamic>;
