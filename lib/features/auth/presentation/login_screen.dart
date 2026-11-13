@@ -50,6 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) {
         final name = ref.read(authControllerProvider).user?.name ?? '';
         showAuthToast(context, context.l10n.authWelcomeBack(name));
+        goHomeAfterSignIn(context, ref);
       }
     } on ApiException catch (e) {
       setState(() => _error = e.message);

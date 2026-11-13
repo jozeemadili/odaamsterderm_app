@@ -86,6 +86,7 @@ class _CustomerSignupScreenState extends ConsumerState<CustomerSignupScreen> {
       }
       if (mounted) {
         showAuthToast(context, context.l10n.authWelcomeNew(_name.text.trim()));
+        goHomeAfterSignIn(context, ref);
       }
     } on ApiException catch (e) {
       final message =

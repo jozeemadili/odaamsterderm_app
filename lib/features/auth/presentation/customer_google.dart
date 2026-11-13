@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/api/api_exception.dart';
@@ -20,6 +21,16 @@ void showAuthToast(BuildContext context, String message, {bool error = false}) {
         duration: Duration(seconds: error ? 5 : 3),
       ),
     );
+}
+
+/// After signing in or signing up: customers to the marketplace, seller
+/// accounts to their dashboard. Done explicitly because the sign-in pages are
+/// opened on top of the marketplace (pushed), and the router's automatic
+/// redirect does not reliably replace a pushed page.
+void goHomeAfterSignIn(BuildContext context, WidgetRef ref) {
+  final user = ref.read(authControllerProvider).user;
+  if (user == null || !context.mounted) return;
+  context.go(user.isCustomer ? '/home' : '/dashboard');
 }
 
 /// "Continue with Google" for customers. Registered → signed in with a
@@ -83,6 +94,7 @@ Future<void> continueWithGoogleAsCustomer(
 
     final name = ref.read(authControllerProvider).user?.name ?? '';
     toast(l10n.authWelcomeBack(name));
+    if (context.mounted) goHomeAfterSignIn(context, ref);
   } on ApiException catch (e) {
     toast(e.fieldError('id_token') ?? e.message, error: true);
   } catch (e) {
