@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../data/inventory_models.dart';
@@ -128,7 +129,7 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
 
   Widget _buildBody(InventoryListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

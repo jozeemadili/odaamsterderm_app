@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../../invoices/data/invoice_models.dart';
 import '../../pos/data/pos_models.dart';
@@ -38,7 +39,7 @@ class CustomerDetailScreen extends ConsumerWidget {
         ],
       ),
       body: detailAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(
           child: Text(
             'Could not load this customer.\n$e',

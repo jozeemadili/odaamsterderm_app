@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
@@ -410,28 +411,37 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
             bottomRight: Radius.circular(mine ? 4 : 18),
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (pending) ...[
-              const SizedBox(
-                width: 12,
-                height: 12,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-              const SizedBox(width: 8),
-            ],
-            Flexible(
-              child: Text(
-                m.text,
-                style: TextStyle(
-                  height: 1.4,
-                  color: mine ? Colors.white : DukaColors.ink,
+        child: pending
+            // Waiting for the answer: placeholder lines where it will appear.
+            ? const SizedBox(
+                width: 210,
+                child: Shimmer(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Bone(height: 10),
+                      SizedBox(height: 8),
+                      Bone(width: 170, height: 10),
+                      SizedBox(height: 8),
+                      Bone(width: 110, height: 10),
+                    ],
+                  ),
                 ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      m.text,
+                      style: TextStyle(
+                        height: 1.4,
+                        color: mine ? Colors.white : DukaColors.ink,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

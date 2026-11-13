@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../data/catalog_models.dart';
@@ -87,7 +88,7 @@ class _CatalogPickerSheetState extends ConsumerState<_CatalogPickerSheet> {
             ),
             Expanded(
               child: results.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const SkeletonList(),
                 error: (e, _) => Center(child: Text('$e')),
                 data: (products) => ListView(
                   children: [

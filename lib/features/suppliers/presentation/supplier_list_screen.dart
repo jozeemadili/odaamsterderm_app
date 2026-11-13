@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../data/supplier_models.dart';
 import 'supplier_controller.dart';
@@ -58,7 +59,7 @@ class _SupplierListScreenState extends ConsumerState<SupplierListScreen> {
 
   Widget _buildBody(SupplierListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

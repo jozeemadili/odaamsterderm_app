@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../data/payment_models.dart';
 import 'payment_controller.dart';
@@ -59,7 +60,7 @@ class _PaymentListScreenState extends ConsumerState<PaymentListScreen> {
 
   Widget _buildBody(PaymentListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

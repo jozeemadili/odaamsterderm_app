@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import 'stock_receipt_controller.dart';
 
@@ -55,7 +56,7 @@ class _StockReceiptListScreenState
 
   Widget _buildBody(StockReceiptListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

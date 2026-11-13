@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -68,7 +69,7 @@ class DashboardScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: summaryAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const SkeletonDashboard(),
           error: (error, _) => Center(
             child: Padding(
               padding: const EdgeInsets.all(24),

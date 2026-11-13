@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/photo_carousel.dart';
@@ -50,7 +51,7 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.marketCompareSellers)),
       body: detail.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(image: true),
         error: (e, _) => Center(child: Text('$e')),
         data: (p) => ListView(
           padding: const EdgeInsets.all(16),

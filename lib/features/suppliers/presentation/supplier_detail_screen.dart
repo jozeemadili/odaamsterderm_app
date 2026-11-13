@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../data/supplier_models.dart';
 import 'supplier_controller.dart';
@@ -35,7 +36,7 @@ class SupplierDetailScreen extends ConsumerWidget {
         ],
       ),
       body: supplierAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(
           child: Text(
             'Could not load this supplier.\n$e',

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../data/expense_models.dart';
 import 'expense_controller.dart';
@@ -59,7 +60,7 @@ class _ExpenseListScreenState extends ConsumerState<ExpenseListScreen> {
 
   Widget _buildBody(ExpenseListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

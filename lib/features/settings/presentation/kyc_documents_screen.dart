@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../data/kyc_document_models.dart';
 import 'settings_controller.dart';
@@ -74,7 +75,7 @@ class _KycDocumentsScreenState extends ConsumerState<KycDocumentsScreen> {
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(kycDocumentListProvider),
         child: documentsAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const SkeletonList(),
           error: (e, _) => ListView(
             children: [
               const SizedBox(height: 80),

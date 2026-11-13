@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../l10n/l10n_extension.dart';
@@ -129,10 +130,8 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
             orElse: () => const <Widget>[],
           ),
           products.when(
-            loading: () => const Padding(
-              padding: EdgeInsets.all(24),
-              child: Center(child: CircularProgressIndicator()),
-            ),
+            loading: () =>
+                const SkeletonList(shrinkWrap: true, padding: EdgeInsets.zero),
             error: (e, _) => Text('$e'),
             data: (list) => list.isEmpty
                 ? Padding(

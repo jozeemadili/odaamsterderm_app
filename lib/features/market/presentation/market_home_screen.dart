@@ -11,6 +11,7 @@ import '../../../app/theme.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/format/currency.dart';
 import '../../../core/widgets/duka_logo_mark.dart';
+import '../../../core/widgets/skeleton.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../ai/data/ai_models.dart';
 import '../../ai/presentation/ai_providers.dart';
@@ -276,6 +277,10 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                         .watch(_storesProvider(from))
                         .maybeWhen(
                           data: (stores) => _StoriesRow(stores: stores),
+                          loading: () => const Padding(
+                            padding: EdgeInsets.only(bottom: 14),
+                            child: SkeletonStrip.stories(),
+                          ),
                           orElse: () => const SizedBox.shrink(),
                         ),
                   SizedBox(
@@ -306,6 +311,19 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                               onTap: () => _update(() => _animalTypeId = a.id),
                             ),
                         ],
+                      ),
+                      loading: () => const Shimmer(
+                        child: Row(
+                          children: [
+                            Bone(width: 90, height: 38, radius: 19),
+                            SizedBox(width: 8),
+                            Bone(width: 70, height: 38, radius: 19),
+                            SizedBox(width: 8),
+                            Bone(width: 64, height: 38, radius: 19),
+                            SizedBox(width: 8),
+                            Bone(width: 80, height: 38, radius: 19),
+                          ],
+                        ),
                       ),
                       orElse: () => const SizedBox.shrink(),
                     ),
@@ -523,7 +541,7 @@ class _PicksRow extends StatelessWidget {
     final list = (products.valueOrNull ?? const <MarketProduct>[])
         .where((p) => p.photos.isNotEmpty)
         .toList();
-    if (list.isEmpty) return const SizedBox.shrink();
+    if (list.isEmpty && !products.isLoading) return const SizedBox.shrink();
 
     return Padding(
       padding: const EdgeInsets.only(top: 18),
@@ -536,81 +554,84 @@ class _PicksRow extends StatelessWidget {
               TextButton(onPressed: onSeeAll, child: Text(l10n.marketSeeAll)),
             ],
           ),
-          SizedBox(
-            height: 176,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: list.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 10),
-              itemBuilder: (context, i) {
-                final p = list[i];
-                return SizedBox(
-                  width: 128,
-                  child: Material(
-                    color: DukaColors.card,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      side: BorderSide(color: DukaColors.line),
-                    ),
-                    child: InkWell(
-                      onTap: () => context.push('/market/products/${p.id}'),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            height: 100,
-                            color: DukaColors.soft,
-                            padding: const EdgeInsets.all(6),
-                            child: Image.network(
-                              p.photos.first,
-                              fit: BoxFit.contain,
+          if (list.isEmpty)
+            const SkeletonStrip.cards()
+          else
+            SizedBox(
+              height: 176,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: list.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 10),
+                itemBuilder: (context, i) {
+                  final p = list[i];
+                  return SizedBox(
+                    width: 128,
+                    child: Material(
+                      color: DukaColors.card,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        side: BorderSide(color: DukaColors.line),
+                      ),
+                      child: InkWell(
+                        onTap: () => context.push('/market/products/${p.id}'),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              height: 100,
+                              color: DukaColors.soft,
+                              padding: const EdgeInsets.all(6),
+                              child: Image.network(
+                                p.photos.first,
+                                fit: BoxFit.contain,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(9, 7, 9, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  p.displayName,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 12.5,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.25,
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(9, 7, 9, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    p.displayName,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.25,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 3),
-                                Text(
-                                  p.minPrice != null
-                                      ? formatTzs(p.minPrice!)
-                                      : l10n.marketNotInStoresYet,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: p.minPrice != null
-                                      ? GoogleFonts.montserrat(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          color: DukaColors.ink,
-                                        )
-                                      : TextStyle(
-                                          fontSize: 11.5,
-                                          color: DukaColors.muted,
-                                        ),
-                                ),
-                              ],
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    p.minPrice != null
+                                        ? formatTzs(p.minPrice!)
+                                        : l10n.marketNotInStoresYet,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: p.minPrice != null
+                                        ? GoogleFonts.montserrat(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w700,
+                                            color: DukaColors.ink,
+                                          )
+                                        : TextStyle(
+                                            fontSize: 11.5,
+                                            color: DukaColors.muted,
+                                          ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -1147,9 +1168,18 @@ class _FeedFooter extends StatelessWidget {
       );
     }
     if (loading) {
-      return const Padding(
-        padding: EdgeInsets.all(28),
-        child: Center(child: CircularProgressIndicator()),
+      // The first page shows two placeholder posts; later pages one.
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+        child: Column(
+          children: [
+            for (var i = 0; i < (empty ? 2 : 1); i++)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: SkeletonFeedPost(),
+              ),
+          ],
+        ),
       );
     }
     if (empty) {

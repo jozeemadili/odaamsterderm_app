@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
@@ -109,7 +110,7 @@ class StoreListScreen extends ConsumerWidget {
         child: const Icon(Icons.add),
       ),
       body: storesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonList(),
         error: (e, _) => Center(
           child: Text(
             l10n.dashboardLoadError('$e'),

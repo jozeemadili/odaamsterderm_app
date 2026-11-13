@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../../auth/data/auth_models.dart';
 import '../../auth/presentation/auth_controller.dart';
@@ -58,7 +59,7 @@ class MerchantProfileScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Business profile')),
       body: merchantAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(
           child: Text(
             'Could not load your business profile.\n$e',

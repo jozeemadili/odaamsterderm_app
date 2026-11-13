@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/format/currency.dart';
 import '../data/invoice_models.dart';
 import 'invoice_controller.dart';
@@ -87,7 +88,7 @@ class _InvoiceListScreenState extends ConsumerState<InvoiceListScreen> {
 
   Widget _buildBody(InvoiceListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

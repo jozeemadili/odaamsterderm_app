@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
@@ -64,9 +65,9 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
             ),
             const SizedBox(height: 12),
             items.when(
-              loading: () => const Padding(
-                padding: EdgeInsets.all(32),
-                child: Center(child: CircularProgressIndicator()),
+              loading: () => const SkeletonList(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
               ),
               error: (e, _) => Text('$e'),
               data: (list) => list.isEmpty

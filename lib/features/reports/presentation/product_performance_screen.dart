@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../data/report_models.dart';
@@ -26,7 +27,7 @@ class ProductPerformanceScreen extends ConsumerWidget {
           ),
         ),
         body: reportAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const SkeletonList(),
           error: (e, _) => Center(
             child: Text(
               "Couldn't load product performance.\n$e",

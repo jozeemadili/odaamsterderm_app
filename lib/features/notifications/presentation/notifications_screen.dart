@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../data/notification_models.dart';
 import 'notification_controller.dart';
@@ -23,7 +24,7 @@ class NotificationsScreen extends ConsumerWidget {
         label: const Text('Report damage'),
       ),
       body: feedAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonList(),
         error: (e, _) => Center(
           child: Text(
             'Could not load notifications.\n$e',

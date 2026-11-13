@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../inventory/data/inventory_models.dart';
@@ -173,7 +174,7 @@ class _InvoiceDetailScreenState extends ConsumerState<InvoiceDetailScreen> {
         ],
       ),
       body: invoiceAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(
           child: Text(
             'Could not load this invoice.\n$e',

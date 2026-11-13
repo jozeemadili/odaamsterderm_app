@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../data/customer_models.dart';
 import 'customer_controller.dart';
 
@@ -79,7 +80,7 @@ class _CustomerListScreenState extends ConsumerState<CustomerListScreen> {
 
   Widget _buildBody(CustomerListState state) {
     if (state.isLoading && state.items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const SkeletonList();
     }
     if (state.error != null && state.items.isEmpty) {
       return ListView(

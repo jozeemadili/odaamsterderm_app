@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../../auth/data/auth_models.dart';
 import '../../auth/presentation/auth_controller.dart';
@@ -59,7 +60,7 @@ class TransferListScreen extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(transferListProvider),
         child: async.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const SkeletonList(),
           error: (e, _) => ListView(
             children: [
               const SizedBox(height: 80),
@@ -234,7 +235,7 @@ class _TransferDetailScreenState extends ConsumerState<TransferDetailScreen> {
         ],
       ),
       body: async.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(child: Text('Could not load transfer.\n$e')),
         data: (t) => ListView(
           padding: const EdgeInsets.all(16),

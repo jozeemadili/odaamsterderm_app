@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../inventory/data/inventory_models.dart';
@@ -122,7 +123,7 @@ class _StockReceiptDetailScreenState
     return Scaffold(
       appBar: AppBar(title: const Text('Stock receipt')),
       body: receiptAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonDetail(),
         error: (e, _) => Center(
           child: Text(
             'Could not load this receipt.\n$e',

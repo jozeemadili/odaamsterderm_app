@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/api/api_exception.dart';
 import '../../auth/data/auth_models.dart';
 import 'settings_controller.dart';
@@ -25,7 +26,7 @@ class StaffListScreen extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(staffListProvider),
         child: staffAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const SkeletonList(),
           error: (e, _) {
             final message = e is ApiException && e.statusCode == 403
                 ? 'Only the business owner can manage staff accounts.'
