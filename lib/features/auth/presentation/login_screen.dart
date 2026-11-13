@@ -84,7 +84,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       final pending = await ref
           .read(authControllerProvider.notifier)
-          .loginWithGoogle(idToken);
+          // For now Google sign-in in the app is for customers only: a new
+          // Google user becomes a customer; sellers use email and password.
+          .loginWithGoogle(idToken, asCustomer: true);
 
       if (pending != null && mounted) {
         Navigator.of(context).push(
@@ -177,10 +179,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     TextButton(
                       onPressed: () => context.push('/signup'),
                       child: Text(l10n.customerCreateAccount),
-                    ),
-                    TextButton(
-                      onPressed: () => context.push('/register'),
-                      child: Text(l10n.loginRegisterPrompt),
                     ),
                     TextButton.icon(
                       onPressed: () => context.go('/market'),
