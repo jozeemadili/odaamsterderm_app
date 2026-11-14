@@ -422,5 +422,6 @@
   "authUseEmailInstead": "Tumia barua pepe na nenosiri badala yake",
   "authSigningUp": "Tunaunda akaunti yako…",
   "marketStoreNoProducts": "Bado hakuna bidhaa mtandaoni kwenye duka hili. Piga simu dukani au angalia baadaye.",
-  "marketUsedFor": "Inatibu"
+  "marketUsedFor": "Inatibu",
+  "cartPriceConfirmedByStore": "Duka litathibitisha bei unapochukua"
 }

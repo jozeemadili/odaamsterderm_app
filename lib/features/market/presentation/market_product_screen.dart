@@ -205,13 +205,14 @@ class _OfferTile extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  offer.price != null ? formatTzs(offer.price!) : '—',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: muted ? DukaColors.muted : DukaColors.ink,
+                if (ref.watch(showPricesProvider))
+                  Text(
+                    offer.price != null ? formatTzs(offer.price!) : '—',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: muted ? DukaColors.muted : DukaColors.ink,
+                    ),
                   ),
-                ),
                 const SizedBox(height: 2),
                 Text(
                   offer.isAvailable

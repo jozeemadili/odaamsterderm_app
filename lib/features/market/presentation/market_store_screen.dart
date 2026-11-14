@@ -181,9 +181,14 @@ class MarketStoreScreen extends ConsumerWidget {
                     subtitle: o.packName,
                     showAvailable: o.isAvailable,
                     photos: o.photos,
-                    price: o.price != null ? formatTzs(o.price!) : null,
-                    noPriceText: l10n.marketOutOfStock,
-                    noPriceIsProblem: true,
+                    price: o.price != null && ref.watch(showPricesProvider)
+                        ? formatTzs(o.price!)
+                        : null,
+                    noPriceText: o.isAvailable
+                        ? l10n.marketAvailable
+                        : l10n.marketOutOfStock,
+                    noPriceIsProblem: !o.isAvailable,
+                    noPriceIsGood: o.isAvailable,
                     name: o.name,
                     detail: o.isAvailable
                         ? l10n.marketAvailableQty(

@@ -501,7 +501,8 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                                 height: 1.2,
                               ),
                             ),
-                            if (p.minPrice != null)
+                            if (p.minPrice != null &&
+                                ref.watch(showPricesProvider))
                               Text(
                                 formatTzs(p.minPrice!),
                                 style: GoogleFonts.montserrat(
@@ -574,14 +575,15 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                     color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
-                Text(
-                  formatTzs(_total),
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                if (ref.watch(showPricesProvider))
+                  Text(
+                    formatTzs(_total),
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -655,15 +657,22 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
         const Divider(height: 20),
         Row(
           children: [
-            Expanded(child: Text(l10n.aiOrderTotal)),
-            Text(
-              formatTzs(_total),
-              style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-                color: DukaColors.ink,
+            Expanded(
+              child: Text(
+                ref.watch(showPricesProvider)
+                    ? l10n.aiOrderTotal
+                    : l10n.cartPriceConfirmedByStore,
               ),
             ),
+            if (ref.watch(showPricesProvider))
+              Text(
+                formatTzs(_total),
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  color: DukaColors.ink,
+                ),
+              ),
           ],
         ),
         if (_basketError != null) ...[
@@ -713,7 +722,11 @@ class _AiOrderScreenState extends ConsumerState<AiOrderScreen> {
                   style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
                 Text(
-                  '${formatTzs(line.unitPrice)} / ${line.unit} · ${l10n.aiOrderAvailable(_fmtQty(line.available))}',
+                  [
+                    if (ref.watch(showPricesProvider))
+                      '${formatTzs(line.unitPrice)} / ${line.unit}',
+                    l10n.aiOrderAvailable(_fmtQty(line.available)),
+                  ].join(' · '),
                   style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
                 if (line.note != null)

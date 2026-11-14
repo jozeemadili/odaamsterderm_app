@@ -8,6 +8,7 @@ import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../auth/presentation/auth_controller.dart';
+import '../../market/presentation/market_controller.dart';
 import '../data/order_models.dart';
 import 'order_controller.dart';
 
@@ -226,8 +227,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              formatTzs(data.total),
-                              style: Theme.of(context).textTheme.titleLarge,
+                              ref.watch(showPricesProvider)
+                                  ? formatTzs(data.total)
+                                  : l10n.cartPriceConfirmedByStore,
+                              style: ref.watch(showPricesProvider)
+                                  ? Theme.of(context).textTheme.titleLarge
+                                  : const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                             ),
                             Text(
                               l10n.cartPayAtPickupNote,
@@ -306,13 +314,14 @@ class _StoreGroup extends ConsumerWidget {
                             line.name,
                             style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
-                          Text(
-                            '${formatTzs(line.unitPrice)} / ${line.unit ?? ''}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: DukaColors.muted,
+                          if (ref.watch(showPricesProvider))
+                            Text(
+                              '${formatTzs(line.unitPrice)} / ${line.unit ?? ''}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: DukaColors.muted,
+                              ),
                             ),
-                          ),
                           if (line.problem != null)
                             Text(
                               line.problem!,
@@ -348,13 +357,14 @@ class _StoreGroup extends ConsumerWidget {
                   ],
                 ),
               ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                formatTzs(group.total),
-                style: const TextStyle(fontWeight: FontWeight.w700),
+            if (ref.watch(showPricesProvider))
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  formatTzs(group.total),
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
               ),
-            ),
           ],
         ),
       ),

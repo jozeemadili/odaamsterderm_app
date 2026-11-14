@@ -7,6 +7,7 @@ import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../market/presentation/market_controller.dart';
 import 'order_controller.dart';
 import 'order_placed_banner.dart';
 import 'order_status_chip.dart';
@@ -110,12 +111,13 @@ class MyOrdersScreen extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    formatTzs(o.total),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
+                                  if (ref.watch(showPricesProvider))
+                                    Text(
+                                      formatTzs(o.total),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
                                   const SizedBox(height: 4),
                                   OrderStatusChip(
                                     status: o.status,

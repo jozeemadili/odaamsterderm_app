@@ -1424,4 +1424,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketUsedFor => 'Used for';
+
+  @override
+  String get cartPriceConfirmedByStore =>
+      'The store confirms the price when you collect';
 }

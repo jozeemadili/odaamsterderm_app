@@ -665,5 +665,9 @@
   "marketUsedFor": "Used for",
   "@marketUsedFor": {
     "description": "Label before the chips that filter products by what they treat / are used for"
+  },
+  "cartPriceConfirmedByStore": "The store confirms the price when you collect",
+  "@cartPriceConfirmedByStore": {
+    "description": "Prices hidden: the order total is confirmed by the store"
   }
 }

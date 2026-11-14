@@ -87,8 +87,14 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
   }
 
   /// Without a location "nearest" can't apply — the API falls back to price.
-  MarketSort _sortFor(MarketLocation? from) =>
-      from == null && _sort == MarketSort.nearest ? MarketSort.price : _sort;
+  MarketSort _sortFor(MarketLocation? from) {
+    final prices = ref.read(showPricesProvider);
+    final sort = from == null && _sort == MarketSort.nearest
+        ? (prices ? MarketSort.price : MarketSort.availability)
+        : _sort;
+    // Prices hidden: no ranking by them either.
+    return !prices && sort == MarketSort.price ? MarketSort.availability : sort;
+  }
 
   /// Loads the next page once the reader is within a few posts of the end.
   void _maybeLoadMore() {
@@ -177,6 +183,8 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     final l10n = context.l10n;
     final from = ref.watch(marketLocationProvider);
     ref.listen(marketLocationProvider, (_, _) => _reload());
+    ref.listen(showPricesProvider, (_, _) => _reload());
+    final showPrices = ref.watch(showPricesProvider);
     final user = ref.watch(authControllerProvider).user;
     final sort = _sortFor(from);
     final animals = ref.watch(marketFiltersProvider);
@@ -384,6 +392,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                         _brandProvider((brand: _featuredBrand, from: from)),
                       ),
                       onSeeAll: () => _showBrand(_featuredBrand),
+                      showPrices: showPrices,
                     ),
                   const SizedBox(height: 20),
                   Row(
@@ -398,6 +407,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                       _SortButton(
                         sort: sort,
                         canNearest: from != null,
+                        showPrices: showPrices,
                         inStock: _inStock,
                         onSort: (s) => _update(() => _sort = s),
                         onInStock: (v) => _update(() => _inStock = v),
@@ -417,6 +427,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                   child: _feedPost(
                     context,
                     _items[i],
+                    showPrices: showPrices,
                     onAskAi: aiAvailable
                         ? () => _openAssistant(
                             l10n.marketAskAboutQuery(_items[i].displayName),
@@ -579,11 +590,13 @@ class _PicksRow extends StatelessWidget {
     required this.title,
     required this.products,
     required this.onSeeAll,
+    required this.showPrices,
   });
 
   final String title;
   final AsyncValue<List<MarketProduct>> products;
   final VoidCallback onSeeAll;
+  final bool showPrices;
 
   @override
   Widget build(BuildContext context) {
@@ -655,12 +668,20 @@ class _PicksRow extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 3),
                                   Text(
-                                    p.minPrice != null
+                                    p.minPrice == null
+                                        ? l10n.marketNotInStoresYet
+                                        : showPrices
                                         ? formatTzs(p.minPrice!)
-                                        : l10n.marketNotInStoresYet,
+                                        : l10n.marketAvailable,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: p.minPrice != null
+                                    style: p.minPrice != null && !showPrices
+                                        ? TextStyle(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w600,
+                                            color: DukaColors.leafDeep,
+                                          )
+                                        : p.minPrice != null
                                         ? GoogleFonts.montserrat(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w700,
@@ -693,6 +714,7 @@ class _SortButton extends StatelessWidget {
   const _SortButton({
     required this.sort,
     required this.canNearest,
+    required this.showPrices,
     required this.inStock,
     required this.onSort,
     required this.onInStock,
@@ -700,6 +722,7 @@ class _SortButton extends StatelessWidget {
 
   final MarketSort sort;
   final bool canNearest;
+  final bool showPrices;
   final bool inStock;
   final ValueChanged<MarketSort> onSort;
   final ValueChanged<bool> onInStock;
@@ -718,12 +741,13 @@ class _SortButton extends StatelessWidget {
       onSelected: (v) => v is MarketSort ? onSort(v) : onInStock(!inStock),
       itemBuilder: (_) => [
         for (final s in MarketSort.values)
-          CheckedPopupMenuItem<Object>(
-            value: s,
-            checked: sort == s,
-            enabled: s != MarketSort.nearest || canNearest,
-            child: Text(label(s)),
-          ),
+          if (s != MarketSort.price || showPrices)
+            CheckedPopupMenuItem<Object>(
+              value: s,
+              checked: sort == s,
+              enabled: s != MarketSort.nearest || canNearest,
+              child: Text(label(s)),
+            ),
         const PopupMenuDivider(),
         CheckedPopupMenuItem<Object>(
           value: 'in_stock',
@@ -887,6 +911,7 @@ Widget _feedPost(
   BuildContext context,
   MarketProduct p, {
   VoidCallback? onAskAi,
+  bool showPrices = false,
 }) {
   final l10n = context.l10n;
   final lang = Localizations.localeOf(context).languageCode;
@@ -899,11 +924,14 @@ Widget _feedPost(
     subtitle: [?(p.category ?? p.animalType), ?p.nearestLabel].join(' · '),
     showAvailable: p.minPrice != null && p.availableQuantity > 0,
     photos: p.photos,
-    price: p.minPrice != null ? formatTzs(p.minPrice!) : null,
-    noPriceText: p.sellersCount > 0
+    price: p.minPrice != null && showPrices ? formatTzs(p.minPrice!) : null,
+    noPriceText: p.minPrice != null
+        ? l10n.marketAvailable
+        : p.sellersCount > 0
         ? l10n.marketOutOfStock
         : l10n.marketNotInStoresYet,
-    noPriceIsProblem: p.sellersCount > 0,
+    noPriceIsProblem: p.minPrice == null && p.sellersCount > 0,
+    noPriceIsGood: p.minPrice != null,
     name: p.displayName,
     detail: p.packRange,
     tags: [for (final u in p.uses) u.labelFor(lang)],

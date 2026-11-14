@@ -1419,4 +1419,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get marketUsedFor => 'Inatibu';
+
+  @override
+  String get cartPriceConfirmedByStore => 'Duka litathibitisha bei unapochukua';
 }

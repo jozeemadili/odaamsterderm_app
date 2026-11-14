@@ -2635,6 +2635,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Used for'**
   String get marketUsedFor;
+
+  /// Prices hidden: the order total is confirmed by the store
+  ///
+  /// In en, this message translates to:
+  /// **'The store confirms the price when you collect'**
+  String get cartPriceConfirmedByStore;
 }
 
 class _AppLocalizationsDelegate

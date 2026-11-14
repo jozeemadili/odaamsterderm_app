@@ -10,6 +10,17 @@ final marketRepositoryProvider = Provider(
   (ref) => MarketRepository(ref.watch(apiClientProvider)),
 );
 
+/// Marketplace-wide switches from the server.
+final marketSettingsProvider = FutureProvider<MarketSettings>(
+  (ref) => ref.watch(marketRepositoryProvider).settings(),
+);
+
+/// Whether customers see product prices. Hidden while loading or offline,
+/// and until the admin switches prices on.
+final showPricesProvider = Provider<bool>(
+  (ref) => ref.watch(marketSettingsProvider).valueOrNull?.showPrices ?? false,
+);
+
 final marketFiltersProvider = FutureProvider.autoDispose(
   (ref) => ref.watch(marketRepositoryProvider).filters(),
 );

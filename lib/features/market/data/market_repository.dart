@@ -7,6 +7,13 @@ class MarketRepository {
 
   final ApiClient _client;
 
+  Future<MarketSettings> settings() async {
+    final response = await _client.guard(
+      () => _client.dio.get('/market/settings'),
+    );
+    return MarketSettings.fromJson(response.data as Map<String, dynamic>);
+  }
+
   Future<MarketFilters> filters() async {
     final response = await _client.guard(
       () => _client.dio.get('/market/filters'),

@@ -2,6 +2,17 @@ import '../../catalog/data/catalog_models.dart';
 
 double? _d(Object? v) => (v as num?)?.toDouble();
 
+/// Marketplace-wide switches set by the admin.
+class MarketSettings {
+  const MarketSettings({this.showPrices = false});
+
+  factory MarketSettings.fromJson(Map<String, dynamic> json) =>
+      MarketSettings(showPrices: json['show_prices'] == true);
+
+  /// Product prices are shown to customers (off while sellers set them).
+  final bool showPrices;
+}
+
 /// What a product is used for / treats ("Coccidiosis" / "Kuhara damu").
 class UseTag {
   const UseTag({required this.code, required this.label, this.labelSw});

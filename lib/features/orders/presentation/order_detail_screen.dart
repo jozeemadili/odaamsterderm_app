@@ -8,6 +8,7 @@ import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../market/presentation/market_controller.dart';
 import '../data/order_models.dart';
 import 'order_controller.dart';
 import 'live_store_distance.dart';
@@ -145,6 +146,8 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Sellers always see prices; customers only once they are published.
+    final prices = widget.seller || ref.watch(showPricesProvider);
     final l10n = context.l10n;
     final order = ref.watch(
       widget.seller
@@ -288,19 +291,28 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                         dense: true,
                         title: Text(i.name),
                         subtitle: Text(
-                          '${_qty(i.quantity)} × ${formatTzs(i.unitPrice)}',
+                          prices
+                              ? '${_qty(i.quantity)} × ${formatTzs(i.unitPrice)}'
+                              : _qty(i.quantity),
                         ),
-                        trailing: Text(formatTzs(i.lineTotal)),
+                        trailing: prices ? Text(formatTzs(i.lineTotal)) : null,
                       ),
                     ListTile(
                       title: Text(
                         l10n.orderTotalPickup,
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
-                      trailing: Text(
-                        formatTzs(o.total),
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
+                      trailing: prices
+                          ? Text(
+                              formatTzs(o.total),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          : null,
+                      subtitle: prices
+                          ? null
+                          : Text(l10n.cartPriceConfirmedByStore),
                     ),
                   ],
                 ),

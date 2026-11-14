@@ -87,6 +87,7 @@ class ProductPost extends StatefulWidget {
     this.price,
     required this.noPriceText,
     this.noPriceIsProblem = false,
+    this.noPriceIsGood = false,
     required this.name,
     this.detail,
     this.tags = const [],
@@ -112,6 +113,9 @@ class ProductPost extends StatefulWidget {
 
   /// [noPriceText] in red (out of stock) rather than grey (not in stores).
   final bool noPriceIsProblem;
+
+  /// [noPriceText] in green: in stock, with prices hidden.
+  final bool noPriceIsGood;
   final String name;
 
   /// Shown after the name in grey: pack sizes or stock left.
@@ -355,6 +359,8 @@ class _ProductPostState extends State<ProductPost> {
                           fontWeight: FontWeight.w600,
                           color: w.noPriceIsProblem
                               ? DukaColors.rose
+                              : w.noPriceIsGood
+                              ? DukaColors.leafDeep
                               : DukaColors.muted,
                         ),
                 ),
