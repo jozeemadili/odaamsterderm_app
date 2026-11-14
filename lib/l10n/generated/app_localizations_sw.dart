@@ -1416,4 +1416,7 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get marketStoreNoProducts =>
       'Bado hakuna bidhaa mtandaoni kwenye duka hili. Piga simu dukani au angalia baadaye.';
+
+  @override
+  String get marketUsedFor => 'Inatibu';
 }

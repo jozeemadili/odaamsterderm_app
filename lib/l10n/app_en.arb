@@ -661,5 +661,9 @@
       }
     }
   },
-  "marketStoreNoProducts": "No products online at this store yet. Call the store or check back soon."
+  "marketStoreNoProducts": "No products online at this store yet. Call the store or check back soon.",
+  "marketUsedFor": "Used for",
+  "@marketUsedFor": {
+    "description": "Label before the chips that filter products by what they treat / are used for"
+  }
 }

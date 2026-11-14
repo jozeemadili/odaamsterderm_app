@@ -2629,6 +2629,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No products online at this store yet. Call the store or check back soon.'**
   String get marketStoreNoProducts;
+
+  /// Label before the chips that filter products by what they treat / are used for
+  ///
+  /// In en, this message translates to:
+  /// **'Used for'**
+  String get marketUsedFor;
 }
 
 class _AppLocalizationsDelegate

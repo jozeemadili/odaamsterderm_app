@@ -89,6 +89,7 @@ class ProductPost extends StatefulWidget {
     this.noPriceIsProblem = false,
     required this.name,
     this.detail,
+    this.tags = const [],
     required this.onOpen,
     this.onAskAi,
     this.shareText,
@@ -115,6 +116,9 @@ class ProductPost extends StatefulWidget {
 
   /// Shown after the name in grey: pack sizes or stock left.
   final String? detail;
+
+  /// What it is used for / treats, as small green pills (first three).
+  final List<String> tags;
   final VoidCallback onOpen;
   final VoidCallback? onAskAi;
   final String? shareText;
@@ -373,6 +377,18 @@ class _ProductPostState extends State<ProductPost> {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 14, height: 1.35),
                 ),
+                if (w.tags.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: [
+                      for (final t in w.tags.take(3)) _Tag(t),
+                      if (w.tags.length > 3)
+                        _Tag('+${w.tags.length - 3}', muted: true),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
@@ -380,4 +396,28 @@ class _ProductPostState extends State<ProductPost> {
       ),
     );
   }
+}
+
+class _Tag extends StatelessWidget {
+  const _Tag(this.text, {this.muted = false});
+
+  final String text;
+  final bool muted;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(
+      color: muted ? DukaColors.soft : DukaColors.leafTint,
+      borderRadius: BorderRadius.circular(999),
+    ),
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 11.5,
+        fontWeight: FontWeight.w600,
+        color: muted ? DukaColors.muted : DukaColors.leafDeep,
+      ),
+    ),
+  );
 }

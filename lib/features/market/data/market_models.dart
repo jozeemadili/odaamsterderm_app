@@ -2,6 +2,30 @@ import '../../catalog/data/catalog_models.dart';
 
 double? _d(Object? v) => (v as num?)?.toDouble();
 
+/// What a product is used for / treats ("Coccidiosis" / "Kuhara damu").
+class UseTag {
+  const UseTag({required this.code, required this.label, this.labelSw});
+
+  factory UseTag.fromJson(Map<String, dynamic> json) => UseTag(
+    code: json['code'] as String,
+    label: json['label'] as String,
+    labelSw: json['label_sw'] as String?,
+  );
+
+  static List<UseTag> listFrom(Object? json) => [
+    for (final e in (json as List?) ?? const [])
+      if (e is Map<String, dynamic>) UseTag.fromJson(e),
+  ];
+
+  final String code;
+  final String label;
+  final String? labelSw;
+
+  /// The label in the app's language ("sw" → Kiswahili when there is one).
+  String labelFor(String languageCode) =>
+      languageCode == 'sw' && (labelSw?.isNotEmpty ?? false) ? labelSw! : label;
+}
+
 /// A product in marketplace search results.
 class MarketProduct {
   MarketProduct({
@@ -20,6 +44,7 @@ class MarketProduct {
     this.nearestLabel,
     this.packNames = const [],
     this.slug,
+    this.uses = const [],
   });
 
   factory MarketProduct.fromJson(Map<String, dynamic> json) => MarketProduct(
@@ -44,7 +69,11 @@ class MarketProduct {
         if (v is Map && v['name'] is String) v['name'] as String,
     ],
     slug: json['slug'] as String?,
+    uses: UseTag.listFrom(json['uses']),
   );
+
+  /// What it is used for / treats.
+  final List<UseTag> uses;
 
   /// URL-friendly name, used for the shareable website link.
   final String? slug;
@@ -304,7 +333,11 @@ class MarketStoreDetail {
 }
 
 class MarketFilters {
-  MarketFilters({required this.animalTypes, required this.categories});
+  MarketFilters({
+    required this.animalTypes,
+    required this.categories,
+    this.uses = const [],
+  });
 
   factory MarketFilters.fromJson(Map<String, dynamic> json) => MarketFilters(
     animalTypes: (json['animal_types'] as List)
@@ -313,10 +346,14 @@ class MarketFilters {
     categories: (json['categories'] as List)
         .map((e) => CatalogNode.fromJson(e as Map<String, dynamic>))
         .toList(),
+    uses: UseTag.listFrom(json['uses']),
   );
 
   final List<CatalogNode> animalTypes;
   final List<CatalogNode> categories;
+
+  /// Uses / conditions products on the marketplace cover, for the filter.
+  final List<UseTag> uses;
 }
 
 /// Where the customer is searching from.
