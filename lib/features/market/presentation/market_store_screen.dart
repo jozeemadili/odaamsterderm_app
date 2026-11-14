@@ -14,7 +14,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../../orders/presentation/add_to_cart.dart';
 import '../../orders/presentation/cart_badge.dart';
 import '../data/market_models.dart';
+import 'ask_ai_fab.dart';
 import 'market_controller.dart';
+import 'product_post.dart';
 
 final _storeProvider = FutureProvider.autoDispose.family(
   (ref, (int, MarketLocation?) key) =>
@@ -37,6 +39,7 @@ class MarketStoreScreen extends ConsumerWidget {
     final detail = ref.watch(_storeProvider((id, from)));
 
     return Scaffold(
+      floatingActionButton: const AskAiFab(),
       appBar: AppBar(
         title: Text(l10n.marketStores),
         actions: [
@@ -147,39 +150,62 @@ class MarketStoreScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
-              for (final o in d.offers)
-                Card(
-                  child: ListTile(
-                    onTap: () =>
-                        context.push('/market/products/${o.productId}'),
-                    title: Text(o.name),
-                    subtitle: Text(
-                      o.isAvailable
-                          ? l10n.marketAvailableQty(
-                              '${_qty(o.availableQuantity)} ${o.unit}',
-                            )
-                          : l10n.marketOutOfStock,
-                      style: TextStyle(
-                        color: o.isAvailable ? Colors.green : DukaColors.rose,
-                      ),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          o.price != null ? formatTzs(o.price!) : '—',
-                          style: const TextStyle(fontWeight: FontWeight.w700),
+              if (d.offers.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: DukaColors.card,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: DukaColors.line),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.inventory_2_outlined, color: DukaColors.muted),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.marketStoreNoProducts,
+                          style: TextStyle(color: DukaColors.muted),
                         ),
-                        if (o.isAvailable)
-                          IconButton(
-                            tooltip: l10n.cartAdd,
-                            icon: const Icon(Icons.add_shopping_cart),
-                            onPressed: () => addOfferToCart(context, ref, o),
-                          ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              // Products as the same posts as the marketplace feed.
+              for (final o in d.offers)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: ProductPost(
+                    makerName: o.producer?.name ?? o.sellerName,
+                    makerLogoUrl: o.producer?.logoUrl,
+                    subtitle: o.packName,
+                    showAvailable: o.isAvailable,
+                    photos: o.photos,
+                    price: o.price != null ? formatTzs(o.price!) : null,
+                    noPriceText: l10n.marketOutOfStock,
+                    noPriceIsProblem: true,
+                    name: o.name,
+                    detail: o.isAvailable
+                        ? l10n.marketAvailableQty(
+                            '${_qty(o.availableQuantity)} ${o.unit}',
+                          )
+                        : l10n.marketOutOfStock,
+                    onOpen: () =>
+                        context.push('/market/products/${o.productId}'),
+                    onAskAi: () => context.push(
+                      '/market/ai-order?q=${Uri.encodeQueryComponent(l10n.marketAskAboutQuery(o.name))}',
+                    ),
+                    actionLabel: o.isAvailable
+                        ? l10n.cartAdd
+                        : l10n.marketFeedView,
+                    actionIcon: o.isAvailable ? Icons.add_shopping_cart : null,
+                    onAction: o.isAvailable
+                        ? () => addOfferToCart(context, ref, o)
+                        : () => context.push('/market/products/${o.productId}'),
+                  ),
+                ),
+              // Room so the floating Ask AI button never covers a button.
+              const SizedBox(height: 72),
             ],
           );
         },

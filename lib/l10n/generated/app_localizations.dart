@@ -2623,6 +2623,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Creating your account…'**
   String get authSigningUp;
+
+  /// No description provided for @marketStoreNoProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'No products online at this store yet. Call the store or check back soon.'**
+  String get marketStoreNoProducts;
 }
 
 class _AppLocalizationsDelegate

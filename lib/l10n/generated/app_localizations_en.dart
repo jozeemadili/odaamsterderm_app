@@ -1417,4 +1417,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSigningUp => 'Creating your account…';
+
+  @override
+  String get marketStoreNoProducts =>
+      'No products online at this store yet. Call the store or check back soon.';
 }

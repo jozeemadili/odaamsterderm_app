@@ -660,5 +660,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "marketStoreNoProducts": "No products online at this store yet. Call the store or check back soon."
 }

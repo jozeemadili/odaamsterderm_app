@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme.dart';
 import '../../../l10n/l10n_extension.dart';
-import '../../ai/presentation/ai_order_screen.dart';
 import '../../orders/presentation/cart_badge.dart';
 import '../../orders/presentation/cart_screen.dart';
 import '../../orders/presentation/my_orders_screen.dart';
@@ -29,7 +28,6 @@ class CustomerShell extends ConsumerWidget {
         index: index,
         children: [
           const MarketHomeScreen(),
-          const AiOrderScreen(),
           CartScreen(embedded: true, onShopMore: () => select(0)),
           const MyOrdersScreen(embedded: true),
           const ProfileScreen(),
@@ -47,11 +45,6 @@ class CustomerShell extends ConsumerWidget {
               icon: const Icon(Icons.storefront_outlined),
               selectedIcon: const Icon(Icons.storefront),
               label: l10n.navMarket,
-            ),
-            NavigationDestination(
-              icon: const Icon(Icons.auto_awesome_outlined),
-              selectedIcon: const Icon(Icons.auto_awesome),
-              label: l10n.navAssistant,
             ),
             NavigationDestination(
               icon: const CartBadgeIcon(),

@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/api/api_client.dart';
@@ -19,7 +17,9 @@ import '../../auth/presentation/auth_controller.dart';
 import '../../orders/presentation/cart_badge.dart';
 import '../data/market_models.dart';
 import 'location_sheet.dart';
+import 'ask_ai_fab.dart';
 import 'market_controller.dart';
+import 'product_post.dart';
 
 /// Amsterdam Group's own range, featured first on the home screen.
 const _featuredBrand = 'Amsterdam Group';
@@ -181,6 +181,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     final landing = _search.isEmpty && _animalTypeId == null;
 
     return Scaffold(
+      floatingActionButton: const AskAiFab(),
       backgroundColor: DukaColors.bg,
       appBar: AppBar(
         backgroundColor: DukaColors.card,
@@ -366,8 +367,9 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                 itemCount: _items.length,
                 itemBuilder: (context, i) => Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _FeedPost(
-                    product: _items[i],
+                  child: _feedPost(
+                    context,
+                    _items[i],
                     onAskAi: aiAvailable
                         ? () => _openAssistant(
                             l10n.marketAskAboutQuery(_items[i].displayName),
@@ -743,68 +745,6 @@ class _Chip extends StatelessWidget {
   );
 }
 
-/// Initials for a circle avatar: "Amsterdam Group" → "AG".
-String _initials(String name) {
-  final words = name.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty);
-  return words.take(2).map((w) => w[0].toUpperCase()).join();
-}
-
-/// A circle with the maroon-to-leaf ring, like a story on Instagram.
-class _RingAvatar extends StatelessWidget {
-  const _RingAvatar({required this.name, this.imageUrl, this.size = 64});
-
-  final String name;
-  final String? imageUrl;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final ring = size > 40 ? 2.5 : 1.8;
-    return Container(
-      width: size,
-      height: size,
-      padding: EdgeInsets.all(ring),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [DukaColors.indigo, DukaColors.leaf],
-        ),
-      ),
-      child: Container(
-        padding: EdgeInsets.all(ring),
-        decoration: BoxDecoration(
-          color: DukaColors.card,
-          shape: BoxShape.circle,
-        ),
-        child: ClipOval(
-          child: imageUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: imageUrl!,
-                  fit: BoxFit.contain,
-                  errorWidget: (_, _, _) => _initialsBox(),
-                )
-              : _initialsBox(),
-        ),
-      ),
-    );
-  }
-
-  Widget _initialsBox() => Container(
-    color: DukaColors.maroonTint,
-    alignment: Alignment.center,
-    child: Text(
-      _initials(name),
-      style: GoogleFonts.montserrat(
-        fontSize: size * 0.28,
-        fontWeight: FontWeight.w800,
-        color: DukaColors.indigo,
-      ),
-    ),
-  );
-}
-
 /// Stores as story circles across the top of the shop.
 class _StoriesRow extends StatelessWidget {
   const _StoriesRow({required this.stores});
@@ -831,7 +771,7 @@ class _StoriesRow extends StatelessWidget {
                 width: 70,
                 child: Column(
                   children: [
-                    _RingAvatar(name: s.name, imageUrl: s.sellerLogoUrl),
+                    RingAvatar(name: s.name, imageUrl: s.sellerLogoUrl),
                     const SizedBox(height: 6),
                     Text(
                       s.name,
@@ -854,284 +794,35 @@ class _StoriesRow extends StatelessWidget {
   }
 }
 
-/// A product as an Instagram-style post: maker on top, a big swipeable
-/// photo, actions, then price, name and pack sizes as the caption.
-class _FeedPost extends StatefulWidget {
-  const _FeedPost({required this.product, this.onAskAi});
-
-  final MarketProduct product;
-  final VoidCallback? onAskAi;
-
-  @override
-  State<_FeedPost> createState() => _FeedPostState();
-}
-
-class _FeedPostState extends State<_FeedPost> {
-  int _photo = 0;
-
-  void _open() => context.push('/market/products/${widget.product.id}');
-
-  void _share() {
-    final p = widget.product;
-    final site = apiBaseUrl.replaceFirst(RegExp(r'/api/v\d+/?$'), '');
-    final link = p.slug != null ? '$site/products/${p.slug}' : site;
-    SharePlus.instance.share(ShareParams(text: '${p.displayName}\n$link'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final p = widget.product;
-    final maker = p.producer?.name ?? p.brand ?? 'Amsterdam Digital';
-    final subtitle = [
-      ?(p.category ?? p.animalType),
-      ?p.nearestLabel,
-    ].join(' · ');
-    final photos = p.photos;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: DukaColors.card,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: DukaColors.line),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Maker, like the account that posted it.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-            child: Row(
-              children: [
-                _RingAvatar(
-                  name: maker,
-                  imageUrl: p.producer?.logoUrl,
-                  size: 36,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        maker,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      if (subtitle.isNotEmpty)
-                        Text(
-                          subtitle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 11.5,
-                            color: DukaColors.muted,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                if (p.minPrice != null && p.availableQuantity > 0)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: DukaColors.leafTint,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      l10n.marketAvailable,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: DukaColors.leafDeep,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-
-          // The photo — swipe for the back of the pack.
-          GestureDetector(
-            onTap: _open,
-            child: AspectRatio(
-              // No photo yet: a shorter placeholder instead of an empty square.
-              aspectRatio: photos.isEmpty ? 2 : 1,
-              child: Container(
-                color: DukaColors.soft,
-                child: photos.isEmpty
-                    ? Center(
-                        child: Icon(
-                          Icons.inventory_2_outlined,
-                          size: 56,
-                          color: DukaColors.muted,
-                        ),
-                      )
-                    : Stack(
-                        children: [
-                          PageView.builder(
-                            itemCount: photos.length,
-                            onPageChanged: (i) => setState(() => _photo = i),
-                            itemBuilder: (_, i) => Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: CachedNetworkImage(
-                                imageUrl: photos[i],
-                                fit: BoxFit.contain,
-                                placeholder: (_, _) => const SizedBox.shrink(),
-                                errorWidget: (_, _, _) => Icon(
-                                  Icons.broken_image_outlined,
-                                  color: DukaColors.muted,
-                                ),
-                              ),
-                            ),
-                          ),
-                          if (photos.length > 1)
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withValues(alpha: 0.6),
-                                  borderRadius: BorderRadius.circular(999),
-                                ),
-                                child: Text(
-                                  '${_photo + 1}/${photos.length}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 11.5,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-              ),
-            ),
-          ),
-
-          // Actions, then the dots under the photo.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 4, 12, 0),
-            child: Row(
-              children: [
-                if (widget.onAskAi != null)
-                  IconButton(
-                    tooltip: l10n.marketAskAbout,
-                    onPressed: widget.onAskAi,
-                    icon: Icon(
-                      Icons.auto_awesome_outlined,
-                      color: DukaColors.indigo,
-                    ),
-                  ),
-                IconButton(
-                  tooltip: l10n.marketShare,
-                  onPressed: _share,
-                  icon: Icon(Icons.send_outlined, color: DukaColors.ink),
-                ),
-                Expanded(
-                  child: photos.length > 1
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            for (var i = 0; i < photos.length; i++)
-                              AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 2,
-                                ),
-                                width: i == _photo ? 7 : 6,
-                                height: i == _photo ? 7 : 6,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: i == _photo
-                                      ? DukaColors.indigo
-                                      : DukaColors.line,
-                                ),
-                              ),
-                          ],
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                FilledButton(
-                  onPressed: _open,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: DukaColors.leaf,
-                    foregroundColor: DukaColors.ink,
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    textStyle: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                  child: Text(l10n.marketFeedView),
-                ),
-              ],
-            ),
-          ),
-
-          // Caption: price, then name and pack sizes.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(14, 2, 14, 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  p.minPrice != null
-                      ? formatTzs(p.minPrice!)
-                      : p.sellersCount > 0
-                      ? l10n.marketOutOfStock
-                      : l10n.marketNotInStoresYet,
-                  style: p.minPrice != null
-                      ? GoogleFonts.montserrat(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: DukaColors.ink,
-                        )
-                      : TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: p.sellersCount > 0
-                              ? DukaColors.rose
-                              : DukaColors.muted,
-                        ),
-                ),
-                const SizedBox(height: 4),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: p.displayName,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      if (p.packRange != null)
-                        TextSpan(
-                          text: '  ${p.packRange}',
-                          style: TextStyle(color: DukaColors.muted),
-                        ),
-                    ],
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14, height: 1.35),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+/// A marketplace product as a feed post.
+Widget _feedPost(
+  BuildContext context,
+  MarketProduct p, {
+  VoidCallback? onAskAi,
+}) {
+  final l10n = context.l10n;
+  final site = apiBaseUrl.replaceFirst(RegExp(r'/api/v\d+/?$'), '');
+  final link = p.slug != null ? '$site/products/${p.slug}' : site;
+  void open() => context.push('/market/products/${p.id}');
+  return ProductPost(
+    makerName: p.producer?.name ?? p.brand ?? 'Amsterdam Digital',
+    makerLogoUrl: p.producer?.logoUrl,
+    subtitle: [?(p.category ?? p.animalType), ?p.nearestLabel].join(' · '),
+    showAvailable: p.minPrice != null && p.availableQuantity > 0,
+    photos: p.photos,
+    price: p.minPrice != null ? formatTzs(p.minPrice!) : null,
+    noPriceText: p.sellersCount > 0
+        ? l10n.marketOutOfStock
+        : l10n.marketNotInStoresYet,
+    noPriceIsProblem: p.sellersCount > 0,
+    name: p.displayName,
+    detail: p.packRange,
+    onOpen: open,
+    onAskAi: onAskAi,
+    shareText: '${p.displayName}\n$link',
+    actionLabel: l10n.marketFeedView,
+    onAction: open,
+  );
 }
 
 /// Under the feed: a spinner while the next page loads, a retry on error,

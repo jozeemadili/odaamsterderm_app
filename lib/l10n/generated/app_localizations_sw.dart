@@ -1412,4 +1412,8 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get authSigningUp => 'Tunaunda akaunti yako…';
+
+  @override
+  String get marketStoreNoProducts =>
+      'Bado hakuna bidhaa mtandaoni kwenye duka hili. Piga simu dukani au angalia baadaye.';
 }

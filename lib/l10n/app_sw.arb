@@ -420,5 +420,6 @@
   "authGoogleNoAccount": "Bado hakuna akaunti ya {email}. Weka namba ya simu kumaliza kujisajili.",
   "authSignupWithGoogle": "Unajisajili kwa Google kama {email}",
   "authUseEmailInstead": "Tumia barua pepe na nenosiri badala yake",
-  "authSigningUp": "Tunaunda akaunti yako…"
+  "authSigningUp": "Tunaunda akaunti yako…",
+  "marketStoreNoProducts": "Bado hakuna bidhaa mtandaoni kwenye duka hili. Piga simu dukani au angalia baadaye."
 }

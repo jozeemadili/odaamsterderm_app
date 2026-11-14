@@ -190,6 +190,9 @@ class Offer {
     this.distanceLabel,
     required this.sellerName,
     required this.store,
+    this.photos = const [],
+    this.producer,
+    this.packName,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
@@ -203,7 +206,21 @@ class Offer {
     distanceLabel: json['distance_label'] as String?,
     sellerName: (json['seller'] as Map<String, dynamic>)['name'] as String,
     store: PublicStore.fromJson(json['store'] as Map<String, dynamic>),
+    photos: [
+      ...((json['image_urls'] as List?) ?? const []).whereType<String>(),
+    ].ifEmpty([if (json['image_url'] is String) json['image_url'] as String]),
+    producer: ProducerInfo.fromJson(json['producer']),
+    packName: (json['variant'] as Map<String, dynamic>?)?['name'] as String?,
   );
+
+  /// Front then back of the pack, for the store page's posts.
+  final List<String> photos;
+
+  /// Who makes it (Amsterdam Group, Silverlands…); null when unknown.
+  final ProducerInfo? producer;
+
+  /// The pack on sale, e.g. "50 kg bag".
+  final String? packName;
 
   final int id;
   final int productId;
@@ -336,4 +353,9 @@ enum MarketSort {
   const MarketSort(this.key);
 
   final String key;
+}
+
+extension<T> on List<T> {
+  /// This list, or [fallback] when it is empty.
+  List<T> ifEmpty(List<T> fallback) => isEmpty ? fallback : this;
 }
