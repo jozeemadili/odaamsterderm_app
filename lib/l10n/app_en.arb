@@ -860,5 +860,17 @@
   "agentChicksDelete": "Delete day",
   "agentChicksBookings": "Bookings",
   "moreChicksTitle": "Day-old chicks",
-  "moreChicksSubtitle": "Hatchery contracts and order days"
+  "moreChicksSubtitle": "Hatchery contracts and order days",
+  "chicksReadyFirstDays": "Ready for their first days",
+  "chicksSizedFor": "Sized for {count} chicks, collected with them.",
+  "chicksWantReady": "Want these ready when you collect?",
+  "chicksAddToCart": "Add to cart",
+  "chicksAddedToCart": "Added to your cart.",
+  "@chicksSizedFor": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1659,4 +1659,21 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get moreChicksSubtitle => 'Mikataba ya hatchery na siku za oda';
+
+  @override
+  String get chicksReadyFirstDays => 'Tayari kwa siku zao za mwanzo';
+
+  @override
+  String chicksSizedFor(int count) {
+    return 'Kwa vifaranga $count, unachukua pamoja navyo.';
+  }
+
+  @override
+  String get chicksWantReady => 'Ungependa hivi viwe tayari ukichukua?';
+
+  @override
+  String get chicksAddToCart => 'Weka kwenye kikapu';
+
+  @override
+  String get chicksAddedToCart => 'Imewekwa kwenye kikapu.';
 }

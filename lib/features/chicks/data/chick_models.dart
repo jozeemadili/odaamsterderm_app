@@ -412,3 +412,39 @@ class AgentChickSetup {
   final List<IdName> chickTypes;
   final List<IdName> stores;
 }
+
+/// Something the chicks being booked will need first, sized to the boxes
+/// and taken from the pickup store's shelf.
+class CareSuggestion {
+  CareSuggestion({
+    required this.offerId,
+    required this.name,
+    required this.quantity,
+    required this.reason,
+    this.reasonSw,
+    this.amount,
+    this.lineTotal,
+  });
+
+  factory CareSuggestion.fromJson(Map<String, dynamic> json) => CareSuggestion(
+    offerId: json['offer_id'] as int,
+    name: json['name'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    reason: json['reason'] as String,
+    reasonSw: json['reason_sw'] as String?,
+    amount: json['amount'] as String?,
+    lineTotal: _d(json['line_total']),
+  );
+
+  final int offerId;
+  final String name;
+  final int quantity;
+  final String reason;
+  final String? reasonSw;
+  final String? amount;
+
+  /// Null while prices are hidden on the marketplace.
+  final double? lineTotal;
+
+  String reasonFor(String lang) => _pick(lang, reason, reasonSw);
+}

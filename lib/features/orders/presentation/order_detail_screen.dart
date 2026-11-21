@@ -8,6 +8,8 @@ import '../../../app/theme.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/format/currency.dart';
 import '../../../l10n/l10n_extension.dart';
+import '../../auth/presentation/customer_google.dart';
+import '../../chicks/presentation/chick_screens.dart';
 import '../../market/presentation/market_controller.dart';
 import '../data/order_models.dart';
 import 'order_controller.dart';
@@ -319,6 +321,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                   ],
                 ),
               ),
+              // A chick booking without add-ons: what the chicks will need first.
+              if (!widget.seller && o.items.any((i) => i.boxes != null))
+                _ChickAddOns(orderId: o.id),
               const SizedBox(height: 8),
               Text(
                 l10n.orderTimeline,
@@ -378,6 +383,82 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                   style: TextStyle(fontSize: 12, color: DukaColors.muted),
                 ),
               ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+final _orderSuggestionsProvider = FutureProvider.autoDispose.family(
+  (ref, int orderId) =>
+      ref.watch(chickRepositoryProvider).orderSuggestions(orderId),
+);
+
+/// Quiet card: sized feed, vitamins or vaccines from the same store, each
+/// added to the cart only if the customer taps it.
+class _ChickAddOns extends ConsumerStatefulWidget {
+  const _ChickAddOns({required this.orderId});
+
+  final int orderId;
+
+  @override
+  ConsumerState<_ChickAddOns> createState() => _ChickAddOnsState();
+}
+
+class _ChickAddOnsState extends ConsumerState<_ChickAddOns> {
+  final Set<int> _added = {};
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final lang = Localizations.localeOf(context).languageCode;
+    final list =
+        ref.watch(_orderSuggestionsProvider(widget.orderId)).valueOrNull ??
+        const [];
+    if (list.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Card(
+        key: const Key('order-chick-addons'),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 12, 8, 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.chicksWantReady,
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+              for (final s in list)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  title: Text('${s.quantity} × ${s.name}'),
+                  subtitle: Text([s.reasonFor(lang), ?s.amount].join(' · ')),
+                  trailing: _added.contains(s.offerId)
+                      ? Icon(Icons.check_circle, color: DukaColors.leafDeep)
+                      : TextButton(
+                          onPressed: () async {
+                            try {
+                              await ref
+                                  .read(cartControllerProvider.notifier)
+                                  .add(s.offerId, s.quantity.toDouble());
+                              setState(() => _added.add(s.offerId));
+                              if (context.mounted) {
+                                showAuthToast(context, l10n.chicksAddedToCart);
+                              }
+                            } on ApiException catch (e) {
+                              if (context.mounted) {
+                                showAuthToast(context, e.message, error: true);
+                              }
+                            }
+                          },
+                          child: Text(l10n.chicksAddToCart),
+                        ),
+                ),
             ],
           ),
         ),

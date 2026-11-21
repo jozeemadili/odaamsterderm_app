@@ -1672,4 +1672,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreChicksSubtitle => 'Hatchery contracts and order days';
+
+  @override
+  String get chicksReadyFirstDays => 'Ready for their first days';
+
+  @override
+  String chicksSizedFor(int count) {
+    return 'Sized for $count chicks, collected with them.';
+  }
+
+  @override
+  String get chicksWantReady => 'Want these ready when you collect?';
+
+  @override
+  String get chicksAddToCart => 'Add to cart';
+
+  @override
+  String get chicksAddedToCart => 'Added to your cart.';
 }

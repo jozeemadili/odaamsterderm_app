@@ -538,6 +538,40 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
   bool _busy = false;
   String? _error;
 
+  /// Sized for the boxes and store chosen; refreshed when either changes.
+  List<CareSuggestion> _suggestions = const [];
+
+  /// Offers the customer ticked. Nothing is ticked for them.
+  final Set<int> _picked = {};
+  int _generation = 0;
+
+  Future<void> _loadSuggestions() async {
+    final storeId = _storeId;
+    if (storeId == null) return;
+    final generation = ++_generation;
+    try {
+      final list = await ref
+          .read(chickRepositoryProvider)
+          .suggestions(
+            hatchDateId: widget.date.id,
+            boxes: _boxes,
+            storeId: storeId,
+          );
+      if (!mounted || generation != _generation) return;
+      setState(() {
+        _suggestions = list;
+        _picked.retainAll(list.map((s) => s.offerId));
+      });
+    } catch (_) {
+      // Suggestions are optional; booking works without them.
+    }
+  }
+
+  void _setBoxes(int boxes) {
+    setState(() => _boxes = boxes);
+    _loadSuggestions();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -545,6 +579,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
       text: ref.read(authControllerProvider).user?.phone ?? '',
     );
     _storeId = widget.hatchery.pickupStores.firstOrNull?.id;
+    _loadSuggestions();
   }
 
   @override
@@ -570,6 +605,10 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
             storeId: storeId,
             phone: _phone.text.trim(),
             note: _note.text.trim(),
+            extras: [
+              for (final s in _suggestions)
+                if (_picked.contains(s.offerId)) s,
+            ],
           );
       ref.invalidate(chickCatalogueProvider);
       ref.invalidate(myOrdersProvider);
@@ -584,6 +623,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
             e.fieldError('boxes') ??
             e.fieldError('hatch_date') ??
             e.fieldError('store') ??
+            e.fieldError('extras') ??
             e.message,
       );
     } catch (e) {
@@ -636,7 +676,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
               children: [
                 IconButton.outlined(
                   key: const Key('chick-boxes-minus'),
-                  onPressed: _boxes > 1 ? () => setState(() => _boxes--) : null,
+                  onPressed: _boxes > 1 ? () => _setBoxes(_boxes - 1) : null,
                   icon: const Icon(Icons.remove),
                 ),
                 SizedBox(
@@ -652,9 +692,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
                 ),
                 IconButton.outlined(
                   key: const Key('chick-boxes-plus'),
-                  onPressed: _boxes < max
-                      ? () => setState(() => _boxes++)
-                      : null,
+                  onPressed: _boxes < max ? () => _setBoxes(_boxes + 1) : null,
                   icon: const Icon(Icons.add),
                 ),
                 const SizedBox(width: 12),
@@ -693,7 +731,10 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
                     ),
                   ),
               ],
-              onChanged: (v) => setState(() => _storeId = v),
+              onChanged: (v) {
+                setState(() => _storeId = v);
+                _loadSuggestions();
+              },
             ),
             const SizedBox(height: 12),
             TextField(
@@ -706,6 +747,58 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
               controller: _note,
               decoration: InputDecoration(labelText: l10n.chicksNote),
             ),
+            if (_suggestions.isNotEmpty) ...[
+              const SizedBox(height: 14),
+              Container(
+                key: const Key('chick-suggestions'),
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
+                decoration: BoxDecoration(
+                  color: DukaColors.soft,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.chicksReadyFirstDays,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      l10n.chicksSizedFor(_boxes * c.boxSize),
+                      style: TextStyle(fontSize: 12, color: DukaColors.muted),
+                    ),
+                    for (final s in _suggestions)
+                      CheckboxListTile(
+                        key: Key('chick-suggestion-${s.offerId}'),
+                        contentPadding: EdgeInsets.zero,
+                        dense: true,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: _picked.contains(s.offerId),
+                        onChanged: (on) => setState(
+                          () => on == true
+                              ? _picked.add(s.offerId)
+                              : _picked.remove(s.offerId),
+                        ),
+                        title: Text(
+                          '${s.quantity} × ${s.name}',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          [
+                            s.reasonFor(
+                              Localizations.localeOf(context).languageCode,
+                            ),
+                            ?s.amount,
+                          ].join(' · '),
+                        ),
+                        secondary: c.showPrices && s.lineTotal != null
+                            ? Text(formatTzs(s.lineTotal!))
+                            : null,
+                      ),
+                  ],
+                ),
+              ),
+            ],
             if (_error != null) ...[
               const SizedBox(height: 10),
               Text(_error!, style: TextStyle(color: DukaColors.rose)),

@@ -482,5 +482,10 @@
   "agentChicksDelete": "Futa siku",
   "agentChicksBookings": "Oda",
   "moreChicksTitle": "Vifaranga",
-  "moreChicksSubtitle": "Mikataba ya hatchery na siku za oda"
+  "moreChicksSubtitle": "Mikataba ya hatchery na siku za oda",
+  "chicksReadyFirstDays": "Tayari kwa siku zao za mwanzo",
+  "chicksSizedFor": "Kwa vifaranga {count}, unachukua pamoja navyo.",
+  "chicksWantReady": "Ungependa hivi viwe tayari ukichukua?",
+  "chicksAddToCart": "Weka kwenye kikapu",
+  "chicksAddedToCart": "Imewekwa kwenye kikapu."
 }

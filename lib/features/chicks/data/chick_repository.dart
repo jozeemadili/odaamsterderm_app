@@ -17,12 +17,46 @@ class ChickRepository {
     return ChickCatalogue.fromJson(r.data as Map<String, dynamic>);
   }
 
+  /// Up to three sized items for the chicks being booked, from the store.
+  Future<List<CareSuggestion>> suggestions({
+    required int hatchDateId,
+    required int boxes,
+    required int storeId,
+  }) async {
+    final r = await _client.guard(
+      () => _client.dio.get(
+        '/market/chicks/suggestions',
+        queryParameters: {
+          'day': hatchDateId,
+          'boxes': boxes,
+          'store_id': storeId,
+        },
+      ),
+    );
+    return _suggestions(r.data);
+  }
+
+  /// For a chick booking made without add-ons.
+  Future<List<CareSuggestion>> orderSuggestions(int orderId) async {
+    final r = await _client.guard(
+      () => _client.dio.get('/customer/orders/$orderId/suggestions'),
+    );
+    return _suggestions(r.data);
+  }
+
+  List<CareSuggestion> _suggestions(Object? data) => [
+    for (final s
+        in ((data as Map<String, dynamic>)['data'] as List?) ?? const [])
+      CareSuggestion.fromJson(s as Map<String, dynamic>),
+  ];
+
   Future<MarketOrder> book({
     required int hatchDateId,
     required int boxes,
     required int storeId,
     String? phone,
     String? note,
+    List<CareSuggestion> extras = const [],
   }) async {
     final r = await _client.guard(
       () => _client.dio.post(
@@ -33,6 +67,10 @@ class ChickRepository {
           'store_id': storeId,
           'phone': phone,
           'note': note,
+          'extras': [
+            for (final e in extras)
+              {'offer_id': e.offerId, 'quantity': e.quantity},
+          ],
         },
       ),
     );

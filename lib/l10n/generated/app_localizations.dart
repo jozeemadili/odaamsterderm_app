@@ -2995,6 +2995,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hatchery contracts and order days'**
   String get moreChicksSubtitle;
+
+  /// No description provided for @chicksReadyFirstDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for their first days'**
+  String get chicksReadyFirstDays;
+
+  /// No description provided for @chicksSizedFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Sized for {count} chicks, collected with them.'**
+  String chicksSizedFor(int count);
+
+  /// No description provided for @chicksWantReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Want these ready when you collect?'**
+  String get chicksWantReady;
+
+  /// No description provided for @chicksAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get chicksAddToCart;
+
+  /// No description provided for @chicksAddedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your cart.'**
+  String get chicksAddedToCart;
 }
 
 class _AppLocalizationsDelegate
