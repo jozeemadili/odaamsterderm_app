@@ -2641,6 +2641,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The store confirms the price when you collect'**
   String get cartPriceConfirmedByStore;
+
+  /// No description provided for @chicksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-old chicks'**
+  String get chicksTitle;
+
+  /// No description provided for @chicksEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-old chicks'**
+  String get chicksEntry;
+
+  /// No description provided for @chicksIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the type, the hatchery and a hatch date, then book whole boxes of {box} chicks. Collect them on hatch day at an Amsterdam Group store.'**
+  String chicksIntro(int box);
+
+  /// No description provided for @chicksHatcheryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No hatch dates open} =1{1 hatchery} other{{count} hatcheries}}'**
+  String chicksHatcheryCount(int count);
+
+  /// No description provided for @chicksBoxesLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 box left} other{{count} boxes left}}'**
+  String chicksBoxesLeft(int count);
+
+  /// No description provided for @chicksNoDates.
+  ///
+  /// In en, this message translates to:
+  /// **'No hatch dates are open for this type right now. Please check again soon.'**
+  String get chicksNoDates;
+
+  /// No description provided for @chicksNextHatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Next hatch {date}'**
+  String chicksNextHatch(String date);
+
+  /// No description provided for @chicksFullyBooked.
+  ///
+  /// In en, this message translates to:
+  /// **'Fully booked'**
+  String get chicksFullyBooked;
+
+  /// No description provided for @chicksHatcheries.
+  ///
+  /// In en, this message translates to:
+  /// **'Hatcheries with open hatch dates'**
+  String get chicksHatcheries;
+
+  /// No description provided for @chicksChooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a hatch date'**
+  String get chicksChooseDate;
+
+  /// No description provided for @chicksOrderBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Order by {date}'**
+  String chicksOrderBy(String date);
+
+  /// No description provided for @chicksBoxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxes ({box} chicks each)'**
+  String chicksBoxes(int box);
+
+  /// No description provided for @chicksTotalChicks.
+  ///
+  /// In en, this message translates to:
+  /// **'= {count} chicks'**
+  String chicksTotalChicks(int count);
+
+  /// No description provided for @chicksCollectAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect at'**
+  String get chicksCollectAt;
+
+  /// No description provided for @chicksPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone'**
+  String get chicksPhone;
+
+  /// No description provided for @chicksNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get chicksNote;
+
+  /// No description provided for @chicksBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Book chicks'**
+  String get chicksBook;
+
+  /// No description provided for @chicksSignInToBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to book'**
+  String get chicksSignInToBook;
+
+  /// No description provided for @chicksBooked.
+  ///
+  /// In en, this message translates to:
+  /// **'Chicks booked — order {ref}. The store will tell you when they are ready.'**
+  String chicksBooked(String ref);
+
+  /// No description provided for @chicksPerBox.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} per box'**
+  String chicksPerBox(String price);
+
+  /// No description provided for @chicksPayAtPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'The booking goes straight to the store. Pay when you collect.'**
+  String get chicksPayAtPickup;
+
+  /// No description provided for @chicksBoxesOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{boxes, plural, =1{1 box} other{{boxes} boxes}} · {chicks} chicks'**
+  String chicksBoxesOf(int boxes, int chicks);
 }
 
 class _AppLocalizationsDelegate

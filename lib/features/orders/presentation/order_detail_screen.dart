@@ -291,7 +291,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                         dense: true,
                         title: Text(i.name),
                         subtitle: Text(
-                          prices
+                          i.boxes != null
+                              ? l10n.chicksBoxesOf(i.boxes!, i.quantity.round())
+                              : prices
                               ? '${_qty(i.quantity)} × ${formatTzs(i.unitPrice)}'
                               : _qty(i.quantity),
                         ),

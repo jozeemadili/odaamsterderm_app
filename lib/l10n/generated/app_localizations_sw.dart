@@ -1422,4 +1422,105 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get cartPriceConfirmedByStore => 'Duka litathibitisha bei unapochukua';
+
+  @override
+  String get chicksTitle => 'Vifaranga';
+
+  @override
+  String get chicksEntry => 'Vifaranga';
+
+  @override
+  String chicksIntro(int box) {
+    return 'Chagua aina, hatchery na tarehe ya kutotolesha, kisha agiza box nzima za vifaranga $box. Utavichukua siku ya kutotolesha kwenye duka la Amsterdam Group.';
+  }
+
+  @override
+  String chicksHatcheryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hatchery $count',
+      one: 'Hatchery 1',
+      zero: 'Hakuna tarehe wazi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chicksBoxesLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Box $count zimebaki',
+      one: 'Box 1 imebaki',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chicksNoDates =>
+      'Hakuna tarehe za kutotolesha zilizo wazi kwa aina hii kwa sasa. Tafadhali angalia tena baadaye.';
+
+  @override
+  String chicksNextHatch(String date) {
+    return 'Kutotolesha ijayo $date';
+  }
+
+  @override
+  String get chicksFullyBooked => 'Zimejaa';
+
+  @override
+  String get chicksHatcheries => 'Hatchery zenye tarehe wazi';
+
+  @override
+  String get chicksChooseDate => 'Chagua tarehe ya kutotolesha';
+
+  @override
+  String chicksOrderBy(String date) {
+    return 'Agiza kabla ya $date';
+  }
+
+  @override
+  String chicksBoxes(int box) {
+    return 'Box (vifaranga $box kila moja)';
+  }
+
+  @override
+  String chicksTotalChicks(int count) {
+    return '= vifaranga $count';
+  }
+
+  @override
+  String get chicksCollectAt => 'Chukua kwenye';
+
+  @override
+  String get chicksPhone => 'Simu yako';
+
+  @override
+  String get chicksNote => 'Maelezo (si lazima)';
+
+  @override
+  String get chicksBook => 'Agiza vifaranga';
+
+  @override
+  String get chicksSignInToBook => 'Ingia ili kuagiza';
+
+  @override
+  String chicksBooked(String ref) {
+    return 'Vifaranga vimeagizwa — oda $ref. Duka litakujulisha vikiwa tayari.';
+  }
+
+  @override
+  String chicksPerBox(String price) {
+    return '$price kwa box';
+  }
+
+  @override
+  String get chicksPayAtPickup =>
+      'Oda inaenda moja kwa moja dukani. Utalipa unapochukua.';
+
+  @override
+  String chicksBoxesOf(int boxes, int chicks) {
+    return 'Box $boxes · vifaranga $chicks';
+  }
 }

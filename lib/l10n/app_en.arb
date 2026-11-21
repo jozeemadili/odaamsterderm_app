@@ -669,5 +669,100 @@
   "cartPriceConfirmedByStore": "The store confirms the price when you collect",
   "@cartPriceConfirmedByStore": {
     "description": "Prices hidden: the order total is confirmed by the store"
+  },
+  "chicksTitle": "Day-old chicks",
+  "chicksEntry": "Day-old chicks",
+  "chicksIntro": "Choose the type, the hatchery and a hatch date, then book whole boxes of {box} chicks. Collect them on hatch day at an Amsterdam Group store.",
+  "@chicksIntro": {
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksHatcheryCount": "{count, plural, =0{No hatch dates open} =1{1 hatchery} other{{count} hatcheries}}",
+  "@chicksHatcheryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksBoxesLeft": "{count, plural, =1{1 box left} other{{count} boxes left}}",
+  "@chicksBoxesLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksNoDates": "No hatch dates are open for this type right now. Please check again soon.",
+  "chicksNextHatch": "Next hatch {date}",
+  "@chicksNextHatch": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksFullyBooked": "Fully booked",
+  "chicksHatcheries": "Hatcheries with open hatch dates",
+  "chicksChooseDate": "Choose a hatch date",
+  "chicksOrderBy": "Order by {date}",
+  "@chicksOrderBy": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksBoxes": "Boxes ({box} chicks each)",
+  "@chicksBoxes": {
+    "placeholders": {
+      "box": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksTotalChicks": "= {count} chicks",
+  "@chicksTotalChicks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksCollectAt": "Collect at",
+  "chicksPhone": "Your phone",
+  "chicksNote": "Note (optional)",
+  "chicksBook": "Book chicks",
+  "chicksSignInToBook": "Sign in to book",
+  "chicksBooked": "Chicks booked — order {ref}. The store will tell you when they are ready.",
+  "@chicksBooked": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksPerBox": "{price} per box",
+  "@chicksPerBox": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksPayAtPickup": "The booking goes straight to the store. Pay when you collect.",
+  "chicksBoxesOf": "{boxes, plural, =1{1 box} other{{boxes} boxes}} · {chicks} chicks",
+  "@chicksBoxesOf": {
+    "placeholders": {
+      "boxes": {
+        "type": "int"
+      },
+      "chicks": {
+        "type": "int"
+      }
+    }
   }
 }

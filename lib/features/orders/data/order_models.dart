@@ -9,6 +9,7 @@ class OrderItemLine {
     required this.unitPrice,
     required this.quantity,
     required this.lineTotal,
+    this.boxes,
   });
 
   factory OrderItemLine.fromJson(Map<String, dynamic> json) => OrderItemLine(
@@ -17,7 +18,11 @@ class OrderItemLine {
     unitPrice: _d(json['unit_price']),
     quantity: _d(json['quantity']),
     lineTotal: _d(json['line_total']),
+    boxes: json['boxes'] as int?,
   );
+
+  /// Day-old chicks: boxes booked (quantity is the number of chicks).
+  final int? boxes;
 
   final String name;
   final String? unit;

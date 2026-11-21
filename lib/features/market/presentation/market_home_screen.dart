@@ -305,6 +305,10 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                       data: (f) => ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
+                          _ChicksChip(
+                            label: l10n.chicksEntry,
+                            onTap: () => context.push('/market/chicks'),
+                          ),
                           _Chip(
                             label: l10n.marketAllAnimals,
                             selected: _animalTypeId == null,
@@ -776,6 +780,46 @@ class _SortButton extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The way into day-old chick booking, first in the animal chips.
+class _ChicksChip extends StatelessWidget {
+  const _ChicksChip({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(right: 8),
+    child: Material(
+      color: DukaColors.leafTint,
+      shape: StadiumBorder(side: BorderSide(color: DukaColors.leafDeep)),
+      child: InkWell(
+        key: const Key('market-chicks'),
+        customBorder: const StadiumBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.egg_outlined, size: 16, color: DukaColors.leafDeep),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: DukaColors.leafDeep,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 /// A smaller leaf-green chip for "Inatibu nini" (what it treats).

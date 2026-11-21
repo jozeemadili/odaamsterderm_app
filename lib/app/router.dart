@@ -59,6 +59,7 @@ import '../features/suppliers/presentation/supplier_form_screen.dart';
 import '../features/suppliers/presentation/supplier_list_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/auth/data/auth_models.dart';
+import '../features/chicks/presentation/chick_screens.dart';
 import 'home_shell.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -165,6 +166,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/market',
         builder: (context, state) => const MarketHomeScreen(),
+      ),
+      GoRoute(
+        path: '/market/chicks',
+        builder: (context, state) => const ChickTypesScreen(),
+      ),
+      GoRoute(
+        path: '/market/chicks/:type',
+        builder: (context, state) =>
+            ChickHatcheriesScreen(type: state.pathParameters['type']!),
+      ),
+      GoRoute(
+        path: '/market/chicks/:type/:hatchery',
+        builder: (context, state) => ChickDatesScreen(
+          type: state.pathParameters['type']!,
+          hatchery: state.pathParameters['hatchery']!,
+        ),
       ),
       GoRoute(
         path: '/market/ai-order',

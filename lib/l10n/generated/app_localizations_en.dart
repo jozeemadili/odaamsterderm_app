@@ -1428,4 +1428,111 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cartPriceConfirmedByStore =>
       'The store confirms the price when you collect';
+
+  @override
+  String get chicksTitle => 'Day-old chicks';
+
+  @override
+  String get chicksEntry => 'Day-old chicks';
+
+  @override
+  String chicksIntro(int box) {
+    return 'Choose the type, the hatchery and a hatch date, then book whole boxes of $box chicks. Collect them on hatch day at an Amsterdam Group store.';
+  }
+
+  @override
+  String chicksHatcheryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hatcheries',
+      one: '1 hatchery',
+      zero: 'No hatch dates open',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chicksBoxesLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count boxes left',
+      one: '1 box left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chicksNoDates =>
+      'No hatch dates are open for this type right now. Please check again soon.';
+
+  @override
+  String chicksNextHatch(String date) {
+    return 'Next hatch $date';
+  }
+
+  @override
+  String get chicksFullyBooked => 'Fully booked';
+
+  @override
+  String get chicksHatcheries => 'Hatcheries with open hatch dates';
+
+  @override
+  String get chicksChooseDate => 'Choose a hatch date';
+
+  @override
+  String chicksOrderBy(String date) {
+    return 'Order by $date';
+  }
+
+  @override
+  String chicksBoxes(int box) {
+    return 'Boxes ($box chicks each)';
+  }
+
+  @override
+  String chicksTotalChicks(int count) {
+    return '= $count chicks';
+  }
+
+  @override
+  String get chicksCollectAt => 'Collect at';
+
+  @override
+  String get chicksPhone => 'Your phone';
+
+  @override
+  String get chicksNote => 'Note (optional)';
+
+  @override
+  String get chicksBook => 'Book chicks';
+
+  @override
+  String get chicksSignInToBook => 'Sign in to book';
+
+  @override
+  String chicksBooked(String ref) {
+    return 'Chicks booked — order $ref. The store will tell you when they are ready.';
+  }
+
+  @override
+  String chicksPerBox(String price) {
+    return '$price per box';
+  }
+
+  @override
+  String get chicksPayAtPickup =>
+      'The booking goes straight to the store. Pay when you collect.';
+
+  @override
+  String chicksBoxesOf(int boxes, int chicks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      boxes,
+      locale: localeName,
+      other: '$boxes boxes',
+      one: '1 box',
+    );
+    return '$_temp0 · $chicks chicks';
+  }
 }
