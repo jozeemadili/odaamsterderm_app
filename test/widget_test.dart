@@ -29,7 +29,8 @@ void main() {
 
     expect(find.text('Amsterdam Digital', findRichText: true), findsOneWidget);
     expect(find.text('Set your location'), findsOneWidget);
-    expect(find.byKey(const Key('market-search')), findsOneWidget);
+    // No search bar: Ask AI is the floating button.
+    expect(find.byKey(const Key('market-search')), findsNothing);
 
     // Sellers and customers sign in from the marketplace header.
     await tester.tap(find.text('Sign in'));

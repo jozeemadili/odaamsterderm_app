@@ -57,8 +57,6 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
   String? _useCode;
   MarketSort _sort = MarketSort.nearest;
   bool _inStock = false;
-  Timer? _debounce;
-  final _searchController = TextEditingController();
   final _scroll = ScrollController();
 
   // The feed: pages loaded so far.
@@ -80,8 +78,6 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
-    _searchController.dispose();
     _scroll.dispose();
     super.dispose();
   }
@@ -163,9 +159,9 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     _reload();
   }
 
-  /// Opens the farm assistant, with what's in the search box as the question.
+  /// Opens the farm assistant, optionally with a question already asked.
   void _openAssistant([String? question]) {
-    final q = (question ?? _searchController.text).trim();
+    final q = (question ?? '').trim();
     context.push(
       q.isEmpty
           ? '/market/ai-order'
@@ -173,10 +169,7 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     );
   }
 
-  void _showBrand(String brand) {
-    _searchController.text = brand;
-    _update(() => _search = brand);
-  }
+  void _showBrand(String brand) => _update(() => _search = brand);
 
   @override
   Widget build(BuildContext context) {
@@ -246,30 +239,13 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
               ),
             ),
         ],
+        // Ask AI lives in the floating button; no search bar here.
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(92),
+          preferredSize: const Size.fromHeight(34),
           child: Container(
             color: DukaColors.card,
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _SearchPill(
-                  controller: _searchController,
-                  showAi: aiAvailable,
-                  onAskAi: _openAssistant,
-                  onChanged: (value) {
-                    _debounce?.cancel();
-                    _debounce = Timer(
-                      const Duration(milliseconds: 350),
-                      () => _update(() => _search = value.trim()),
-                    );
-                  },
-                ),
-                const SizedBox(height: 6),
-                _LocationLine(from: from),
-              ],
-            ),
+            child: _LocationLine(from: from),
           ),
         ),
       ),
@@ -408,6 +384,16 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                               : l10n.marketAllProducts,
                         ),
                       ),
+                      if (_search.isNotEmpty)
+                        IconButton(
+                          key: const Key('market-clear-filter'),
+                          tooltip: MaterialLocalizations.of(
+                            context,
+                          ).deleteButtonTooltip,
+                          visualDensity: VisualDensity.compact,
+                          onPressed: () => _update(() => _search = ''),
+                          icon: Icon(Icons.close, color: DukaColors.muted),
+                        ),
                       _SortButton(
                         sort: sort,
                         canNearest: from != null,
@@ -474,77 +460,6 @@ class _SectionTitle extends StatelessWidget {
   );
 }
 
-/// One search pill with the Ask AI button inside it.
-class _SearchPill extends StatelessWidget {
-  const _SearchPill({
-    required this.controller,
-    required this.showAi,
-    required this.onAskAi,
-    required this.onChanged,
-  });
-
-  final TextEditingController controller;
-  final bool showAi;
-  final VoidCallback onAskAi;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      height: 46,
-      padding: const EdgeInsets.only(left: 14, right: 4),
-      decoration: BoxDecoration(
-        color: DukaColors.soft,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.search, size: 20, color: DukaColors.muted),
-          const SizedBox(width: 8),
-          Expanded(
-            child: TextField(
-              key: const Key('market-search'),
-              controller: controller,
-              onChanged: onChanged,
-              textInputAction: TextInputAction.search,
-              decoration: InputDecoration(
-                hintText: l10n.marketSearchHint,
-                isDense: true,
-                filled: false,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-          ),
-          if (showAi)
-            FilledButton.icon(
-              key: const Key('ask-ai-button'),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                minimumSize: const Size(0, 38),
-                textStyle: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onPressed: onAskAi,
-              icon: const Icon(
-                Icons.auto_awesome,
-                size: 15,
-                color: Color(0xFFC9E89E),
-              ),
-              label: Text(l10n.aiAskAi),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-/// "Near Tegeta" under the search bar; tap to change it.
 class _LocationLine extends StatelessWidget {
   const _LocationLine({required this.from});
 
