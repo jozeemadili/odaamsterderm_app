@@ -11,6 +11,7 @@ import '../../../core/widgets/skeleton.dart';
 import '../../../l10n/l10n_extension.dart';
 import '../../auth/presentation/auth_controller.dart';
 import '../../auth/presentation/customer_google.dart';
+import '../../market/presentation/market_controller.dart';
 import '../../market/presentation/product_post.dart';
 import '../../orders/presentation/order_controller.dart';
 import '../data/chick_models.dart';
@@ -20,9 +21,11 @@ final chickRepositoryProvider = Provider(
   (ref) => ChickRepository(ref.watch(apiClientProvider)),
 );
 
-/// Types, hatcheries and open hatch dates; refreshed when a screen opens.
+/// Types, agents (nearest first) and open order days.
 final chickCatalogueProvider = FutureProvider.autoDispose(
-  (ref) => ref.watch(chickRepositoryProvider).catalogue(),
+  (ref) => ref
+      .watch(chickRepositoryProvider)
+      .catalogue(from: ref.watch(marketLocationProvider)),
 );
 
 String _lang(BuildContext context) =>
@@ -30,6 +33,9 @@ String _lang(BuildContext context) =>
 
 String _day(BuildContext context, DateTime d) =>
     DateFormat('EEE d MMM', _lang(context)).format(d);
+
+String _km(double km) =>
+    km < 1 ? '${(km * 1000).round()} m' : '${km.toStringAsFixed(1)} km';
 
 /// Shared frame: loading skeleton, error with retry, then [builder].
 class _ChickFrame extends ConsumerWidget {
@@ -180,13 +186,13 @@ class ChickTypesScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          t.hatcheries.isEmpty
-                              ? l10n.chicksHatcheryCount(0)
-                              : '${l10n.chicksHatcheryCount(t.hatcheries.length)} · ${l10n.chicksBoxesLeft(t.boxesAvailable)}',
+                          t.agents.isEmpty
+                              ? l10n.chicksNoAgents
+                              : '${l10n.chicksAgentCount(t.agents.length)} · ${l10n.chicksBoxesLeft(t.boxesAvailable)}',
                           style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.w700,
-                            color: t.hatcheries.isEmpty
+                            color: t.agents.isEmpty
                                 ? DukaColors.muted
                                 : DukaColors.leafDeep,
                           ),
@@ -203,21 +209,22 @@ class ChickTypesScreen extends StatelessWidget {
   }
 }
 
-/// Step 2: the type's description and the hatcheries that make it.
-class ChickHatcheriesScreen extends StatelessWidget {
-  const ChickHatcheriesScreen({super.key, required this.type});
+/// Step 2: the type's description and the agents selling it, nearest first.
+class ChickAgentsScreen extends ConsumerWidget {
+  const ChickAgentsScreen({super.key, required this.type});
 
   final String type;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final hasLocation = ref.watch(marketLocationProvider) != null;
     return _ChickFrame(
       title: l10n.chicksTitle,
       builder: (context, c) {
         final lang = _lang(context);
         final t = c.type(type);
-        if (t == null) return Center(child: Text(l10n.chicksNoDates));
+        if (t == null) return Center(child: Text(l10n.chicksNoAgents));
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           children: [
@@ -251,62 +258,82 @@ class ChickHatcheriesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 18),
             Text(
-              l10n.chicksHatcheries,
+              l10n.chicksAgentsTitle(t.name),
               style: GoogleFonts.montserrat(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 10),
-            if (t.hatcheries.isEmpty)
+            if (!hasLocation) ...[
+              const SizedBox(height: 2),
               Text(
-                l10n.chicksNoDates,
+                l10n.chicksSetLocationHint,
+                style: TextStyle(fontSize: 12, color: DukaColors.muted),
+              ),
+            ],
+            const SizedBox(height: 10),
+            if (t.agents.isEmpty)
+              Text(
+                l10n.chicksNoAgents,
                 style: TextStyle(color: DukaColors.muted),
               ),
-            for (final h in t.hatcheries)
+            for (final a in t.agents)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: InkWell(
-                  key: Key('chick-hatchery-${h.slug}'),
+                  key: Key('chick-agent-${a.id}'),
                   borderRadius: BorderRadius.circular(18),
-                  onTap: () => context.push('/market/chicks/$type/${h.slug}'),
+                  onTap: () => context.push('/market/chicks/$type/${a.id}'),
                   child: Ink(
                     padding: const EdgeInsets.all(12),
                     decoration: _card(),
                     child: Row(
                       children: [
-                        RingAvatar(name: h.name, imageUrl: h.logoUrl, size: 50),
+                        RingAvatar(name: a.name, imageUrl: a.logoUrl, size: 50),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                h.name,
+                                a.name,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
                                 ),
                               ),
-                              if (h.location != null)
-                                Text(
-                                  h.location!,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: DukaColors.muted,
-                                  ),
+                              Text(
+                                [
+                                  ?a.nearestStore,
+                                  if (a.nearestKm != null) _km(a.nearestKm!),
+                                ].join(' · '),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: DukaColors.muted,
                                 ),
+                              ),
                               const SizedBox(height: 2),
                               Text(
-                                h.nextHatchDate != null
-                                    ? '${l10n.chicksNextHatch(_day(context, h.nextHatchDate!))} · ${l10n.chicksBoxesLeft(h.boxesAvailable)}'
+                                a.nextDate != null
+                                    ? '${l10n.chicksNextArrival(_day(context, a.nextDate!))} · ${l10n.chicksBoxesLeft(a.boxesAvailable)}'
                                     : l10n.chicksFullyBooked,
                                 style: TextStyle(
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.w700,
-                                  color: h.nextHatchDate != null
+                                  color: a.nextDate != null
                                       ? DukaColors.leafDeep
                                       : DukaColors.rose,
+                                ),
+                              ),
+                              Text(
+                                a.hatcheries.map((h) => h.name).join(', '),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  color: DukaColors.muted,
                                 ),
                               ),
                             ],
@@ -325,39 +352,40 @@ class ChickHatcheriesScreen extends StatelessWidget {
   }
 }
 
-/// Step 3 and 4: the hatchery's hatch dates; tapping an open one books it.
-class ChickDatesScreen extends ConsumerWidget {
-  const ChickDatesScreen({
+/// Step 3 and 4: the agent's hatcheries and arrival days; tapping an open
+/// day books it.
+class ChickAgentDaysScreen extends ConsumerWidget {
+  const ChickAgentDaysScreen({
     super.key,
     required this.type,
-    required this.hatchery,
+    required this.agentId,
   });
 
   final String type;
-  final String hatchery;
+  final int agentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     return _ChickFrame(
-      title: l10n.chicksChooseDate,
+      title: l10n.chicksChooseDay,
       builder: (context, c) {
         final lang = _lang(context);
         final t = c.type(type);
-        final h = t?.hatcheries.where((x) => x.slug == hatchery).firstOrNull;
-        if (t == null || h == null) {
-          return Center(child: Text(l10n.chicksNoDates));
+        final a = t?.agent(agentId);
+        if (t == null || a == null) {
+          return Center(child: Text(l10n.chicksNoAgents));
         }
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           children: [
             Row(
               children: [
-                RingAvatar(name: h.name, imageUrl: h.logoUrl, size: 48),
+                RingAvatar(name: a.name, imageUrl: a.logoUrl, size: 48),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    '${h.name} · ${t.name}',
+                    '${a.name} · ${t.name}',
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
@@ -366,84 +394,90 @@ class ChickDatesScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            if (h.description != null) ...[
+            for (final h in a.hatcheries) ...[
+              const SizedBox(height: 16),
+              Text(
+                h.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+              Text(
+                h.pickupStores.length > 2
+                    ? l10n.chicksCollectAtStores(h.pickupStores.length)
+                    : h.pickupStores.map((s) => s.name).join(' · '),
+                style: TextStyle(fontSize: 12, color: DukaColors.muted),
+              ),
               const SizedBox(height: 8),
-              Text(h.description!, style: TextStyle(color: DukaColors.muted)),
-            ],
-            const SizedBox(height: 14),
-            for (final d in h.dates)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: InkWell(
-                  key: Key('chick-date-${d.id}'),
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: d.isOpen
-                      ? () => _book(context, ref, c, t, h, d)
-                      : null,
-                  child: Opacity(
-                    opacity: d.isOpen ? 1 : 0.6,
-                    child: Ink(
-                      padding: const EdgeInsets.all(14),
-                      decoration: _card(),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.egg_outlined,
-                            color: d.isOpen
-                                ? DukaColors.indigo
-                                : DukaColors.muted,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _day(context, d.hatchDate),
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Text(
-                                  l10n.chicksOrderBy(
-                                    _day(context, d.orderCutoffDate),
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: DukaColors.muted,
-                                  ),
-                                ),
-                                if (c.showPrices && d.pricePerBox != null)
+              for (final d in h.dates)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: InkWell(
+                    key: Key('chick-date-${d.id}'),
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: d.isOpen
+                        ? () => _book(context, ref, c, t, a, h, d)
+                        : null,
+                    child: Opacity(
+                      opacity: d.isOpen ? 1 : 0.6,
+                      child: Ink(
+                        padding: const EdgeInsets.all(14),
+                        decoration: _card(),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.egg_outlined,
+                              color: d.isOpen
+                                  ? DukaColors.indigo
+                                  : DukaColors.muted,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Text(
-                                    l10n.chicksPerBox(
-                                      formatTzs(d.pricePerBox!),
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 12.5,
+                                    _day(context, d.hatchDate),
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                if (d.notes != null)
-                                  Text(
-                                    d.notes!,
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                              ],
+                                  if (c.showPrices && d.pricePerBox != null)
+                                    Text(
+                                      l10n.chicksPerBox(
+                                        formatTzs(d.pricePerBox!),
+                                      ),
+                                      style: const TextStyle(
+                                        fontSize: 12.5,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  if (d.notes != null)
+                                    Text(
+                                      d.notes!,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: DukaColors.muted,
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                          _Pill(
-                            d.isOpen
-                                ? l10n.chicksBoxesLeft(d.boxesAvailable)
-                                : d.statusFor(lang),
-                            good: d.isOpen,
-                          ),
-                        ],
+                            _Pill(
+                              d.isOpen
+                                  ? l10n.chicksBoxesLeft(d.boxesAvailable)
+                                  : d.statusFor(lang),
+                              good: d.isOpen,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+            ],
           ],
         );
       },
@@ -455,11 +489,11 @@ class ChickDatesScreen extends ConsumerWidget {
     WidgetRef ref,
     ChickCatalogue c,
     ChickTypeInfo t,
+    ChickAgent a,
     Hatchery h,
     HatchDate d,
   ) async {
-    final user = ref.read(authControllerProvider).user;
-    if (user == null) {
+    if (ref.read(authControllerProvider).user == null) {
       context.push('/login');
       return;
     }
@@ -471,7 +505,8 @@ class ChickDatesScreen extends ConsumerWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
       ),
-      builder: (_) => _BookSheet(catalogue: c, type: t, hatchery: h, date: d),
+      builder: (_) =>
+          _BookSheet(catalogue: c, type: t, agent: a, hatchery: h, date: d),
     );
   }
 }
@@ -480,12 +515,14 @@ class _BookSheet extends ConsumerStatefulWidget {
   const _BookSheet({
     required this.catalogue,
     required this.type,
+    required this.agent,
     required this.hatchery,
     required this.date,
   });
 
   final ChickCatalogue catalogue;
   final ChickTypeInfo type;
+  final ChickAgent agent;
   final Hatchery hatchery;
   final HatchDate date;
 
@@ -507,7 +544,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
     _phone = TextEditingController(
       text: ref.read(authControllerProvider).user?.phone ?? '',
     );
-    _storeId = widget.catalogue.pickupStores.firstOrNull?.id;
+    _storeId = widget.hatchery.pickupStores.firstOrNull?.id;
   }
 
   @override
@@ -586,7 +623,7 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
               ),
             ),
             Text(
-              '${_day(context, d.hatchDate)} · ${l10n.chicksBoxesLeft(max)}',
+              '${l10n.chicksFrom(widget.agent.name)} · ${_day(context, d.hatchDate)} · ${l10n.chicksBoxesLeft(max)}',
               style: TextStyle(color: DukaColors.muted),
             ),
             const SizedBox(height: 16),
@@ -645,10 +682,15 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
               isExpanded: true,
               decoration: InputDecoration(labelText: l10n.chicksCollectAt),
               items: [
-                for (final s in c.pickupStores)
+                for (final s in widget.hatchery.pickupStores)
                   DropdownMenuItem(
                     value: s.id,
-                    child: Text(s.name, overflow: TextOverflow.ellipsis),
+                    child: Text(
+                      s.distanceKm != null
+                          ? '${s.name} — ${_km(s.distanceKm!)}'
+                          : s.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
               ],
               onChanged: (v) => setState(() => _storeId = v),

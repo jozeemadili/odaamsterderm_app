@@ -29,6 +29,12 @@ class MoreScreen extends StatelessWidget {
             onTap: () => context.push('/seller-orders'),
           ),
           _MoreTile(
+            icon: Icons.egg_outlined,
+            title: l10n.moreChicksTitle,
+            subtitle: l10n.moreChicksSubtitle,
+            onTap: () => context.push('/agent-chicks'),
+          ),
+          _MoreTile(
             icon: Icons.travel_explore,
             title: l10n.marketBrowse,
             subtitle: l10n.marketCompareSellers,

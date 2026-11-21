@@ -672,7 +672,7 @@
   },
   "chicksTitle": "Day-old chicks",
   "chicksEntry": "Day-old chicks",
-  "chicksIntro": "Choose the type, the hatchery and a hatch date, then book whole boxes of {box} chicks. Collect them on hatch day at an Amsterdam Group store.",
+  "chicksIntro": "Choose the type, an agent near you and the day the chicks arrive, then book whole boxes of {box} chicks. Collect them at the agent's store on that day.",
   "@chicksIntro": {
     "placeholders": {
       "box": {
@@ -764,5 +764,101 @@
         "type": "int"
       }
     }
-  }
+  },
+  "chicksAgentCount": "{count, plural, =1{1 agent} other{{count} agents}}",
+  "@chicksAgentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksNoAgents": "No agent has open order days for this type right now. Please check again soon.",
+  "chicksAgentsTitle": "Agents selling {type} chicks",
+  "@chicksAgentsTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksSetLocationHint": "Set your location on the market page to see the nearest agents first.",
+  "chicksNextArrival": "Next arrival {date}",
+  "@chicksNextArrival": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "chicksChooseDay": "Choose the arrival day",
+  "chicksCollectAtStores": "Collect at any of {count} stores",
+  "@chicksCollectAtStores": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chicksFrom": "From {agent}",
+  "@chicksFrom": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "agentChicksDaysTab": "Order days",
+  "agentChicksContractsTab": "Contracts",
+  "agentChicksAddContract": "Add hatchery",
+  "agentChicksEditContract": "Edit contract",
+  "agentChicksNoContracts": "Add the hatcheries you sell chicks for. Order days on Mondays and Thursdays are created for you.",
+  "agentChicksNoDays": "No upcoming order days.",
+  "agentChicksBooked": "{booked} of {cap} boxes booked",
+  "@agentChicksBooked": {
+    "placeholders": {
+      "booked": {
+        "type": "int"
+      },
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "agentChicksCap": "{cap} boxes a day",
+  "@agentChicksCap": {
+    "placeholders": {
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "agentChicksPricePerChick": "{price} a chick",
+  "@agentChicksPricePerChick": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "agentChicksPaused": "Paused",
+  "agentChicksHatchery": "Hatchery",
+  "agentChicksNewHatchery": "+ Not listed: add a new hatchery",
+  "agentChicksNewHatcheryName": "New hatchery name",
+  "agentChicksType": "Chick type",
+  "agentChicksArriveOn": "Days the chicks arrive",
+  "agentChicksStores": "Stores they arrive at (none = all)",
+  "agentChicksCapLabel": "Boxes per day",
+  "agentChicksPriceLabel": "Price per chick (TZS)",
+  "agentChicksSellingNow": "Selling now",
+  "agentChicksSave": "Save",
+  "agentChicksSaved": "Saved. Order days updated.",
+  "agentChicksChooseHatchery": "Choose the hatchery, or type a new one.",
+  "agentChicksChooseType": "Choose the chick type.",
+  "agentChicksClose": "Close booking",
+  "agentChicksReopen": "Reopen",
+  "agentChicksDelete": "Delete day",
+  "agentChicksBookings": "Bookings",
+  "moreChicksTitle": "Day-old chicks",
+  "moreChicksSubtitle": "Hatchery contracts and order days"
 }

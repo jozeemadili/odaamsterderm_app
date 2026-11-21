@@ -4,12 +4,14 @@ double? _d(Object? v) => (v as num?)?.toDouble();
 String _pick(String lang, String? en, String? sw) =>
     lang == 'sw' && (sw?.isNotEmpty ?? false) ? sw! : (en ?? '');
 
-/// One hatch date of one hatchery: chicks left in whole boxes.
+DateTime? _date(Object? v) => v is String ? DateTime.parse(v) : null;
+
+/// One order day: the day an agent's chicks arrive, with boxes left.
 class HatchDate {
   HatchDate({
     required this.id,
     required this.hatchDate,
-    required this.orderCutoffDate,
+    required this.capBoxes,
     required this.boxesAvailable,
     required this.status,
     required this.statusLabel,
@@ -21,7 +23,7 @@ class HatchDate {
   factory HatchDate.fromJson(Map<String, dynamic> json) => HatchDate(
     id: json['id'] as int,
     hatchDate: DateTime.parse(json['hatch_date'] as String),
-    orderCutoffDate: DateTime.parse(json['order_cutoff_date'] as String),
+    capBoxes: (json['cap_boxes'] as int?) ?? 0,
     boxesAvailable: json['boxes_available'] as int,
     status: json['status'] as String,
     statusLabel: json['status_label'] as String,
@@ -32,7 +34,7 @@ class HatchDate {
 
   final int id;
   final DateTime hatchDate;
-  final DateTime orderCutoffDate;
+  final int capBoxes;
   final int boxesAvailable;
   final String status;
   final String statusLabel;
@@ -47,31 +49,51 @@ class HatchDate {
   String statusFor(String lang) => _pick(lang, statusLabel, statusLabelSw);
 }
 
-/// A hatchery producing one chick type, with its bookable dates.
+/// A store where an agent's chicks arrive for pickup.
+class ChickPickupStore {
+  ChickPickupStore({
+    required this.id,
+    required this.name,
+    this.address,
+    this.distanceKm,
+  });
+
+  factory ChickPickupStore.fromJson(Map<String, dynamic> json) =>
+      ChickPickupStore(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        address: json['address'] as String?,
+        distanceKm: _d(json['distance_km']),
+      );
+
+  final int id;
+  final String name;
+  final String? address;
+  final double? distanceKm;
+}
+
+/// A hatchery an agent sells for, with its pickup stores and order days.
 class Hatchery {
   Hatchery({
     required this.id,
     required this.name,
-    required this.slug,
     this.logoUrl,
-    this.location,
     this.description,
     required this.boxesAvailable,
-    this.nextHatchDate,
+    required this.pickupStores,
     required this.dates,
   });
 
   factory Hatchery.fromJson(Map<String, dynamic> json) => Hatchery(
     id: json['id'] as int,
     name: json['name'] as String,
-    slug: json['slug'] as String,
     logoUrl: json['logo_url'] as String?,
-    location: json['location'] as String?,
     description: json['description'] as String?,
     boxesAvailable: json['boxes_available'] as int,
-    nextHatchDate: json['next_hatch_date'] != null
-        ? DateTime.parse(json['next_hatch_date'] as String)
-        : null,
+    pickupStores: [
+      for (final s in (json['pickup_stores'] as List?) ?? const [])
+        ChickPickupStore.fromJson(s as Map<String, dynamic>),
+    ],
     dates: [
       for (final d in (json['dates'] as List?) ?? const [])
         HatchDate.fromJson(d as Map<String, dynamic>),
@@ -80,16 +102,54 @@ class Hatchery {
 
   final int id;
   final String name;
-  final String slug;
   final String? logoUrl;
-  final String? location;
   final String? description;
   final int boxesAvailable;
-  final DateTime? nextHatchDate;
+  final List<ChickPickupStore> pickupStores;
   final List<HatchDate> dates;
 }
 
-/// Broiler, Layers, Sasso or Tanbro, with the hatcheries that make it.
+/// An agent selling one chick type: nearest store, next arrival, hatcheries.
+class ChickAgent {
+  ChickAgent({
+    required this.id,
+    required this.name,
+    this.logoUrl,
+    this.nearestKm,
+    this.nearestStore,
+    required this.storesCount,
+    required this.boxesAvailable,
+    this.nextDate,
+    required this.hatcheries,
+  });
+
+  factory ChickAgent.fromJson(Map<String, dynamic> json) => ChickAgent(
+    id: json['id'] as int,
+    name: json['name'] as String,
+    logoUrl: json['logo_url'] as String?,
+    nearestKm: _d(json['nearest_km']),
+    nearestStore: json['nearest_store'] as String?,
+    storesCount: (json['stores_count'] as int?) ?? 0,
+    boxesAvailable: json['boxes_available'] as int,
+    nextDate: _date(json['next_date']),
+    hatcheries: [
+      for (final h in (json['hatcheries'] as List?) ?? const [])
+        Hatchery.fromJson(h as Map<String, dynamic>),
+    ],
+  );
+
+  final int id;
+  final String name;
+  final String? logoUrl;
+  final double? nearestKm;
+  final String? nearestStore;
+  final int storesCount;
+  final int boxesAvailable;
+  final DateTime? nextDate;
+  final List<Hatchery> hatcheries;
+}
+
+/// Broiler, Layers, Sasso or Tanbro, with the agents selling it.
 class ChickTypeInfo {
   ChickTypeInfo({
     required this.code,
@@ -102,7 +162,7 @@ class ChickTypeInfo {
     this.description,
     this.descriptionSw,
     required this.boxesAvailable,
-    required this.hatcheries,
+    required this.agents,
   });
 
   factory ChickTypeInfo.fromJson(Map<String, dynamic> json) => ChickTypeInfo(
@@ -116,9 +176,9 @@ class ChickTypeInfo {
     description: json['description'] as String?,
     descriptionSw: json['description_sw'] as String?,
     boxesAvailable: json['boxes_available'] as int,
-    hatcheries: [
-      for (final h in (json['hatcheries'] as List?) ?? const [])
-        Hatchery.fromJson(h as Map<String, dynamic>),
+    agents: [
+      for (final a in (json['agents'] as List?) ?? const [])
+        ChickAgent.fromJson(a as Map<String, dynamic>),
     ],
   );
 
@@ -132,28 +192,14 @@ class ChickTypeInfo {
   final String? description;
   final String? descriptionSw;
   final int boxesAvailable;
-  final List<Hatchery> hatcheries;
+  final List<ChickAgent> agents;
 
   String subtitleFor(String lang) => lang == 'sw' ? (nameSw ?? name) : name;
   String purposeFor(String lang) => _pick(lang, purposeLabel, purposeLabelSw);
   String summaryFor(String lang) => _pick(lang, summary, summarySw);
   String descriptionFor(String lang) => _pick(lang, description, descriptionSw);
-}
 
-/// A store where booked chicks are collected.
-class ChickPickupStore {
-  ChickPickupStore({required this.id, required this.name, this.address});
-
-  factory ChickPickupStore.fromJson(Map<String, dynamic> json) =>
-      ChickPickupStore(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        address: json['address'] as String?,
-      );
-
-  final int id;
-  final String name;
-  final String? address;
+  ChickAgent? agent(int id) => agents.where((a) => a.id == id).firstOrNull;
 }
 
 /// Everything the chick screens need, from GET /market/chicks.
@@ -162,7 +208,6 @@ class ChickCatalogue {
     required this.boxSize,
     required this.showPrices,
     required this.types,
-    required this.pickupStores,
   });
 
   factory ChickCatalogue.fromJson(Map<String, dynamic> json) => ChickCatalogue(
@@ -172,17 +217,198 @@ class ChickCatalogue {
       for (final t in (json['types'] as List?) ?? const [])
         ChickTypeInfo.fromJson(t as Map<String, dynamic>),
     ],
-    pickupStores: [
-      for (final s in (json['pickup_stores'] as List?) ?? const [])
-        ChickPickupStore.fromJson(s as Map<String, dynamic>),
-    ],
   );
 
   final int boxSize;
   final bool showPrices;
   final List<ChickTypeInfo> types;
-  final List<ChickPickupStore> pickupStores;
 
   ChickTypeInfo? type(String code) =>
       types.where((t) => t.code == code).firstOrNull;
+}
+
+// --- The agent's own chick sales -------------------------------------------
+
+/// An agent's contract with a hatchery for one chick type.
+class ChickContractInfo {
+  ChickContractInfo({
+    required this.id,
+    required this.producerId,
+    required this.producerName,
+    required this.chickTypeId,
+    required this.chickTypeName,
+    required this.branchIds,
+    required this.weekdays,
+    required this.capBoxes,
+    this.pricePerChick,
+    required this.isActive,
+    required this.isSample,
+  });
+
+  factory ChickContractInfo.fromJson(Map<String, dynamic> json) {
+    final producer = json['producer'] as Map<String, dynamic>;
+    final type = json['chick_type'] as Map<String, dynamic>;
+    return ChickContractInfo(
+      id: json['id'] as int,
+      producerId: producer['id'] as int,
+      producerName: producer['name'] as String,
+      chickTypeId: type['id'] as int,
+      chickTypeName: type['name'] as String,
+      branchIds: [
+        for (final b in (json['branch_ids'] as List?) ?? []) b as int,
+      ],
+      weekdays: [for (final d in (json['weekdays'] as List?) ?? []) d as int],
+      capBoxes: json['cap_boxes'] as int,
+      pricePerChick: _d(json['price_per_chick']),
+      isActive: json['is_active'] == true,
+      isSample: json['is_sample'] == true,
+    );
+  }
+
+  final int id;
+  final int producerId;
+  final String producerName;
+  final int chickTypeId;
+  final String chickTypeName;
+  final List<int> branchIds;
+  final List<int> weekdays;
+  final int capBoxes;
+  final double? pricePerChick;
+  final bool isActive;
+  final bool isSample;
+}
+
+/// One of the agent's order days, with bookings so far.
+class AgentOrderDay {
+  AgentOrderDay({
+    required this.id,
+    this.contractId,
+    required this.hatchDate,
+    required this.producer,
+    required this.chickType,
+    required this.capBoxes,
+    required this.bookedBoxes,
+    required this.boxesAvailable,
+    this.pricePerChick,
+    required this.status,
+    required this.statusLabel,
+    required this.isClosed,
+    this.notes,
+  });
+
+  factory AgentOrderDay.fromJson(Map<String, dynamic> json) => AgentOrderDay(
+    id: json['id'] as int,
+    contractId: json['chick_contract_id'] as int?,
+    hatchDate: DateTime.parse(json['hatch_date'] as String),
+    producer: json['producer'] as String,
+    chickType: json['chick_type'] as String,
+    capBoxes: json['cap_boxes'] as int,
+    bookedBoxes: json['booked_boxes'] as int,
+    boxesAvailable: json['boxes_available'] as int,
+    pricePerChick: _d(json['price_per_chick']),
+    status: json['status'] as String,
+    statusLabel: json['status_label'] as String,
+    isClosed: json['is_closed'] == true,
+    notes: json['notes'] as String?,
+  );
+
+  final int id;
+  final int? contractId;
+  final DateTime hatchDate;
+  final String producer;
+  final String chickType;
+  final int capBoxes;
+  final int bookedBoxes;
+  final int boxesAvailable;
+  final double? pricePerChick;
+  final String status;
+  final String statusLabel;
+  final bool isClosed;
+  final String? notes;
+}
+
+class IdName {
+  IdName(this.id, this.name);
+
+  factory IdName.fromJson(Map<String, dynamic> json) =>
+      IdName(json['id'] as int, json['name'] as String);
+
+  final int id;
+  final String name;
+}
+
+/// A booking on one of the agent's order days.
+class ChickBooking {
+  ChickBooking({
+    required this.orderId,
+    required this.reference,
+    required this.statusLabel,
+    required this.customerName,
+    this.customerPhone,
+    required this.boxes,
+    this.store,
+  });
+
+  factory ChickBooking.fromJson(Map<String, dynamic> json) => ChickBooking(
+    orderId: json['order_id'] as int,
+    reference: json['reference'] as String,
+    statusLabel: json['status_label'] as String,
+    customerName: json['customer_name'] as String,
+    customerPhone: json['customer_phone'] as String?,
+    boxes: json['boxes'] as int,
+    store: json['store'] as String?,
+  );
+
+  final int orderId;
+  final String reference;
+  final String statusLabel;
+  final String customerName;
+  final String? customerPhone;
+  final int boxes;
+  final String? store;
+}
+
+/// GET /chicks for an agent: contracts, upcoming days and form choices.
+class AgentChickSetup {
+  AgentChickSetup({
+    required this.boxSize,
+    required this.contracts,
+    required this.days,
+    required this.hatcheries,
+    required this.chickTypes,
+    required this.stores,
+  });
+
+  factory AgentChickSetup.fromJson(Map<String, dynamic> json) =>
+      AgentChickSetup(
+        boxSize: json['box_size'] as int,
+        contracts: [
+          for (final c in (json['contracts'] as List?) ?? const [])
+            ChickContractInfo.fromJson(c as Map<String, dynamic>),
+        ],
+        days: [
+          for (final d in (json['days'] as List?) ?? const [])
+            AgentOrderDay.fromJson(d as Map<String, dynamic>),
+        ],
+        hatcheries: [
+          for (final h in (json['hatcheries'] as List?) ?? const [])
+            IdName.fromJson(h as Map<String, dynamic>),
+        ],
+        chickTypes: [
+          for (final t in (json['chick_types'] as List?) ?? const [])
+            IdName.fromJson(t as Map<String, dynamic>),
+        ],
+        stores: [
+          for (final s in (json['stores'] as List?) ?? const [])
+            if ((s as Map<String, dynamic>)['on_marketplace'] == true)
+              IdName.fromJson(s),
+        ],
+      );
+
+  final int boxSize;
+  final List<ChickContractInfo> contracts;
+  final List<AgentOrderDay> days;
+  final List<IdName> hatcheries;
+  final List<IdName> chickTypes;
+  final List<IdName> stores;
 }

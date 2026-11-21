@@ -1431,7 +1431,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String chicksIntro(int box) {
-    return 'Chagua aina, hatchery na tarehe ya kutotolesha, kisha agiza box nzima za vifaranga $box. Utavichukua siku ya kutotolesha kwenye duka la Amsterdam Group.';
+    return 'Chagua aina, wakala aliye karibu nawe na siku vifaranga vinafika, kisha agiza box nzima za vifaranga $box. Utavichukua dukani kwa wakala siku hiyo.';
   }
 
   @override
@@ -1523,4 +1523,140 @@ class AppLocalizationsSw extends AppLocalizations {
   String chicksBoxesOf(int boxes, int chicks) {
     return 'Box $boxes · vifaranga $chicks';
   }
+
+  @override
+  String chicksAgentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mawakala $count',
+      one: 'Wakala 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chicksNoAgents =>
+      'Hakuna wakala mwenye siku wazi kwa aina hii kwa sasa. Tafadhali angalia tena baadaye.';
+
+  @override
+  String chicksAgentsTitle(String type) {
+    return 'Mawakala wanaouza vifaranga vya $type';
+  }
+
+  @override
+  String get chicksSetLocationHint =>
+      'Weka mahali ulipo kwenye ukurasa wa soko ili kuona mawakala wa karibu kwanza.';
+
+  @override
+  String chicksNextArrival(String date) {
+    return 'Vinafika $date';
+  }
+
+  @override
+  String get chicksChooseDay => 'Chagua siku vinafika';
+
+  @override
+  String chicksCollectAtStores(int count) {
+    return 'Chukua kwenye duka lolote kati ya $count';
+  }
+
+  @override
+  String chicksFrom(String agent) {
+    return 'Kutoka $agent';
+  }
+
+  @override
+  String get agentChicksDaysTab => 'Siku za oda';
+
+  @override
+  String get agentChicksContractsTab => 'Mikataba';
+
+  @override
+  String get agentChicksAddContract => 'Ongeza hatchery';
+
+  @override
+  String get agentChicksEditContract => 'Hariri mkataba';
+
+  @override
+  String get agentChicksNoContracts =>
+      'Ongeza hatchery unazouzia vifaranga. Siku za oda za Jumatatu na Alhamisi zitaundwa kwa ajili yako.';
+
+  @override
+  String get agentChicksNoDays => 'Hakuna siku za oda zinazokuja.';
+
+  @override
+  String agentChicksBooked(int booked, int cap) {
+    return 'Box $booked kati ya $cap zimeagizwa';
+  }
+
+  @override
+  String agentChicksCap(int cap) {
+    return 'Box $cap kwa siku';
+  }
+
+  @override
+  String agentChicksPricePerChick(String price) {
+    return '$price kwa kifaranga';
+  }
+
+  @override
+  String get agentChicksPaused => 'Imesimamishwa';
+
+  @override
+  String get agentChicksHatchery => 'Hatchery';
+
+  @override
+  String get agentChicksNewHatchery => '+ Haipo: ongeza hatchery mpya';
+
+  @override
+  String get agentChicksNewHatcheryName => 'Jina la hatchery mpya';
+
+  @override
+  String get agentChicksType => 'Aina ya kifaranga';
+
+  @override
+  String get agentChicksArriveOn => 'Siku vifaranga vinafika';
+
+  @override
+  String get agentChicksStores => 'Maduka vinapofika (bila kuchagua = yote)';
+
+  @override
+  String get agentChicksCapLabel => 'Box kwa siku';
+
+  @override
+  String get agentChicksPriceLabel => 'Bei kwa kifaranga (TZS)';
+
+  @override
+  String get agentChicksSellingNow => 'Inauzwa sasa';
+
+  @override
+  String get agentChicksSave => 'Hifadhi';
+
+  @override
+  String get agentChicksSaved => 'Imehifadhiwa. Siku za oda zimesasishwa.';
+
+  @override
+  String get agentChicksChooseHatchery => 'Chagua hatchery, au andika mpya.';
+
+  @override
+  String get agentChicksChooseType => 'Chagua aina ya kifaranga.';
+
+  @override
+  String get agentChicksClose => 'Funga oda';
+
+  @override
+  String get agentChicksReopen => 'Fungua tena';
+
+  @override
+  String get agentChicksDelete => 'Futa siku';
+
+  @override
+  String get agentChicksBookings => 'Oda';
+
+  @override
+  String get moreChicksTitle => 'Vifaranga';
+
+  @override
+  String get moreChicksSubtitle => 'Mikataba ya hatchery na siku za oda';
 }

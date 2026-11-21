@@ -59,6 +59,7 @@ import '../features/suppliers/presentation/supplier_form_screen.dart';
 import '../features/suppliers/presentation/supplier_list_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/auth/data/auth_models.dart';
+import '../features/chicks/presentation/agent_chicks_screen.dart';
 import '../features/chicks/presentation/chick_screens.dart';
 import 'home_shell.dart';
 
@@ -174,14 +175,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/market/chicks/:type',
         builder: (context, state) =>
-            ChickHatcheriesScreen(type: state.pathParameters['type']!),
+            ChickAgentsScreen(type: state.pathParameters['type']!),
       ),
       GoRoute(
-        path: '/market/chicks/:type/:hatchery',
-        builder: (context, state) => ChickDatesScreen(
+        path: '/market/chicks/:type/:agent',
+        builder: (context, state) => ChickAgentDaysScreen(
           type: state.pathParameters['type']!,
-          hatchery: state.pathParameters['hatchery']!,
+          agentId: int.parse(state.pathParameters['agent']!),
         ),
+      ),
+      GoRoute(
+        path: '/agent-chicks',
+        builder: (context, state) => const AgentChicksScreen(),
       ),
       GoRoute(
         path: '/market/ai-order',

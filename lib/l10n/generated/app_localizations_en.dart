@@ -1437,7 +1437,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String chicksIntro(int box) {
-    return 'Choose the type, the hatchery and a hatch date, then book whole boxes of $box chicks. Collect them on hatch day at an Amsterdam Group store.';
+    return 'Choose the type, an agent near you and the day the chicks arrive, then book whole boxes of $box chicks. Collect them at the agent\'s store on that day.';
   }
 
   @override
@@ -1535,4 +1535,141 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0 · $chicks chicks';
   }
+
+  @override
+  String chicksAgentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count agents',
+      one: '1 agent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chicksNoAgents =>
+      'No agent has open order days for this type right now. Please check again soon.';
+
+  @override
+  String chicksAgentsTitle(String type) {
+    return 'Agents selling $type chicks';
+  }
+
+  @override
+  String get chicksSetLocationHint =>
+      'Set your location on the market page to see the nearest agents first.';
+
+  @override
+  String chicksNextArrival(String date) {
+    return 'Next arrival $date';
+  }
+
+  @override
+  String get chicksChooseDay => 'Choose the arrival day';
+
+  @override
+  String chicksCollectAtStores(int count) {
+    return 'Collect at any of $count stores';
+  }
+
+  @override
+  String chicksFrom(String agent) {
+    return 'From $agent';
+  }
+
+  @override
+  String get agentChicksDaysTab => 'Order days';
+
+  @override
+  String get agentChicksContractsTab => 'Contracts';
+
+  @override
+  String get agentChicksAddContract => 'Add hatchery';
+
+  @override
+  String get agentChicksEditContract => 'Edit contract';
+
+  @override
+  String get agentChicksNoContracts =>
+      'Add the hatcheries you sell chicks for. Order days on Mondays and Thursdays are created for you.';
+
+  @override
+  String get agentChicksNoDays => 'No upcoming order days.';
+
+  @override
+  String agentChicksBooked(int booked, int cap) {
+    return '$booked of $cap boxes booked';
+  }
+
+  @override
+  String agentChicksCap(int cap) {
+    return '$cap boxes a day';
+  }
+
+  @override
+  String agentChicksPricePerChick(String price) {
+    return '$price a chick';
+  }
+
+  @override
+  String get agentChicksPaused => 'Paused';
+
+  @override
+  String get agentChicksHatchery => 'Hatchery';
+
+  @override
+  String get agentChicksNewHatchery => '+ Not listed: add a new hatchery';
+
+  @override
+  String get agentChicksNewHatcheryName => 'New hatchery name';
+
+  @override
+  String get agentChicksType => 'Chick type';
+
+  @override
+  String get agentChicksArriveOn => 'Days the chicks arrive';
+
+  @override
+  String get agentChicksStores => 'Stores they arrive at (none = all)';
+
+  @override
+  String get agentChicksCapLabel => 'Boxes per day';
+
+  @override
+  String get agentChicksPriceLabel => 'Price per chick (TZS)';
+
+  @override
+  String get agentChicksSellingNow => 'Selling now';
+
+  @override
+  String get agentChicksSave => 'Save';
+
+  @override
+  String get agentChicksSaved => 'Saved. Order days updated.';
+
+  @override
+  String get agentChicksChooseHatchery =>
+      'Choose the hatchery, or type a new one.';
+
+  @override
+  String get agentChicksChooseType => 'Choose the chick type.';
+
+  @override
+  String get agentChicksClose => 'Close booking';
+
+  @override
+  String get agentChicksReopen => 'Reopen';
+
+  @override
+  String get agentChicksDelete => 'Delete day';
+
+  @override
+  String get agentChicksBookings => 'Bookings';
+
+  @override
+  String get moreChicksTitle => 'Day-old chicks';
+
+  @override
+  String get moreChicksSubtitle => 'Hatchery contracts and order days';
 }

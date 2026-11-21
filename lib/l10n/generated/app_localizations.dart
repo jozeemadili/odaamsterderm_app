@@ -2657,7 +2657,7 @@ abstract class AppLocalizations {
   /// No description provided for @chicksIntro.
   ///
   /// In en, this message translates to:
-  /// **'Choose the type, the hatchery and a hatch date, then book whole boxes of {box} chicks. Collect them on hatch day at an Amsterdam Group store.'**
+  /// **'Choose the type, an agent near you and the day the chicks arrive, then book whole boxes of {box} chicks. Collect them at the agent\'s store on that day.'**
   String chicksIntro(int box);
 
   /// No description provided for @chicksHatcheryCount.
@@ -2773,6 +2773,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{boxes, plural, =1{1 box} other{{boxes} boxes}} · {chicks} chicks'**
   String chicksBoxesOf(int boxes, int chicks);
+
+  /// No description provided for @chicksAgentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 agent} other{{count} agents}}'**
+  String chicksAgentCount(int count);
+
+  /// No description provided for @chicksNoAgents.
+  ///
+  /// In en, this message translates to:
+  /// **'No agent has open order days for this type right now. Please check again soon.'**
+  String get chicksNoAgents;
+
+  /// No description provided for @chicksAgentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Agents selling {type} chicks'**
+  String chicksAgentsTitle(String type);
+
+  /// No description provided for @chicksSetLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your location on the market page to see the nearest agents first.'**
+  String get chicksSetLocationHint;
+
+  /// No description provided for @chicksNextArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Next arrival {date}'**
+  String chicksNextArrival(String date);
+
+  /// No description provided for @chicksChooseDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the arrival day'**
+  String get chicksChooseDay;
+
+  /// No description provided for @chicksCollectAtStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect at any of {count} stores'**
+  String chicksCollectAtStores(int count);
+
+  /// No description provided for @chicksFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {agent}'**
+  String chicksFrom(String agent);
+
+  /// No description provided for @agentChicksDaysTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Order days'**
+  String get agentChicksDaysTab;
+
+  /// No description provided for @agentChicksContractsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Contracts'**
+  String get agentChicksContractsTab;
+
+  /// No description provided for @agentChicksAddContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Add hatchery'**
+  String get agentChicksAddContract;
+
+  /// No description provided for @agentChicksEditContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contract'**
+  String get agentChicksEditContract;
+
+  /// No description provided for @agentChicksNoContracts.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the hatcheries you sell chicks for. Order days on Mondays and Thursdays are created for you.'**
+  String get agentChicksNoContracts;
+
+  /// No description provided for @agentChicksNoDays.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming order days.'**
+  String get agentChicksNoDays;
+
+  /// No description provided for @agentChicksBooked.
+  ///
+  /// In en, this message translates to:
+  /// **'{booked} of {cap} boxes booked'**
+  String agentChicksBooked(int booked, int cap);
+
+  /// No description provided for @agentChicksCap.
+  ///
+  /// In en, this message translates to:
+  /// **'{cap} boxes a day'**
+  String agentChicksCap(int cap);
+
+  /// No description provided for @agentChicksPricePerChick.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} a chick'**
+  String agentChicksPricePerChick(String price);
+
+  /// No description provided for @agentChicksPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get agentChicksPaused;
+
+  /// No description provided for @agentChicksHatchery.
+  ///
+  /// In en, this message translates to:
+  /// **'Hatchery'**
+  String get agentChicksHatchery;
+
+  /// No description provided for @agentChicksNewHatchery.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Not listed: add a new hatchery'**
+  String get agentChicksNewHatchery;
+
+  /// No description provided for @agentChicksNewHatcheryName.
+  ///
+  /// In en, this message translates to:
+  /// **'New hatchery name'**
+  String get agentChicksNewHatcheryName;
+
+  /// No description provided for @agentChicksType.
+  ///
+  /// In en, this message translates to:
+  /// **'Chick type'**
+  String get agentChicksType;
+
+  /// No description provided for @agentChicksArriveOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Days the chicks arrive'**
+  String get agentChicksArriveOn;
+
+  /// No description provided for @agentChicksStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores they arrive at (none = all)'**
+  String get agentChicksStores;
+
+  /// No description provided for @agentChicksCapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxes per day'**
+  String get agentChicksCapLabel;
+
+  /// No description provided for @agentChicksPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per chick (TZS)'**
+  String get agentChicksPriceLabel;
+
+  /// No description provided for @agentChicksSellingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling now'**
+  String get agentChicksSellingNow;
+
+  /// No description provided for @agentChicksSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get agentChicksSave;
+
+  /// No description provided for @agentChicksSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. Order days updated.'**
+  String get agentChicksSaved;
+
+  /// No description provided for @agentChicksChooseHatchery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the hatchery, or type a new one.'**
+  String get agentChicksChooseHatchery;
+
+  /// No description provided for @agentChicksChooseType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the chick type.'**
+  String get agentChicksChooseType;
+
+  /// No description provided for @agentChicksClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close booking'**
+  String get agentChicksClose;
+
+  /// No description provided for @agentChicksReopen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen'**
+  String get agentChicksReopen;
+
+  /// No description provided for @agentChicksDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete day'**
+  String get agentChicksDelete;
+
+  /// No description provided for @agentChicksBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get agentChicksBookings;
+
+  /// No description provided for @moreChicksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-old chicks'**
+  String get moreChicksTitle;
+
+  /// No description provided for @moreChicksSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hatchery contracts and order days'**
+  String get moreChicksSubtitle;
 }
 
 class _AppLocalizationsDelegate
