@@ -3259,6 +3259,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No requests yet.'**
   String get requestNone;
+
+  /// No description provided for @marketVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified details'**
+  String get marketVerified;
 }
 
 class _AppLocalizationsDelegate

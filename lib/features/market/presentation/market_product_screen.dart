@@ -101,6 +101,37 @@ class _MarketProductScreenState extends ConsumerState<MarketProductScreen> {
                   ),
                 ),
             ],
+            if (p.verified) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withAlpha(30),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.verified, size: 15, color: Colors.green),
+                      const SizedBox(width: 5),
+                      Text(
+                        context.l10n.marketVerified,
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             if (p.description != null) ...[
               const SizedBox(height: 8),
               Text(p.description!),

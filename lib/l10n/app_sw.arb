@@ -526,5 +526,6 @@
   "requestNeedFields": "Weka jina, kampuni, ukubwa wa pakiti na picha zote mbili za lebo.",
   "requestSent": "Ombi limetumwa. Utapata taarifa ikiwa kwenye katalogi.",
   "requestInCatalogue": "Ipo kwenye katalogi kama \"{name}\"",
-  "requestNone": "Hakuna maombi bado."
+  "requestNone": "Hakuna maombi bado.",
+  "marketVerified": "Taarifa zimethibitishwa"
 }

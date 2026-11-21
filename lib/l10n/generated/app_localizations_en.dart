@@ -1822,4 +1822,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get requestNone => 'No requests yet.';
+
+  @override
+  String get marketVerified => 'Verified details';
 }

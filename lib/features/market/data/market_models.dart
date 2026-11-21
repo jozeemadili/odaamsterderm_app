@@ -287,6 +287,7 @@ class MarketProductDetail {
     this.imageUrls = const [],
     this.animalType,
     this.category,
+    this.verified = false,
     required this.offers,
   });
 
@@ -306,6 +307,7 @@ class MarketProductDetail {
           .toList(),
       animalType: p['animal_type'] as String?,
       category: p['category'] as String?,
+      verified: p['verified'] == true,
       offers: (json['offers'] as List)
           .map((e) => Offer.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -318,6 +320,9 @@ class MarketProductDetail {
   final String? brand;
   final ProducerInfo? producer;
   final String? producerDescription;
+
+  /// Details checked against the real label or the producer's own data.
+  final bool verified;
   final String? description;
   final String? imageUrl;
 

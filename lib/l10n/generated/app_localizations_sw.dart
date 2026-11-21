@@ -1809,4 +1809,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get requestNone => 'Hakuna maombi bado.';
+
+  @override
+  String get marketVerified => 'Taarifa zimethibitishwa';
 }

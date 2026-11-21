@@ -939,5 +939,6 @@
       }
     }
   },
-  "requestNone": "No requests yet."
+  "requestNone": "No requests yet.",
+  "marketVerified": "Verified details"
 }
