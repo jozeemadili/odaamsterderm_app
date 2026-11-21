@@ -947,7 +947,7 @@ abstract class AppLocalizations {
   /// No description provided for @catalogNotFound.
   ///
   /// In en, this message translates to:
-  /// **'Not in the catalog? Propose it for review.'**
+  /// **'Not in the catalogue? Request it with label photos.'**
   String get catalogNotFound;
 
   /// No description provided for @catalogProposed.
@@ -3025,6 +3025,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added to your cart.'**
   String get chicksAddedToCart;
+
+  /// No description provided for @catalogRequestProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a product'**
+  String get catalogRequestProduct;
+
+  /// No description provided for @catalogYourRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Your product requests'**
+  String get catalogYourRequests;
+
+  /// No description provided for @pickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add from catalogue'**
+  String get pickTitle;
+
+  /// No description provided for @pickIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what\'s on your shelf. Tick each pack size you stock and enter your price and quantity; details and photos come from the catalogue.'**
+  String get pickIntro;
+
+  /// No description provided for @pickSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, brand or Kiswahili'**
+  String get pickSearchHint;
+
+  /// No description provided for @pickCompanies.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies you buy from'**
+  String get pickCompanies;
+
+  /// No description provided for @pickMostStocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Most-stocked products first'**
+  String get pickMostStocked;
+
+  /// No description provided for @pickStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to store'**
+  String get pickStore;
+
+  /// No description provided for @pickInStock.
+  ///
+  /// In en, this message translates to:
+  /// **'In your stock'**
+  String get pickInStock;
+
+  /// No description provided for @pickPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (TZS)'**
+  String get pickPrice;
+
+  /// No description provided for @pickQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Qty'**
+  String get pickQty;
+
+  /// No description provided for @pickStockedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'stocked by {count} agents'**
+  String pickStockedBy(int count);
+
+  /// No description provided for @pickListOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'List on the marketplace'**
+  String get pickListOnline;
+
+  /// No description provided for @pickAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {count} to stock'**
+  String pickAddButton(int count);
+
+  /// No description provided for @pickNeedPriceQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a selling price and quantity for every ticked pack size.'**
+  String get pickNeedPriceQty;
+
+  /// No description provided for @pickAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{added} added to stock'**
+  String pickAdded(int added);
+
+  /// No description provided for @pickNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches.'**
+  String get pickNothing;
+
+  /// No description provided for @pickRequestIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Request this product'**
+  String get pickRequestIt;
+
+  /// No description provided for @pickShopOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop-only item'**
+  String get pickShopOnly;
+
+  /// No description provided for @requestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a product'**
+  String get requestTitle;
+
+  /// No description provided for @requestIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the name, company and pack size with two clear photos of the label. The catalogue team builds the product and links it to your stock, usually within a day.'**
+  String get requestIntro;
+
+  /// No description provided for @requestName.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name (as on the pack)'**
+  String get requestName;
+
+  /// No description provided for @requestPackSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack size (e.g. 100 g sachet)'**
+  String get requestPackSize;
+
+  /// No description provided for @requestCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company (producer)'**
+  String get requestCompany;
+
+  /// No description provided for @requestCompanyNotListed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed: type it'**
+  String get requestCompanyNotListed;
+
+  /// No description provided for @requestCompanyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Company name'**
+  String get requestCompanyName;
+
+  /// No description provided for @requestNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get requestNote;
+
+  /// No description provided for @requestFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Front of the pack'**
+  String get requestFront;
+
+  /// No description provided for @requestBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back (directions, ingredients)'**
+  String get requestBack;
+
+  /// No description provided for @requestTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get requestTakePhoto;
+
+  /// No description provided for @requestMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Is it one of these? They\'re already in the catalogue.'**
+  String get requestMatches;
+
+  /// No description provided for @requestAddStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Also add it to my stock now (sold in the shop until it\'s in the catalogue)'**
+  String get requestAddStock;
+
+  /// No description provided for @requestSellingPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling price (TZS)'**
+  String get requestSellingPrice;
+
+  /// No description provided for @requestQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get requestQuantity;
+
+  /// No description provided for @requestSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get requestSend;
+
+  /// No description provided for @requestNeedFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the name, company, pack size and both label photos.'**
+  String get requestNeedFields;
+
+  /// No description provided for @requestSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent. You\'ll get a notification when it\'s in the catalogue.'**
+  String get requestSent;
+
+  /// No description provided for @requestInCatalogue.
+  ///
+  /// In en, this message translates to:
+  /// **'In the catalogue as \"{name}\"'**
+  String requestInCatalogue(String name);
+
+  /// No description provided for @requestNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests yet.'**
+  String get requestNone;
 }
 
 class _AppLocalizationsDelegate

@@ -165,7 +165,7 @@
   "catalogProposals": "Your proposals",
   "catalogPending": "Waiting for review",
   "catalogRejected": "Rejected",
-  "catalogNotFound": "Not in the catalog? Propose it for review.",
+  "catalogNotFound": "Not in the catalogue? Request it with label photos.",
   "catalogProposed": "Product proposed. It goes live on the marketplace once approved.",
   "catalogNameLabel": "Product name",
   "catalogPackSizeLabel": "Pack size (e.g. 25KG)",
@@ -872,5 +872,72 @@
         "type": "int"
       }
     }
-  }
+  },
+  "catalogRequestProduct": "Request a product",
+  "catalogYourRequests": "Your product requests",
+  "pickTitle": "Add from catalogue",
+  "pickIntro": "Pick what's on your shelf. Tick each pack size you stock and enter your price and quantity; details and photos come from the catalogue.",
+  "pickSearchHint": "Name, brand or Kiswahili",
+  "pickCompanies": "Companies you buy from",
+  "pickMostStocked": "Most-stocked products first",
+  "pickStore": "Add to store",
+  "pickInStock": "In your stock",
+  "pickPrice": "Price (TZS)",
+  "pickQty": "Qty",
+  "pickStockedBy": "stocked by {count} agents",
+  "@pickStockedBy": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pickListOnline": "List on the marketplace",
+  "pickAddButton": "Add {count} to stock",
+  "@pickAddButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pickNeedPriceQty": "Enter a selling price and quantity for every ticked pack size.",
+  "pickAdded": "{added} added to stock",
+  "@pickAdded": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      }
+    }
+  },
+  "pickNothing": "Nothing matches.",
+  "pickRequestIt": "Request this product",
+  "pickShopOnly": "Shop-only item",
+  "requestTitle": "Request a product",
+  "requestIntro": "Send the name, company and pack size with two clear photos of the label. The catalogue team builds the product and links it to your stock, usually within a day.",
+  "requestName": "Product name (as on the pack)",
+  "requestPackSize": "Pack size (e.g. 100 g sachet)",
+  "requestCompany": "Company (producer)",
+  "requestCompanyNotListed": "Not listed: type it",
+  "requestCompanyName": "Company name",
+  "requestNote": "Note (optional)",
+  "requestFront": "Front of the pack",
+  "requestBack": "Back (directions, ingredients)",
+  "requestTakePhoto": "Take photo",
+  "requestMatches": "Is it one of these? They're already in the catalogue.",
+  "requestAddStock": "Also add it to my stock now (sold in the shop until it's in the catalogue)",
+  "requestSellingPrice": "Selling price (TZS)",
+  "requestQuantity": "Quantity",
+  "requestSend": "Send request",
+  "requestNeedFields": "Add the name, company, pack size and both label photos.",
+  "requestSent": "Request sent. You'll get a notification when it's in the catalogue.",
+  "requestInCatalogue": "In the catalogue as \"{name}\"",
+  "@requestInCatalogue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "requestNone": "No requests yet."
 }

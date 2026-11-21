@@ -119,7 +119,7 @@ class _CatalogPickerSheetState extends ConsumerState<_CatalogPickerSheet> {
                       title: Text(l10n.catalogNotFound),
                       onTap: () {
                         Navigator.pop(context);
-                        context.push('/catalog', extra: {'propose': true});
+                        context.push('/product-requests/new');
                       },
                     ),
                   ],

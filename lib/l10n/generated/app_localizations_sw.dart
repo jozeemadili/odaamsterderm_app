@@ -453,7 +453,8 @@ class AppLocalizationsSw extends AppLocalizations {
   String get catalogRejected => 'Imekataliwa';
 
   @override
-  String get catalogNotFound => 'Haipo kwenye orodha? Ipendekeze ikaguliwe.';
+  String get catalogNotFound =>
+      'Haipo kwenye katalogi? Iombe kwa picha za lebo.';
 
   @override
   String get catalogProposed =>
@@ -1676,4 +1677,136 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get chicksAddedToCart => 'Imewekwa kwenye kikapu.';
+
+  @override
+  String get catalogRequestProduct => 'Omba bidhaa';
+
+  @override
+  String get catalogYourRequests => 'Maombi yako ya bidhaa';
+
+  @override
+  String get pickTitle => 'Ongeza kutoka katalogi';
+
+  @override
+  String get pickIntro =>
+      'Chagua bidhaa zilizo dukani kwako. Weka alama kwa kila ukubwa wa pakiti ulio nao, kisha weka bei na idadi; maelezo na picha zinatoka kwenye katalogi.';
+
+  @override
+  String get pickSearchHint => 'Jina, chapa au Kiswahili';
+
+  @override
+  String get pickCompanies => 'Kampuni unazonunua kutoka';
+
+  @override
+  String get pickMostStocked => 'Bidhaa zinazouzwa na wengi kwanza';
+
+  @override
+  String get pickStore => 'Ongeza kwenye duka';
+
+  @override
+  String get pickInStock => 'Ipo dukani kwako';
+
+  @override
+  String get pickPrice => 'Bei (TZS)';
+
+  @override
+  String get pickQty => 'Idadi';
+
+  @override
+  String pickStockedBy(int count) {
+    return 'inauzwa na mawakala $count';
+  }
+
+  @override
+  String get pickListOnline => 'Weka sokoni mtandaoni';
+
+  @override
+  String pickAddButton(int count) {
+    return 'Ongeza $count dukani';
+  }
+
+  @override
+  String get pickNeedPriceQty =>
+      'Weka bei ya kuuza na idadi kwa kila pakiti uliyochagua.';
+
+  @override
+  String pickAdded(int added) {
+    return '$added zimeongezwa dukani';
+  }
+
+  @override
+  String get pickNothing => 'Hakuna inayolingana.';
+
+  @override
+  String get pickRequestIt => 'Omba bidhaa hii';
+
+  @override
+  String get pickShopOnly => 'Bidhaa ya dukani tu';
+
+  @override
+  String get requestTitle => 'Omba bidhaa';
+
+  @override
+  String get requestIntro =>
+      'Tuma jina, kampuni na ukubwa wa pakiti pamoja na picha mbili za lebo zilizo wazi. Timu ya katalogi itaiandaa bidhaa na kuiunganisha na stoo yako, kwa kawaida ndani ya siku moja.';
+
+  @override
+  String get requestName => 'Jina la bidhaa (kama lilivyo kwenye pakiti)';
+
+  @override
+  String get requestPackSize => 'Ukubwa wa pakiti (mf. sacheti ya g 100)';
+
+  @override
+  String get requestCompany => 'Kampuni (mtengenezaji)';
+
+  @override
+  String get requestCompanyNotListed => 'Haipo: iandike';
+
+  @override
+  String get requestCompanyName => 'Jina la kampuni';
+
+  @override
+  String get requestNote => 'Maelezo (si lazima)';
+
+  @override
+  String get requestFront => 'Mbele ya pakiti';
+
+  @override
+  String get requestBack => 'Nyuma (maelekezo, viambato)';
+
+  @override
+  String get requestTakePhoto => 'Piga picha';
+
+  @override
+  String get requestMatches =>
+      'Ni mojawapo ya hizi? Tayari zipo kwenye katalogi.';
+
+  @override
+  String get requestAddStock =>
+      'Iongeze pia kwenye stoo yangu sasa (inauzwa dukani hadi iwe kwenye katalogi)';
+
+  @override
+  String get requestSellingPrice => 'Bei ya kuuza (TZS)';
+
+  @override
+  String get requestQuantity => 'Idadi';
+
+  @override
+  String get requestSend => 'Tuma ombi';
+
+  @override
+  String get requestNeedFields =>
+      'Weka jina, kampuni, ukubwa wa pakiti na picha zote mbili za lebo.';
+
+  @override
+  String get requestSent =>
+      'Ombi limetumwa. Utapata taarifa ikiwa kwenye katalogi.';
+
+  @override
+  String requestInCatalogue(String name) {
+    return 'Ipo kwenye katalogi kama \"$name\"';
+  }
+
+  @override
+  String get requestNone => 'Hakuna maombi bado.';
 }

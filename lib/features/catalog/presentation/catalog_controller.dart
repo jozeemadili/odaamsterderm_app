@@ -12,8 +12,12 @@ final catalogSearchProvider = FutureProvider.autoDispose.family(
       ref.watch(catalogRepositoryProvider).products(search: search),
 );
 
-final catalogProposalsProvider = FutureProvider.autoDispose(
-  (ref) => ref.watch(catalogRepositoryProvider).proposals(),
+final productRequestsProvider = FutureProvider.autoDispose(
+  (ref) => ref.watch(catalogRepositoryProvider).productRequests(),
+);
+
+final pickProducersProvider = FutureProvider.autoDispose(
+  (ref) => ref.watch(catalogRepositoryProvider).pickProducers(),
 );
 
 final producersProvider = FutureProvider.autoDispose(

@@ -451,7 +451,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogRejected => 'Rejected';
 
   @override
-  String get catalogNotFound => 'Not in the catalog? Propose it for review.';
+  String get catalogNotFound =>
+      'Not in the catalogue? Request it with label photos.';
 
   @override
   String get catalogProposed =>
@@ -1689,4 +1690,136 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chicksAddedToCart => 'Added to your cart.';
+
+  @override
+  String get catalogRequestProduct => 'Request a product';
+
+  @override
+  String get catalogYourRequests => 'Your product requests';
+
+  @override
+  String get pickTitle => 'Add from catalogue';
+
+  @override
+  String get pickIntro =>
+      'Pick what\'s on your shelf. Tick each pack size you stock and enter your price and quantity; details and photos come from the catalogue.';
+
+  @override
+  String get pickSearchHint => 'Name, brand or Kiswahili';
+
+  @override
+  String get pickCompanies => 'Companies you buy from';
+
+  @override
+  String get pickMostStocked => 'Most-stocked products first';
+
+  @override
+  String get pickStore => 'Add to store';
+
+  @override
+  String get pickInStock => 'In your stock';
+
+  @override
+  String get pickPrice => 'Price (TZS)';
+
+  @override
+  String get pickQty => 'Qty';
+
+  @override
+  String pickStockedBy(int count) {
+    return 'stocked by $count agents';
+  }
+
+  @override
+  String get pickListOnline => 'List on the marketplace';
+
+  @override
+  String pickAddButton(int count) {
+    return 'Add $count to stock';
+  }
+
+  @override
+  String get pickNeedPriceQty =>
+      'Enter a selling price and quantity for every ticked pack size.';
+
+  @override
+  String pickAdded(int added) {
+    return '$added added to stock';
+  }
+
+  @override
+  String get pickNothing => 'Nothing matches.';
+
+  @override
+  String get pickRequestIt => 'Request this product';
+
+  @override
+  String get pickShopOnly => 'Shop-only item';
+
+  @override
+  String get requestTitle => 'Request a product';
+
+  @override
+  String get requestIntro =>
+      'Send the name, company and pack size with two clear photos of the label. The catalogue team builds the product and links it to your stock, usually within a day.';
+
+  @override
+  String get requestName => 'Product name (as on the pack)';
+
+  @override
+  String get requestPackSize => 'Pack size (e.g. 100 g sachet)';
+
+  @override
+  String get requestCompany => 'Company (producer)';
+
+  @override
+  String get requestCompanyNotListed => 'Not listed: type it';
+
+  @override
+  String get requestCompanyName => 'Company name';
+
+  @override
+  String get requestNote => 'Note (optional)';
+
+  @override
+  String get requestFront => 'Front of the pack';
+
+  @override
+  String get requestBack => 'Back (directions, ingredients)';
+
+  @override
+  String get requestTakePhoto => 'Take photo';
+
+  @override
+  String get requestMatches =>
+      'Is it one of these? They\'re already in the catalogue.';
+
+  @override
+  String get requestAddStock =>
+      'Also add it to my stock now (sold in the shop until it\'s in the catalogue)';
+
+  @override
+  String get requestSellingPrice => 'Selling price (TZS)';
+
+  @override
+  String get requestQuantity => 'Quantity';
+
+  @override
+  String get requestSend => 'Send request';
+
+  @override
+  String get requestNeedFields =>
+      'Add the name, company, pack size and both label photos.';
+
+  @override
+  String get requestSent =>
+      'Request sent. You\'ll get a notification when it\'s in the catalogue.';
+
+  @override
+  String requestInCatalogue(String name) {
+    return 'In the catalogue as \"$name\"';
+  }
+
+  @override
+  String get requestNone => 'No requests yet.';
 }

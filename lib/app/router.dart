@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/auth_controller.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
+import '../features/catalog/presentation/add_from_catalogue_screen.dart';
+import '../features/catalog/presentation/product_requests_screen.dart';
 import '../features/catalog/presentation/catalog_screen.dart';
 import '../features/customers/data/customer_models.dart';
 import '../features/customers/presentation/customer_detail_screen.dart';
@@ -225,6 +227,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const BarcodeLabelsScreen(),
       ),
       GoRoute(
+        path: '/inventory/add',
+        builder: (context, state) => const AddFromCatalogueScreen(),
+      ),
+      GoRoute(
         path: '/inventory/new',
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
@@ -389,9 +395,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/catalog',
-        builder: (context, state) => CatalogScreen(
-          openProposeForm:
-              (state.extra as Map<String, dynamic>?)?['propose'] == true,
+        builder: (context, state) => const CatalogScreen(),
+      ),
+      GoRoute(
+        path: '/product-requests',
+        builder: (context, state) => const ProductRequestsScreen(),
+      ),
+      GoRoute(
+        path: '/product-requests/new',
+        builder: (context, state) => RequestProductScreen(
+          initialName:
+              (state.extra as Map<String, dynamic>?)?['name'] as String?,
         ),
       ),
       GoRoute(

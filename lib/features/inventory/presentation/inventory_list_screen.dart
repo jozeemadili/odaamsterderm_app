@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/widgets/skeleton.dart';
 import '../../../app/theme.dart';
 import '../../../core/format/currency.dart';
+import '../../../l10n/l10n_extension.dart';
 import '../data/inventory_models.dart';
 import 'inventory_controller.dart';
 
@@ -60,9 +61,10 @@ class _InventoryListScreenState extends ConsumerState<InventoryListScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/inventory/new'),
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.push('/inventory/add'),
+        icon: const Icon(Icons.add),
+        label: Text(context.l10n.pickTitle),
       ),
       body: Column(
         children: [

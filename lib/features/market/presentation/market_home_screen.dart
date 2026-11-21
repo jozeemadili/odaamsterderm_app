@@ -185,7 +185,6 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
     final aiAvailable = ai.searchEnabled || ai.orderEnabled;
     final landing =
         _search.isEmpty && _animalTypeId == null && _useCode == null;
-    final lang = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       floatingActionButton: const AskAiFab(),
@@ -323,47 +322,6 @@ class _MarketHomeScreenState extends ConsumerState<MarketHomeScreen> {
                       ),
                       orElse: () => const SizedBox.shrink(),
                     ),
-                  ),
-                  // What it treats / is used for.
-                  ...animals.maybeWhen(
-                    data: (f) => f.uses.isEmpty
-                        ? const <Widget>[]
-                        : [
-                            const SizedBox(height: 8),
-                            SizedBox(
-                              height: 34,
-                              child: ListView(
-                                key: const Key('market-uses'),
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Text(
-                                        l10n.marketUsedFor,
-                                        style: TextStyle(
-                                          fontSize: 12.5,
-                                          fontWeight: FontWeight.w700,
-                                          color: DukaColors.muted,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  for (final u in f.uses)
-                                    _UseChip(
-                                      label: u.labelFor(lang),
-                                      selected: _useCode == u.code,
-                                      onTap: () => _update(
-                                        () => _useCode = _useCode == u.code
-                                            ? null
-                                            : u.code,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                    orElse: () => const <Widget>[],
                   ),
                   if (landing)
                     _PicksRow(
@@ -738,46 +696,6 @@ class _ChicksChip extends StatelessWidget {
 }
 
 /// A smaller leaf-green chip for "Inatibu nini" (what it treats).
-class _UseChip extends StatelessWidget {
-  const _UseChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(right: 6),
-    child: Material(
-      color: selected ? DukaColors.leaf : DukaColors.card,
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: selected ? DukaColors.leafDeep : DukaColors.line,
-        ),
-      ),
-      child: InkWell(
-        customBorder: const StadiumBorder(),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12.5,
-              fontWeight: FontWeight.w600,
-              color: selected ? DukaColors.ink : DukaColors.muted,
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
 class _Chip extends StatelessWidget {
   const _Chip({
     required this.label,

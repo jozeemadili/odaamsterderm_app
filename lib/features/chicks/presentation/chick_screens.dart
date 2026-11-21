@@ -394,90 +394,13 @@ class ChickAgentDaysScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            for (final h in a.hatcheries) ...[
-              const SizedBox(height: 16),
-              Text(
-                h.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                ),
-              ),
-              Text(
-                h.pickupStores.length > 2
-                    ? l10n.chicksCollectAtStores(h.pickupStores.length)
-                    : h.pickupStores.map((s) => s.name).join(' · '),
-                style: TextStyle(fontSize: 12, color: DukaColors.muted),
-              ),
-              const SizedBox(height: 8),
-              for (final d in h.dates)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: InkWell(
-                    key: Key('chick-date-${d.id}'),
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: d.isOpen
-                        ? () => _book(context, ref, c, t, a, h, d)
-                        : null,
-                    child: Opacity(
-                      opacity: d.isOpen ? 1 : 0.6,
-                      child: Ink(
-                        padding: const EdgeInsets.all(14),
-                        decoration: _card(),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.egg_outlined,
-                              color: d.isOpen
-                                  ? DukaColors.indigo
-                                  : DukaColors.muted,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _day(context, d.hatchDate),
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  if (c.showPrices && d.pricePerBox != null)
-                                    Text(
-                                      l10n.chicksPerBox(
-                                        formatTzs(d.pricePerBox!),
-                                      ),
-                                      style: const TextStyle(
-                                        fontSize: 12.5,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  if (d.notes != null)
-                                    Text(
-                                      d.notes!,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: DukaColors.muted,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            _Pill(
-                              d.isOpen
-                                  ? l10n.chicksBoxesLeft(d.boxesAvailable)
-                                  : d.statusFor(lang),
-                              good: d.isOpen,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
+            const SizedBox(height: 16),
+            _DayPicker(
+              hatcheries: a.hatcheries,
+              showPrices: c.showPrices,
+              lang: lang,
+              onBook: (h, d) => _book(context, ref, c, t, a, h, d),
+            ),
           ],
         );
       },
@@ -831,6 +754,194 @@ class _BookSheetState extends ConsumerState<_BookSheet> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Arrival days as a compact strip (scales to many days), then the
+/// hatcheries delivering on the chosen day. Tapping an open one books it.
+class _DayPicker extends StatefulWidget {
+  const _DayPicker({
+    required this.hatcheries,
+    required this.showPrices,
+    required this.lang,
+    required this.onBook,
+  });
+
+  final List<Hatchery> hatcheries;
+  final bool showPrices;
+  final String lang;
+  final void Function(Hatchery h, HatchDate d) onBook;
+
+  @override
+  State<_DayPicker> createState() => _DayPickerState();
+}
+
+class _DayPickerState extends State<_DayPicker> {
+  DateTime? _selected;
+
+  static DateTime _key(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    // day -> boxes left across hatcheries
+    final days = <DateTime, int>{};
+    for (final h in widget.hatcheries) {
+      for (final d in h.dates) {
+        final k = _key(d.hatchDate);
+        days[k] = (days[k] ?? 0) + (d.isOpen ? d.boxesAvailable : 0);
+      }
+    }
+    final sorted = days.keys.toList()..sort();
+    if (sorted.isEmpty) return Text(l10n.chicksNoAgents);
+    final selected =
+        _selected ??
+        sorted.firstWhere((k) => days[k]! > 0, orElse: () => sorted.first);
+
+    final offers = [
+      for (final h in widget.hatcheries)
+        for (final d in h.dates)
+          if (_key(d.hatchDate) == selected) (h, d),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: 78,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: sorted.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            itemBuilder: (context, i) {
+              final day = sorted[i];
+              final on = day == selected;
+              final open = days[day]! > 0;
+              final locale = Localizations.localeOf(context).toString();
+              return InkWell(
+                key: Key('chick-day-${day.toIso8601String()}'),
+                borderRadius: BorderRadius.circular(14),
+                onTap: () => setState(() => _selected = day),
+                child: Ink(
+                  width: 64,
+                  decoration: BoxDecoration(
+                    color: on ? DukaColors.indigo : DukaColors.card,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: on
+                          ? DukaColors.indigo
+                          : DukaColors.muted.withAlpha(60),
+                    ),
+                  ),
+                  child: Opacity(
+                    opacity: open || on ? 1 : 0.45,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          DateFormat.E(locale).format(day),
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            color: on ? Colors.white70 : DukaColors.muted,
+                          ),
+                        ),
+                        Text(
+                          '${day.day}',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: on ? Colors.white : null,
+                          ),
+                        ),
+                        Text(
+                          DateFormat.MMM(locale).format(day),
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            color: on ? Colors.white70 : DukaColors.muted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          _day(context, selected),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+        ),
+        const SizedBox(height: 8),
+        for (final (h, d) in offers)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: InkWell(
+              key: Key('chick-date-${d.id}'),
+              borderRadius: BorderRadius.circular(16),
+              onTap: d.isOpen ? () => widget.onBook(h, d) : null,
+              child: Opacity(
+                opacity: d.isOpen ? 1 : 0.6,
+                child: Ink(
+                  padding: const EdgeInsets.all(14),
+                  decoration: _card(),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.egg_outlined,
+                        color: d.isOpen ? DukaColors.indigo : DukaColors.muted,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              h.name,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              h.pickupStores.length > 2
+                                  ? l10n.chicksCollectAtStores(
+                                      h.pickupStores.length,
+                                    )
+                                  : h.pickupStores
+                                        .map((s) => s.name)
+                                        .join(' · '),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: DukaColors.muted,
+                              ),
+                            ),
+                            if (widget.showPrices && d.pricePerBox != null)
+                              Text(
+                                l10n.chicksPerBox(formatTzs(d.pricePerBox!)),
+                                style: const TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      _Pill(
+                        d.isOpen
+                            ? l10n.chicksBoxesLeft(d.boxesAvailable)
+                            : d.statusFor(widget.lang),
+                        good: d.isOpen,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
