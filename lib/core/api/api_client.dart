@@ -10,7 +10,9 @@ import 'api_exception.dart';
 /// `php artisan serve`.)
 const String apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://127.0.0.1:8010/api/v1',
+  // The live API, so a release build can never point at a test server. For a
+  // local server pass --dart-define=API_BASE_URL=http://127.0.0.1:8010/api/v1.
+  defaultValue: 'https://amsterdamdigital.co.tz/api/v1',
 );
 
 /// Thin wrapper around Dio: attaches the bearer token to every request,
